@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/tests.dir/test.cpp.o CMakeFiles/tests.dir/model/grid.cpp.o CMakeFiles/tests.dir/model/snake.cpp.o CMakeFiles/tests.dir/controller/gridController.cpp.o -o tests  /usr/lib/libCatch2WithMain.a 

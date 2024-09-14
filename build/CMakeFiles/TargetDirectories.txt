@@ -1,0 +1,4 @@
+/home/sven/Dokumente/workplace/cProject/build/CMakeFiles/main.dir
+/home/sven/Dokumente/workplace/cProject/build/CMakeFiles/tests.dir
+/home/sven/Dokumente/workplace/cProject/build/CMakeFiles/edit_cache.dir
+/home/sven/Dokumente/workplace/cProject/build/CMakeFiles/rebuild_cache.dir

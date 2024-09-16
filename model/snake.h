@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 
 class Food
@@ -17,7 +19,7 @@ class SnakeBodyPart{
     private:
         int pos_x;
         int pos_y;
-        bool has_moved;
+        bool has_moved = false;
 
     public:
         SnakeBodyPart(int pos_x, int pos_y);

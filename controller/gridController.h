@@ -1,10 +1,23 @@
+#pragma once
+
 #include "../model/grid.h"
+
+class RandomGenerator{
+    public:
+        virtual int getRandom(int max_value) = 0;
+        virtual ~RandomGenerator(){};
+};
+class RandomGeneratorImpl : public RandomGenerator{
+    public:
+        int getRandom(int max_value) override;
+};
 
 class GridController{
     private:
         Snake snake;
         Food *food;
         bool game_over = false;
+        RandomGenerator *rng;
         
         void checkGameOver(Grid *grid);
         bool anyFoodOnThisField(int i, int j);
@@ -21,4 +34,5 @@ class GridController{
         void moveSnakeDown();
         Snake *getSnake();
         bool isGameOver();
+        void setRNG(RandomGenerator *rng);
 };

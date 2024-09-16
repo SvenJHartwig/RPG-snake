@@ -1,6 +1,14 @@
 #include "gridController.h"
+#include <cstdlib>
+#include <time.h>
+
+int RandomGeneratorImpl::getRandom(int max_value){
+    return (rand() % max_value) +1;
+}
 
 GridController::GridController(){
+    srand(time(NULL));
+    rng = new RandomGeneratorImpl();
     food = new Food[1];
 }
 
@@ -9,7 +17,6 @@ GridController::~GridController(){
 }
 
 char **GridController::updateGrid(Grid *grid){
-    // If a wall or the snake's body is reached, game over
     int grid_size_x = grid->getGridSizeX();
     int grid_size_y = grid->getGridSizeY();
 
@@ -26,7 +33,13 @@ char **GridController::updateGrid(Grid *grid){
                 chars[i][j] = 'H';
                 if(food[0].getPosX() == j && food[0].getPosY() == i){
                     snake.eat();
-                    food[0].setPosX(9);
+                    int newX = rng->getRandom(grid->getGridSizeX() - 2);
+                    int newY = rng->getRandom(grid->getGridSizeY() - 2);
+                    food[0].setPosX(newX);
+                    food[0].setPosY(newY);
+                    if(newY != i && newX != j){
+                        chars[newY][newX] = 'F';
+                    }
                 }
             }
             else if (anyBodypartOnThisField(i, j))
@@ -54,6 +67,7 @@ char **GridController::updateGrid(Grid *grid){
 
 void GridController::checkGameOver(Grid *grid)
 {
+    // If a wall or the snake's body is reached, game over
     int i = snake.getHeadY();
     int j = snake.getHeadX();
     if (i == 0 || i == grid->getGridSizeY() - 1 || j == 0 || j == grid->getGridSizeX() - 1)
@@ -160,4 +174,8 @@ Snake *GridController::getSnake(){
 
 bool GridController::isGameOver(){
     return game_over;
+}
+
+void GridController::setRNG(RandomGenerator *rng){
+    this->rng = rng;
 }

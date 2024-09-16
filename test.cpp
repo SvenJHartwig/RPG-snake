@@ -3,9 +3,31 @@
 #include <string.h>
 #include <iostream>
 
+class TestGenerator : public RandomGenerator{
+  bool first;
+  public:
+    int getRandom(int max_value) override{
+      if(!first){
+        first = !first;
+        return 9;
+      }
+      return 5;
+    }
+};
+
+void printGridComparison(char **chars, char **expectedGrid, int gridSize){
+  for (int i = 0; i < gridSize; i++){
+      std::cout << chars[i] << std::endl;
+  }
+  for (int i = 0; i < gridSize; i++){
+      std::cout << expectedGrid[i] << std::endl;
+  }
+}
+
 TEST_CASE( "Test grid movement" ) {
   Grid grid;
   GridController gridController;
+  gridController.setRNG(new TestGenerator());
   char **chars = grid.getGrid();
   int grid_size_x = grid.getGridSizeX();
   int grid_size_y = grid.getGridSizeY();
@@ -32,6 +54,7 @@ TEST_CASE( "Test grid movement" ) {
       }
       expectedGrid[i][grid_size_x] = '\0';
   }
+
   chars = gridController.updateGrid(&grid);
   for (int i = 0; i<grid_size_y; i++){
     REQUIRE( strcmp(chars[i], expectedGrid[i]) == 0 );
@@ -40,6 +63,7 @@ TEST_CASE( "Test grid movement" ) {
   expectedGrid[snake->getHeadY()][snake->getHeadX()-1] = 'x';
   expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
   chars = gridController.updateGrid(&grid);
+  REQUIRE(!gridController.isGameOver());
   for (int i = 0; i<grid_size_y; i++){
     REQUIRE( strcmp(chars[i], expectedGrid[i]) == 0 );
   }
@@ -50,6 +74,7 @@ TEST_CASE( "Test grid movement" ) {
   expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
   expectedGrid[snake->getHeadY()][9] = 'F';
   chars = gridController.updateGrid(&grid);
+  REQUIRE(!gridController.isGameOver());
   for (int i = 0; i<grid_size_y; i++){
     REQUIRE( strcmp(chars[i], expectedGrid[i]) == 0 );
   }
@@ -57,16 +82,7 @@ TEST_CASE( "Test grid movement" ) {
   expectedGrid[snake->getHeadY()][snake->getHeadX()-1] = 'B';
   expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
   chars = gridController.updateGrid(&grid);
-
-
-        for (int i = 0; i < grid.getGridSizeY(); i++){
-            std::cout << chars[i] << std::endl;
-        }
-
-        for (int i = 0; i < grid.getGridSizeY(); i++){
-            std::cout << expectedGrid[i] << std::endl;
-        }
-
+  REQUIRE(!gridController.isGameOver());
   for (int i = 0; i<grid_size_y; i++){
     REQUIRE( strcmp(chars[i], expectedGrid[i]) == 0 );
   }

@@ -6,6 +6,7 @@ class GameController{
         Grid grid;
         GridController gridController;
         CliView view;
+        void reactOnInput(char input);
     public:
         void mainLoop();
 };

@@ -108,15 +108,21 @@ void GridController::moveSnakeRight(){
     if(game_over){
         return;
     }
-    int prevPos = snake.getHeadX();
     snake.setPosX(snake.getHeadX()+1);
+    int prevPosX = snake.getHeadX();
+    int prevPosY = snake.getHeadY();
     for(int i=0; i< snake.getBody()->size(); i++){
-        int prevPosTemp = snake.getBody()->at(i).getPosX();
-        if(snake.getBody()->at(i).getPosX() != prevPos && snake.getBody()->at(i).getPosX() != prevPos+1){
+        int prevPosTempX = snake.getBody()->at(i).getPosX();
+        int prevPosTempY = snake.getBody()->at(i).getPosY();
+        if(snake.getBody()->at(i).getPosY() == prevPosY - 1 || snake.getBody()->at(i).getPosY() == prevPosY + 1){
+            snake.getBody()->at(i).setPosY(prevPosY);
+            snake.getBody()->at(i).setHasMoved(true);
+        }else if(snake.getBody()->at(i).getPosX() != prevPosX-1 && snake.getBody()->at(i).getPosX() != prevPosX){
             snake.getBody()->at(i).setPosX(snake.getBody()->at(i).getPosX()+1);
             snake.getBody()->at(i).setHasMoved(true);
         }
-        prevPos = prevPosTemp;
+        prevPosX = prevPosTempX;
+        prevPosY = prevPosTempY;
     }
 }
 
@@ -125,14 +131,20 @@ void GridController::moveSnakeLeft(){
         return;
     }
     snake.setPosX(snake.getHeadX()-1);
-    int prevPos = snake.getHeadX();
+    int prevPosX = snake.getHeadX();
+    int prevPosY = snake.getHeadY();
     for(int i=0; i< snake.getBody()->size(); i++){
-        int prevPosTemp = snake.getBody()->at(i).getPosX();
-        if(snake.getBody()->at(i).getPosX() != prevPos && snake.getBody()->at(i).getPosX() != prevPos-1){
+        int prevPosTempX = snake.getBody()->at(i).getPosX();
+        int prevPosTempY = snake.getBody()->at(i).getPosY();
+        if(snake.getBody()->at(i).getPosY() == prevPosY - 1 || snake.getBody()->at(i).getPosY() == prevPosY + 1){
+            snake.getBody()->at(i).setPosY(prevPosY);
+            snake.getBody()->at(i).setHasMoved(true);
+        }else if(snake.getBody()->at(i).getPosX() != prevPosX+1 && snake.getBody()->at(i).getPosX() != prevPosX){
             snake.getBody()->at(i).setPosX(snake.getBody()->at(i).getPosX()-1);
             snake.getBody()->at(i).setHasMoved(true);
         }
-        prevPos = prevPosTemp;
+        prevPosX = prevPosTempX;
+        prevPosY = prevPosTempY;
     }
 }
 
@@ -141,14 +153,20 @@ void GridController::moveSnakeUp(){
         return;
     }
     snake.setPosY(snake.getHeadY()-1);
-    int prevPos = snake.getHeadY();
+    int prevPosX = snake.getHeadX();
+    int prevPosY = snake.getHeadY();
     for(int i=0; i< snake.getBody()->size(); i++){
-        int prevPosTemp = snake.getBody()->at(i).getPosX();
-        if(snake.getBody()->at(i).getPosY() != prevPos && snake.getBody()->at(i).getPosY() != prevPos-1){
+        int prevPosTempX = snake.getBody()->at(i).getPosX();
+        int prevPosTempY = snake.getBody()->at(i).getPosY();
+        if(snake.getBody()->at(i).getPosX() == prevPosX - 1 || snake.getBody()->at(i).getPosX() == prevPosX + 1){
+            snake.getBody()->at(i).setPosX(prevPosX);
+            snake.getBody()->at(i).setHasMoved(true);
+        }else if(snake.getBody()->at(i).getPosY() != prevPosY+1 && snake.getBody()->at(i).getPosY() != prevPosY){
             snake.getBody()->at(i).setPosY(snake.getBody()->at(i).getPosY()-1);
             snake.getBody()->at(i).setHasMoved(true);
         }
-        prevPos = prevPosTemp;
+        prevPosX = prevPosTempX;
+        prevPosY = prevPosTempY;
     }
 }
 
@@ -157,14 +175,20 @@ void GridController::moveSnakeDown(){
         return;
     }
     snake.setPosY(snake.getHeadY()+1);
-    int prevPos = snake.getHeadY();
+    int prevPosX = snake.getHeadX();
+    int prevPosY = snake.getHeadY();
     for(int i=0; i< snake.getBody()->size(); i++){
-        int prevPosTemp = snake.getBody()->at(i).getPosX();
-        if(snake.getBody()->at(i).getPosY() != prevPos && snake.getBody()->at(i).getPosY() != prevPos+1){
+        int prevPosTempX = snake.getBody()->at(i).getPosX();
+        int prevPosTempY = snake.getBody()->at(i).getPosY();
+        if(snake.getBody()->at(i).getPosX() == prevPosX - 1 || snake.getBody()->at(i).getPosX() == prevPosX + 1){
+            snake.getBody()->at(i).setPosX(prevPosX);
+            snake.getBody()->at(i).setHasMoved(true);
+        }else if(snake.getBody()->at(i).getPosY()-1 != prevPosY && snake.getBody()->at(i).getPosY() != prevPosY){
             snake.getBody()->at(i).setPosY(snake.getBody()->at(i).getPosY()+1);
             snake.getBody()->at(i).setHasMoved(true);
         }
-        prevPos = prevPosTemp;
+        prevPosX = prevPosTempX;
+        prevPosY = prevPosTempY;
     }
 }
 

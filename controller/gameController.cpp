@@ -2,7 +2,8 @@
 #include <unistd.h>
 #include <iostream>
 
-void GameController::reactOnInput(char input){
+void GameController::reactOnInput(char input)
+{
     switch (input)
     {
     case 'd':
@@ -17,18 +18,21 @@ void GameController::reactOnInput(char input){
     case 's':
         gridController.moveSnakeDown();
         break;
-    
+
     default:
         break;
     }
 }
 
-void GameController::mainLoop(){
-    while(!gridController.isGameOver()){
+void GameController::mainLoop()
+{
+    while (!gridController.isGameOver())
+    {
         // Get input
         char input;
         input = std::cin.get();
         reactOnInput(input);
+        // gridController.moveSnakeRight();
         // Update game state
         char **chars = gridController.updateGrid(&grid);
         // Render output

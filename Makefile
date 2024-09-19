@@ -193,6 +193,30 @@ controller/gridController.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/controller/gridController.cpp.s
 .PHONY : controller/gridController.cpp.s
 
+kbhit.o: kbhit.cpp.o
+.PHONY : kbhit.o
+
+# target to build an object file
+kbhit.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/kbhit.cpp.o
+.PHONY : kbhit.cpp.o
+
+kbhit.i: kbhit.cpp.i
+.PHONY : kbhit.i
+
+# target to preprocess a source file
+kbhit.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/kbhit.cpp.i
+.PHONY : kbhit.cpp.i
+
+kbhit.s: kbhit.cpp.s
+.PHONY : kbhit.s
+
+# target to generate assembly for a file
+kbhit.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/kbhit.cpp.s
+.PHONY : kbhit.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -335,6 +359,9 @@ help:
 	@echo "... controller/gridController.o"
 	@echo "... controller/gridController.i"
 	@echo "... controller/gridController.s"
+	@echo "... kbhit.o"
+	@echo "... kbhit.i"
+	@echo "... kbhit.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

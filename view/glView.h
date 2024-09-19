@@ -1,6 +1,6 @@
 #include "iGameView.h"
 
-class CliView : public IGameView
+class GlView : public IGameView
 {
 public:
     int init();

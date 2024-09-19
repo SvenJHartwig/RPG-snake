@@ -2,6 +2,11 @@
 #include <unistd.h>
 #include <iostream>
 
+void GameController::setView(IGameView *view)
+{
+    this->view = view;
+}
+
 void GameController::reactOnInput(char input)
 {
     switch (input)
@@ -26,6 +31,7 @@ void GameController::reactOnInput(char input)
 
 void GameController::mainLoop()
 {
+    view->init();
     while (!gridController.isGameOver())
     {
         // Get input
@@ -36,7 +42,7 @@ void GameController::mainLoop()
         // Update game state
         char **chars = gridController.updateGrid(&grid);
         // Render output
-        view.showGrid(chars, grid.getGridSizeY());
+        view->showGrid(chars, grid.getGridSizeY());
         usleep(1000000);
     }
 }

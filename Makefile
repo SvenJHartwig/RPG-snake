@@ -343,6 +343,30 @@ view/cliView.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/cliView.cpp.s
 .PHONY : view/cliView.cpp.s
 
+view/glView.o: view/glView.cpp.o
+.PHONY : view/glView.o
+
+# target to build an object file
+view/glView.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/glView.cpp.o
+.PHONY : view/glView.cpp.o
+
+view/glView.i: view/glView.cpp.i
+.PHONY : view/glView.i
+
+# target to preprocess a source file
+view/glView.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/glView.cpp.i
+.PHONY : view/glView.cpp.i
+
+view/glView.s: view/glView.cpp.s
+.PHONY : view/glView.s
+
+# target to generate assembly for a file
+view/glView.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/glView.cpp.s
+.PHONY : view/glView.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -377,6 +401,9 @@ help:
 	@echo "... view/cliView.o"
 	@echo "... view/cliView.i"
 	@echo "... view/cliView.s"
+	@echo "... view/glView.o"
+	@echo "... view/glView.i"
+	@echo "... view/glView.s"
 .PHONY : help
 
 

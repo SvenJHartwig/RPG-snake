@@ -1,7 +1,9 @@
+#pragma once
+
 #include "gridController.h"
 #include "../view/iGameView.h"
 
-class GameController
+class GameController : public IGameController
 {
 private:
     Grid grid;

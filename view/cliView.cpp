@@ -2,6 +2,10 @@
 #include <iostream>
 #include <stdlib.h>
 
+void CliView::setGameController(IGameController *gc)
+{
+}
+
 int CliView::init()
 {
     return 0;

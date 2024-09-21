@@ -5,5 +5,5 @@ class CliView : public IGameView
 public:
     void setGameController(IGameController *gc);
     int init();
-    void showGrid(char **grid, int grid_size_y);
+    void showGrid(char **grid, int grid_size_x, int grid_size_y);
 };

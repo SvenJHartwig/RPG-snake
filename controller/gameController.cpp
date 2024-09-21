@@ -1,6 +1,12 @@
 #include "gameController.h"
 #include <unistd.h>
 #include <iostream>
+#include <thread>
+
+void gameControllerInitView(IGameView *view)
+{
+    view->init();
+}
 
 void GameController::setView(IGameView *view)
 {
@@ -31,13 +37,14 @@ void GameController::reactOnInput(char input)
 
 void GameController::mainLoop()
 {
-    view->init();
-    while (!gridController.isGameOver())
+    view->setGameController(this);
+    std::thread t1(gameControllerInitView, view);
+    while (!gridController.isGameOver() && !windowClosed)
     {
         // Get input
         char input;
-        input = std::cin.get();
-        reactOnInput(input);
+        // input = std::cin.get();
+        // reactOnInput(input);
         // gridController.moveSnakeRight();
         // Update game state
         char **chars = gridController.updateGrid(&grid);
@@ -45,4 +52,14 @@ void GameController::mainLoop()
         view->showGrid(chars, grid.getGridSizeY());
         usleep(1000000);
     }
+}
+
+Grid GameController::getGrid()
+{
+    return grid;
+}
+
+void GameController::setWindowClosed(bool closed)
+{
+    windowClosed = closed;
 }

@@ -28,10 +28,13 @@ void GlView::renderingLoop(GLFWwindow *window)
         glEnd();
 
         // TODO send input to gameController, retrieve via showGrid
+        Grid grid = gameController->getGrid();
 
         // Swap buffers
         glfwSwapBuffers(window);
     }
+
+    gameController->setWindowClosed(true);
 
     // Clean up
     glfwTerminate();

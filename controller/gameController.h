@@ -10,8 +10,11 @@ private:
     GridController gridController;
     IGameView *view;
     void reactOnInput(char input);
+    bool windowClosed = false;
 
 public:
+    void setWindowClosed(bool closed);
     void setView(IGameView *view);
     void mainLoop();
+    Grid getGrid();
 };

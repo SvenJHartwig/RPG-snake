@@ -1,3 +1,5 @@
+#pragma once
+
 #include "iGameView.h"
 #include <GLFW/glfw3.h>
 #include "../controller/gameController.h"

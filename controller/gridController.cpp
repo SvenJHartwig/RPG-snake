@@ -2,42 +2,52 @@
 #include <cstdlib>
 #include <time.h>
 
-int RandomGeneratorImpl::getRandom(int max_value){
-    return (rand() % max_value) +1;
+int RandomGeneratorImpl::getRandom(int max_value)
+{
+    return (rand() % max_value) + 1;
 }
 
-GridController::GridController(){
+GridController::GridController()
+{
     srand(time(NULL));
     rng = new RandomGeneratorImpl();
     food = new Food[1];
 }
 
-GridController::~GridController(){
-
+GridController::~GridController()
+{
 }
 
-char **GridController::updateGrid(Grid *grid){
+char **GridController::updateGrid(Grid *grid)
+{
     int grid_size_x = grid->getGridSizeX();
     int grid_size_y = grid->getGridSizeY();
 
     char **chars = grid->getGrid();
 
-    for (int i = 0; i<grid_size_y; i++){
-        chars[i] = new char[grid_size_x+1];
-        for (int j = 0; j<grid_size_x; j++){
-            if(i==0 || i==grid_size_y-1 || j==0 || j==grid_size_x-1){
+    for (int i = 0; i < grid_size_y; i++)
+    {
+        chars[i] = new char[grid_size_x + 1];
+        for (int j = 0; j < grid_size_x; j++)
+        {
+            if (i == 0 || i == grid_size_y - 1 || j == 0 || j == grid_size_x - 1)
+            {
                 // Wall
                 chars[i][j] = 'W';
-            }else if(i == snake.getHeadY() && j == snake.getHeadX()){
+            }
+            else if (i == snake.getHeadY() && j == snake.getHeadX())
+            {
                 // Snake
                 chars[i][j] = 'H';
-                if(food[0].getPosX() == j && food[0].getPosY() == i){
+                if (food[0].getPosX() == j && food[0].getPosY() == i)
+                {
                     snake.eat();
                     int newX = rng->getRandom(grid->getGridSizeX() - 2);
                     int newY = rng->getRandom(grid->getGridSizeY() - 2);
                     food[0].setPosX(newX);
                     food[0].setPosY(newY);
-                    if(newY != i && newX != j){
+                    if (newY != i && newX != j)
+                    {
                         chars[newY][newX] = 'F';
                     }
                 }
@@ -74,7 +84,8 @@ void GridController::checkGameOver(Grid *grid)
     {
         game_over = true;
     }
-    if(anyMovedBodypartOnThisField(i,j)){
+    if (anyMovedBodypartOnThisField(i, j))
+    {
         game_over = true;
     }
 }
@@ -86,8 +97,10 @@ bool GridController::anyFoodOnThisField(int i, int j)
 
 bool GridController::anyMovedBodypartOnThisField(int i, int j)
 {
-    for(int k = 0; k < snake.getBody()->size(); k++){
-        if(snake.getBody()->at(k).getHasMoved() && i == snake.getBody()->at(k).getPosY() && j == snake.getBody()->at(k).getPosX()){
+    for (int k = 0; k < snake.getBody()->size(); k++)
+    {
+        if (snake.getBody()->at(k).getHasMoved() && i == snake.getBody()->at(k).getPosY() && j == snake.getBody()->at(k).getPosX())
+        {
             return true;
         }
     }
@@ -96,110 +109,80 @@ bool GridController::anyMovedBodypartOnThisField(int i, int j)
 
 bool GridController::anyBodypartOnThisField(int i, int j)
 {
-    for(int k = 0; k < snake.getBody()->size(); k++){
-        if(i == snake.getBody()->at(k).getPosY() && j == snake.getBody()->at(k).getPosX()){
+    for (int k = 0; k < snake.getBody()->size(); k++)
+    {
+        if (i == snake.getBody()->at(k).getPosY() && j == snake.getBody()->at(k).getPosX())
+        {
             return true;
         }
     }
     return false;
 }
 
-void GridController::moveSnakeRight(){
-    if(game_over){
+void GridController::moveSnakeRight()
+{
+    if (game_over)
+    {
         return;
     }
-    snake.setPosX(snake.getHeadX()+1);
-    int prevPosX = snake.getHeadX();
-    int prevPosY = snake.getHeadY();
-    for(int i=0; i< snake.getBody()->size(); i++){
-        int prevPosTempX = snake.getBody()->at(i).getPosX();
-        int prevPosTempY = snake.getBody()->at(i).getPosY();
-        if(snake.getBody()->at(i).getPosY() == prevPosY - 1 || snake.getBody()->at(i).getPosY() == prevPosY + 1){
-            snake.getBody()->at(i).setPosY(prevPosY);
-            snake.getBody()->at(i).setHasMoved(true);
-        }else if(snake.getBody()->at(i).getPosX() != prevPosX-1 && snake.getBody()->at(i).getPosX() != prevPosX){
-            snake.getBody()->at(i).setPosX(snake.getBody()->at(i).getPosX()+1);
-            snake.getBody()->at(i).setHasMoved(true);
-        }
-        prevPosX = prevPosTempX;
-        prevPosY = prevPosTempY;
-    }
+    moveSnakeBody();
+    snake.setPosX(snake.getHeadX() + 1);
 }
 
-void GridController::moveSnakeLeft(){
-    if(game_over){
+void GridController::moveSnakeLeft()
+{
+    if (game_over)
+    {
         return;
     }
-    snake.setPosX(snake.getHeadX()-1);
-    int prevPosX = snake.getHeadX();
-    int prevPosY = snake.getHeadY();
-    for(int i=0; i< snake.getBody()->size(); i++){
-        int prevPosTempX = snake.getBody()->at(i).getPosX();
-        int prevPosTempY = snake.getBody()->at(i).getPosY();
-        if(snake.getBody()->at(i).getPosY() == prevPosY - 1 || snake.getBody()->at(i).getPosY() == prevPosY + 1){
-            snake.getBody()->at(i).setPosY(prevPosY);
-            snake.getBody()->at(i).setHasMoved(true);
-        }else if(snake.getBody()->at(i).getPosX() != prevPosX+1 && snake.getBody()->at(i).getPosX() != prevPosX){
-            snake.getBody()->at(i).setPosX(snake.getBody()->at(i).getPosX()-1);
-            snake.getBody()->at(i).setHasMoved(true);
-        }
-        prevPosX = prevPosTempX;
-        prevPosY = prevPosTempY;
-    }
+    moveSnakeBody();
+    snake.setPosX(snake.getHeadX() - 1);
 }
 
-void GridController::moveSnakeUp(){
-    if(game_over){
+void GridController::moveSnakeUp()
+{
+    if (game_over)
+    {
         return;
     }
-    snake.setPosY(snake.getHeadY()-1);
-    int prevPosX = snake.getHeadX();
-    int prevPosY = snake.getHeadY();
-    for(int i=0; i< snake.getBody()->size(); i++){
-        int prevPosTempX = snake.getBody()->at(i).getPosX();
-        int prevPosTempY = snake.getBody()->at(i).getPosY();
-        if(snake.getBody()->at(i).getPosX() == prevPosX - 1 || snake.getBody()->at(i).getPosX() == prevPosX + 1){
-            snake.getBody()->at(i).setPosX(prevPosX);
-            snake.getBody()->at(i).setHasMoved(true);
-        }else if(snake.getBody()->at(i).getPosY() != prevPosY+1 && snake.getBody()->at(i).getPosY() != prevPosY){
-            snake.getBody()->at(i).setPosY(snake.getBody()->at(i).getPosY()-1);
-            snake.getBody()->at(i).setHasMoved(true);
-        }
-        prevPosX = prevPosTempX;
-        prevPosY = prevPosTempY;
-    }
+    moveSnakeBody();
+    snake.setPosY(snake.getHeadY() - 1);
 }
 
-void GridController::moveSnakeDown(){
-    if(game_over){
+void GridController::moveSnakeDown()
+{
+    if (game_over)
+    {
         return;
     }
-    snake.setPosY(snake.getHeadY()+1);
-    int prevPosX = snake.getHeadX();
-    int prevPosY = snake.getHeadY();
-    for(int i=0; i< snake.getBody()->size(); i++){
-        int prevPosTempX = snake.getBody()->at(i).getPosX();
-        int prevPosTempY = snake.getBody()->at(i).getPosY();
-        if(snake.getBody()->at(i).getPosX() == prevPosX - 1 || snake.getBody()->at(i).getPosX() == prevPosX + 1){
-            snake.getBody()->at(i).setPosX(prevPosX);
-            snake.getBody()->at(i).setHasMoved(true);
-        }else if(snake.getBody()->at(i).getPosY()-1 != prevPosY && snake.getBody()->at(i).getPosY() != prevPosY){
-            snake.getBody()->at(i).setPosY(snake.getBody()->at(i).getPosY()+1);
-            snake.getBody()->at(i).setHasMoved(true);
-        }
-        prevPosX = prevPosTempX;
-        prevPosY = prevPosTempY;
-    }
+    moveSnakeBody();
+    snake.setPosY(snake.getHeadY() + 1);
 }
 
-Snake *GridController::getSnake(){
+Snake *GridController::getSnake()
+{
     return &snake;
 }
 
-bool GridController::isGameOver(){
+bool GridController::isGameOver()
+{
     return game_over;
 }
 
-void GridController::setRNG(RandomGenerator *rng){
+void GridController::setRNG(RandomGenerator *rng)
+{
     this->rng = rng;
+}
+
+void GridController::moveSnakeBody()
+{
+    if (snake.getBody()->size() > 0)
+    {
+        SnakeBodyPart temp = snake.getBody()->at(snake.getBody()->size() - 1);
+        temp.setHasMoved(true);
+        temp.setPosX(snake.getHeadX());
+        temp.setPosY(snake.getHeadY());
+        snake.getBody()->pop_back();
+        snake.getBody()->insert(snake.getBody()->begin(), temp);
+    }
 }

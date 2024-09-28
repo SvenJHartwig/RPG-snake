@@ -1,25 +1,31 @@
 #include "grid.h"
 
-Grid::Grid(){
+Grid::Grid()
+{
     grid_size_x = 20;
-    grid_size_y = 10;
+    grid_size_y = 20;
     grid = new char *[grid_size_y];
 }
 
-Grid::~Grid(){
+Grid::~Grid()
+{
 }
 
-void Grid::setGrid(char **grid){
+void Grid::setGrid(char **grid)
+{
     this->grid = grid;
 }
 
-char **Grid::getGrid(){
+char **Grid::getGrid()
+{
     return grid;
 }
 
-int Grid::getGridSizeX(){
+int Grid::getGridSizeX()
+{
     return this->grid_size_x;
 }
-int Grid::getGridSizeY(){
+int Grid::getGridSizeY()
+{
     return this->grid_size_y;
 }

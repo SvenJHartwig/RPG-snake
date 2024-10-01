@@ -26,12 +26,6 @@ void GameController::mainLoop()
     CliView cli;
     while (!gridController.isGameOver() && !windowClosed)
     {
-        // Get input
-        //  char input;
-        // input = std::cin.get();
-        // reactOnInput(input);
-        // gridController.moveSnakeRight();
-        // Update game state
         switch (lastInput)
         {
         case 'd':
@@ -50,17 +44,17 @@ void GameController::mainLoop()
         default:
             break;
         }
-        char **chars = gridController.updateGrid(&grid);
-        // Render output
-        //  view->showGrid(chars, grid.getGridSizeY());
+        // Updates the grid in memory to be read by the graphics engine
+        char **chars = gridController.updateGrid();
+        // Print the grid to console for debug purposes
         cli.showGrid(chars, grid.getGridSizeX(), grid.getGridSizeY());
-        usleep(1000000);
+        usleep(speed);
     }
 }
 
 Grid GameController::getGrid()
 {
-    return grid;
+    return *gridController.getGrid();
 }
 
 void GameController::setWindowClosed(bool closed)

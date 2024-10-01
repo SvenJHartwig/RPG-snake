@@ -12,13 +12,14 @@ GridController::GridController()
     srand(time(NULL));
     rng = new RandomGeneratorImpl();
     food = new Food[1];
+    grid = new Grid();
 }
 
 GridController::~GridController()
 {
 }
 
-char **GridController::updateGrid(Grid *grid)
+char **GridController::updateGrid()
 {
     int grid_size_x = grid->getGridSizeX();
     int grid_size_y = grid->getGridSizeY();
@@ -44,8 +45,7 @@ char **GridController::updateGrid(Grid *grid)
                     snake.eat();
                     int newX = rng->getRandom(grid->getGridSizeX() - 2);
                     int newY = rng->getRandom(grid->getGridSizeY() - 2);
-                    food[0].setPosX(newX);
-                    food[0].setPosY(newY);
+                    generateNewFood(newX, newY);
                     if (newY != i && newX != j)
                     {
                         chars[newY][newX] = 'F';
@@ -185,4 +185,15 @@ void GridController::moveSnakeBody()
         snake.getBody()->pop_back();
         snake.getBody()->insert(snake.getBody()->begin(), temp);
     }
+}
+
+void GridController::generateNewFood(int i, int j)
+{
+    food[0].setPosX(i);
+    food[0].setPosY(j);
+}
+
+Grid *GridController::getGrid()
+{
+    return grid;
 }

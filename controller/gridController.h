@@ -21,6 +21,7 @@ private:
     Food *food;
     bool game_over = false;
     RandomGenerator *rng;
+    Grid *grid;
 
     void checkGameOver(Grid *grid);
     bool anyFoodOnThisField(int i, int j);
@@ -31,7 +32,7 @@ private:
 public:
     GridController();
     ~GridController();
-    char **updateGrid(Grid *grid);
+    char **updateGrid();
     void moveSnakeRight();
     void moveSnakeLeft();
     void moveSnakeUp();
@@ -39,4 +40,6 @@ public:
     Snake *getSnake();
     bool isGameOver();
     void setRNG(RandomGenerator *rng);
+    void generateNewFood(int i, int j);
+    Grid *getGrid();
 };

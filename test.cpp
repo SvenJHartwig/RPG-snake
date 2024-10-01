@@ -2,6 +2,7 @@
 #include "controller/gridController.h"
 #include <string.h>
 #include <iostream>
+#include "controller/gameController.h"
 
 class TestGenerator : public RandomGenerator
 {
@@ -72,7 +73,7 @@ TEST_CASE("Test grid movement")
     expectedGrid[i][grid_size_x] = '\0';
   }
 
-  chars = gridController.updateGrid(&grid);
+  chars = gridController.updateGrid();
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(strcmp(chars[i], expectedGrid[i]) == 0);
@@ -80,7 +81,7 @@ TEST_CASE("Test grid movement")
   gridController.moveSnakeRight();
   expectedGrid[snake->getHeadY()][snake->getHeadX() - 1] = 'x';
   expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
-  chars = gridController.updateGrid(&grid);
+  chars = gridController.updateGrid();
   REQUIRE(!gridController.isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
@@ -92,7 +93,7 @@ TEST_CASE("Test grid movement")
   expectedGrid[snake->getHeadY()][snake->getHeadX() - 1] = 'x';
   expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
   expectedGrid[snake->getHeadY()][9] = 'F';
-  chars = gridController.updateGrid(&grid);
+  chars = gridController.updateGrid();
   REQUIRE(!gridController.isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
@@ -101,7 +102,7 @@ TEST_CASE("Test grid movement")
   gridController.moveSnakeRight();
   expectedGrid[snake->getHeadY()][snake->getHeadX() - 1] = 'B';
   expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
-  chars = gridController.updateGrid(&grid);
+  chars = gridController.updateGrid();
   REQUIRE(!gridController.isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
@@ -168,4 +169,16 @@ TEST_CASE("Test snake")
 
 TEST_CASE("Test game over")
 {
+}
+
+TEST_CASE("Speed setting increases")
+{
+  // TODO This test does not do at all what it should do
+  GameController gameController;
+  GridController gridController;
+  Snake *snake = gridController.getSnake();
+  gridController.generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController.updateGrid();
+  gridController.generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController.updateGrid();
 }

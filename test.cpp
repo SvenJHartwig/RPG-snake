@@ -3,6 +3,7 @@
 #include <string.h>
 #include <iostream>
 #include "controller/gameController.h"
+#include "controller/iEatListener.h"
 
 class TestGenerator : public RandomGenerator
 {
@@ -20,6 +21,12 @@ public:
   }
 };
 
+class TestEatListener : public IEatListener
+{
+public:
+  void eat() {}
+};
+
 void printGridComparison(char **chars, char **expectedGrid, int gridSize)
 {
   for (int i = 0; i < gridSize; i++)
@@ -35,13 +42,13 @@ void printGridComparison(char **chars, char **expectedGrid, int gridSize)
 TEST_CASE("Test grid movement")
 {
   Grid grid;
-  GridController gridController;
-  gridController.setRNG(new TestGenerator());
+  GridController *gridController = new GridController(new TestEatListener());
+  gridController->setRNG(new TestGenerator());
   char **chars = grid.getGrid();
   int grid_size_x = grid.getGridSizeX();
   int grid_size_y = grid.getGridSizeY();
   char **expectedGrid = new char *[grid_size_x];
-  Snake *snake = gridController.getSnake();
+  Snake *snake = gridController->getSnake();
   Food *food = new Food[1];
 
   for (int i = 0; i < grid_size_y; i++)
@@ -73,37 +80,37 @@ TEST_CASE("Test grid movement")
     expectedGrid[i][grid_size_x] = '\0';
   }
 
-  chars = gridController.updateGrid();
+  chars = gridController->updateGrid();
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(strcmp(chars[i], expectedGrid[i]) == 0);
   }
-  gridController.moveSnakeRight();
+  gridController->moveSnakeRight();
   expectedGrid[snake->getHeadY()][snake->getHeadX() - 1] = 'x';
   expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
-  chars = gridController.updateGrid();
-  REQUIRE(!gridController.isGameOver());
+  chars = gridController->updateGrid();
+  REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(strcmp(chars[i], expectedGrid[i]) == 0);
   }
 
   // Snake on Food
-  gridController.moveSnakeRight();
+  gridController->moveSnakeRight();
   expectedGrid[snake->getHeadY()][snake->getHeadX() - 1] = 'x';
   expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
   expectedGrid[snake->getHeadY()][9] = 'F';
-  chars = gridController.updateGrid();
-  REQUIRE(!gridController.isGameOver());
+  chars = gridController->updateGrid();
+  REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(strcmp(chars[i], expectedGrid[i]) == 0);
   }
-  gridController.moveSnakeRight();
+  gridController->moveSnakeRight();
   expectedGrid[snake->getHeadY()][snake->getHeadX() - 1] = 'B';
   expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
-  chars = gridController.updateGrid();
-  REQUIRE(!gridController.isGameOver());
+  chars = gridController->updateGrid();
+  REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(strcmp(chars[i], expectedGrid[i]) == 0);
@@ -112,8 +119,8 @@ TEST_CASE("Test grid movement")
 
 TEST_CASE("Test snake")
 {
-  GridController gridController;
-  Snake *snake = gridController.getSnake();
+  GridController *gridController = new GridController(new TestEatListener());
+  Snake *snake = gridController->getSnake();
   REQUIRE(snake->getBody()->size() == 0);
   int headX = snake->getHeadX();
   int headY = snake->getHeadY();
@@ -123,21 +130,21 @@ TEST_CASE("Test snake")
   REQUIRE(snake->getBody()->at(0).getPosX() == headX);
   REQUIRE(snake->getBody()->at(0).getPosY() == headY);
   // If head moves right once, body stays where it is
-  gridController.moveSnakeRight();
+  gridController->moveSnakeRight();
   REQUIRE(snake->getBody()->size() == 1);
   REQUIRE(snake->getBody()->at(0).getPosX() == headX);
   REQUIRE(snake->getBody()->at(0).getPosY() == headY);
   // If head moves right again, body follows the head
-  gridController.moveSnakeRight();
+  gridController->moveSnakeRight();
   REQUIRE(snake->getBody()->size() == 1);
   REQUIRE(snake->getBody()->at(0).getPosX() == ++headX);
   REQUIRE(snake->getBody()->at(0).getPosY() == headY);
   // If head moves up, body follows the head
-  gridController.moveSnakeUp();
+  gridController->moveSnakeUp();
   REQUIRE(snake->getBody()->size() == 1);
   REQUIRE(snake->getBody()->at(0).getPosX() == ++headX);
   REQUIRE(snake->getBody()->at(0).getPosY() == headY);
-  gridController.moveSnakeUp();
+  gridController->moveSnakeUp();
   REQUIRE(snake->getBody()->size() == 1);
   REQUIRE(snake->getBody()->at(0).getPosX() == headX);
   REQUIRE(snake->getBody()->at(0).getPosY() == --headY);
@@ -147,20 +154,20 @@ TEST_CASE("Test snake")
   REQUIRE(snake->getBody()->at(0).getPosY() == headY);
   REQUIRE(snake->getBody()->at(1).getPosX() == headX);
   REQUIRE(snake->getBody()->at(1).getPosY() == headY - 1);
-  gridController.moveSnakeRight();
+  gridController->moveSnakeRight();
   REQUIRE(snake->getBody()->size() == 2);
   REQUIRE(snake->getBody()->at(0).getPosX() == headX);
   REQUIRE(snake->getBody()->at(0).getPosY() == --headY);
   REQUIRE(snake->getBody()->at(1).getPosX() == headX);
   REQUIRE(snake->getBody()->at(1).getPosY() == headY + 1);
-  gridController.moveSnakeRight();
+  gridController->moveSnakeRight();
   REQUIRE(snake->getBody()->size() == 2);
   REQUIRE(snake->getBody()->at(0).getPosX() == ++headX);
   REQUIRE(snake->getBody()->at(0).getPosY() == headY);
   REQUIRE(snake->getBody()->at(1).getPosX() == headX - 1);
   REQUIRE(snake->getBody()->at(1).getPosY() == headY);
   // Moving up the head first moves the body right
-  gridController.moveSnakeUp();
+  gridController->moveSnakeUp();
   REQUIRE(snake->getBody()->at(0).getPosX() == ++headX);
   REQUIRE(snake->getBody()->at(0).getPosY() == headY);
   REQUIRE(snake->getBody()->at(1).getPosX() == headX - 1);
@@ -173,12 +180,33 @@ TEST_CASE("Test game over")
 
 TEST_CASE("Speed setting increases")
 {
-  // TODO This test does not do at all what it should do
-  GameController gameController;
-  GridController gridController;
-  Snake *snake = gridController.getSnake();
-  gridController.generateNewFood(snake->getHeadX(), snake->getHeadY());
-  gridController.updateGrid();
-  gridController.generateNewFood(snake->getHeadX(), snake->getHeadY());
-  gridController.updateGrid();
+  GameController *gameController = new GameController();
+  GridController *gridController = gameController->getGridController();
+  Snake *snake = gridController->getSnake();
+  REQUIRE(gameController->getSpeed() == l1);
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  REQUIRE(gameController->getSpeed() == l2);
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  REQUIRE(gameController->getSpeed() == l3);
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  REQUIRE(gameController->getSpeed() == l4);
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  REQUIRE(gameController->getSpeed() == l5);
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  REQUIRE(gameController->getSpeed() == l6);
 }

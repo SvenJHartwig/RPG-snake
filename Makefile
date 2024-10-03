@@ -148,6 +148,7 @@ controller/gameController.o: controller/gameController.cpp.o
 # target to build an object file
 controller/gameController.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/controller/gameController.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/controller/gameController.cpp.o
 .PHONY : controller/gameController.cpp.o
 
 controller/gameController.i: controller/gameController.cpp.i
@@ -156,6 +157,7 @@ controller/gameController.i: controller/gameController.cpp.i
 # target to preprocess a source file
 controller/gameController.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/controller/gameController.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/controller/gameController.cpp.i
 .PHONY : controller/gameController.cpp.i
 
 controller/gameController.s: controller/gameController.cpp.s
@@ -164,6 +166,7 @@ controller/gameController.s: controller/gameController.cpp.s
 # target to generate assembly for a file
 controller/gameController.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/controller/gameController.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/controller/gameController.cpp.s
 .PHONY : controller/gameController.cpp.s
 
 controller/gridController.o: controller/gridController.cpp.o
@@ -325,6 +328,7 @@ view/cliView.o: view/cliView.cpp.o
 # target to build an object file
 view/cliView.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/cliView.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/view/cliView.cpp.o
 .PHONY : view/cliView.cpp.o
 
 view/cliView.i: view/cliView.cpp.i
@@ -333,6 +337,7 @@ view/cliView.i: view/cliView.cpp.i
 # target to preprocess a source file
 view/cliView.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/cliView.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/view/cliView.cpp.i
 .PHONY : view/cliView.cpp.i
 
 view/cliView.s: view/cliView.cpp.s
@@ -341,6 +346,7 @@ view/cliView.s: view/cliView.cpp.s
 # target to generate assembly for a file
 view/cliView.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/cliView.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/view/cliView.cpp.s
 .PHONY : view/cliView.cpp.s
 
 view/glView.o: view/glView.cpp.o

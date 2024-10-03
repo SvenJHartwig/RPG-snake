@@ -7,8 +7,9 @@ int RandomGeneratorImpl::getRandom(int max_value)
     return (rand() % max_value) + 1;
 }
 
-GridController::GridController()
+GridController::GridController(IEatListener *eatListener)
 {
+    this->eatListener = eatListener;
     srand(time(NULL));
     rng = new RandomGeneratorImpl();
     food = new Food[1];
@@ -43,6 +44,7 @@ char **GridController::updateGrid()
                 if (food[0].getPosX() == j && food[0].getPosY() == i)
                 {
                     snake.eat();
+                    eatListener->eat();
                     int newX = rng->getRandom(grid->getGridSizeX() - 2);
                     int newY = rng->getRandom(grid->getGridSizeY() - 2);
                     generateNewFood(newX, newY);

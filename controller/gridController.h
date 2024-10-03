@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../model/grid.h"
+#include "iEatListener.h"
 
 class RandomGenerator
 {
@@ -22,6 +23,7 @@ private:
     bool game_over = false;
     RandomGenerator *rng;
     Grid *grid;
+    IEatListener *eatListener;
 
     void checkGameOver(Grid *grid);
     bool anyFoodOnThisField(int i, int j);
@@ -30,7 +32,7 @@ private:
     void moveSnakeBody();
 
 public:
-    GridController();
+    GridController(IEatListener *eatListener);
     ~GridController();
     char **updateGrid();
     void moveSnakeRight();

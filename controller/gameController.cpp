@@ -36,7 +36,7 @@ void GameController::reactOnInput(char input)
 void GameController::mainLoop()
 {
     view->setGameController(this);
-    std::thread t1(gameControllerInitView, view);
+    new std::thread(gameControllerInitView, view);
     CliView cli;
     while (!gridController->isGameOver() && !windowClosed)
     {

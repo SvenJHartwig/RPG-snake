@@ -29,6 +29,7 @@ void GlView::renderingLoop(GLFWwindow *window)
             gameController->reactOnInput('s');
         }
 
+        glClear(GL_COLOR_BUFFER_BIT);
         Grid grid = gameController->getGrid();
         showGrid(grid.getGrid(), grid.getGridSizeX(), grid.getGridSizeY());
 
@@ -61,15 +62,18 @@ int GlView::init()
     // Make the window's context current
     glfwMakeContextCurrent(window);
 
-    // TODO Launch rendering in other thread
     renderingLoop(window);
 
     return 0;
 }
 
+void GlView::showUI(int eatenFoods)
+{
+    // TODO: Show text in UI
+}
+
 void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
     for (int i = 0; i < grid_size_y; i++)
     {
         for (int j = 0; j < grid_size_x; j++)

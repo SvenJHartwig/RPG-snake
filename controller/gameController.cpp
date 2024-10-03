@@ -25,6 +25,11 @@ void GameController::setView(IGameView *view)
 
 void GameController::reactOnInput(char input)
 {
+    if (lastDirection == 'a' && input == 'd' || lastDirection == 'w' && input == 's' || lastDirection == 'd' && input == 'a' || lastDirection == 's' && input == 'w')
+    {
+        return;
+    }
+    lastDirection = input;
     lastInput = input;
 }
 
@@ -104,4 +109,9 @@ void GameController::eat()
     {
         speed = l6;
     }
+}
+
+char GameController::getLastDirection()
+{
+    return lastDirection;
 }

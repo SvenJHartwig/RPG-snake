@@ -6,12 +6,12 @@
 
 enum SpeedSetting
 {
-    l1 = 1000000,
-    l2 = 800000,
+    l1 = 800000,
+    l2 = 700000,
     l3 = 600000,
-    l4 = 400000,
-    l5 = 200000,
-    l6 = 100000,
+    l4 = 450000,
+    l5 = 300000,
+    l6 = 200000,
 };
 
 class GameController : public IGameController, public IEatListener
@@ -23,6 +23,7 @@ private:
     char lastInput;
     SpeedSetting speed = l1;
     int eatCount = 0;
+    char lastDirection;
 
 public:
     GameController();
@@ -35,4 +36,5 @@ public:
     GridController *getGridController();
     SpeedSetting getSpeed();
     void eat();
+    char getLastDirection();
 };

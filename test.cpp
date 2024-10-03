@@ -174,6 +174,27 @@ TEST_CASE("Test snake")
   REQUIRE(snake->getBody()->at(1).getPosY() == headY);
 }
 
+TEST_CASE("Movement in opposite direction of last direction is not possible")
+{
+  GameController *gameController = new GameController();
+  gameController->reactOnInput('a');
+  REQUIRE(gameController->getLastDirection() == 'a');
+  gameController->reactOnInput('d');
+  REQUIRE(gameController->getLastDirection() == 'a');
+  gameController->reactOnInput('w');
+  REQUIRE(gameController->getLastDirection() == 'w');
+  gameController->reactOnInput('s');
+  REQUIRE(gameController->getLastDirection() == 'w');
+  gameController->reactOnInput('d');
+  REQUIRE(gameController->getLastDirection() == 'd');
+  gameController->reactOnInput('a');
+  REQUIRE(gameController->getLastDirection() == 'd');
+  gameController->reactOnInput('s');
+  REQUIRE(gameController->getLastDirection() == 's');
+  gameController->reactOnInput('w');
+  REQUIRE(gameController->getLastDirection() == 's');
+}
+
 TEST_CASE("Test game over")
 {
 }

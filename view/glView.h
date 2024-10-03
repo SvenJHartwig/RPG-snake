@@ -13,5 +13,6 @@ public:
     void setGameController(IGameController *gc);
     void renderingLoop(GLFWwindow *window);
     int init();
+    void showUI(int eatenFoods);
     void showGrid(char **grid, int grid_size_x, int grid_size_y);
 };

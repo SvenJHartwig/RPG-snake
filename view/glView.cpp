@@ -40,6 +40,7 @@ void GlView::renderingLoop(GLFWwindow *window)
     gameController->setWindowClosed(true);
 
     // Clean up
+  
     glfwTerminate();
 }
 

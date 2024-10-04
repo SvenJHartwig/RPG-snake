@@ -231,3 +231,7 @@ TEST_CASE("Speed setting increases")
   gridController->updateGrid();
   REQUIRE(gameController->getSpeed() == l6);
 }
+
+TEST_CASE("sometimes one additional food is generated")
+{
+}

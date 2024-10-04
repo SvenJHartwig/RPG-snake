@@ -12,7 +12,8 @@ GridController::GridController(IEatListener *eatListener)
     this->eatListener = eatListener;
     srand(time(NULL));
     rng = new RandomGeneratorImpl();
-    food = new Food[1];
+    food = new std::vector<Food>();
+    food->push_back(*(new Food()));
     grid = new Grid();
 }
 
@@ -41,7 +42,7 @@ char **GridController::updateGrid()
             {
                 // Snake
                 chars[i][j] = 'H';
-                if (food[0].getPosX() == j && food[0].getPosY() == i)
+                if (anyFoodOnThisField())
                 {
                     snake.eat();
                     eatListener->eat();
@@ -94,7 +95,7 @@ void GridController::checkGameOver(Grid *grid)
 
 bool GridController::anyFoodOnThisField(int i, int j)
 {
-    return i == food[0].getPosY() && j == food[0].getPosX();
+    return i == food->at(0).getPosY() && j == food->at(0).getPosX();
 }
 
 bool GridController::anyMovedBodypartOnThisField(int i, int j)
@@ -191,8 +192,8 @@ void GridController::moveSnakeBody()
 
 void GridController::generateNewFood(int i, int j)
 {
-    food[0].setPosX(i);
-    food[0].setPosY(j);
+    food->at(0).setPosX(i);
+    food->at(0).setPosY(j);
 }
 
 Grid *GridController::getGrid()

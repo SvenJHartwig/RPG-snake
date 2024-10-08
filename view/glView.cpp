@@ -40,7 +40,7 @@ void GlView::renderingLoop(GLFWwindow *window)
     gameController->setWindowClosed(true);
 
     // Clean up
-  
+
     glfwTerminate();
 }
 
@@ -93,6 +93,9 @@ void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)
                 break;
             case 'F':
                 glColor3f(0.2f, 0.9f, 0.2f);
+                break;
+            case 'S':
+                glColor3f(0.1f, 0.1f, 0.9f);
                 break;
 
             default:

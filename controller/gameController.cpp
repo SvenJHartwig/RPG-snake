@@ -29,7 +29,6 @@ void GameController::reactOnInput(char input)
     {
         return;
     }
-    lastDirection = input;
     lastInput = input;
 }
 
@@ -43,15 +42,19 @@ void GameController::mainLoop()
         switch (lastInput)
         {
         case 'd':
+            lastDirection = 'd';
             gridController->moveSnakeRight();
             break;
         case 'w':
+            lastDirection = 'w';
             gridController->moveSnakeUp();
             break;
         case 'a':
+            lastDirection = 'a';
             gridController->moveSnakeLeft();
             break;
         case 's':
+            lastDirection = 's';
             gridController->moveSnakeDown();
             break;
 

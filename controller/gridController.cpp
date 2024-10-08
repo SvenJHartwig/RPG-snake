@@ -42,16 +42,34 @@ char **GridController::updateGrid()
             {
                 // Snake
                 chars[i][j] = 'H';
-                if (anyFoodOnThisField())
+                int indexOfFoodOnThisField = returnFoodOnThisField(i, j);
+                if (indexOfFoodOnThisField != -1)
                 {
                     snake.eat();
-                    eatListener->eat();
-                    int newX = rng->getRandom(grid->getGridSizeX() - 2);
-                    int newY = rng->getRandom(grid->getGridSizeY() - 2);
-                    generateNewFood(newX, newY);
-                    if (newY != i && newX != j)
+                    if (indexOfFoodOnThisField == 0)
                     {
-                        chars[newY][newX] = 'F';
+                        eatListener->eat();
+                        int newX = rng->getRandom(grid->getGridSizeX() - 2);
+                        int newY = rng->getRandom(grid->getGridSizeY() - 2);
+                        if (rng->getRandom(2) == 1)
+                        {
+                            int newSpecialX = rng->getRandom(grid->getGridSizeX() - 2);
+                            int newSpecialY = rng->getRandom(grid->getGridSizeY() - 2);
+                            generateNewSpecialFood(newSpecialX, newSpecialY);
+                            if (newSpecialY != i && newSpecialX != j)
+                            {
+                                chars[newSpecialY][newSpecialX] = 'S';
+                            }
+                        }
+                        generateNewFood(newX, newY);
+                        if (newY != i && newX != j)
+                        {
+                            chars[newY][newX] = 'F';
+                        }
+                    }
+                    else
+                    {
+                        food->erase(food->begin() + indexOfFoodOnThisField);
                     }
                 }
             }
@@ -60,10 +78,15 @@ char **GridController::updateGrid()
                 // Snake Body
                 chars[i][j] = 'B';
             }
-            else if (anyFoodOnThisField(i, j))
+            else if (returnFoodOnThisField(i, j) == 0)
             {
                 // Food
                 chars[i][j] = 'F';
+            }
+            else if (returnFoodOnThisField(i, j) != -1)
+            {
+                // Food
+                chars[i][j] = 'S';
             }
             else
             {
@@ -93,9 +116,16 @@ void GridController::checkGameOver(Grid *grid)
     }
 }
 
-bool GridController::anyFoodOnThisField(int i, int j)
+int GridController::returnFoodOnThisField(int i, int j)
 {
-    return i == food->at(0).getPosY() && j == food->at(0).getPosX();
+    for (int k = 0; k < food->size(); k++)
+    {
+        if (i == food->at(k).getPosY() && j == food->at(k).getPosX())
+        {
+            return k;
+        }
+    }
+    return -1;
 }
 
 bool GridController::anyMovedBodypartOnThisField(int i, int j)
@@ -194,6 +224,14 @@ void GridController::generateNewFood(int i, int j)
 {
     food->at(0).setPosX(i);
     food->at(0).setPosY(j);
+}
+
+void GridController::generateNewSpecialFood(int i, int j)
+{
+    SpecialFood *newFood = new SpecialFood();
+    newFood->setPosX(i);
+    newFood->setPosY(j);
+    food->push_back(*newFood);
 }
 
 Grid *GridController::getGrid()

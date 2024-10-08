@@ -26,7 +26,7 @@ private:
     IEatListener *eatListener;
 
     void checkGameOver(Grid *grid);
-    bool anyFoodOnThisField(int i, int j);
+    int returnFoodOnThisField(int i, int j);
     bool anyMovedBodypartOnThisField(int i, int j);
     bool anyBodypartOnThisField(int i, int j);
     void moveSnakeBody();
@@ -43,5 +43,6 @@ public:
     bool isGameOver();
     void setRNG(RandomGenerator *rng);
     void generateNewFood(int i, int j);
+    void generateNewSpecialFood(int i, int j);
     Grid *getGrid();
 };

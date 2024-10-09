@@ -63,6 +63,16 @@ int GlView::init()
     // Make the window's context current
     glfwMakeContextCurrent(window);
 
+    // Initialize Freetype and load font
+    if (FT_Init_FreeType(&ft))
+    {
+        return -1;
+    }
+    if (FT_New_Face(ft, "../resources/fonts/WorkSans-Black.ttf", 0, &face))
+    {
+        return -1;
+    }
+
     renderingLoop(window);
 
     return 0;
@@ -70,7 +80,12 @@ int GlView::init()
 
 void GlView::showUI(int eatenFoods)
 {
+    int glyph_index = FT_Get_Char_Index(face, '1');
     // TODO: Show text in UI
+    int error = FT_Load_Glyph(
+        face,        /* handle to face object */
+        glyph_index, /* glyph index           */
+        FT_LOAD_DEFAULT);
 }
 
 void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)
@@ -79,7 +94,7 @@ void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)
     {
         for (int j = 0; j < grid_size_x; j++)
         {
-            glBegin(GL_TRIANGLE_FAN);
+            glBegin(GL_QUADS);
             switch (grid[i][j])
             {
             case 'W':

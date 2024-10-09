@@ -1,6 +1,5 @@
 #include "controller/gameController.h"
 #include "view/glView.h"
-// #include <GL/glew.h>
 
 int main()
 {

@@ -1,5 +1,24 @@
 #include "glView.h"
 
+GLuint CreateTextureFromBitmap(FT_Bitmap *bitmap)
+{
+    GLuint texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // Upload the bitmap to the GPU (assuming it's grayscale)
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, bitmap->width, bitmap->rows, 0, GL_RED, GL_UNSIGNED_BYTE, bitmap->buffer);
+
+    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap->buffer);
+    //  Set texture options
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    return texture;
+}
+
 void GlView::setGameController(IGameController *gc)
 {
     this->gameController = gc;
@@ -30,6 +49,7 @@ void GlView::renderingLoop(GLFWwindow *window)
         }
 
         glClear(GL_COLOR_BUFFER_BIT);
+        showUI(gameController->getScore());
         Grid grid = gameController->getGrid();
         showGrid(grid.getGrid(), grid.getGridSizeX(), grid.getGridSizeY());
 
@@ -46,46 +66,44 @@ void GlView::renderingLoop(GLFWwindow *window)
 
 int GlView::init()
 {
-
+    int error = 0;
     if (!glfwInit())
     {
-        return -1;
+        error = -1;
     }
 
     // Create a window
     GLFWwindow *window = glfwCreateWindow(800, 600, "Snake", NULL, NULL);
     if (!window)
     {
-        glfwTerminate();
-        return -1;
+        error = -1;
     }
 
     // Make the window's context current
     glfwMakeContextCurrent(window);
 
-    // Initialize Freetype and load font
-    if (FT_Init_FreeType(&ft))
+    if (glewInit() != GLEW_OK)
     {
-        return -1;
-    }
-    if (FT_New_Face(ft, "../resources/fonts/WorkSans-Black.ttf", 0, &face))
-    {
-        return -1;
+        error = -1;
     }
 
+    // Initialize text renderer
+    fd = new font_data();
+    fd->init("../resources/fonts/WorkSans-Black.ttf", 10);
+
     renderingLoop(window);
+    if (error != 0)
+    {
+        gameController->setWindowClosed(true);
+        glfwTerminate();
+    }
 
     return 0;
 }
 
 void GlView::showUI(int eatenFoods)
 {
-    int glyph_index = FT_Get_Char_Index(face, '1');
-    // TODO: Show text in UI
-    int error = FT_Load_Glyph(
-        face,        /* handle to face object */
-        glyph_index, /* glyph index           */
-        FT_LOAD_DEFAULT);
+    print(*fd, 0, 0, "Test");
 }
 
 void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)

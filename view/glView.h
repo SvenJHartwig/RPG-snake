@@ -1,17 +1,18 @@
 #pragma once
 
 #include "iGameView.h"
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../controller/gameController.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include "../TextRenderer/TextRenderer.h"
 
 class GlView : public IGameView
 {
 private:
     IGameController *gameController;
-    FT_Face face;
-    FT_Library ft;
+    font_data *fd;
 
 public:
     void setGameController(IGameController *gc);

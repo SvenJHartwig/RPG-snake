@@ -37,4 +37,5 @@ public:
     SpeedSetting getSpeed();
     void eat();
     char getLastDirection();
+    int getScore();
 };

@@ -15,7 +15,7 @@ GameController::~GameController()
 
 void gameControllerInitView(IGameView *view)
 {
-    view->init();
+    int error = view->init();
 }
 
 void GameController::setView(IGameView *view)
@@ -117,4 +117,9 @@ void GameController::eat()
 char GameController::getLastDirection()
 {
     return lastDirection;
+}
+
+int GameController::getScore()
+{
+    return eatCount;
 }

@@ -238,3 +238,8 @@ Grid *GridController::getGrid()
 {
     return grid;
 }
+
+std::vector<Food> *GridController::getFood()
+{
+    return food;
+}

@@ -7,11 +7,16 @@
 
 class TestGenerator : public RandomGenerator
 {
-  bool first;
+  bool first = false;
 
 public:
+  int specificValue = 0;
   int getRandom(int max_value) override
   {
+    if (specificValue != 0)
+    {
+      return specificValue;
+    }
     if (!first)
     {
       first = !first;
@@ -247,6 +252,7 @@ TEST_CASE("Speed setting increases")
   gridController->updateGrid();
   gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
   gridController->updateGrid();
+  // TODO Sometimes the test fails in the next line with a Segmentation fault
   REQUIRE(gameController->getSpeed() == l2);
   gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
   gridController->updateGrid();
@@ -272,4 +278,18 @@ TEST_CASE("Speed setting increases")
 
 TEST_CASE("sometimes one additional food is generated")
 {
+  GameController *gameController = new GameController();
+  GridController *gridController = gameController->getGridController();
+  TestGenerator *trng = new TestGenerator();
+  gridController->setRNG(trng);
+  Snake *snake = gridController->getSnake();
+  REQUIRE(gridController->getFood()->size() == 1);
+  trng->specificValue = 2;
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  REQUIRE(gridController->getFood()->size() == 1);
+  trng->specificValue = 1;
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  REQUIRE(gridController->getFood()->size() == 2);
 }

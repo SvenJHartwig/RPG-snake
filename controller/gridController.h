@@ -45,4 +45,5 @@ public:
     void generateNewFood(int i, int j);
     void generateNewSpecialFood(int i, int j);
     Grid *getGrid();
+    std::vector<Food> *getFood();
 };

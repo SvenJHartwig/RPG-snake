@@ -3,5 +3,5 @@
 class IEatListener
 {
 public:
-    virtual void eat() = 0;
+    virtual void eat(bool isSpecial) = 0;
 };

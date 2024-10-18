@@ -25,7 +25,11 @@ void GameController::setView(IGameView *view)
 
 void GameController::reactOnInput(char input)
 {
-    if (lastDirection == 'a' && input == 'd' || lastDirection == 'w' && input == 's' || lastDirection == 'd' && input == 'a' || lastDirection == 's' && input == 'w')
+    if (eatCount > 0 &&
+        (lastDirection == 'a' && input == 'd' ||
+         lastDirection == 'w' && input == 's' ||
+         lastDirection == 'd' && input == 'a' ||
+         lastDirection == 's' && input == 'w'))
     {
         return;
     }
@@ -36,37 +40,43 @@ void GameController::mainLoop()
 {
     view->setGameController(this);
     new std::thread(gameControllerInitView, view);
-    CliView cli;
+    //  CliView cli;
     while (!gridController->isGameOver() && !windowClosed)
     {
-        switch (lastInput)
-        {
-        case 'd':
-            lastDirection = 'd';
-            gridController->moveSnakeRight();
-            break;
-        case 'w':
-            lastDirection = 'w';
-            gridController->moveSnakeUp();
-            break;
-        case 'a':
-            lastDirection = 'a';
-            gridController->moveSnakeLeft();
-            break;
-        case 's':
-            lastDirection = 's';
-            gridController->moveSnakeDown();
-            break;
-
-        default:
-            break;
-        }
-        // Updates the grid in memory to be read by the graphics engine
-        char **chars = gridController->updateGrid();
+        mainLoopIteration();
         // Print the grid to console for debug purposes
-        cli.showGrid(chars, gridController->getGrid()->getGridSizeX(), gridController->getGrid()->getGridSizeY());
+        //   cli.showGrid(chars, gridController->getGrid()->getGridSizeX(), gridController->getGrid()->getGridSizeY());
         usleep(speed);
     }
+}
+
+void GameController::mainLoopIteration()
+{
+
+    switch (lastInput)
+    {
+    case 'd':
+        lastDirection = 'd';
+        gridController->moveSnakeRight();
+        break;
+    case 'w':
+        lastDirection = 'w';
+        gridController->moveSnakeUp();
+        break;
+    case 'a':
+        lastDirection = 'a';
+        gridController->moveSnakeLeft();
+        break;
+    case 's':
+        lastDirection = 's';
+        gridController->moveSnakeDown();
+        break;
+
+    default:
+        break;
+    }
+    // Updates the grid in memory to be read by the graphics engine
+    char **chars = gridController->updateGrid();
 }
 
 Grid GameController::getGrid()
@@ -89,8 +99,12 @@ SpeedSetting GameController::getSpeed()
     return speed;
 }
 
-void GameController::eat()
+void GameController::eat(bool isSpecial)
 {
+    if (isSpecial)
+        score += 2;
+    else
+        score++;
     eatCount++;
     if (eatCount == 2)
     {
@@ -121,5 +135,5 @@ char GameController::getLastDirection()
 
 int GameController::getScore()
 {
-    return eatCount;
+    return score;
 }

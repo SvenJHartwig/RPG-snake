@@ -23,6 +23,7 @@ private:
     char lastInput;
     SpeedSetting speed = l1;
     int eatCount = 0;
+    int score = 0;
     char lastDirection;
 
 public:
@@ -32,10 +33,11 @@ public:
     void setWindowClosed(bool closed);
     void setView(IGameView *view);
     void mainLoop();
+    void mainLoopIteration();
     Grid getGrid();
     GridController *getGridController();
     SpeedSetting getSpeed();
-    void eat();
+    void eat(bool isSpecial);
     char getLastDirection();
     int getScore();
 };

@@ -14,6 +14,8 @@
 #include <sstream>
 #include <vector>
 
+// Taken from https://github.com/benhj/glfreetype
+
 // All ideas here ripped from a NEHE tutorial
 // http://nehe.gamedev.net/tutorial/freetype_fonts_in_opengl/24001/
 

@@ -24,7 +24,7 @@ public:
 class TestEatListener : public IEatListener
 {
 public:
-  void eat() {}
+  void eat(bool isSpecial) {}
 };
 
 void printGridComparison(char **chars, char **expectedGrid, int gridSize)
@@ -174,25 +174,63 @@ TEST_CASE("Test snake")
   REQUIRE(snake->getBody()->at(1).getPosY() == headY);
 }
 
-TEST_CASE("Movement in opposite direction of last direction is not possible")
+TEST_CASE("Movement in opposite direction of last direction is not possible if snake is longer than 1")
+{
+  GameController *gameController = new GameController();
+  gameController->eat(false);
+  gameController->reactOnInput('a');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 'a');
+  gameController->reactOnInput('d');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 'a');
+  gameController->reactOnInput('w');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 'w');
+  gameController->reactOnInput('s');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 'w');
+  gameController->reactOnInput('d');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 'd');
+  gameController->reactOnInput('a');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 'd');
+  gameController->reactOnInput('s');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 's');
+  gameController->reactOnInput('w');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 's');
+}
+
+TEST_CASE("Movement in opposite direction of last direction is possible if snake is exactly 1 long")
 {
   GameController *gameController = new GameController();
   gameController->reactOnInput('a');
+  gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'a');
   gameController->reactOnInput('d');
-  REQUIRE(gameController->getLastDirection() == 'a');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 'd');
   gameController->reactOnInput('w');
+  gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'w');
   gameController->reactOnInput('s');
-  REQUIRE(gameController->getLastDirection() == 'w');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 's');
   gameController->reactOnInput('d');
+  gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'd');
   gameController->reactOnInput('a');
-  REQUIRE(gameController->getLastDirection() == 'd');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 'a');
   gameController->reactOnInput('s');
+  gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
   gameController->reactOnInput('w');
-  REQUIRE(gameController->getLastDirection() == 's');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 'w');
 }
 
 TEST_CASE("Test game over")

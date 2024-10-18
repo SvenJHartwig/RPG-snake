@@ -45,13 +45,13 @@ char **GridController::updateGrid()
                 int indexOfFoodOnThisField = returnFoodOnThisField(i, j);
                 if (indexOfFoodOnThisField != -1)
                 {
-                    snake.eat();
+                    eatListener->eat(indexOfFoodOnThisField != 0);
                     if (indexOfFoodOnThisField == 0)
                     {
-                        eatListener->eat();
+                        snake.eat();
                         int newX = rng->getRandom(grid->getGridSizeX() - 2);
                         int newY = rng->getRandom(grid->getGridSizeY() - 2);
-                        if (rng->getRandom(2) == 1)
+                        if (rng->getRandom(5) == 1)
                         {
                             int newSpecialX = rng->getRandom(grid->getGridSizeX() - 2);
                             int newSpecialY = rng->getRandom(grid->getGridSizeY() - 2);

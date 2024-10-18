@@ -103,7 +103,7 @@ int GlView::init()
 
 void GlView::showUI(int eatenFoods)
 {
-    print(*fd, 0, 0, "Test");
+    print(*fd, 0, 0, "Score: " + std::to_string(eatenFoods));
 }
 
 void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)

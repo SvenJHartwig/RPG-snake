@@ -24,29 +24,12 @@ void GlView::setGameController(IGameController *gc)
     this->gameController = gc;
 }
 
-void GlView::renderingLoop(GLFWwindow *window)
+void GlView::renderingLoop()
 {
     // Main rendering loop
     while (!glfwWindowShouldClose(window))
     {
-        // Input handling
-        glfwPollEvents();
-        if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-        {
-            gameController->reactOnInput('d');
-        }
-        else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-        {
-            gameController->reactOnInput('a');
-        }
-        else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-        {
-            gameController->reactOnInput('w');
-        }
-        else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-        {
-            gameController->reactOnInput('s');
-        }
+        handleInput();
 
         glClear(GL_COLOR_BUFFER_BIT);
         showUI(gameController->getScore());
@@ -57,10 +40,8 @@ void GlView::renderingLoop(GLFWwindow *window)
         glfwSwapBuffers(window);
     }
 
-    gameController->setWindowClosed(true);
-
     // Clean up
-
+    gameController->setWindowClosed(true);
     glfwTerminate();
 }
 
@@ -73,7 +54,7 @@ int GlView::init()
     }
 
     // Create a window
-    GLFWwindow *window = glfwCreateWindow(800, 600, "Snake", NULL, NULL);
+    window = glfwCreateWindow(800, 600, "Snake", NULL, NULL);
     if (!window)
     {
         error = -1;
@@ -91,7 +72,6 @@ int GlView::init()
     fd = new font_data();
     fd->init("../resources/fonts/WorkSans-Black.ttf", 10);
 
-    renderingLoop(window);
     if (error != 0)
     {
         gameController->setWindowClosed(true);
@@ -141,5 +121,43 @@ void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)
             glVertex2f(-0.9f + j * 0.08, 0.8f - i * 0.08);
             glEnd();
         }
+    }
+}
+
+void GlView::showMainMenu()
+{
+
+    glClear(GL_COLOR_BUFFER_BIT);
+    print(*fd, 320, 240, "Begin game");
+    print(*fd, 300, 240, "Exit");
+    glfwSwapBuffers(window);
+    while (!glfwWindowShouldClose(window) && gameController->getGameState() == MAIN_MENU)
+    {
+        handleInput();
+    }
+}
+
+void GlView::handleInput()
+{
+    glfwPollEvents();
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    {
+        gameController->reactOnInput('d');
+    }
+    else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+    {
+        gameController->reactOnInput('a');
+    }
+    else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        gameController->reactOnInput('w');
+    }
+    else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        gameController->reactOnInput('s');
+    }
+    else if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+    {
+        gameController->reactOnInput('p');
     }
 }

@@ -4,17 +4,8 @@
 #include "../view/iGameView.h"
 #include "iEatListener.h"
 
-enum SpeedSetting
-{
-    l1 = 800000,
-    l2 = 700000,
-    l3 = 600000,
-    l4 = 450000,
-    l5 = 300000,
-    l6 = 200000,
-};
-
-class GameController : public IGameController, public IEatListener
+class GameController : public IGameController,
+                       public IEatListener
 {
 private:
     GridController *gridController;
@@ -25,6 +16,7 @@ private:
     int eatCount = 0;
     int score = 0;
     char lastDirection;
+    GameState gameState = MAIN_MENU;
 
 public:
     GameController();
@@ -40,4 +32,5 @@ public:
     void eat(bool isSpecial);
     char getLastDirection();
     int getScore();
+    GameState getGameState();
 };

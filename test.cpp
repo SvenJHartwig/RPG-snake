@@ -293,3 +293,11 @@ TEST_CASE("sometimes one additional food is generated")
   gridController->updateGrid();
   REQUIRE(gridController->getFood()->size() == 2);
 }
+
+TEST_CASE("Pressing enter starts game")
+{
+  GameController *gameController = new GameController();
+  REQUIRE(gameController->getGameState() == MAIN_MENU);
+  gameController->reactOnInput('p');
+  REQUIRE(gameController->getGameState() == IN_GAME);
+}

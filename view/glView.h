@@ -13,11 +13,14 @@ class GlView : public IGameView
 private:
     IGameController *gameController;
     font_data *fd;
+    GLFWwindow *window;
 
 public:
     void setGameController(IGameController *gc);
-    void renderingLoop(GLFWwindow *window);
+    void renderingLoop();
     int init();
     void showUI(int eatenFoods);
     void showGrid(char **grid, int grid_size_x, int grid_size_y);
+    void showMainMenu();
+    void handleInput();
 };

@@ -15,7 +15,9 @@ GameController::~GameController()
 
 void gameControllerInitView(IGameView *view)
 {
-    int error = view->init();
+    view->init();
+    view->showMainMenu();
+    view->renderingLoop();
 }
 
 void GameController::setView(IGameView *view)
@@ -25,15 +27,27 @@ void GameController::setView(IGameView *view)
 
 void GameController::reactOnInput(char input)
 {
-    if (eatCount > 0 &&
-        (lastDirection == 'a' && input == 'd' ||
-         lastDirection == 'w' && input == 's' ||
-         lastDirection == 'd' && input == 'a' ||
-         lastDirection == 's' && input == 'w'))
+    switch (gameState)
     {
-        return;
+    case MAIN_MENU:
+        if (input == 'p')
+        {
+            gameState = IN_GAME;
+        }
+    case IN_GAME:
+        if (eatCount > 0 &&
+            (lastDirection == 'a' && input == 'd' ||
+             lastDirection == 'w' && input == 's' ||
+             lastDirection == 'd' && input == 'a' ||
+             lastDirection == 's' && input == 'w'))
+        {
+            return;
+        }
+        lastInput = input;
+        break;
+    default:
+        break;
     }
-    lastInput = input;
 }
 
 void GameController::mainLoop()
@@ -41,6 +55,7 @@ void GameController::mainLoop()
     view->setGameController(this);
     new std::thread(gameControllerInitView, view);
     //  CliView cli;
+
     while (!gridController->isGameOver() && !windowClosed)
     {
         mainLoopIteration();
@@ -136,4 +151,9 @@ char GameController::getLastDirection()
 int GameController::getScore()
 {
     return score;
+}
+
+GameState GameController::getGameState()
+{
+    return gameState;
 }

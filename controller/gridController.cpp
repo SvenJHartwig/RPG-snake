@@ -15,6 +15,7 @@ GridController::GridController(IEatListener *eatListener)
     food = new std::vector<Food>();
     food->push_back(*(new Food()));
     grid = new Grid();
+    snake = new Snake();
 }
 
 GridController::~GridController()
@@ -38,7 +39,7 @@ char **GridController::updateGrid()
                 // Wall
                 chars[i][j] = 'W';
             }
-            else if (i == snake.getHeadY() && j == snake.getHeadX())
+            else if (i == snake->getHeadY() && j == snake->getHeadX())
             {
                 // Snake
                 chars[i][j] = 'H';
@@ -48,7 +49,7 @@ char **GridController::updateGrid()
                     eatListener->eat(indexOfFoodOnThisField != 0);
                     if (indexOfFoodOnThisField == 0)
                     {
-                        snake.eat();
+                        snake->eat();
                         int newX = rng->getRandom(grid->getGridSizeX() - 2);
                         int newY = rng->getRandom(grid->getGridSizeY() - 2);
                         if (rng->getRandom(5) == 1)
@@ -104,8 +105,8 @@ char **GridController::updateGrid()
 void GridController::checkGameOver(Grid *grid)
 {
     // If a wall or the snake's body is reached, game over
-    int i = snake.getHeadY();
-    int j = snake.getHeadX();
+    int i = snake->getHeadY();
+    int j = snake->getHeadX();
     if (i == 0 || i == grid->getGridSizeY() - 1 || j == 0 || j == grid->getGridSizeX() - 1)
     {
         game_over = true;
@@ -130,9 +131,9 @@ int GridController::returnFoodOnThisField(int i, int j)
 
 bool GridController::anyMovedBodypartOnThisField(int i, int j)
 {
-    for (int k = 0; k < snake.getBody()->size(); k++)
+    for (int k = 0; k < snake->getBody()->size(); k++)
     {
-        if (snake.getBody()->at(k).getHasMoved() && i == snake.getBody()->at(k).getPosY() && j == snake.getBody()->at(k).getPosX())
+        if (snake->getBody()->at(k).getHasMoved() && i == snake->getBody()->at(k).getPosY() && j == snake->getBody()->at(k).getPosX())
         {
             return true;
         }
@@ -142,9 +143,9 @@ bool GridController::anyMovedBodypartOnThisField(int i, int j)
 
 bool GridController::anyBodypartOnThisField(int i, int j)
 {
-    for (int k = 0; k < snake.getBody()->size(); k++)
+    for (int k = 0; k < snake->getBody()->size(); k++)
     {
-        if (i == snake.getBody()->at(k).getPosY() && j == snake.getBody()->at(k).getPosX())
+        if (i == snake->getBody()->at(k).getPosY() && j == snake->getBody()->at(k).getPosX())
         {
             return true;
         }
@@ -159,7 +160,7 @@ void GridController::moveSnakeRight()
         return;
     }
     moveSnakeBody();
-    snake.setPosX(snake.getHeadX() + 1);
+    snake->setPosX(snake->getHeadX() + 1);
 }
 
 void GridController::moveSnakeLeft()
@@ -169,7 +170,7 @@ void GridController::moveSnakeLeft()
         return;
     }
     moveSnakeBody();
-    snake.setPosX(snake.getHeadX() - 1);
+    snake->setPosX(snake->getHeadX() - 1);
 }
 
 void GridController::moveSnakeUp()
@@ -179,7 +180,7 @@ void GridController::moveSnakeUp()
         return;
     }
     moveSnakeBody();
-    snake.setPosY(snake.getHeadY() - 1);
+    snake->setPosY(snake->getHeadY() - 1);
 }
 
 void GridController::moveSnakeDown()
@@ -189,12 +190,12 @@ void GridController::moveSnakeDown()
         return;
     }
     moveSnakeBody();
-    snake.setPosY(snake.getHeadY() + 1);
+    snake->setPosY(snake->getHeadY() + 1);
 }
 
 Snake *GridController::getSnake()
 {
-    return &snake;
+    return snake;
 }
 
 bool GridController::isGameOver()
@@ -209,14 +210,14 @@ void GridController::setRNG(RandomGenerator *rng)
 
 void GridController::moveSnakeBody()
 {
-    if (snake.getBody()->size() > 0)
+    if (snake->getBody()->size() > 0)
     {
-        SnakeBodyPart temp = snake.getBody()->at(snake.getBody()->size() - 1);
+        SnakeBodyPart temp = snake->getBody()->at(snake->getBody()->size() - 1);
         temp.setHasMoved(true);
-        temp.setPosX(snake.getHeadX());
-        temp.setPosY(snake.getHeadY());
-        snake.getBody()->pop_back();
-        snake.getBody()->insert(snake.getBody()->begin(), temp);
+        temp.setPosX(snake->getHeadX());
+        temp.setPosY(snake->getHeadY());
+        snake->getBody()->pop_back();
+        snake->getBody()->insert(snake->getBody()->begin(), temp);
     }
 }
 
@@ -242,4 +243,14 @@ Grid *GridController::getGrid()
 std::vector<Food> *GridController::getFood()
 {
     return food;
+}
+
+void GridController::reset()
+{
+    food->clear();
+    food->push_back(*(new Food()));
+    grid->setGrid(new char *[grid->getGridSizeY()]);
+    snake = new Snake();
+    updateGrid();
+    game_over = false;
 }

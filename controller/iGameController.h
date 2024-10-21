@@ -14,6 +14,7 @@ enum GameState
 {
     MAIN_MENU,
     IN_GAME,
+    EXIT,
 };
 
 class IGameController

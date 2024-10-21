@@ -32,9 +32,18 @@ void GlView::renderingLoop()
         handleInput();
 
         glClear(GL_COLOR_BUFFER_BIT);
-        showUI(gameController->getScore());
-        Grid grid = gameController->getGrid();
-        showGrid(grid.getGrid(), grid.getGridSizeX(), grid.getGridSizeY());
+        switch (gameController->getGameState())
+        {
+        case MAIN_MENU:
+            print(*fd, 320, 240, "Begin game");
+            print(*fd, 320, 220, "Exit");
+            break;
+        case IN_GAME:
+            showUI(gameController->getScore());
+            Grid grid = gameController->getGrid();
+            showGrid(grid.getGrid(), grid.getGridSizeX(), grid.getGridSizeY());
+            break;
+        }
 
         // Swap buffers
         glfwSwapBuffers(window);
@@ -124,19 +133,6 @@ void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)
     }
 }
 
-void GlView::showMainMenu()
-{
-
-    glClear(GL_COLOR_BUFFER_BIT);
-    print(*fd, 320, 240, "Begin game");
-    print(*fd, 300, 240, "Exit");
-    glfwSwapBuffers(window);
-    while (!glfwWindowShouldClose(window) && gameController->getGameState() == MAIN_MENU)
-    {
-        handleInput();
-    }
-}
-
 void GlView::handleInput()
 {
     glfwPollEvents();
@@ -159,5 +155,9 @@ void GlView::handleInput()
     else if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
     {
         gameController->reactOnInput('p');
+    }
+    else if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+    {
+        gameController->reactOnInput('l');
     }
 }

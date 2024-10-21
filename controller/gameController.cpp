@@ -16,7 +16,6 @@ GameController::~GameController()
 void gameControllerInitView(IGameView *view)
 {
     view->init();
-    view->showMainMenu();
     view->renderingLoop();
 }
 
@@ -33,6 +32,10 @@ void GameController::reactOnInput(char input)
         if (input == 'p')
         {
             gameState = IN_GAME;
+        }
+        else if (input == 'l')
+        {
+            gameState = EXIT;
         }
     case IN_GAME:
         if (eatCount > 0 &&
@@ -53,12 +56,21 @@ void GameController::reactOnInput(char input)
 void GameController::mainLoop()
 {
     view->setGameController(this);
+    gridController->updateGrid();
+
     new std::thread(gameControllerInitView, view);
     //  CliView cli;
 
-    while (!gridController->isGameOver() && !windowClosed)
+    while (gameState != EXIT && !windowClosed)
     {
-        mainLoopIteration();
+        if (gameState == IN_GAME)
+        {
+            mainLoopIteration();
+        }
+        if (gridController->isGameOver())
+        {
+            resetGame();
+        }
         // Print the grid to console for debug purposes
         //   cli.showGrid(chars, gridController->getGrid()->getGridSizeX(), gridController->getGrid()->getGridSizeY());
         usleep(speed);
@@ -86,7 +98,6 @@ void GameController::mainLoopIteration()
         lastDirection = 's';
         gridController->moveSnakeDown();
         break;
-
     default:
         break;
     }
@@ -156,4 +167,15 @@ int GameController::getScore()
 GameState GameController::getGameState()
 {
     return gameState;
+}
+
+void GameController::resetGame()
+{
+    gameState = MAIN_MENU;
+    lastInput = ' ';
+    speed = l1;
+    eatCount = 0;
+    score = 0;
+    lastDirection = ' ';
+    gridController->reset();
 }

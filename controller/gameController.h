@@ -33,4 +33,5 @@ public:
     char getLastDirection();
     int getScore();
     GameState getGameState();
+    void resetGame();
 };

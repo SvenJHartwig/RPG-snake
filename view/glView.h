@@ -21,5 +21,6 @@ public:
     int init();
     void showUI(int eatenFoods);
     void showGrid(char **grid, int grid_size_x, int grid_size_y);
+    void gameStateChanged(GameState game_state);
     void handleInput();
 };

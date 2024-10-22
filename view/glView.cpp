@@ -1,24 +1,5 @@
 #include "glView.h"
 
-GLuint CreateTextureFromBitmap(FT_Bitmap *bitmap)
-{
-    GLuint texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    // Upload the bitmap to the GPU (assuming it's grayscale)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, bitmap->width, bitmap->rows, 0, GL_RED, GL_UNSIGNED_BYTE, bitmap->buffer);
-
-    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, bitmap->buffer);
-    //  Set texture options
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    return texture;
-}
-
 void GlView::setGameController(IGameController *gc)
 {
     this->gameController = gc;
@@ -136,6 +117,7 @@ void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)
 void GlView::handleInput()
 {
     glfwPollEvents();
+    // Handling of key input
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
     {
         gameController->reactOnInput('d');
@@ -159,5 +141,21 @@ void GlView::handleInput()
     else if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
     {
         gameController->reactOnInput('l');
+    }
+
+    // Handling of mouse input
+    double xpos, ypos;
+    glfwGetCursorPos(window, &xpos, &ypos);
+}
+
+void GlView::gameStateChanged(GameState game_state)
+{
+    if (game_state == IN_GAME)
+    {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    }
+    else
+    {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 }

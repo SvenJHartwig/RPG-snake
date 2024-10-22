@@ -32,10 +32,12 @@ void GameController::reactOnInput(char input)
         if (input == 'p')
         {
             gameState = IN_GAME;
+            view->gameStateChanged(gameState);
         }
         else if (input == 'l')
         {
             gameState = EXIT;
+            view->gameStateChanged(gameState);
         }
     case IN_GAME:
         if (eatCount > 0 &&
@@ -172,6 +174,7 @@ GameState GameController::getGameState()
 void GameController::resetGame()
 {
     gameState = MAIN_MENU;
+    view->gameStateChanged(gameState);
     lastInput = ' ';
     speed = l1;
     eatCount = 0;

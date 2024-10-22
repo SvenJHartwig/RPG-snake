@@ -32,6 +32,15 @@ public:
   void eat(bool isSpecial) {}
 };
 
+class TestView : public IGameView
+{
+  void setGameController(IGameController *gc) {}
+  void renderingLoop() {}
+  int init() { return 0; }
+  void showGrid(char **grid, int grid_size_x, int grid_size_y) {}
+  void gameStateChanged(GameState game_state) {}
+};
+
 void printGridComparison(char **chars, char **expectedGrid, int gridSize)
 {
   for (int i = 0; i < gridSize; i++)
@@ -297,6 +306,7 @@ TEST_CASE("sometimes one additional food is generated")
 TEST_CASE("Pressing enter starts game")
 {
   GameController *gameController = new GameController();
+  gameController->setView(new TestView());
   REQUIRE(gameController->getGameState() == MAIN_MENU);
   gameController->reactOnInput('p');
   REQUIRE(gameController->getGameState() == IN_GAME);

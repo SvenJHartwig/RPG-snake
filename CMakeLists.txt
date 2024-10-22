@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.9)
 project (Tutorial)
 add_executable(main main.cpp model/grid.cpp model/snake.cpp controller/gridController.cpp controller/gameController.cpp 
-    view/cliView.cpp view/glView.cpp TextRenderer/TextRenderer.cpp)
+    view/cliView.cpp view/glView.cpp TextRenderer/TextRenderer.cpp view/elements/button.cpp)
 target_link_directories(main PRIVATE /usr/local/lib /usr/lib64)
 include_directories (/usr/include/freetype2)
 

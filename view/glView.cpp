@@ -1,4 +1,5 @@
 #include "glView.h"
+#include "elements/button.h"
 
 void GlView::setGameController(IGameController *gc)
 {
@@ -16,8 +17,12 @@ void GlView::renderingLoop()
         switch (gameController->getGameState())
         {
         case MAIN_MENU:
-            print(*fd, 320, 240, "Begin game");
-            print(*fd, 320, 220, "Exit");
+            for (int i = 0; i < currentScene->scene_elements->size(); i++)
+            {
+                currentScene->scene_elements->at(i)->render();
+            }
+            // print(*fd, 320, 240, "Begin game");
+            // print(*fd, 320, 220, "Exit");
             break;
         case IN_GAME:
             showUI(gameController->getScore());
@@ -67,6 +72,16 @@ int GlView::init()
         gameController->setWindowClosed(true);
         glfwTerminate();
     }
+
+    currentScene = new Scene();
+    Button *first = new Button(340, 240, 400, 220);
+    first->text = "Begin game";
+    first->fd = fd;
+    Button *second = new Button(340, 220, 400, 200);
+    second->text = "Exit";
+    second->fd = fd;
+    currentScene->scene_elements = new std::vector<Element *>(2, first);
+    currentScene->scene_elements->push_back(second);
 
     return 0;
 }
@@ -144,8 +159,27 @@ void GlView::handleInput()
     }
 
     // Handling of mouse input
-    double xpos, ypos;
-    glfwGetCursorPos(window, &xpos, &ypos);
+    int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+    if (state == GLFW_PRESS)
+    {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+        for (int i = 0; i < currentScene->scene_elements->size(); i++)
+        {
+            int width, height;
+            glfwGetWindowSize(window, &width, &height);
+            int elementHeight = currentScene->scene_elements->at(i)->getPosYTopLeft() - currentScene->scene_elements->at(i)->getPosYBottomRight();
+            int xpostl = currentScene->scene_elements->at(i)->getPosXTopLeft();
+            int ypostl = height - currentScene->scene_elements->at(i)->getPosYTopLeft() - elementHeight;
+            int xposbr = currentScene->scene_elements->at(i)->getPosXBottomRight();
+            int yposbr = height - currentScene->scene_elements->at(i)->getPosYBottomRight() - elementHeight;
+            if (xpos > xpostl && xpos < xposbr &&
+                ypos > ypostl && ypos < yposbr)
+            {
+                gameController->reactOnInput('p');
+            }
+        }
+    }
 }
 
 void GlView::gameStateChanged(GameState game_state)
@@ -158,4 +192,9 @@ void GlView::gameStateChanged(GameState game_state)
     {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
+}
+
+void GlView::setCurrentScene(Scene *current_scene)
+{
+    this->currentScene = current_scene;
 }

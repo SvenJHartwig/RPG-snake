@@ -4,9 +4,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../controller/gameController.h"
-#include <ft2build.h>
-#include FT_FREETYPE_H
 #include "../TextRenderer/TextRenderer.h"
+#include "elements/scene.h"
 
 class GlView : public IGameView
 {
@@ -14,6 +13,7 @@ private:
     IGameController *gameController;
     font_data *fd;
     GLFWwindow *window;
+    Scene *currentScene;
 
 public:
     void setGameController(IGameController *gc);
@@ -23,4 +23,5 @@ public:
     void showGrid(char **grid, int grid_size_x, int grid_size_y);
     void gameStateChanged(GameState game_state);
     void handleInput();
+    void setCurrentScene(Scene *current_scene);
 };

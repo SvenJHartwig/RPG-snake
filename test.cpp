@@ -4,6 +4,7 @@
 #include <iostream>
 #include "controller/gameController.h"
 #include "controller/iEatListener.h"
+#include "view/elements/scene.h"
 
 class TestGenerator : public RandomGenerator
 {
@@ -39,6 +40,7 @@ class TestView : public IGameView
   int init() { return 0; }
   void showGrid(char **grid, int grid_size_x, int grid_size_y) {}
   void gameStateChanged(GameState game_state) {}
+  void setCurrentScene(Scene *current_scene) {}
 };
 
 void printGridComparison(char **chars, char **expectedGrid, int gridSize)

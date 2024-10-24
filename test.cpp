@@ -249,10 +249,6 @@ TEST_CASE("Movement in opposite direction of last direction is possible if snake
   REQUIRE(gameController->getLastDirection() == 'w');
 }
 
-TEST_CASE("Test game over")
-{
-}
-
 TEST_CASE("Speed setting increases")
 {
   GameController *gameController = new GameController();
@@ -312,4 +308,21 @@ TEST_CASE("Pressing enter starts game")
   REQUIRE(gameController->getGameState() == MAIN_MENU);
   gameController->reactOnInput('p');
   REQUIRE(gameController->getGameState() == IN_GAME);
+}
+
+TEST_CASE("After Game Over pause before going to main menu")
+{
+  GameController *gameController = new GameController();
+  gameController->setView(new TestView());
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->updateGrid();
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getGridController()->isGameOver());
+  REQUIRE(gameController->getGameState() == GAME_OVER);
+  gameController->reactOnInput('p');
+  REQUIRE(gameController->getGameState() == MAIN_MENU);
 }

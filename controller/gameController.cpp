@@ -50,6 +50,12 @@ void GameController::reactOnInput(char input)
         }
         lastInput = input;
         break;
+    case GAME_OVER:
+        if (input == 'p')
+        {
+            resetGame();
+        }
+        break;
     default:
         break;
     }
@@ -68,10 +74,6 @@ void GameController::mainLoop()
         if (gameState == IN_GAME)
         {
             mainLoopIteration();
-        }
-        if (gridController->isGameOver())
-        {
-            resetGame();
         }
         // Print the grid to console for debug purposes
         //   cli.showGrid(chars, gridController->getGrid()->getGridSizeX(), gridController->getGrid()->getGridSizeY());
@@ -105,6 +107,10 @@ void GameController::mainLoopIteration()
     }
     // Updates the grid in memory to be read by the graphics engine
     char **chars = gridController->updateGrid();
+    if (gridController->isGameOver())
+    {
+        gameState = GAME_OVER;
+    }
 }
 
 Grid GameController::getGrid()

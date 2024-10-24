@@ -1,6 +1,64 @@
 #include "glView.h"
 #include "elements/button.h"
 
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    if (action != GLFW_PRESS)
+    {
+        return;
+    }
+    GlView *view = static_cast<GlView *>(glfwGetWindowUserPointer(window));
+    switch (key)
+    {
+    case GLFW_KEY_RIGHT:
+        view->getGameController()->reactOnInput('d');
+        break;
+    case GLFW_KEY_LEFT:
+        view->getGameController()->reactOnInput('a');
+        break;
+    case GLFW_KEY_UP:
+        view->getGameController()->reactOnInput('w');
+        break;
+    case GLFW_KEY_DOWN:
+        view->getGameController()->reactOnInput('s');
+        break;
+    case GLFW_KEY_P:
+        view->getGameController()->reactOnInput('p');
+        break;
+    case GLFW_KEY_L:
+        view->getGameController()->reactOnInput('l');
+        break;
+    }
+}
+
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+{
+
+    if (action != GLFW_PRESS)
+    {
+        return;
+    }
+    GlView *view = static_cast<GlView *>(glfwGetWindowUserPointer(window));
+    double xpos, ypos;
+    glfwGetCursorPos(window, &xpos, &ypos);
+    for (int i = 0; i < view->getCurrentScene()->scene_elements->size(); i++)
+    {
+        Element *currentSceneElement = view->getCurrentScene()->scene_elements->at(i);
+        int windowWidth, windowHeight;
+        glfwGetWindowSize(window, &windowWidth, &windowHeight);
+        int elementHeight = currentSceneElement->getPosYTopLeft() - currentSceneElement->getPosYBottomRight();
+        int xpostl = currentSceneElement->getPosXTopLeft();
+        int ypostl = windowHeight - currentSceneElement->getPosYTopLeft() - elementHeight;
+        int xposbr = currentSceneElement->getPosXBottomRight();
+        int yposbr = windowHeight - currentSceneElement->getPosYBottomRight() - elementHeight;
+        if (xpos > xpostl && xpos < xposbr &&
+            ypos > ypostl && ypos < yposbr)
+        {
+            currentSceneElement->callback(view->getGameController());
+        }
+    }
+}
+
 void GlView::setGameController(IGameController *gc)
 {
     this->gameController = gc;
@@ -11,9 +69,10 @@ void GlView::renderingLoop()
     // Main rendering loop
     while (!glfwWindowShouldClose(window))
     {
-        handleInput();
+        glfwPollEvents();
 
         glClear(GL_COLOR_BUFFER_BIT);
+        Grid grid;
         switch (gameController->getGameState())
         {
         case MAIN_MENU:
@@ -24,8 +83,15 @@ void GlView::renderingLoop()
             break;
         case IN_GAME:
             showUI(gameController->getScore());
-            Grid grid = gameController->getGrid();
+            grid = gameController->getGrid();
             showGrid(grid.getGrid(), grid.getGridSizeX(), grid.getGridSizeY());
+            break;
+        case GAME_OVER:
+            showUI(gameController->getScore());
+            grid = gameController->getGrid();
+            showGrid(grid.getGrid(), grid.getGridSizeX(), grid.getGridSizeY());
+            print(*fd, 400, 300, "GAME OVER");
+            print(*fd, 400, 270, "PRESS P TO RETURN TO MAIN MENU");
             break;
         }
 
@@ -81,8 +147,21 @@ int GlView::init()
         glfwTerminate();
     }
 
+    glfwSetWindowUserPointer(window, this);
+    glfwSetKeyCallback(window, key_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+
+    initMainMenu();
+
+    currentScene = mainMenu;
+
+    return 0;
+}
+
+void GlView::initMainMenu()
+{
     // TODO Move this out of here
-    currentScene = new Scene();
+    mainMenu = new Scene();
     Button *first = new Button(340, 280, 400, 260);
     first->text = "Begin game";
     first->fd = fd;
@@ -91,10 +170,8 @@ int GlView::init()
     second->text = "Exit";
     second->fd = fd;
     second->callback = &inputL;
-    currentScene->scene_elements = new std::vector<Element *>(2, first);
-    currentScene->scene_elements->push_back(second);
-
-    return 0;
+    mainMenu->scene_elements = new std::vector<Element *>(2, first);
+    mainMenu->scene_elements->push_back(second);
 }
 
 void GlView::showUI(int eatenFoods)
@@ -136,60 +213,6 @@ void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)
             glVertex2f(-0.8f + j * 0.08, 0.8f - i * 0.08);
             glVertex2f(-0.9f + j * 0.08, 0.8f - i * 0.08);
             glEnd();
-        }
-    }
-}
-
-void GlView::handleInput()
-{
-    glfwPollEvents();
-    // Handling of key input
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-    {
-        gameController->reactOnInput('d');
-    }
-    else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-    {
-        gameController->reactOnInput('a');
-    }
-    else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-    {
-        gameController->reactOnInput('w');
-    }
-    else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-    {
-        gameController->reactOnInput('s');
-    }
-    else if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
-    {
-        gameController->reactOnInput('p');
-    }
-    else if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
-    {
-        gameController->reactOnInput('l');
-    }
-
-    // Handling of mouse input
-    int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-    if (state == GLFW_PRESS)
-    {
-        double xpos, ypos;
-        glfwGetCursorPos(window, &xpos, &ypos);
-        for (int i = 0; i < currentScene->scene_elements->size(); i++)
-        {
-            Element *currentSceneElement = currentScene->scene_elements->at(i);
-            int windowWidth, windowHeight;
-            glfwGetWindowSize(window, &windowWidth, &windowHeight);
-            int elementHeight = currentSceneElement->getPosYTopLeft() - currentSceneElement->getPosYBottomRight();
-            int xpostl = currentSceneElement->getPosXTopLeft();
-            int ypostl = windowHeight - currentSceneElement->getPosYTopLeft() - elementHeight;
-            int xposbr = currentSceneElement->getPosXBottomRight();
-            int yposbr = windowHeight - currentSceneElement->getPosYBottomRight() - elementHeight;
-            if (xpos > xpostl && xpos < xposbr &&
-                ypos > ypostl && ypos < yposbr)
-            {
-                currentSceneElement->callback(gameController);
-            }
         }
     }
 }

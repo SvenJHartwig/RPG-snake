@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../model/grid.h"
 
 enum SpeedSetting

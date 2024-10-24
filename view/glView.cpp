@@ -21,8 +21,6 @@ void GlView::renderingLoop()
             {
                 currentScene->scene_elements->at(i)->render();
             }
-            // print(*fd, 320, 240, "Begin game");
-            // print(*fd, 320, 220, "Exit");
             break;
         case IN_GAME:
             showUI(gameController->getScore());
@@ -38,6 +36,16 @@ void GlView::renderingLoop()
     // Clean up
     gameController->setWindowClosed(true);
     glfwTerminate();
+}
+
+void inputP(IGameController *gc)
+{
+    gc->reactOnInput('p');
+}
+
+void inputL(IGameController *gc)
+{
+    gc->reactOnInput('l');
 }
 
 int GlView::init()
@@ -73,13 +81,16 @@ int GlView::init()
         glfwTerminate();
     }
 
+    // TODO Move this out of here
     currentScene = new Scene();
-    Button *first = new Button(340, 240, 400, 220);
+    Button *first = new Button(340, 280, 400, 260);
     first->text = "Begin game";
     first->fd = fd;
+    first->callback = &inputP;
     Button *second = new Button(340, 220, 400, 200);
     second->text = "Exit";
     second->fd = fd;
+    second->callback = &inputL;
     currentScene->scene_elements = new std::vector<Element *>(2, first);
     currentScene->scene_elements->push_back(second);
 
@@ -166,17 +177,18 @@ void GlView::handleInput()
         glfwGetCursorPos(window, &xpos, &ypos);
         for (int i = 0; i < currentScene->scene_elements->size(); i++)
         {
-            int width, height;
-            glfwGetWindowSize(window, &width, &height);
-            int elementHeight = currentScene->scene_elements->at(i)->getPosYTopLeft() - currentScene->scene_elements->at(i)->getPosYBottomRight();
-            int xpostl = currentScene->scene_elements->at(i)->getPosXTopLeft();
-            int ypostl = height - currentScene->scene_elements->at(i)->getPosYTopLeft() - elementHeight;
-            int xposbr = currentScene->scene_elements->at(i)->getPosXBottomRight();
-            int yposbr = height - currentScene->scene_elements->at(i)->getPosYBottomRight() - elementHeight;
+            Element *currentSceneElement = currentScene->scene_elements->at(i);
+            int windowWidth, windowHeight;
+            glfwGetWindowSize(window, &windowWidth, &windowHeight);
+            int elementHeight = currentSceneElement->getPosYTopLeft() - currentSceneElement->getPosYBottomRight();
+            int xpostl = currentSceneElement->getPosXTopLeft();
+            int ypostl = windowHeight - currentSceneElement->getPosYTopLeft() - elementHeight;
+            int xposbr = currentSceneElement->getPosXBottomRight();
+            int yposbr = windowHeight - currentSceneElement->getPosYBottomRight() - elementHeight;
             if (xpos > xpostl && xpos < xposbr &&
                 ypos > ypostl && ypos < yposbr)
             {
-                gameController->reactOnInput('p');
+                currentSceneElement->callback(gameController);
             }
         }
     }

@@ -253,13 +253,13 @@ TEST_CASE("Speed setting increases")
 {
   GameController *gameController = new GameController();
   GridController *gridController = gameController->getGridController();
+  gridController->setRNG(new TestGenerator());
   Snake *snake = gridController->getSnake();
   REQUIRE(gameController->getSpeed() == l1);
   gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
   gridController->updateGrid();
   gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
   gridController->updateGrid();
-  // TODO Sometimes the test fails in the next line with a Segmentation fault
   REQUIRE(gameController->getSpeed() == l2);
   gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
   gridController->updateGrid();

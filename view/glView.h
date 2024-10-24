@@ -17,14 +17,14 @@ private:
     Scene *mainMenu;
 
 public:
-    void setGameController(IGameController *gc);
     void renderingLoop();
     int init();
     void showUI(int eatenFoods);
     void showGrid(char **grid, int grid_size_x, int grid_size_y);
     void gameStateChanged(GameState game_state);
-    void setCurrentScene(Scene *current_scene);
     void initMainMenu();
     IGameController *getGameController() { return gameController; }
+    void setGameController(IGameController *gc) { this->gameController = gc; }
     Scene *getCurrentScene() { return currentScene; }
+    void setCurrentScene(Scene *current_scene) { this->currentScene = current_scene; }
 };

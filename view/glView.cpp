@@ -59,11 +59,6 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
     }
 }
 
-void GlView::setGameController(IGameController *gc)
-{
-    this->gameController = gc;
-}
-
 void GlView::renderingLoop()
 {
     // Main rendering loop
@@ -104,16 +99,6 @@ void GlView::renderingLoop()
     glfwTerminate();
 }
 
-void inputP(IGameController *gc)
-{
-    gc->reactOnInput('p');
-}
-
-void inputL(IGameController *gc)
-{
-    gc->reactOnInput('l');
-}
-
 int GlView::init()
 {
     int error = 0;
@@ -141,21 +126,32 @@ int GlView::init()
     fd = new font_data();
     fd->init("../resources/fonts/WorkSans-Black.ttf", 10);
 
+    // Initialize input callbacks
+    glfwSetWindowUserPointer(window, this);
+    glfwSetKeyCallback(window, key_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+
     if (error != 0)
     {
         gameController->setWindowClosed(true);
         glfwTerminate();
     }
 
-    glfwSetWindowUserPointer(window, this);
-    glfwSetKeyCallback(window, key_callback);
-    glfwSetMouseButtonCallback(window, mouse_button_callback);
-
     initMainMenu();
 
     currentScene = mainMenu;
 
     return 0;
+}
+
+void inputP(IGameController *gc)
+{
+    gc->reactOnInput('p');
+}
+
+void inputL(IGameController *gc)
+{
+    gc->reactOnInput('l');
 }
 
 void GlView::initMainMenu()
@@ -227,9 +223,4 @@ void GlView::gameStateChanged(GameState game_state)
     {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
-}
-
-void GlView::setCurrentScene(Scene *current_scene)
-{
-    this->currentScene = current_scene;
 }

@@ -12,8 +12,7 @@ GridController::GridController(IEatListener *eatListener)
     this->eatListener = eatListener;
     srand(time(NULL));
     rng = new RandomGeneratorImpl();
-    food = new std::vector<Food>();
-    food->push_back(*(new Food()));
+    food = new std::vector<Food *>(1, new Food());
     grid = new Grid();
     snake = new Snake();
 }
@@ -121,7 +120,7 @@ int GridController::returnFoodOnThisField(int i, int j)
 {
     for (int k = 0; k < food->size(); k++)
     {
-        if (i == food->at(k).getPosY() && j == food->at(k).getPosX())
+        if (i == food->at(k)->getPosY() && j == food->at(k)->getPosX())
         {
             return k;
         }
@@ -219,12 +218,20 @@ void GridController::moveSnakeBody()
         snake->getBody()->pop_back();
         snake->getBody()->insert(snake->getBody()->begin(), temp);
     }
+    for (int i = 1; i < food->size(); i++)
+    {
+        ((SpecialFood *)food->at(i))->decreaseTime();
+        if (((SpecialFood *)food->at(i))->remainingTime() == 0)
+        {
+            food->erase(food->begin() + i);
+        }
+    }
 }
 
 void GridController::generateNewFood(int i, int j)
 {
-    food->at(0).setPosX(i);
-    food->at(0).setPosY(j);
+    food->at(0)->setPosX(i);
+    food->at(0)->setPosY(j);
 }
 
 void GridController::generateNewSpecialFood(int i, int j)
@@ -232,7 +239,7 @@ void GridController::generateNewSpecialFood(int i, int j)
     SpecialFood *newFood = new SpecialFood();
     newFood->setPosX(i);
     newFood->setPosY(j);
-    food->push_back(*newFood);
+    food->push_back(newFood);
 }
 
 Grid *GridController::getGrid()
@@ -240,7 +247,7 @@ Grid *GridController::getGrid()
     return grid;
 }
 
-std::vector<Food> *GridController::getFood()
+std::vector<Food *> *GridController::getFood()
 {
     return food;
 }
@@ -248,7 +255,7 @@ std::vector<Food> *GridController::getFood()
 void GridController::reset()
 {
     food->clear();
-    food->push_back(*(new Food()));
+    food->push_back(new Food());
     grid->setGrid(new char *[grid->getGridSizeY()]);
     snake = new Snake();
     updateGrid();

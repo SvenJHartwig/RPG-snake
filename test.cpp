@@ -326,3 +326,25 @@ TEST_CASE("After Game Over pause before going to main menu")
   gameController->reactOnInput('p');
   REQUIRE(gameController->getGameState() == MAIN_MENU);
 }
+
+TEST_CASE("Special food has a time out")
+{
+  SpecialFood *spFood = new SpecialFood();
+  REQUIRE(spFood->remainingTime() == 20);
+  GameController *gameController = new GameController();
+  GridController *gridController = gameController->getGridController();
+  TestGenerator *trng = new TestGenerator();
+  gridController->setRNG(trng);
+  Snake *snake = gridController->getSnake();
+  trng->specificValue = 1;
+  gridController->generateNewFood(snake->getHeadX(), snake->getHeadY());
+  gridController->updateGrid();
+  REQUIRE(gridController->getFood()->size() == 2);
+  spFood = (SpecialFood *)gridController->getFood()->at(1);
+  for (int i = 20; i > 0; i--)
+  {
+    REQUIRE(spFood->remainingTime() == i);
+    gridController->moveSnakeDown();
+  }
+  REQUIRE(gridController->getFood()->size() == 1);
+}

@@ -19,7 +19,7 @@ class GridController
 {
 private:
     Snake *snake;
-    std::vector<Food> *food;
+    std::vector<Food *> *food;
     bool game_over = false;
     RandomGenerator *rng;
     Grid *grid;
@@ -45,6 +45,6 @@ public:
     void generateNewFood(int i, int j);
     void generateNewSpecialFood(int i, int j);
     Grid *getGrid();
-    std::vector<Food> *getFood();
+    std::vector<Food *> *getFood();
     void reset();
 };

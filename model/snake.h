@@ -19,6 +19,13 @@ public:
 
 class SpecialFood : public Food
 {
+private:
+    int remainingMoves = 0;
+
+public:
+    SpecialFood() { remainingMoves = 20; }
+    int remainingTime() { return remainingMoves; }
+    void decreaseTime() { remainingMoves--; }
 };
 class SnakeBodyPart
 {

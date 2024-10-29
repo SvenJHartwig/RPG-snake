@@ -106,7 +106,7 @@ void GameController::mainLoopIteration()
         break;
     }
     // Updates the grid in memory to be read by the graphics engine
-    char **chars = gridController->updateGrid();
+    vector<string> *chars = gridController->updateGrid();
     if (gridController->isGameOver())
     {
         gameState = GAME_OVER;

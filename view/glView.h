@@ -20,7 +20,7 @@ public:
     void renderingLoop();
     int init();
     void showUI(int eatenFoods);
-    void showGrid(char **grid, int grid_size_x, int grid_size_y);
+    void showGrid(vector<string> *, int grid_size_x, int grid_size_y);
     void gameStateChanged(GameState game_state);
     void initMainMenu();
     IGameController *getGameController() { return gameController; }

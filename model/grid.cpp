@@ -4,19 +4,19 @@ Grid::Grid()
 {
     grid_size_x = 20;
     grid_size_y = 20;
-    grid = new char *[grid_size_y];
+    grid = new vector<string>();
 }
 
 Grid::~Grid()
 {
 }
 
-void Grid::setGrid(char **grid)
+void Grid::setGrid(vector<string> *grid)
 {
     this->grid = grid;
 }
 
-char **Grid::getGrid()
+vector<string> *Grid::getGrid()
 {
     return grid;
 }

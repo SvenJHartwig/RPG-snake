@@ -38,20 +38,20 @@ class TestView : public IGameView
   void setGameController(IGameController *gc) {}
   void renderingLoop() {}
   int init() { return 0; }
-  void showGrid(char **grid, int grid_size_x, int grid_size_y) {}
+  void showGrid(vector<string> *grid, int grid_size_x, int grid_size_y) {}
   void gameStateChanged(GameState game_state) {}
   void setCurrentScene(Scene *current_scene) {}
 };
 
-void printGridComparison(char **chars, char **expectedGrid, int gridSize)
+void printGridComparison(vector<string> *chars, vector<string> *expectedGrid, int gridSize)
 {
   for (int i = 0; i < gridSize; i++)
   {
-    std::cout << chars[i] << std::endl;
+    std::cout << chars->at(i) << std::endl;
   }
   for (int i = 0; i < gridSize; i++)
   {
-    std::cout << expectedGrid[i] << std::endl;
+    std::cout << expectedGrid->at(i) << std::endl;
   }
 }
 
@@ -60,76 +60,76 @@ TEST_CASE("Test grid movement")
   Grid grid;
   GridController *gridController = new GridController(new TestEatListener());
   gridController->setRNG(new TestGenerator());
-  char **chars = grid.getGrid();
+  vector<string> *chars = grid.getGrid();
   int grid_size_x = grid.getGridSizeX();
   int grid_size_y = grid.getGridSizeY();
-  char **expectedGrid = new char *[grid_size_x];
+  vector<string> *expectedGrid = new vector<string>();
   Snake *snake = gridController->getSnake();
   Food *food = new Food[1];
 
   for (int i = 0; i < grid_size_y; i++)
   {
-    expectedGrid[i] = new char[grid_size_x + 1];
+    string temp(grid_size_y, 'x');
+    expectedGrid->push_back(temp);
     for (int j = 0; j < grid_size_x; j++)
     {
       if (i == 0 || i == grid_size_y - 1 || j == 0 || j == grid_size_x - 1)
       {
         // Wall
-        expectedGrid[i][j] = 'W';
+        expectedGrid->at(i)[j] = 'W';
       }
       else if (i == snake->getHeadY() && j == snake->getHeadX())
       {
         // Snake
-        expectedGrid[i][j] = 'H';
+        expectedGrid->at(i)[j] = 'H';
       }
       else if (i == food[0].getPosY() && j == food[0].getPosX())
       {
         // Food
-        expectedGrid[i][j] = 'F';
+        expectedGrid->at(i)[j] = 'F';
       }
       else
       {
         // Grid floor
-        expectedGrid[i][j] = 'x';
+        expectedGrid->at(i)[j] = 'x';
       }
     }
-    expectedGrid[i][grid_size_x] = '\0';
   }
 
   chars = gridController->updateGrid();
   for (int i = 0; i < grid_size_y; i++)
   {
-    REQUIRE(strcmp(chars[i], expectedGrid[i]) == 0);
+    REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
   }
   gridController->moveSnakeRight();
-  expectedGrid[snake->getHeadY()][snake->getHeadX() - 1] = 'x';
-  expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
+  expectedGrid->at(snake->getHeadY())[snake->getHeadX() - 1] = 'x';
+  expectedGrid->at(snake->getHeadY())[snake->getHeadX()] = 'H';
   chars = gridController->updateGrid();
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
-    REQUIRE(strcmp(chars[i], expectedGrid[i]) == 0);
+    REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
   }
 
   // Snake on Food
   gridController->moveSnakeRight();
-  expectedGrid[snake->getHeadY()][snake->getHeadX() - 1] = 'x';
-  expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
-  expectedGrid[snake->getHeadY()][9] = 'F';
+  expectedGrid->at(snake->getHeadY())[snake->getHeadX() - 1] = 'x';
+  expectedGrid->at(snake->getHeadY())[snake->getHeadX()] = 'H';
+  expectedGrid->at(snake->getHeadY())[9] = 'F';
   chars = gridController->updateGrid();
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
-    REQUIRE(strcmp(chars[i], expectedGrid[i]) == 0);
+    REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
   }
   gridController->moveSnakeRight();
-  expectedGrid[snake->getHeadY()][snake->getHeadX() - 1] = 'B';
-  expectedGrid[snake->getHeadY()][snake->getHeadX()] = 'H';
+  expectedGrid->at(snake->getHeadY())[snake->getHeadX() - 1] = 'B';
+  expectedGrid->at(snake->getHeadY())[snake->getHeadX()] = 'H';
   chars = gridController->updateGrid();
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
-    REQUIRE(strcmp(chars[i], expectedGrid[i]) == 0);
+    REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
   }
 }
 
@@ -347,4 +347,51 @@ TEST_CASE("Special food has a time out")
     gridController->moveSnakeDown();
   }
   REQUIRE(gridController->getFood()->size() == 1);
+}
+
+TEST_CASE("Load level from disk")
+{
+  GameController *gameController = new GameController();
+  GridController *gridController = gameController->getGridController();
+  Grid *grid = gridController->getGrid();
+  int grid_size_x = grid->getGridSizeX();
+  int grid_size_y = grid->getGridSizeY();
+  vector<string> *expectedGrid = new vector<string>();
+  Snake *snake = gridController->getSnake();
+  Food *food = new Food[1];
+
+  for (int i = 0; i < grid_size_y; i++)
+  {
+    string temp(grid_size_y, 'x');
+    expectedGrid->push_back(temp);
+    for (int j = 0; j < grid_size_x; j++)
+    {
+      if (i == 0 || i == grid_size_y - 1 || j == 0 || j == grid_size_x - 1 || i == 1 && j == 1)
+      {
+        // Wall
+        expectedGrid->at(i)[j] = 'W';
+      }
+      else if (i == snake->getHeadY() && j == snake->getHeadX())
+      {
+        // Snake
+        expectedGrid->at(i)[j] = 'H';
+      }
+      else if (i == food[0].getPosY() && j == food[0].getPosX())
+      {
+        // Food
+        expectedGrid->at(i)[j] = 'F';
+      }
+      else
+      {
+        // Grid floor
+        expectedGrid->at(i)[j] = 'x';
+      }
+    }
+  }
+  gridController->loadLevel("./resources/level/level1");
+  vector<string> *chars = grid->getGrid();
+  for (int i = 0; i < grid_size_y; i++)
+  {
+    REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
+  }
 }

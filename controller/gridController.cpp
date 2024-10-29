@@ -1,6 +1,11 @@
 #include "gridController.h"
 #include <cstdlib>
 #include <time.h>
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+using std::vector;
 
 int RandomGeneratorImpl::getRandom(int max_value)
 {
@@ -21,27 +26,28 @@ GridController::~GridController()
 {
 }
 
-char **GridController::updateGrid()
+vector<string> *GridController::updateGrid()
 {
     int grid_size_x = grid->getGridSizeX();
     int grid_size_y = grid->getGridSizeY();
 
-    char **chars = grid->getGrid();
+    vector<string> *chars = grid->getGrid();
 
     for (int i = 0; i < grid_size_y; i++)
     {
-        chars[i] = new char[grid_size_x + 1];
+        string temp(grid_size_y, 'x');
+        chars->push_back(temp);
         for (int j = 0; j < grid_size_x; j++)
         {
             if (i == 0 || i == grid_size_y - 1 || j == 0 || j == grid_size_x - 1)
             {
                 // Wall
-                chars[i][j] = 'W';
+                chars->at(i)[j] = 'W';
             }
             else if (i == snake->getHeadY() && j == snake->getHeadX())
             {
                 // Snake
-                chars[i][j] = 'H';
+                chars->at(i)[j] = 'H';
                 int indexOfFoodOnThisField = returnFoodOnThisField(i, j);
                 if (indexOfFoodOnThisField != -1)
                 {
@@ -56,16 +62,8 @@ char **GridController::updateGrid()
                             int newSpecialX = rng->getRandom(grid->getGridSizeX() - 2);
                             int newSpecialY = rng->getRandom(grid->getGridSizeY() - 2);
                             generateNewSpecialFood(newSpecialX, newSpecialY);
-                            if (newSpecialY != i && newSpecialX != j)
-                            {
-                                chars[newSpecialY][newSpecialX] = 'S';
-                            }
                         }
                         generateNewFood(newX, newY);
-                        if (newY != i && newX != j)
-                        {
-                            chars[newY][newX] = 'F';
-                        }
                     }
                     else
                     {
@@ -76,25 +74,29 @@ char **GridController::updateGrid()
             else if (anyBodypartOnThisField(i, j))
             {
                 // Snake Body
-                chars[i][j] = 'B';
-            }
-            else if (returnFoodOnThisField(i, j) == 0)
-            {
-                // Food
-                chars[i][j] = 'F';
-            }
-            else if (returnFoodOnThisField(i, j) != -1)
-            {
-                // Food
-                chars[i][j] = 'S';
+                chars->at(i)[j] = 'B';
             }
             else
             {
                 // Grid floor
-                chars[i][j] = 'x';
+                chars->at(i)[j] = 'x';
             }
         }
-        chars[i][grid_size_x] = '\0';
+    }
+    // Update food position, since this could've changed during the loop
+    for (int i = 0; i < food->size(); i++)
+    {
+        if (chars->at(food->at(i)->getPosY())[food->at(i)->getPosX()] != 'B')
+        {
+            if (i == 0)
+            {
+                chars->at(food->at(i)->getPosY())[food->at(i)->getPosX()] = 'F';
+            }
+            else
+            {
+                chars->at(food->at(i)->getPosY())[food->at(i)->getPosX()] = 'S';
+            }
+        }
     }
     checkGameOver(grid);
     grid->setGrid(chars);
@@ -256,8 +258,11 @@ void GridController::reset()
 {
     food->clear();
     food->push_back(new Food());
-    grid->setGrid(new char *[grid->getGridSizeY()]);
+    grid->setGrid(new vector<string>());
     snake = new Snake();
     updateGrid();
     game_over = false;
+}
+void GridController::loadLevel(string path)
+{
 }

@@ -2,6 +2,9 @@
 
 #include "../model/grid.h"
 #include "iEatListener.h"
+#include <string>
+
+using std::string;
 
 class RandomGenerator
 {
@@ -34,7 +37,7 @@ private:
 public:
     GridController(IEatListener *eatListener);
     ~GridController();
-    char **updateGrid();
+    vector<string> *updateGrid();
     void moveSnakeRight();
     void moveSnakeLeft();
     void moveSnakeUp();
@@ -47,4 +50,5 @@ public:
     Grid *getGrid();
     std::vector<Food *> *getFood();
     void reset();
+    void loadLevel(string path);
 };

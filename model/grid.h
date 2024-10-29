@@ -1,20 +1,23 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include "snake.h"
+
+using std::string, std::vector;
 
 class Grid
 {
-    private:
-        char **grid;
-        int grid_size_x;
-        int grid_size_y;
+private:
+    int grid_size_x;
+    int grid_size_y;
+    vector<string> *grid;
 
-    public:
-        Grid();
-        ~Grid();
-        void setGrid(char **grid);
-        char **getGrid();
-        int getGridSizeX();
-        int getGridSizeY();
+public:
+    Grid();
+    ~Grid();
+    void setGrid(vector<string> *grid);
+    vector<string> *getGrid();
+    int getGridSizeX();
+    int getGridSizeY();
 };

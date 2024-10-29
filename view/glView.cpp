@@ -175,14 +175,14 @@ void GlView::showUI(int eatenFoods)
     print(*fd, 0, 0, "Score: " + std::to_string(eatenFoods));
 }
 
-void GlView::showGrid(char **grid, int grid_size_x, int grid_size_y)
+void GlView::showGrid(vector<string> *grid, int grid_size_x, int grid_size_y)
 {
     for (int i = 0; i < grid_size_y; i++)
     {
         for (int j = 0; j < grid_size_x; j++)
         {
             glBegin(GL_QUADS);
-            switch (grid[i][j])
+            switch (grid->at(i)[j])
             {
             case 'W':
                 glColor3f(0.9f, 0.9f, 0.9f);

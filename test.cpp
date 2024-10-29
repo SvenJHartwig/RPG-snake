@@ -45,13 +45,15 @@ class TestView : public IGameView
 
 void printGridComparison(vector<string> *chars, vector<string> *expectedGrid, int gridSize)
 {
-  for (int i = 0; i < gridSize; i++)
+  std::cout << "Actual: " << std::endl;
+  for (const std::string &str : *chars)
   {
-    std::cout << chars->at(i) << std::endl;
+    std::cout << str << std::endl;
   }
-  for (int i = 0; i < gridSize; i++)
+  std::cout << "Expected: " << std::endl;
+  for (const std::string &str : *expectedGrid)
   {
-    std::cout << expectedGrid->at(i) << std::endl;
+    std::cout << str << std::endl;
   }
 }
 
@@ -389,7 +391,8 @@ TEST_CASE("Load level from disk")
     }
   }
   gridController->loadLevel("./resources/level/level1");
-  vector<string> *chars = grid->getGrid();
+  vector<string> *chars = grid->getLevel();
+  printGridComparison(chars, expectedGrid, grid_size_y);
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);

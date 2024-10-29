@@ -263,6 +263,28 @@ void GridController::reset()
     updateGrid();
     game_over = false;
 }
-void GridController::loadLevel(string path)
+vector<string> readFileAsStringArray(const string &filepath)
 {
+    std::ifstream file(filepath);
+    if (!file.is_open())
+    {
+        return {};
+    }
+
+    vector<string> lines;
+    string line;
+
+    // Read the file line by line and store each line in the vector
+    while (std::getline(file, line))
+    {
+        lines.push_back(line);
+    }
+
+    file.close();
+    return lines;
+}
+void GridController::loadLevel(const string path)
+{
+    vector<string> level = readFileAsStringArray(path);
+    grid->setLevel(&level);
 }

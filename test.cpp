@@ -373,16 +373,6 @@ TEST_CASE("Load level from disk")
         // Wall
         expectedGrid->at(i)[j] = 'W';
       }
-      else if (i == snake->getHeadY() && j == snake->getHeadX())
-      {
-        // Snake
-        expectedGrid->at(i)[j] = 'H';
-      }
-      else if (i == food[0].getPosY() && j == food[0].getPosX())
-      {
-        // Food
-        expectedGrid->at(i)[j] = 'F';
-      }
       else
       {
         // Grid floor
@@ -392,9 +382,31 @@ TEST_CASE("Load level from disk")
   }
   gridController->loadLevel("./resources/level/level1");
   vector<string> *chars = grid->getLevel();
-  printGridComparison(chars, expectedGrid, grid_size_y);
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
+  }
+
+  for (int i = 0; i < grid_size_y; i++)
+  {
+    for (int j = 0; j < grid_size_x; j++)
+    {
+      if (i == snake->getHeadY() && j == snake->getHeadX())
+      {
+        // Snake
+        expectedGrid->at(i)[j] = 'H';
+      }
+      else if (i == food[0].getPosY() && j == food[0].getPosX())
+      {
+        // Food
+        expectedGrid->at(i)[j] = 'F';
+      }
+    }
+  }
+  gridController->updateGrid();
+  vector<string> *chars2 = grid->getGrid();
+  for (int i = 0; i < grid_size_y; i++)
+  {
+    REQUIRE(chars2->at(i).compare(expectedGrid->at(i)) == 0);
   }
 }

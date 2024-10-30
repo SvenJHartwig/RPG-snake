@@ -31,6 +31,7 @@ vector<string> *GridController::updateGrid()
     int grid_size_x = grid->getGridSizeX();
     int grid_size_y = grid->getGridSizeY();
 
+    vector<string> *level = grid->getLevel();
     vector<string> *chars = grid->getGrid();
 
     for (int i = 0; i < grid_size_y; i++)
@@ -39,7 +40,8 @@ vector<string> *GridController::updateGrid()
         chars->push_back(temp);
         for (int j = 0; j < grid_size_x; j++)
         {
-            if (i == 0 || i == grid_size_y - 1 || j == 0 || j == grid_size_x - 1)
+            if (level->size() != 0 && level->at(i)[j] == 'W' ||
+                level->size() == 0 && (i == 0 || i == grid_size_y - 1 || j == 0 || j == grid_size_x - 1))
             {
                 // Wall
                 chars->at(i)[j] = 'W';
@@ -286,5 +288,9 @@ vector<string> readFileAsStringArray(const string &filepath)
 void GridController::loadLevel(const string path)
 {
     vector<string> level = readFileAsStringArray(path);
-    grid->setLevel(&level);
+    grid->getLevel()->clear();
+    for (string l : level)
+    {
+        grid->getLevel()->push_back(l);
+    }
 }

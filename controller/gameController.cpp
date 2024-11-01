@@ -34,6 +34,12 @@ void GameController::reactOnInput(char input)
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
         }
+        else if (input == 'o')
+        {
+            gridController->loadLevel("../resources/level/level1");
+            gameState = IN_GAME;
+            view->gameStateChanged(gameState);
+        }
         else if (input == 'l')
         {
             gameState = EXIT;

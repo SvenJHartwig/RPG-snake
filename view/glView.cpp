@@ -28,6 +28,9 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
     case GLFW_KEY_L:
         view->getGameController()->reactOnInput('l');
         break;
+    case GLFW_KEY_O:
+        view->getGameController()->reactOnInput('o');
+        break;
     }
 }
 
@@ -149,6 +152,11 @@ void inputP(IGameController *gc)
     gc->reactOnInput('p');
 }
 
+void inputO(IGameController *gc)
+{
+    gc->reactOnInput('o');
+}
+
 void inputL(IGameController *gc)
 {
     gc->reactOnInput('l');
@@ -162,12 +170,17 @@ void GlView::initMainMenu()
     first->text = "Begin game";
     first->fd = fd;
     first->callback = &inputP;
-    Button *second = new Button(340, 220, 400, 200);
-    second->text = "Exit";
+    Button *second = new Button(340, 260, 400, 240);
+    second->text = "Load level";
     second->fd = fd;
-    second->callback = &inputL;
+    second->callback = &inputO;
+    Button *third = new Button(340, 220, 400, 200);
+    third->text = "Exit";
+    third->fd = fd;
+    third->callback = &inputL;
     mainMenu->scene_elements = new std::vector<Element *>(2, first);
     mainMenu->scene_elements->push_back(second);
+    mainMenu->scene_elements->push_back(third);
 }
 
 void GlView::showUI(int eatenFoods)

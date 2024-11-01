@@ -353,8 +353,7 @@ TEST_CASE("Special food has a time out")
 
 TEST_CASE("Load level from disk")
 {
-  GameController *gameController = new GameController();
-  GridController *gridController = gameController->getGridController();
+  GridController *gridController = new GridController(new TestEatListener());
   Grid *grid = gridController->getGrid();
   int grid_size_x = grid->getGridSizeX();
   int grid_size_y = grid->getGridSizeY();
@@ -380,7 +379,7 @@ TEST_CASE("Load level from disk")
       }
     }
   }
-  gridController->loadLevel("./resources/level/level1");
+  gridController->loadLevel("./resources/tests/level/level1");
   vector<string> *chars = grid->getLevel();
   for (int i = 0; i < grid_size_y; i++)
   {

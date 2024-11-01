@@ -40,8 +40,7 @@ vector<string> *GridController::updateGrid()
         chars->push_back(temp);
         for (int j = 0; j < grid_size_x; j++)
         {
-            if (level->size() != 0 && level->at(i)[j] == 'W' ||
-                level->size() == 0 && (i == 0 || i == grid_size_y - 1 || j == 0 || j == grid_size_x - 1))
+            if (level->size() != 0 && level->at(i)[j] == 'W')
             {
                 // Wall
                 chars->at(i)[j] = 'W';
@@ -110,7 +109,7 @@ void GridController::checkGameOver(Grid *grid)
     // If a wall or the snake's body is reached, game over
     int i = snake->getHeadY();
     int j = snake->getHeadX();
-    if (i == 0 || i == grid->getGridSizeY() - 1 || j == 0 || j == grid->getGridSizeX() - 1)
+    if (grid->getGrid()->at(i)[j] == 'W')
     {
         game_over = true;
     }

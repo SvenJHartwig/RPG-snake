@@ -391,7 +391,7 @@ TEST_CASE("Load level from disk")
       }
     }
   }
-  gridController->loadLevel("./resources/tests/level/level1");
+  gridController->loadLevel("../resources/tests/level/level1");
   vector<string> *chars = grid->getLevel();
   for (int i = 0; i < grid_size_y; i++)
   {

@@ -142,6 +142,30 @@ tests/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
 .PHONY : tests/fast
 
+TextRenderer/TextRenderer.o: TextRenderer/TextRenderer.cpp.o
+.PHONY : TextRenderer/TextRenderer.o
+
+# target to build an object file
+TextRenderer/TextRenderer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/TextRenderer/TextRenderer.cpp.o
+.PHONY : TextRenderer/TextRenderer.cpp.o
+
+TextRenderer/TextRenderer.i: TextRenderer/TextRenderer.cpp.i
+.PHONY : TextRenderer/TextRenderer.i
+
+# target to preprocess a source file
+TextRenderer/TextRenderer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/TextRenderer/TextRenderer.cpp.i
+.PHONY : TextRenderer/TextRenderer.cpp.i
+
+TextRenderer/TextRenderer.s: TextRenderer/TextRenderer.cpp.s
+.PHONY : TextRenderer/TextRenderer.s
+
+# target to generate assembly for a file
+TextRenderer/TextRenderer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/TextRenderer/TextRenderer.cpp.s
+.PHONY : TextRenderer/TextRenderer.cpp.s
+
 controller/gameController.o: controller/gameController.cpp.o
 .PHONY : controller/gameController.o
 
@@ -195,30 +219,6 @@ controller/gridController.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/controller/gridController.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/controller/gridController.cpp.s
 .PHONY : controller/gridController.cpp.s
-
-kbhit.o: kbhit.cpp.o
-.PHONY : kbhit.o
-
-# target to build an object file
-kbhit.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/kbhit.cpp.o
-.PHONY : kbhit.cpp.o
-
-kbhit.i: kbhit.cpp.i
-.PHONY : kbhit.i
-
-# target to preprocess a source file
-kbhit.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/kbhit.cpp.i
-.PHONY : kbhit.cpp.i
-
-kbhit.s: kbhit.cpp.s
-.PHONY : kbhit.s
-
-# target to generate assembly for a file
-kbhit.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/kbhit.cpp.s
-.PHONY : kbhit.cpp.s
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -349,6 +349,78 @@ view/cliView.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/view/cliView.cpp.s
 .PHONY : view/cliView.cpp.s
 
+view/elements/button.o: view/elements/button.cpp.o
+.PHONY : view/elements/button.o
+
+# target to build an object file
+view/elements/button.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/elements/button.cpp.o
+.PHONY : view/elements/button.cpp.o
+
+view/elements/button.i: view/elements/button.cpp.i
+.PHONY : view/elements/button.i
+
+# target to preprocess a source file
+view/elements/button.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/elements/button.cpp.i
+.PHONY : view/elements/button.cpp.i
+
+view/elements/button.s: view/elements/button.cpp.s
+.PHONY : view/elements/button.s
+
+# target to generate assembly for a file
+view/elements/button.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/elements/button.cpp.s
+.PHONY : view/elements/button.cpp.s
+
+view/elements/element.o: view/elements/element.cpp.o
+.PHONY : view/elements/element.o
+
+# target to build an object file
+view/elements/element.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/elements/element.cpp.o
+.PHONY : view/elements/element.cpp.o
+
+view/elements/element.i: view/elements/element.cpp.i
+.PHONY : view/elements/element.i
+
+# target to preprocess a source file
+view/elements/element.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/elements/element.cpp.i
+.PHONY : view/elements/element.cpp.i
+
+view/elements/element.s: view/elements/element.cpp.s
+.PHONY : view/elements/element.s
+
+# target to generate assembly for a file
+view/elements/element.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/elements/element.cpp.s
+.PHONY : view/elements/element.cpp.s
+
+view/elements/scene.o: view/elements/scene.cpp.o
+.PHONY : view/elements/scene.o
+
+# target to build an object file
+view/elements/scene.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/elements/scene.cpp.o
+.PHONY : view/elements/scene.cpp.o
+
+view/elements/scene.i: view/elements/scene.cpp.i
+.PHONY : view/elements/scene.i
+
+# target to preprocess a source file
+view/elements/scene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/elements/scene.cpp.i
+.PHONY : view/elements/scene.cpp.i
+
+view/elements/scene.s: view/elements/scene.cpp.s
+.PHONY : view/elements/scene.s
+
+# target to generate assembly for a file
+view/elements/scene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/view/elements/scene.cpp.s
+.PHONY : view/elements/scene.cpp.s
+
 view/glView.o: view/glView.cpp.o
 .PHONY : view/glView.o
 
@@ -383,15 +455,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... main"
 	@echo "... tests"
+	@echo "... TextRenderer/TextRenderer.o"
+	@echo "... TextRenderer/TextRenderer.i"
+	@echo "... TextRenderer/TextRenderer.s"
 	@echo "... controller/gameController.o"
 	@echo "... controller/gameController.i"
 	@echo "... controller/gameController.s"
 	@echo "... controller/gridController.o"
 	@echo "... controller/gridController.i"
 	@echo "... controller/gridController.s"
-	@echo "... kbhit.o"
-	@echo "... kbhit.i"
-	@echo "... kbhit.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
@@ -407,6 +479,15 @@ help:
 	@echo "... view/cliView.o"
 	@echo "... view/cliView.i"
 	@echo "... view/cliView.s"
+	@echo "... view/elements/button.o"
+	@echo "... view/elements/button.i"
+	@echo "... view/elements/button.s"
+	@echo "... view/elements/element.o"
+	@echo "... view/elements/element.i"
+	@echo "... view/elements/element.s"
+	@echo "... view/elements/scene.o"
+	@echo "... view/elements/scene.i"
+	@echo "... view/elements/scene.s"
 	@echo "... view/glView.o"
 	@echo "... view/glView.i"
 	@echo "... view/glView.s"

@@ -128,7 +128,9 @@ int GlView::init()
 
     // Initialize text renderer
     fd = new font_data();
-    fd->init("../resources/fonts/WorkSans-Black.ttf", 10);
+    string path = RESOURCE_DIR;
+    path.append("/fonts/WorkSans-Black.ttf");
+    fd->init(path.c_str(), 10);
 
     // Initialize input callbacks
     glfwSetWindowUserPointer(window, this);

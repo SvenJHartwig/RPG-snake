@@ -391,7 +391,9 @@ TEST_CASE("Load level from disk")
       }
     }
   }
-  gridController->loadLevel("../resources/tests/level/level1");
+  string path = RESOURCE_DIR;
+  path.append("/tests/level/level1");
+  gridController->loadLevel(path.c_str());
   vector<string> *chars = grid->getLevel();
   for (int i = 0; i < grid_size_y; i++)
   {
@@ -428,7 +430,9 @@ TEST_CASE("If snake goes out of bounds, wrap around")
   Grid *grid = gridController->getGrid();
   int grid_size_x = grid->getGridSizeX();
   int grid_size_y = grid->getGridSizeY();
-  gridController->loadLevel("./resources/tests/level/level2");
+  string path = RESOURCE_DIR;
+  path.append("/tests/level/level2");
+  gridController->loadLevel(path.c_str());
   vector<string> *chars = grid->getLevel();
   gridController->moveSnakeUp();
   gridController->moveSnakeUp();

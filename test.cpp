@@ -195,6 +195,9 @@ TEST_CASE("Test snake")
 TEST_CASE("Movement in opposite direction of last direction is not possible if snake is longer than 1")
 {
   GameController *gameController = new GameController();
+  // Set gamestate to INGAME
+  gameController->setView(new TestView());
+  gameController->reactOnInput('p');
   gameController->eat(false);
   gameController->reactOnInput('a');
   gameController->mainLoopIteration();
@@ -218,6 +221,15 @@ TEST_CASE("Movement in opposite direction of last direction is not possible if s
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
   gameController->reactOnInput('w');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 's');
+  gameController->reactOnInput('e');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 's');
+  gameController->reactOnInput('l');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 's');
+  gameController->reactOnInput('p');
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
 }
@@ -408,4 +420,22 @@ TEST_CASE("Load level from disk")
   {
     REQUIRE(chars2->at(i).compare(expectedGrid->at(i)) == 0);
   }
+}
+
+TEST_CASE("If snake goes out of bounds, wrap around")
+{
+  GridController *gridController = new GridController(new TestEatListener());
+  Grid *grid = gridController->getGrid();
+  int grid_size_x = grid->getGridSizeX();
+  int grid_size_y = grid->getGridSizeY();
+  gridController->loadLevel("./resources/tests/level/level2");
+  vector<string> *chars = grid->getLevel();
+  gridController->moveSnakeUp();
+  gridController->moveSnakeUp();
+  gridController->moveSnakeUp();
+  gridController->moveSnakeUp();
+  gridController->moveSnakeUp();
+  gridController->moveSnakeUp();
+  gridController->updateGrid();
+  REQUIRE(gridController->getSnake()->getHeadY() == grid_size_y - 1);
 }

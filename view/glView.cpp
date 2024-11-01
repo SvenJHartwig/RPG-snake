@@ -88,6 +88,7 @@ void GlView::renderingLoop()
             showUI(gameController->getScore());
             grid = gameController->getGrid();
             showGrid(grid.getGrid(), grid.getGridSizeX(), grid.getGridSizeY());
+            glColor3f(0.9f, 0.9f, 0.9f);
             print(*fd, 400, 300, "GAME OVER");
             print(*fd, 400, 270, "PRESS P TO RETURN TO MAIN MENU");
             break;
@@ -185,6 +186,7 @@ void GlView::initMainMenu()
 
 void GlView::showUI(int eatenFoods)
 {
+    glColor3f(0.9f, 0.9f, 0.9f);
     print(*fd, 0, 0, "Score: " + std::to_string(eatenFoods));
 }
 

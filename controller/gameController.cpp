@@ -37,6 +37,7 @@ void GameController::reactOnInput(char input)
         else if (input == 'o')
         {
             gridController->loadLevel("../resources/level/level1");
+            gridController->updateGrid();
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
         }
@@ -47,10 +48,11 @@ void GameController::reactOnInput(char input)
         }
     case IN_GAME:
         if (eatCount > 0 &&
-            (lastDirection == 'a' && input == 'd' ||
-             lastDirection == 'w' && input == 's' ||
-             lastDirection == 'd' && input == 'a' ||
-             lastDirection == 's' && input == 'w'))
+                (lastDirection == 'a' && input == 'd' ||
+                 lastDirection == 'w' && input == 's' ||
+                 lastDirection == 'd' && input == 'a' ||
+                 lastDirection == 's' && input == 'w') ||
+            input != 'a' && input != 'w' && input != 'd' && input != 's')
         {
             return;
         }

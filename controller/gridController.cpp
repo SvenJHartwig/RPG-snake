@@ -162,7 +162,11 @@ void GridController::moveSnakeRight()
         return;
     }
     moveSnakeBody();
-    snake->setPosX(snake->getHeadX() + 1);
+    snake->setPosX((snake->getHeadX() + 1) % grid->getGridSizeX());
+    while (snake->getHeadX() < 0)
+    {
+        snake->setPosX(snake->getHeadX() + grid->getGridSizeX());
+    }
 }
 
 void GridController::moveSnakeLeft()
@@ -172,7 +176,11 @@ void GridController::moveSnakeLeft()
         return;
     }
     moveSnakeBody();
-    snake->setPosX(snake->getHeadX() - 1);
+    snake->setPosX((snake->getHeadX() - 1) % grid->getGridSizeX());
+    while (snake->getHeadX() < 0)
+    {
+        snake->setPosX(snake->getHeadX() + grid->getGridSizeX());
+    }
 }
 
 void GridController::moveSnakeUp()
@@ -182,7 +190,11 @@ void GridController::moveSnakeUp()
         return;
     }
     moveSnakeBody();
-    snake->setPosY(snake->getHeadY() - 1);
+    snake->setPosY((snake->getHeadY() - 1) % grid->getGridSizeY());
+    while (snake->getHeadY() < 0)
+    {
+        snake->setPosY(snake->getHeadY() + grid->getGridSizeY());
+    }
 }
 
 void GridController::moveSnakeDown()
@@ -192,7 +204,11 @@ void GridController::moveSnakeDown()
         return;
     }
     moveSnakeBody();
-    snake->setPosY(snake->getHeadY() + 1);
+    snake->setPosY((snake->getHeadY() + 1) % grid->getGridSizeY());
+    while (snake->getHeadY() < 0)
+    {
+        snake->setPosY(snake->getHeadY() + grid->getGridSizeY());
+    }
 }
 
 Snake *GridController::getSnake()

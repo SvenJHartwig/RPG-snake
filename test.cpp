@@ -133,6 +133,21 @@ TEST_CASE("Test grid movement")
   {
     REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
   }
+  // Eating special food does not increase snake length
+  gridController->generateNewSpecialFood(snake->getHeadX() + 2, snake->getHeadY());
+  gridController->moveSnakeRight();
+  gridController->moveSnakeRight();
+  expectedGrid->at(snake->getHeadY())[snake->getHeadX() - 3] = 'x';
+  expectedGrid->at(snake->getHeadY())[snake->getHeadX() - 2] = 'x';
+  expectedGrid->at(snake->getHeadY())[snake->getHeadX() - 1] = 'B';
+  expectedGrid->at(snake->getHeadY())[snake->getHeadX()] = 'H';
+  chars = gridController->updateGrid();
+  REQUIRE(!gridController->isGameOver());
+  for (int i = 0; i < grid_size_y; i++)
+  {
+    REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
+  }
+  REQUIRE(snake->getBody()->size() == 1);
 }
 
 TEST_CASE("Test snake")

@@ -31,6 +31,7 @@ public:
     SpeedSetting getSpeed();
     void eat(bool isSpecial);
     char getLastDirection();
+    char getLastInput() { return lastInput; }
     int getScore();
     GameState getGameState();
     void resetGame();

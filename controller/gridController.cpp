@@ -116,7 +116,6 @@ vector<string> *GridController::updateGrid()
             }
         }
     }
-    //   grid->setGrid(chars);
     checkGameOver(grid);
     return chars;
 }

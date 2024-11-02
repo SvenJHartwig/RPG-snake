@@ -352,6 +352,16 @@ TEST_CASE("After Game Over pause before going to main menu")
   gameController->mainLoopIteration();
   REQUIRE(gameController->getGridController()->isGameOver());
   REQUIRE(gameController->getGameState() == GAME_OVER);
+  int oldHeadX = gameController->getGridController()->getSnake()->getHeadX();
+  int oldHeadY = gameController->getGridController()->getSnake()->getHeadY();
+  gameController->getGridController()->moveSnakeDown();
+  REQUIRE(gameController->getGridController()->getSnake()->getHeadY() == oldHeadY);
+  gameController->getGridController()->moveSnakeUp();
+  REQUIRE(gameController->getGridController()->getSnake()->getHeadY() == oldHeadY);
+  gameController->getGridController()->moveSnakeRight();
+  REQUIRE(gameController->getGridController()->getSnake()->getHeadX() == oldHeadX);
+  gameController->getGridController()->moveSnakeLeft();
+  REQUIRE(gameController->getGridController()->getSnake()->getHeadX() == oldHeadX);
   gameController->reactOnInput('p');
   REQUIRE(gameController->getGameState() == MAIN_MENU);
 }
@@ -407,6 +417,7 @@ TEST_CASE("Load level from disk")
     }
   }
   string path = RESOURCE_DIR;
+  gridController->loadLevel(path.c_str());
   path.append("/tests/level/level1");
   gridController->loadLevel(path.c_str());
   vector<string> *chars = grid->getLevel();
@@ -457,4 +468,23 @@ TEST_CASE("If snake goes out of bounds, wrap around")
   gridController->moveSnakeUp();
   gridController->updateGrid();
   REQUIRE(gridController->getSnake()->getHeadY() == grid_size_y - 1);
+}
+
+TEST_CASE("Only appropriate input works while in game")
+{
+  GameController *gameController = new GameController();
+  gameController->setView(new TestView());
+  gameController->reactOnInput('o');
+  REQUIRE(gameController->getGameState() == IN_GAME);
+  gameController->reactOnInput('a');
+  gameController->reactOnInput('p');
+  REQUIRE(gameController->getLastInput() == 'a');
+}
+
+TEST_CASE("Exit game")
+{
+  GameController *gameController = new GameController();
+  gameController->setView(new TestView());
+  gameController->reactOnInput('l');
+  REQUIRE(gameController->getGameState() == EXIT);
 }

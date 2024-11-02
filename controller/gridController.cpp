@@ -34,10 +34,17 @@ vector<string> *GridController::updateGrid()
     vector<string> *level = grid->getLevel();
     vector<string> *chars = grid->getGrid();
 
+    if (chars->size() == 0)
+    {
+        for (int i = 0; i < grid_size_y; i++)
+        {
+            string temp(grid_size_y, 'x');
+            chars->push_back(temp);
+        }
+    }
+
     for (int i = 0; i < grid_size_y; i++)
     {
-        string temp(grid_size_y, 'x');
-        chars->push_back(temp);
         for (int j = 0; j < grid_size_x; j++)
         {
             if (level->size() != 0 && level->at(i)[j] == 'W')
@@ -77,6 +84,16 @@ vector<string> *GridController::updateGrid()
                 // Snake Body
                 chars->at(i)[j] = 'B';
             }
+            else if (returnFoodOnThisField(i, j) == 0)
+            {
+                // Normal food
+                chars->at(i)[j] = 'F';
+            }
+            else if (returnFoodOnThisField(i, j) > 0)
+            {
+                // Special food
+                chars->at(i)[j] = 'S';
+            }
             else
             {
                 // Grid floor
@@ -99,8 +116,8 @@ vector<string> *GridController::updateGrid()
             }
         }
     }
+    //   grid->setGrid(chars);
     checkGameOver(grid);
-    grid->setGrid(chars);
     return chars;
 }
 

@@ -4,7 +4,7 @@
 #include <iostream>
 #include "controller/gameController.h"
 #include "controller/iEatListener.h"
-#include "view/elements/scene.h"
+#include "view/engine/elements/scene.h"
 
 class TestGenerator : public RandomGenerator
 {

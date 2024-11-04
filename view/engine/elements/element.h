@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../controller/iGameController.h"
+#include "../iEngineCallback.h"
 #include <functional>
 
 class Element
@@ -12,7 +12,7 @@ protected:
     int pos_y_bottom_right;
 
 public:
-    void (*callback)(IGameController *);
+    void (*callback)(IEngineCallback *);
     int getPosXTopLeft() { return pos_x_top_left; }
     int getPosYTopLeft() { return pos_y_top_left; }
     int getPosXBottomRight() { return pos_x_bottom_right; }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../model/grid.h"
+#include "../view/engine/iEngineCallback.h"
 
 enum SpeedSetting
 {
@@ -20,11 +21,9 @@ enum GameState
     EXIT,
 };
 
-class IGameController
+class IGameController : public IEngineCallback
 {
 public:
-    virtual void reactOnInput(char input) = 0;
-    virtual void setWindowClosed(bool closed) = 0;
     virtual Grid getGrid() = 0;
     virtual int getScore() = 0;
     virtual GameState getGameState() = 0;

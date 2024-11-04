@@ -13,12 +13,6 @@ GameController::~GameController()
 {
 }
 
-void gameControllerInitView(IGameView *view)
-{
-    view->init();
-    view->renderingLoop();
-}
-
 void GameController::setView(IGameView *view)
 {
     this->view = view;
@@ -73,8 +67,7 @@ void GameController::mainLoop()
 {
     view->setGameController(this);
     gridController->updateGrid();
-
-    new std::thread(gameControllerInitView, view);
+    view->init();
     //  CliView cli;
 
     while (gameState != EXIT && !windowClosed)

@@ -5,16 +5,16 @@
 #include <GLFW/glfw3.h>
 #include "../controller/gameController.h"
 #include "../TextRenderer/TextRenderer.h"
-#include "elements/scene.h"
+#include "engine/elements/scene.h"
+#include "engine/renderEngine.h"
 
 class GlView : public IGameView
 {
 private:
+    RenderEngine *engine;
     IGameController *gameController;
-    font_data *fd;
-    GLFWwindow *window;
-    Scene *currentScene;
     Scene *mainMenu;
+    Scene *inGame;
 
 public:
     void renderingLoop();
@@ -22,9 +22,9 @@ public:
     void showUI(int eatenFoods);
     void showGrid(vector<string> *, int grid_size_x, int grid_size_y);
     void gameStateChanged(GameState game_state);
+    Scene *getMainMenu() { return mainMenu; }
     void initMainMenu();
+    void initGameScene();
     IGameController *getGameController() { return gameController; }
     void setGameController(IGameController *gc) { this->gameController = gc; }
-    Scene *getCurrentScene() { return currentScene; }
-    void setCurrentScene(Scene *current_scene) { this->currentScene = current_scene; }
 };

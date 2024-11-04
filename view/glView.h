@@ -15,6 +15,7 @@ private:
     IGameController *gameController;
     Scene *mainMenu;
     Scene *inGame;
+    bool initialized = false;
 
 public:
     void renderingLoop();
@@ -29,4 +30,6 @@ public:
     IGameController *getGameController() { return gameController; }
     void setGameController(IGameController *gc) { this->gameController = gc; }
     void setEngine(IRenderEngine *engine) { this->engine = engine; }
+    bool isInitialized() { return initialized; }
+    void setInitialized(bool initialized) { this->initialized = initialized; }
 };

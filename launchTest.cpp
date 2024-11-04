@@ -35,7 +35,10 @@ TEST_CASE("Initialize OpenGL (View)")
     GlView *view = new GlView();
     REQUIRE(view->init() == 0);
     // Wait a bit so the window can be opened
-    sleep_for(milliseconds(20));
+    while (!view->isInitialized())
+    {
+        sleep_for(milliseconds(5));
+    }
 }
 
 TEST_CASE("Main Menu is initialized correctly")
@@ -48,7 +51,7 @@ TEST_CASE("Main Menu is initialized correctly")
     REQUIRE(mainMenu->scene_elements->at(0)->getPosXTopLeft() == 340);
 }
 
-TEST_CASE("Game screen is initialized correctly")
+TEST_CASE("Game scene is initialized correctly")
 {
     GlView *view = new GlView();
     view->setEngine(new TestRenderEngine());

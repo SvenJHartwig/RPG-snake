@@ -50,6 +50,7 @@ void gameControllerInitView(IRenderEngine *engine, GlView *view)
     view->initMainMenu();
     engine->setCurrentScene(view->getMainMenu());
     engine->setEngineCallback(view->getGameController());
+    view->setInitialized(true);
     engine->renderingLoop();
 }
 

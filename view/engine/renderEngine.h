@@ -4,8 +4,9 @@
 #include "elements/scene.h"
 #include "../../TextRenderer/TextRenderer.h"
 #include "iEngineCallback.h"
+#include "iRenderEngine.h"
 
-class RenderEngine
+class RenderEngine : public IRenderEngine
 {
 private:
     font_data *fd = new font_data();

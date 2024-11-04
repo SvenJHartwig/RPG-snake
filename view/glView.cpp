@@ -1,5 +1,6 @@
 #include "glView.h"
 #include "engine/elements/button.h"
+#include "engine/renderEngine.h"
 #include <thread>
 
 void GlView::renderingLoop()
@@ -43,7 +44,7 @@ void GlView::renderingLoop()
        glfwTerminate();*/
 }
 
-void gameControllerInitView(RenderEngine *engine, GlView *view)
+void gameControllerInitView(IRenderEngine *engine, GlView *view)
 {
     engine->init();
     view->initMainMenu();
@@ -55,11 +56,7 @@ void gameControllerInitView(RenderEngine *engine, GlView *view)
 int GlView::init()
 {
     engine = new RenderEngine();
-    new std::thread(gameControllerInitView, engine, this);
-
-    // initMainMenu();
-    // engine->setCurrentScene(mainMenu);
-    // engine->setEngineCallback(gameController);
+    std::thread *initThread = new std::thread(gameControllerInitView, engine, this);
 
     return 0;
 }
@@ -82,6 +79,7 @@ void inputL(IEngineCallback *gc)
 void GlView::initGameScene()
 {
     inGame = new Scene();
+    inGame->scene_elements = new std::vector<Element *>();
 }
 
 void GlView::initMainMenu()
@@ -99,7 +97,7 @@ void GlView::initMainMenu()
     third->text = "Exit";
     third->fd = engine->getFontData();
     third->callback = &inputL;
-    mainMenu->scene_elements = new std::vector<Element *>(2, first);
+    mainMenu->scene_elements = new std::vector<Element *>(1, first);
     mainMenu->scene_elements->push_back(second);
     mainMenu->scene_elements->push_back(third);
 }

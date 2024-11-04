@@ -51,6 +51,32 @@
             ],
             "preLaunchTask": "cmake",
             "miDebuggerPath": "gdb"
+        },
+        {
+            "name": "C/C++: cmake build and debug launch tests",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/build/launchTests",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "cmake",
+            "miDebuggerPath": "gdb"
         }
     ],
     "version": "2.0.0"

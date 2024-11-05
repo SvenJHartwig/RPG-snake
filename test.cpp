@@ -41,6 +41,7 @@ class TestView : public IGameView
   void showGrid(vector<string> *grid, int grid_size_x, int grid_size_y) {}
   void gameStateChanged(GameState game_state) {}
   void setCurrentScene(Scene *current_scene) {}
+  void setScore(int count) {}
 };
 
 void printGridComparison(vector<string> *chars, vector<string> *expectedGrid, int gridSize)
@@ -281,6 +282,7 @@ TEST_CASE("Movement in opposite direction of last direction is possible if snake
 TEST_CASE("Speed setting increases")
 {
   GameController *gameController = new GameController();
+  gameController->setView(new TestView());
   GridController *gridController = gameController->getGridController();
   gridController->setRNG(new TestGenerator());
   Snake *snake = gridController->getSnake();
@@ -315,6 +317,7 @@ TEST_CASE("Speed setting increases")
 TEST_CASE("sometimes one additional food is generated")
 {
   GameController *gameController = new GameController();
+  gameController->setView(new TestView());
   GridController *gridController = gameController->getGridController();
   TestGenerator *trng = new TestGenerator();
   gridController->setRNG(trng);
@@ -371,6 +374,7 @@ TEST_CASE("Special food has a time out")
   SpecialFood *spFood = new SpecialFood();
   REQUIRE(spFood->remainingTime() == 20);
   GameController *gameController = new GameController();
+  gameController->setView(new TestView());
   GridController *gridController = gameController->getGridController();
   TestGenerator *trng = new TestGenerator();
   gridController->setRNG(trng);

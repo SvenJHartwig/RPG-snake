@@ -1,5 +1,4 @@
 #include "button.h"
-#include "../../../TextRenderer/TextRenderer.h"
 
 Button::Button(int pos_x_top_left,
                int pos_y_top_left,

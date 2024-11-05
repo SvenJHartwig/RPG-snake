@@ -57,5 +57,9 @@ TEST_CASE("Game scene is initialized correctly")
     view->setEngine(new TestRenderEngine());
     view->initGameScene();
     Scene *inGame = view->getInGameScene();
-    REQUIRE(inGame->scene_elements->size() == 0);
+    REQUIRE(inGame->scene_elements->size() == 2);
+    REQUIRE(inGame->scene_elements->at(0)->getPosXTopLeft() == 0);
+    REQUIRE(inGame->scene_elements->at(0)->getPosYTopLeft() == 580);
+    REQUIRE(inGame->scene_elements->at(1)->getPosXTopLeft() == 20);
+    REQUIRE(inGame->scene_elements->at(1)->getPosYTopLeft() == 540);
 }

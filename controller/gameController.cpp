@@ -161,6 +161,7 @@ void GameController::eat(bool isSpecial)
     {
         speed = l6;
     }
+    view->setScore(score);
 }
 
 char GameController::getLastDirection()
@@ -185,6 +186,7 @@ void GameController::resetGame()
     lastInput = ' ';
     speed = l1;
     eatCount = 0;
+    view->setScore(0);
     score = 0;
     lastDirection = ' ';
     gridController->reset();

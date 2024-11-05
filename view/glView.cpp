@@ -1,5 +1,7 @@
 #include "glView.h"
 #include "engine/elements/button.h"
+#include "engine/elements/text.h"
+#include "engine/elements/spriteGrid.h"
 #include "engine/renderEngine.h"
 #include <thread>
 
@@ -48,6 +50,7 @@ void gameControllerInitView(IRenderEngine *engine, GlView *view)
 {
     engine->init();
     view->initMainMenu();
+    view->initGameScene();
     engine->setCurrentScene(view->getMainMenu());
     engine->setEngineCallback(view->getGameController());
     view->setInitialized(true);
@@ -80,7 +83,12 @@ void inputL(IEngineCallback *gc)
 void GlView::initGameScene()
 {
     inGame = new Scene();
-    inGame->scene_elements = new std::vector<Element *>();
+    Text *scoreText = new Text(0, 580, 40, 600);
+    scoreText->text = "Score: 0";
+    scoreText->fd = engine->getFontData();
+    inGame->scene_elements = new std::vector<Element *>(1, scoreText);
+    SpriteGrid *spriteGrid = new SpriteGrid(20, 540, 700, 100);
+    inGame->scene_elements->push_back(spriteGrid);
 }
 
 void GlView::initMainMenu()
@@ -151,10 +159,17 @@ void GlView::gameStateChanged(GameState game_state)
 {
     if (game_state == IN_GAME)
     {
+        engine->setCurrentScene(inGame);
         glfwSetInputMode(engine->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
     else
     {
+        engine->setCurrentScene(mainMenu);
         glfwSetInputMode(engine->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
+}
+
+void GlView::setScore(int count)
+{
+    ((Text *)inGame->scene_elements->at(0))->text = "Score: " + std::to_string(gameController->getScore());
 }

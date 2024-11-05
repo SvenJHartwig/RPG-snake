@@ -19,7 +19,6 @@ private:
     bool initialized = false;
 
 public:
-    void renderingLoop();
     int init();
     void gameStateChanged(GameState game_state);
     Scene *getMainMenu() { return mainMenu; }

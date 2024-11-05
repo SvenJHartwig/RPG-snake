@@ -5,47 +5,6 @@
 #include "engine/renderEngine.h"
 #include <thread>
 
-void GlView::renderingLoop()
-{
-    /*   // Main rendering loop
-       while (!glfwWindowShouldClose(window))
-       {
-           glfwPollEvents();
-
-           glClear(GL_COLOR_BUFFER_BIT);
-           Grid grid;
-           switch (gameController->getGameState())
-           {
-           case MAIN_MENU:
-               for (int i = 0; i < currentScene->scene_elements->size(); i++)
-               {
-                   currentScene->scene_elements->at(i)->render();
-               }
-               break;
-           case IN_GAME:
-               showUI(gameController->getScore());
-               grid = gameController->getGrid();
-               showGrid(grid.getGrid(), grid.getGridSizeX(), grid.getGridSizeY());
-               break;
-           case GAME_OVER:
-               showUI(gameController->getScore());
-               grid = gameController->getGrid();
-               showGrid(grid.getGrid(), grid.getGridSizeX(), grid.getGridSizeY());
-               glColor3f(0.9f, 0.9f, 0.9f);
-               print(*fd, 400, 300, "GAME OVER");
-               print(*fd, 400, 270, "PRESS P TO RETURN TO MAIN MENU");
-               break;
-           }
-
-           // Swap buffers
-           glfwSwapBuffers(window);
-       }
-
-       // Clean up
-       gameController->setWindowClosed(true);
-       glfwTerminate();*/
-}
-
 void gameControllerInitView(IRenderEngine *engine, GlView *view)
 {
     engine->init();
@@ -160,7 +119,8 @@ void GlView::gameStateChanged(GameState game_state)
 
 void GlView::setScore(int count)
 {
-    ((Text *)inGame->scene_elements->at(0))->text = "Score: " + std::to_string(gameController->getScore());
+    ((Text *)inGame->scene_elements->at(0))->text = "Score: " + std::to_string(count);
+    ((Text *)gameOver->scene_elements->at(0))->text = "Score: " + std::to_string(count);
 }
 
 void GlView::setGrid(vector<string> *grid)

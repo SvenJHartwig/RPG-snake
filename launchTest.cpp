@@ -2,6 +2,8 @@
 #include "view/engine/renderEngine.h"
 #include "view/glView.h"
 #include "view/engine/iRenderEngine.h"
+#include "view/engine/elements/text.h"
+#include "view/engine/elements/spriteGrid.h"
 #include <chrono>
 #include <thread>
 
@@ -42,6 +44,16 @@ TEST_CASE("Initialize OpenGL (View)")
     {
         sleep_for(milliseconds(5));
     }
+    view->gameStateChanged(GAME_OVER);
+    view->gameStateChanged(MAIN_MENU);
+    view->gameStateChanged(MAIN_MENU);
+    view->gameStateChanged(IN_GAME);
+    view->gameStateChanged(GAME_OVER);
+    view->setScore(2);
+    REQUIRE(((Text *)view->getInGameScene()->scene_elements->at(0))->text.compare("Score: 2") == 0);
+    std::vector<std::string> *grid = new std::vector<std::string>();
+    view->setGrid(grid);
+    REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(1))->getGrid() == grid);
 }
 
 TEST_CASE("Main Menu is initialized correctly")

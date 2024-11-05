@@ -1,4 +1,6 @@
 #include "spriteGrid.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 SpriteGrid::SpriteGrid(int pos_x_top_left,
                        int pos_y_top_left,
@@ -12,4 +14,38 @@ SpriteGrid::SpriteGrid(int pos_x_top_left,
 }
 void SpriteGrid::render()
 {
+    for (int i = 0; i < grid->size(); i++)
+    {
+        for (int j = 0; j < grid->at(i).size(); j++)
+        {
+            glBegin(GL_QUADS);
+            switch (grid->at(i)[j])
+            {
+            case 'W':
+                glColor3f(0.9f, 0.9f, 0.9f);
+                break;
+            case 'H':
+                glColor3f(0.9f, 0.2f, 0.2f);
+                break;
+            case 'B':
+                glColor3f(0.8f, 0.2f, 0.2f);
+                break;
+            case 'F':
+                glColor3f(0.2f, 0.9f, 0.2f);
+                break;
+            case 'S':
+                glColor3f(0.1f, 0.1f, 0.9f);
+                break;
+
+            default:
+                glColor3f(0.0f, 0.0f, 0.0f);
+                break;
+            }
+            glVertex2f(-0.9f + j * 0.08, 0.9f - i * 0.08);
+            glVertex2f(-0.8f + j * 0.08, 0.9f - i * 0.08);
+            glVertex2f(-0.8f + j * 0.08, 0.8f - i * 0.08);
+            glVertex2f(-0.9f + j * 0.08, 0.8f - i * 0.08);
+            glEnd();
+        }
+    }
 }

@@ -88,6 +88,7 @@ void GlView::initGameScene()
     scoreText->fd = engine->getFontData();
     inGame->scene_elements = new std::vector<Element *>(1, scoreText);
     SpriteGrid *spriteGrid = new SpriteGrid(20, 540, 700, 100);
+    spriteGrid->setGrid(new vector<string>());
     inGame->scene_elements->push_back(spriteGrid);
 }
 
@@ -172,4 +173,9 @@ void GlView::gameStateChanged(GameState game_state)
 void GlView::setScore(int count)
 {
     ((Text *)inGame->scene_elements->at(0))->text = "Score: " + std::to_string(gameController->getScore());
+}
+
+void GlView::setGrid(vector<string> *grid)
+{
+    ((SpriteGrid *)inGame->scene_elements->at(1))->setGrid(grid);
 }

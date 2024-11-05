@@ -42,6 +42,7 @@ class TestView : public IGameView
   void gameStateChanged(GameState game_state) {}
   void setCurrentScene(Scene *current_scene) {}
   void setScore(int count) {}
+  void setGrid(std::vector<std::string> *grid) {}
 };
 
 void printGridComparison(vector<string> *chars, vector<string> *expectedGrid, int gridSize)
@@ -253,6 +254,7 @@ TEST_CASE("Movement in opposite direction of last direction is not possible if s
 TEST_CASE("Movement in opposite direction of last direction is possible if snake is exactly 1 long")
 {
   GameController *gameController = new GameController();
+  gameController->setView(new TestView());
   gameController->reactOnInput('a');
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'a');

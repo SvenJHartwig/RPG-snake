@@ -12,5 +12,6 @@ public:
     virtual void showGrid(vector<string> *grid, int grid_size_x, int grid_size_y) = 0;
     virtual void gameStateChanged(GameState game_state) = 0;
     virtual void setScore(int count) = 0;
+    virtual void setGrid(std::vector<std::string> *grid) = 0;
     virtual ~IGameView() {};
 };

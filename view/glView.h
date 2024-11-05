@@ -33,4 +33,5 @@ public:
     bool isInitialized() { return initialized; }
     void setInitialized(bool initialized) { this->initialized = initialized; }
     void setScore(int count);
+    void setGrid(vector<string> *grid);
 };

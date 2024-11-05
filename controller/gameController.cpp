@@ -109,6 +109,7 @@ void GameController::mainLoopIteration()
     if (gridController->isGameOver())
     {
         gameState = GAME_OVER;
+        view->gameStateChanged(gameState);
     }
 }
 

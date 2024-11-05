@@ -51,6 +51,7 @@ void gameControllerInitView(IRenderEngine *engine, GlView *view)
     engine->init();
     view->initMainMenu();
     view->initGameScene();
+    view->initGameOverScene();
     engine->setCurrentScene(view->getMainMenu());
     engine->setEngineCallback(view->getGameController());
     view->setInitialized(true);
@@ -80,20 +81,6 @@ void inputL(IEngineCallback *gc)
     gc->reactOnInput('l');
 }
 
-void GlView::initGameScene()
-{
-    int windowWidth, windowHeight;
-    glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
-    inGame = new Scene();
-    Text *scoreText = new Text(0, windowHeight - 20, 40, windowHeight);
-    scoreText->text = "Score: 0";
-    scoreText->fd = engine->getFontData();
-    inGame->scene_elements = new std::vector<Element *>(1, scoreText);
-    SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, windowHeight - 80, 200, 100);
-    spriteGrid->setGrid(new vector<string>());
-    inGame->scene_elements->push_back(spriteGrid);
-}
-
 void GlView::initMainMenu()
 {
     int windowWidth, windowHeight;
@@ -116,6 +103,42 @@ void GlView::initMainMenu()
     mainMenu->scene_elements->push_back(third);
 }
 
+void GlView::initGameScene()
+{
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
+    inGame = new Scene();
+    Text *scoreText = new Text(0, windowHeight - 20, 40, windowHeight);
+    scoreText->text = "Score: 0";
+    scoreText->fd = engine->getFontData();
+    inGame->scene_elements = new std::vector<Element *>(1, scoreText);
+    SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, windowHeight - 80, 200, 100);
+    spriteGrid->setGrid(new vector<string>());
+    inGame->scene_elements->push_back(spriteGrid);
+}
+
+void GlView::initGameOverScene()
+{
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
+    gameOver = new Scene();
+    Text *scoreText = new Text(0, windowHeight - 20, 40, windowHeight);
+    scoreText->text = "Score: 0";
+    scoreText->fd = engine->getFontData();
+    gameOver->scene_elements = new std::vector<Element *>(1, scoreText);
+    SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, windowHeight - 80, 200, 100);
+    spriteGrid->setGrid(new vector<string>());
+    gameOver->scene_elements->push_back(spriteGrid);
+    Text *gameOverText = new Text(windowWidth / 2 - 40, windowHeight / 2 + 20, windowWidth / 2 + 40, windowHeight / 2);
+    gameOverText->text = "GAME OVER";
+    gameOverText->fd = engine->getFontData();
+    gameOver->scene_elements->push_back(gameOverText);
+    Text *gameOverText2 = new Text(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2 - 40);
+    gameOverText2->text = "PRESS P TO RETURN TO MAIN MENU";
+    gameOverText2->fd = engine->getFontData();
+    gameOver->scene_elements->push_back(gameOverText2);
+}
+
 void GlView::gameStateChanged(GameState game_state)
 {
     if (game_state == IN_GAME)
@@ -123,9 +146,14 @@ void GlView::gameStateChanged(GameState game_state)
         engine->setCurrentScene(inGame);
         glfwSetInputMode(engine->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
-    else
+    else if (game_state == MAIN_MENU)
     {
         engine->setCurrentScene(mainMenu);
+        glfwSetInputMode(engine->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+    else if (game_state == GAME_OVER)
+    {
+        engine->setCurrentScene(gameOver);
         glfwSetInputMode(engine->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 }
@@ -138,4 +166,5 @@ void GlView::setScore(int count)
 void GlView::setGrid(vector<string> *grid)
 {
     ((SpriteGrid *)inGame->scene_elements->at(1))->setGrid(grid);
+    ((SpriteGrid *)gameOver->scene_elements->at(1))->setGrid(grid);
 }

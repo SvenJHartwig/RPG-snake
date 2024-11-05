@@ -66,3 +66,16 @@ TEST_CASE("Game scene is initialized correctly")
     REQUIRE(inGame->scene_elements->at(1)->getPosXTopLeft() == 192);
     REQUIRE(inGame->scene_elements->at(1)->getPosYTopLeft() == 688);
 }
+
+TEST_CASE("Game over scene is initialized correctly")
+{
+    GlView *view = new GlView();
+    view->setEngine(new TestRenderEngine());
+    view->initGameOverScene();
+    Scene *gameOver = view->getGameOverScene();
+    REQUIRE(gameOver->scene_elements->size() == 4);
+    REQUIRE(gameOver->scene_elements->at(0)->getPosXTopLeft() == 0);
+    REQUIRE(gameOver->scene_elements->at(0)->getPosYTopLeft() == 748);
+    REQUIRE(gameOver->scene_elements->at(1)->getPosXTopLeft() == 192);
+    REQUIRE(gameOver->scene_elements->at(1)->getPosYTopLeft() == 688);
+}

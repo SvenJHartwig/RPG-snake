@@ -12,5 +12,6 @@ Text::Text(int pos_x_top_left,
 }
 void Text::render()
 {
+    glColor3f(0.9f, 0.9f, 0.9f);
     print(*fd, pos_x_top_left, pos_y_top_left, text);
 }

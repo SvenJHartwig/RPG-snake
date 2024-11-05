@@ -51,11 +51,10 @@ void engine_mouse_button_callback(GLFWwindow *window, int button, int action, in
         Element *currentSceneElement = engine->getCurrentScene()->scene_elements->at(i);
         int windowWidth, windowHeight;
         glfwGetWindowSize(window, &windowWidth, &windowHeight);
-        int elementHeight = currentSceneElement->getPosYTopLeft() - currentSceneElement->getPosYBottomRight();
         int xpostl = currentSceneElement->getPosXTopLeft();
-        int ypostl = windowHeight - currentSceneElement->getPosYTopLeft() - elementHeight;
+        int ypostl = windowHeight - currentSceneElement->getPosYTopLeft();
         int xposbr = currentSceneElement->getPosXBottomRight();
-        int yposbr = windowHeight - currentSceneElement->getPosYBottomRight() - elementHeight;
+        int yposbr = windowHeight - currentSceneElement->getPosYBottomRight();
         if (xpos > xpostl && xpos < xposbr &&
             ypos > ypostl && ypos < yposbr)
         {

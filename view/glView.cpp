@@ -5,7 +5,7 @@
 #include "engine/renderEngine.h"
 #include <thread>
 
-void gameControllerInitView(IRenderEngine *engine, GlView *view)
+void initView(IRenderEngine *engine, GlView *view)
 {
     engine->init();
     view->initMainMenu();
@@ -20,7 +20,7 @@ void gameControllerInitView(IRenderEngine *engine, GlView *view)
 int GlView::init()
 {
     engine = new RenderEngine();
-    std::thread *initThread = new std::thread(gameControllerInitView, engine, this);
+    std::thread *initThread = new std::thread(initView, engine, this);
 
     return 0;
 }

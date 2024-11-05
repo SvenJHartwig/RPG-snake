@@ -249,6 +249,10 @@ TEST_CASE("Movement in opposite direction of last direction is not possible if s
   gameController->reactOnInput('p');
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
+  gameController->setGameState(EXIT);
+  gameController->reactOnInput('i');
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getLastDirection() == 's');
 }
 
 TEST_CASE("Movement in opposite direction of last direction is possible if snake is exactly 1 long")

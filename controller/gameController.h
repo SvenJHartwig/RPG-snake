@@ -34,5 +34,6 @@ public:
     char getLastInput() { return lastInput; }
     int getScore();
     GameState getGameState();
+    void setGameState(GameState state) { this->gameState = state; }
     void resetGame();
 };

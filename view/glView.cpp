@@ -89,23 +89,25 @@ void GlView::initGameScene()
     scoreText->text = "Score: 0";
     scoreText->fd = engine->getFontData();
     inGame->scene_elements = new std::vector<Element *>(1, scoreText);
-    SpriteGrid *spriteGrid = new SpriteGrid(20, windowHeight - 80, 200, 100);
+    SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, windowHeight - 80, 200, 100);
     spriteGrid->setGrid(new vector<string>());
     inGame->scene_elements->push_back(spriteGrid);
 }
 
 void GlView::initMainMenu()
 {
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
     mainMenu = new Scene();
-    Button *first = new Button(340, 280, 400, 260);
+    Button *first = new Button(windowWidth / 2 - 40, windowHeight / 2 + 20, windowWidth / 2 + 40, windowHeight / 2);
     first->text = "Begin game";
     first->fd = engine->getFontData();
     first->callback = &inputP;
-    Button *second = new Button(340, 260, 400, 240);
+    Button *second = new Button(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2 - 40);
     second->text = "Load level";
     second->fd = engine->getFontData();
     second->callback = &inputO;
-    Button *third = new Button(340, 220, 400, 200);
+    Button *third = new Button(windowWidth / 2 - 40, windowHeight / 2 - 200, windowWidth / 2 + 40, windowHeight / 2 - 220);
     third->text = "Exit";
     third->fd = engine->getFontData();
     third->callback = &inputL;

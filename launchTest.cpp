@@ -51,7 +51,7 @@ TEST_CASE("Main Menu is initialized correctly")
     view->initMainMenu();
     Scene *mainMenu = view->getMainMenu();
     REQUIRE(mainMenu->scene_elements->size() == 3);
-    REQUIRE(mainMenu->scene_elements->at(0)->getPosXTopLeft() == 340);
+    REQUIRE(mainMenu->scene_elements->at(0)->getPosXTopLeft() == 472);
 }
 
 TEST_CASE("Game scene is initialized correctly")
@@ -63,6 +63,6 @@ TEST_CASE("Game scene is initialized correctly")
     REQUIRE(inGame->scene_elements->size() == 2);
     REQUIRE(inGame->scene_elements->at(0)->getPosXTopLeft() == 0);
     REQUIRE(inGame->scene_elements->at(0)->getPosYTopLeft() == 748);
-    REQUIRE(inGame->scene_elements->at(1)->getPosXTopLeft() == 20);
+    REQUIRE(inGame->scene_elements->at(1)->getPosXTopLeft() == 192);
     REQUIRE(inGame->scene_elements->at(1)->getPosYTopLeft() == 688);
 }

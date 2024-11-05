@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.9)
 project (Tutorial)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(main main.cpp model/grid.cpp model/snake.cpp controller/gridController.cpp controller/gameController.cpp 
-    view/cliView.cpp view/glView.cpp TextRenderer/TextRenderer.cpp view/engine/elements/button.cpp view/engine/elements/scene.cpp
+    view/glView.cpp TextRenderer/TextRenderer.cpp view/engine/elements/button.cpp view/engine/elements/scene.cpp
     view/engine/elements/element.cpp view/engine/renderEngine.cpp view/engine/elements/text.cpp view/engine/elements/spriteGrid.cpp)
 target_link_directories(main PRIVATE /usr/local/lib /usr/lib64)
 include_directories (/usr/include/freetype2)
@@ -22,8 +22,8 @@ include(CTest)
 add_test(NAME test COMMAND tests)
 
 add_executable(launchTests launchTest.cpp model/grid.cpp model/snake.cpp controller/gridController.cpp controller/gameController.cpp 
-view/cliView.cpp view/glView.cpp TextRenderer/TextRenderer.cpp view/engine/elements/button.cpp view/engine/elements/scene.cpp
-view/engine/elements/element.cpp view/engine/renderEngine.cpp view/engine/elements/text.cpp view/engine/elements/spriteGrid.cpp)
+    view/glView.cpp TextRenderer/TextRenderer.cpp view/engine/elements/button.cpp view/engine/elements/scene.cpp
+    view/engine/elements/element.cpp view/engine/renderEngine.cpp view/engine/elements/text.cpp view/engine/elements/spriteGrid.cpp)
 target_link_directories(launchTests PRIVATE /usr/local/lib /usr/lib64)
 target_link_libraries(launchTests PRIVATE Catch2::Catch2WithMain)
 target_compile_options(launchTests PRIVATE -coverage)

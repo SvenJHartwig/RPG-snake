@@ -20,8 +20,6 @@ private:
 public:
     void renderingLoop();
     int init();
-    void showUI(int eatenFoods);
-    void showGrid(vector<string> *, int grid_size_x, int grid_size_y);
     void gameStateChanged(GameState game_state);
     Scene *getMainMenu() { return mainMenu; }
     Scene *getInGameScene() { return inGame; }

@@ -82,12 +82,14 @@ void inputL(IEngineCallback *gc)
 
 void GlView::initGameScene()
 {
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
     inGame = new Scene();
-    Text *scoreText = new Text(0, 580, 40, 600);
+    Text *scoreText = new Text(0, windowHeight - 20, 40, windowHeight);
     scoreText->text = "Score: 0";
     scoreText->fd = engine->getFontData();
     inGame->scene_elements = new std::vector<Element *>(1, scoreText);
-    SpriteGrid *spriteGrid = new SpriteGrid(20, 540, 700, 100);
+    SpriteGrid *spriteGrid = new SpriteGrid(20, windowHeight - 80, 200, 100);
     spriteGrid->setGrid(new vector<string>());
     inGame->scene_elements->push_back(spriteGrid);
 }
@@ -110,50 +112,6 @@ void GlView::initMainMenu()
     mainMenu->scene_elements = new std::vector<Element *>(1, first);
     mainMenu->scene_elements->push_back(second);
     mainMenu->scene_elements->push_back(third);
-}
-
-void GlView::showUI(int eatenFoods)
-{
-    // glColor3f(0.9f, 0.9f, 0.9f);
-    // print(*fd, 0, 0, "Score: " + std::to_string(eatenFoods));
-}
-
-void GlView::showGrid(vector<string> *grid, int grid_size_x, int grid_size_y)
-{
-    /*  for (int i = 0; i < grid_size_y; i++)
-      {
-          for (int j = 0; j < grid_size_x; j++)
-          {
-              glBegin(GL_QUADS);
-              switch (grid->at(i)[j])
-              {
-              case 'W':
-                  glColor3f(0.9f, 0.9f, 0.9f);
-                  break;
-              case 'H':
-                  glColor3f(0.9f, 0.2f, 0.2f);
-                  break;
-              case 'B':
-                  glColor3f(0.8f, 0.2f, 0.2f);
-                  break;
-              case 'F':
-                  glColor3f(0.2f, 0.9f, 0.2f);
-                  break;
-              case 'S':
-                  glColor3f(0.1f, 0.1f, 0.9f);
-                  break;
-
-              default:
-                  glColor3f(0.0f, 0.0f, 0.0f);
-                  break;
-              }
-              glVertex2f(-0.9f + j * 0.08, 0.9f - i * 0.08);
-              glVertex2f(-0.8f + j * 0.08, 0.9f - i * 0.08);
-              glVertex2f(-0.8f + j * 0.08, 0.8f - i * 0.08);
-              glVertex2f(-0.9f + j * 0.08, 0.8f - i * 0.08);
-              glEnd();
-          }
-      }*/
 }
 
 void GlView::gameStateChanged(GameState game_state)

@@ -94,7 +94,7 @@ int RenderEngine::init()
     }
 
     // Create a window
-    window = glfwCreateWindow(800, 600, "Snake", NULL, NULL);
+    window = glfwCreateWindow(1024, 768, "Snake", NULL, NULL);
     if (!window)
     {
         error = -1;
@@ -117,6 +117,17 @@ int RenderEngine::init()
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, engine_key_callback);
     glfwSetMouseButtonCallback(window, engine_mouse_button_callback);
+
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(window, &windowWidth, &windowHeight);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, windowWidth, 0, windowHeight, -1, 1);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glViewport(0, 0, windowWidth, windowHeight);
 
     if (error != 0)
     {

@@ -18,7 +18,7 @@ void SpriteGrid::render()
     {
         for (int j = 0; j < grid->at(i).size(); j++)
         {
-            glBegin(GL_QUADS);
+            glBegin(GL_TRIANGLE_FAN);
             switch (grid->at(i)[j])
             {
             case 'W':
@@ -41,10 +41,14 @@ void SpriteGrid::render()
                 glColor3f(0.0f, 0.0f, 0.0f);
                 break;
             }
-            glVertex2f(-0.9f + j * 0.08, 0.9f - i * 0.08);
-            glVertex2f(-0.8f + j * 0.08, 0.9f - i * 0.08);
-            glVertex2f(-0.8f + j * 0.08, 0.8f - i * 0.08);
-            glVertex2f(-0.9f + j * 0.08, 0.8f - i * 0.08);
+            glVertex2i(pos_x_top_left + j * 32, pos_y_top_left - i * 32);
+            glVertex2i(pos_x_top_left + j * 32 + 32, pos_y_top_left - i * 32);
+            glVertex2i(pos_x_top_left + j * 32, pos_y_top_left - i * 32 + 32);
+            glEnd();
+            glBegin(GL_TRIANGLE_FAN);
+            glVertex2i(pos_x_top_left + j * 32 + 32, pos_y_top_left - i * 32);
+            glVertex2i(pos_x_top_left + j * 32, pos_y_top_left - i * 32 + 32);
+            glVertex2i(pos_x_top_left + j * 32 + 32, pos_y_top_left - i * 32 + 32);
             glEnd();
         }
     }

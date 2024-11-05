@@ -68,7 +68,6 @@ void GameController::mainLoop()
     view->setGameController(this);
     gridController->updateGrid();
     view->init();
-    //  CliView cli;
 
     while (gameState != EXIT && !windowClosed)
     {
@@ -76,8 +75,6 @@ void GameController::mainLoop()
         {
             mainLoopIteration();
         }
-        // Print the grid to console for debug purposes
-        //   cli.showGrid(chars, gridController->getGrid()->getGridSizeX(), gridController->getGrid()->getGridSizeY());
         usleep(speed);
     }
 }

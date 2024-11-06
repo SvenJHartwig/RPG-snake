@@ -498,3 +498,31 @@ TEST_CASE("Exit game")
   gameController->reactOnInput('l');
   REQUIRE(gameController->getGameState() == EXIT);
 }
+
+TEST_CASE("Win game")
+{
+  GameController *gameController = new GameController();
+  gameController->setView(new TestView());
+  gameController->reactOnInput('o');
+  REQUIRE(gameController->getGameState() == IN_GAME);
+  for (int i = 0; i < 20; i++)
+  {
+    gameController->eat(true);
+  }
+  REQUIRE(gameController->getGameState() == WIN);
+  gameController->reactOnInput('p');
+  REQUIRE(gameController->getGameState() == IN_GAME);
+}
+
+TEST_CASE("Infinite game")
+{
+  GameController *gameController = new GameController();
+  gameController->setView(new TestView());
+  gameController->reactOnInput('p');
+  REQUIRE(gameController->getGameState() == IN_GAME);
+  for (int i = 0; i < 20; i++)
+  {
+    gameController->eat(true);
+  }
+  REQUIRE(gameController->getGameState() == IN_GAME);
+}

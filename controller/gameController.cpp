@@ -30,6 +30,7 @@ void GameController::reactOnInput(char input)
         }
         else if (input == 'o')
         {
+            infinite = false;
             gridController->loadLevel("../resources/level/level1");
             gridController->updateGrid();
             gameState = IN_GAME;
@@ -56,6 +57,18 @@ void GameController::reactOnInput(char input)
         if (input == 'p')
         {
             resetGame();
+            gameState = MAIN_MENU;
+            view->gameStateChanged(gameState);
+        }
+        break;
+    case WIN:
+        if (input == 'p')
+        {
+            resetGame();
+            gridController->loadLevel("../resources/level/level2");
+            gridController->updateGrid();
+            gameState = IN_GAME;
+            view->gameStateChanged(gameState);
         }
         break;
     default:
@@ -161,6 +174,11 @@ void GameController::eat(bool isSpecial)
         speed = l6;
     }
     view->setScore(score);
+    if (!infinite && score >= 40)
+    {
+        gameState = WIN;
+        view->gameStateChanged(gameState);
+    }
 }
 
 char GameController::getLastDirection()
@@ -180,8 +198,6 @@ GameState GameController::getGameState()
 
 void GameController::resetGame()
 {
-    gameState = MAIN_MENU;
-    view->gameStateChanged(gameState);
     lastInput = ' ';
     speed = l1;
     eatCount = 0;

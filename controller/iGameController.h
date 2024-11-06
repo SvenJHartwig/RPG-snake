@@ -19,6 +19,7 @@ enum GameState
     IN_GAME,
     GAME_OVER,
     EXIT,
+    WIN,
 };
 
 class IGameController : public IEngineCallback

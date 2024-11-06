@@ -17,6 +17,7 @@ private:
     int score = 0;
     char lastDirection;
     GameState gameState = MAIN_MENU;
+    bool infinite = true;
 
 public:
     GameController();

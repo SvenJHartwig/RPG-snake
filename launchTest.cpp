@@ -4,6 +4,7 @@
 #include "view/engine/iRenderEngine.h"
 #include "view/engine/elements/text.h"
 #include "view/engine/elements/spriteGrid.h"
+#include "controller/iGameController.h"
 #include <chrono>
 #include <thread>
 
@@ -15,6 +16,7 @@ public:
     Scene *getCurrentScene() {}
     GLFWwindow *getWindow()
     {
+        glfwInit();
         return glfwCreateWindow(1024, 768, "Snake", NULL, NULL);
     }
     void setCurrentScene(Scene *currentScene) {}
@@ -26,10 +28,26 @@ public:
     }
 };
 
+class TestGameController : public IGameController
+{
+public:
+    bool calledP = false;
+    GameState getGameState() {};
+    Grid getGrid() {}
+    int getScore() { return 0; }
+    void reactOnInput(char input)
+    {
+        if (input == 'p')
+            calledP = true;
+    }
+    void setWindowClosed(bool closed) {}
+};
+
 TEST_CASE("Initialize OpenGL (Engine)")
 {
     RenderEngine *engine = new RenderEngine();
     REQUIRE(engine->init() == 0);
+    glfwTerminate();
 }
 
 TEST_CASE("Initialize OpenGL (View)")
@@ -38,6 +56,7 @@ TEST_CASE("Initialize OpenGL (View)")
     using namespace std::chrono;
 
     GlView *view = new GlView();
+    view->setGameController(new TestGameController());
     REQUIRE(view->init() == 0);
     // Wait a bit so the window can be opened
     while (!view->isInitialized())
@@ -55,6 +74,14 @@ TEST_CASE("Initialize OpenGL (View)")
     view->setGrid(grid);
     REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(1))->getGrid() == grid);
     view->gameStateChanged(WIN);
+    REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(1))->getGrid() == grid);
+    view->gameStateChanged(MAIN_MENU);
+    engine_key_callback(view->getEngine()->getWindow(), GLFW_KEY_P, 0, GLFW_RELEASE, 0);
+    REQUIRE(!((TestGameController *)view->getGameController())->calledP);
+    engine_key_callback(view->getEngine()->getWindow(), GLFW_KEY_P, 0, GLFW_PRESS, 0);
+    REQUIRE(((TestGameController *)view->getGameController())->calledP);
+    glfwSetWindowShouldClose(view->getEngine()->getWindow(), true);
+    sleep_for(milliseconds(50));
 }
 
 TEST_CASE("Main Menu is initialized correctly")
@@ -65,6 +92,7 @@ TEST_CASE("Main Menu is initialized correctly")
     Scene *mainMenu = view->getMainMenu();
     REQUIRE(mainMenu->scene_elements->size() == 3);
     REQUIRE(mainMenu->scene_elements->at(0)->getPosXTopLeft() == 472);
+    glfwTerminate();
 }
 
 TEST_CASE("Game scene is initialized correctly")
@@ -78,6 +106,7 @@ TEST_CASE("Game scene is initialized correctly")
     REQUIRE(inGame->scene_elements->at(0)->getPosYTopLeft() == 748);
     REQUIRE(inGame->scene_elements->at(1)->getPosXTopLeft() == 192);
     REQUIRE(inGame->scene_elements->at(1)->getPosYTopLeft() == 688);
+    glfwTerminate();
 }
 
 TEST_CASE("Game over scene is initialized correctly")
@@ -91,4 +120,5 @@ TEST_CASE("Game over scene is initialized correctly")
     REQUIRE(gameOver->scene_elements->at(0)->getPosYTopLeft() == 748);
     REQUIRE(gameOver->scene_elements->at(1)->getPosXTopLeft() == 192);
     REQUIRE(gameOver->scene_elements->at(1)->getPosYTopLeft() == 688);
+    glfwTerminate();
 }

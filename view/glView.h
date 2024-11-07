@@ -32,6 +32,7 @@ public:
     IGameController *getGameController() { return gameController; }
     void setGameController(IGameController *gc) { this->gameController = gc; }
     void setEngine(IRenderEngine *engine) { this->engine = engine; }
+    IRenderEngine *getEngine() { return engine; }
     bool isInitialized() { return initialized; }
     void setInitialized(bool initialized) { this->initialized = initialized; }
     void setScore(int count);

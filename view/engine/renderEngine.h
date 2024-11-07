@@ -6,6 +6,9 @@
 #include "iEngineCallback.h"
 #include "iRenderEngine.h"
 
+void engine_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
+void engine_mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
+
 class RenderEngine : public IRenderEngine
 {
 private:

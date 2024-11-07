@@ -31,7 +31,9 @@ void GameController::reactOnInput(char input)
         else if (input == 'o')
         {
             infinite = false;
-            gridController->loadLevel("../resources/level/level1");
+            string path = RESOURCE_DIR;
+            path.append("/tests/level/level1");
+            gridController->loadLevel(path);
             gridController->updateGrid();
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
@@ -65,7 +67,9 @@ void GameController::reactOnInput(char input)
         if (input == 'p')
         {
             resetGame();
-            gridController->loadLevel("../resources/level/level" + std::to_string(level));
+            string path = RESOURCE_DIR;
+            path.append("/tests/level/level" + std::to_string(level));
+            gridController->loadLevel(path);
             gridController->updateGrid();
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
@@ -203,6 +207,8 @@ void GameController::resetGame()
     speed = l1;
     eatCount = 0;
     view->setScore(0);
+    level = 1;
+    infinite = true;
     score = 0;
     lastDirection = ' ';
     gridController->reset();

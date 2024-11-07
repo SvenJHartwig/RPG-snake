@@ -54,6 +54,7 @@ TEST_CASE("Initialize OpenGL (View)")
     std::vector<std::string> *grid = new std::vector<std::string>();
     view->setGrid(grid);
     REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(1))->getGrid() == grid);
+    view->gameStateChanged(WIN);
 }
 
 TEST_CASE("Main Menu is initialized correctly")

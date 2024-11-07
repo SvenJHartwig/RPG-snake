@@ -11,6 +11,7 @@ void initView(IRenderEngine *engine, GlView *view)
     view->initMainMenu();
     view->initGameScene();
     view->initGameOverScene();
+    view->initWinScene();
     engine->setCurrentScene(view->getMainMenu());
     engine->setEngineCallback(view->getGameController());
     view->setInitialized(true);
@@ -98,6 +99,28 @@ void GlView::initGameOverScene()
     gameOver->scene_elements->push_back(gameOverText2);
 }
 
+void GlView::initWinScene()
+{
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
+    win = new Scene();
+    Text *scoreText = new Text(0, windowHeight - 20, 40, windowHeight);
+    scoreText->text = "Score: 0";
+    scoreText->fd = engine->getFontData();
+    win->scene_elements = new std::vector<Element *>(1, scoreText);
+    SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, windowHeight - 80, 200, 100);
+    spriteGrid->setGrid(new vector<string>());
+    win->scene_elements->push_back(spriteGrid);
+    Text *gameOverText = new Text(windowWidth / 2 - 40, windowHeight / 2 + 20, windowWidth / 2 + 40, windowHeight / 2);
+    gameOverText->text = "YOU WON THIS LEVEL!";
+    gameOverText->fd = engine->getFontData();
+    win->scene_elements->push_back(gameOverText);
+    Text *gameOverText2 = new Text(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2 - 40);
+    gameOverText2->text = "PRESS P TO GO TO THE NEXT LEVEL";
+    gameOverText2->fd = engine->getFontData();
+    win->scene_elements->push_back(gameOverText2);
+}
+
 void GlView::gameStateChanged(GameState game_state)
 {
     if (game_state == IN_GAME)
@@ -115,16 +138,22 @@ void GlView::gameStateChanged(GameState game_state)
         engine->setCurrentScene(gameOver);
         glfwSetInputMode(engine->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
+    else if (game_state == WIN)
+    {
+        engine->setCurrentScene(win);
+    }
 }
 
 void GlView::setScore(int count)
 {
     ((Text *)inGame->scene_elements->at(0))->text = "Score: " + std::to_string(count);
     ((Text *)gameOver->scene_elements->at(0))->text = "Score: " + std::to_string(count);
+    ((Text *)win->scene_elements->at(0))->text = "Score: " + std::to_string(count);
 }
 
 void GlView::setGrid(vector<string> *grid)
 {
     ((SpriteGrid *)inGame->scene_elements->at(1))->setGrid(grid);
     ((SpriteGrid *)gameOver->scene_elements->at(1))->setGrid(grid);
+    ((SpriteGrid *)win->scene_elements->at(1))->setGrid(grid);
 }

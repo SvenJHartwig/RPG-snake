@@ -65,7 +65,7 @@ void GameController::reactOnInput(char input)
         if (input == 'p')
         {
             resetGame();
-            gridController->loadLevel("../resources/level/level2");
+            gridController->loadLevel("../resources/level/level" + std::to_string(level));
             gridController->updateGrid();
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
@@ -176,6 +176,7 @@ void GameController::eat(bool isSpecial)
     view->setScore(score);
     if (!infinite && score >= 40)
     {
+        level++;
         gameState = WIN;
         view->gameStateChanged(gameState);
     }

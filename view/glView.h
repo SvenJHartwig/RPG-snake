@@ -16,6 +16,7 @@ private:
     Scene *mainMenu;
     Scene *inGame;
     Scene *gameOver;
+    Scene *win;
     bool initialized = false;
 
 public:
@@ -27,6 +28,7 @@ public:
     void initMainMenu();
     void initGameScene();
     void initGameOverScene();
+    void initWinScene();
     IGameController *getGameController() { return gameController; }
     void setGameController(IGameController *gc) { this->gameController = gc; }
     void setEngine(IRenderEngine *engine) { this->engine = engine; }

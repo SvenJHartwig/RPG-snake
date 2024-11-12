@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "elements/scene.h"
-#include "../../TextRenderer/TextRenderer.h"
+#include "TextRenderer/TextRenderer.h"
 #include "iEngineCallback.h"
 #include "iRenderEngine.h"
 

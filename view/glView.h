@@ -4,7 +4,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../controller/gameController.h"
-#include "../TextRenderer/TextRenderer.h"
 #include "engine/elements/scene.h"
 #include "engine/iRenderEngine.h"
 

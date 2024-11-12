@@ -1,7 +1,7 @@
 #pragma once
 
 #include "element.h"
-#include "../../../TextRenderer/TextRenderer.h"
+#include "../TextRenderer/TextRenderer.h"
 
 class Text : public Element
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../TextRenderer/TextRenderer.h"
+#include "TextRenderer/TextRenderer.h"
 
 class IRenderEngine
 {

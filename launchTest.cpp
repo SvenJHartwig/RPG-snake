@@ -8,32 +8,16 @@
 #include <chrono>
 #include <thread>
 
-class TestRenderEngine : public IRenderEngine
-{
-public:
-    IEngineCallback *getEngineCallback() {}
-    void setEngineCallback(IEngineCallback *callback) {}
-    Scene *getCurrentScene() {}
-    GLFWwindow *getWindow()
-    {
-        glfwInit();
-        return glfwCreateWindow(1024, 768, "Snake", NULL, NULL);
-    }
-    void setCurrentScene(Scene *currentScene) {}
-    void renderingLoop() {}
-    int init() {}
-    font_data *getFontData()
-    {
-        return new font_data();
-    }
-};
-
 class TestGameController : public IGameController
 {
 public:
     bool calledP = false;
-    GameState getGameState() {};
-    Grid getGrid() {}
+    GameState getGameState() { return MAIN_MENU; };
+    Grid getGrid()
+    {
+        Grid grid;
+        return grid;
+    }
     int getScore() { return 0; }
     void reactOnInput(char input)
     {
@@ -41,6 +25,26 @@ public:
             calledP = true;
     }
     void setWindowClosed(bool closed) {}
+};
+
+class TestRenderEngine : public IRenderEngine
+{
+public:
+    IEngineCallback *getEngineCallback() { return new TestGameController(); }
+    void setEngineCallback(IEngineCallback *callback) {}
+    Scene *getCurrentScene() { return new Scene(); }
+    GLFWwindow *getWindow()
+    {
+        glfwInit();
+        return glfwCreateWindow(1024, 768, "Snake", NULL, NULL);
+    }
+    void setCurrentScene(Scene *currentScene) {}
+    void renderingLoop() {}
+    int init() { return 0; }
+    font_data *getFontData()
+    {
+        return new font_data();
+    }
 };
 
 TEST_CASE("Initialize OpenGL (Engine)")

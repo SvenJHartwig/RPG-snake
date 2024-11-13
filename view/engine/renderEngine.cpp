@@ -63,6 +63,11 @@ void engine_mouse_button_callback(GLFWwindow *window, int button, int action, in
     }
 }
 
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
 void RenderEngine::renderingLoop()
 {
     // Main rendering loop
@@ -116,6 +121,7 @@ int RenderEngine::init()
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, engine_key_callback);
     glfwSetMouseButtonCallback(window, engine_mouse_button_callback);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     int windowWidth, windowHeight;
     glfwGetWindowSize(window, &windowWidth, &windowHeight);

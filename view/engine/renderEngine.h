@@ -16,6 +16,8 @@ private:
     GLFWwindow *window;
     Scene *currentScene;
     IEngineCallback *callback;
+    unsigned int VBO, VAO, EBO;
+    unsigned int shaderProgram;
 
 public:
     IEngineCallback *getEngineCallback() { return callback; }

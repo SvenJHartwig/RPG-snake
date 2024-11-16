@@ -5,7 +5,7 @@ add_executable(main main.cpp model/grid.cpp model/snake.cpp controller/gridContr
     view/glView.cpp view/engine/TextRenderer/TextRenderer.cpp view/engine/elements/button.cpp view/engine/elements/scene.cpp
     view/engine/elements/element.cpp view/engine/renderEngine.cpp view/engine/elements/text.cpp view/engine/elements/spriteGrid.cpp)
 target_link_directories(main PRIVATE /usr/local/lib /usr/lib64)
-include_directories (/usr/include/freetype2)
+include_directories (/usr/include/freetype2 includes)
 target_link_libraries(main PRIVATE glfw3 rt m dl GLEW GLU OpenGL freetype)
 target_compile_definitions(main PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/resources")
 

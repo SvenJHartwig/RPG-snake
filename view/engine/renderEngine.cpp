@@ -1,7 +1,81 @@
 #include "renderEngine.h"
 #include <string>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include "renderData.h"
 
 using std::string;
+
+// Vertex shader source code
+const char *vertexShaderSource = R"(
+#version 330 core
+layout (location = 0) in vec2 aPos;
+
+uniform mat4 uProjection;
+
+void main() {
+    gl_Position = uProjection * vec4(aPos, 0.0, 1.0);
+}
+)";
+
+// Fragment shader source code
+const char *fragmentShaderSource = R"(
+#version 330 core
+out vec4 FragColor;
+
+void main() {
+    FragColor = vec4(0.2, 0.6, 0.8, 1.0); // Light blue color
+}
+)";
+
+// Callback for resizing the window
+void framebufferSizeCallback(GLFWwindow *window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
+// Compile shader and check for errors
+GLuint compileShader(GLenum type, const char *source)
+{
+    GLuint shader = glCreateShader(type);
+    glShaderSource(shader, 1, &source, nullptr);
+    glCompileShader(shader);
+
+    int success;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        char infoLog[512];
+        glGetShaderInfoLog(shader, 512, nullptr, infoLog);
+    }
+    return shader;
+}
+
+// Link shaders into a program
+GLuint createShaderProgram(const char *vertexSource, const char *fragmentSource)
+{
+    GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexSource);
+    GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentSource);
+
+    GLuint shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+
+    int success;
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success)
+    {
+        char infoLog[512];
+        glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
+    }
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+    return shaderProgram;
+}
 
 void engine_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
@@ -70,21 +144,65 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 void RenderEngine::renderingLoop()
 {
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(window, &windowWidth, &windowHeight);
+    int rectWidth = 200, rectHeight = 150;
     // Main rendering loop
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
 
         glClear(GL_COLOR_BUFFER_BIT);
-        for (int i = 0; i < currentScene->scene_elements->size(); i++)
-        {
-            currentScene->scene_elements->at(i)->render();
-        }
+        /*       for (int i = 0; i < currentScene->scene_elements->size(); i++)
+               {
+                   currentScene->scene_elements->at(i)->render();
+               }*/
+        float vertices[] = {
+            // x, y
+            (windowWidth - rectWidth) / 2.0f, (windowHeight - rectHeight) / 2.0f, // Bottom-left
+            (windowWidth + rectWidth) / 2.0f, (windowHeight - rectHeight) / 2.0f, // Bottom-right
+            (windowWidth + rectWidth) / 2.0f, (windowHeight + rectHeight) / 2.0f, // Top-right
+            (windowWidth - rectWidth) / 2.0f, (windowHeight + rectHeight) / 2.0f  // Top-left
+        };
+
+        unsigned int indices[] = {
+            0, 1, 2, // First triangle
+            2, 3, 0  // Second triangle
+        };
+
+        // Update buffers with new vertex data
+
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
+        glEnableVertexAttribArray(0);
+
+        // Draw rectangle
+        glUseProgram(shaderProgram);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
         // Swap buffers
         glfwSwapBuffers(window);
+
+        // Update rectangle size for dynamic resizing
+        rectWidth += 1;
+        rectHeight += 1;
+        if (rectWidth > 400 || rectHeight > 300)
+        {
+            rectWidth = 200;
+            rectHeight = 150;
+        }
     }
 
     // Clean up
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    glDeleteProgram(shaderProgram);
     callback->setWindowClosed(true);
     glfwTerminate();
 }
@@ -123,16 +241,24 @@ int RenderEngine::init()
     glfwSetMouseButtonCallback(window, engine_mouse_button_callback);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+    // Rectangle data in screen coordinates
     int windowWidth, windowHeight;
     glfwGetWindowSize(window, &windowWidth, &windowHeight);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, windowWidth, 0, windowHeight, -1, 1);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    // Generate buffers
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
-    glViewport(0, 0, windowWidth, windowHeight);
+    shaderProgram = createShaderProgram(vertexShaderSource, fragmentShaderSource);
+    glUseProgram(shaderProgram);
+
+    // Set up orthographic projection matrix
+    glm::mat4 projection = glm::ortho(0.0f, (float)windowWidth, (float)windowHeight, 0.0f, -1.0f, 1.0f);
+    GLint projLoc = glGetUniformLocation(shaderProgram, "uProjection");
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+    glBindVertexArray(VAO);
 
     if (error != 0)
     {

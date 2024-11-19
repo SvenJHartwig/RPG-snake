@@ -18,5 +18,7 @@ void Text::render()
 
 RenderData *Text::createRenderData()
 {
-    // return new RenderData(new vector<float>(), new vector<unsigned int>());
+    vector<float> vertices = {};
+    vector<unsigned int> indices = {};
+    return new RenderData(vertices, indices);
 }

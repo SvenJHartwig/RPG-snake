@@ -11,11 +11,15 @@ using std::string;
 const char *vertexShaderSource = R"(
 #version 330 core
 layout (location = 0) in vec2 aPos;
+layout (location = 1) in vec3 aColor; 
+
+out vec3 vertexColor;
 
 uniform mat4 uProjection;
 
 void main() {
     gl_Position = uProjection * vec4(aPos, 0.0, 1.0);
+    vertexColor = aColor;
 }
 )";
 
@@ -24,9 +28,12 @@ const char *fragmentShaderSource = R"(
 #version 330 core
 out vec4 FragColor;
 
-void main() {
-    FragColor = vec4(0.2, 0.6, 0.8, 1.0); // Light blue color
-}
+in vec3 vertexColor; // the input variable from the vertex shader (same name and same type)  
+
+void main()
+{
+    FragColor = vec4(vertexColor, 1.0);
+} 
 )";
 
 // Callback for resizing the window
@@ -159,8 +166,11 @@ void RenderEngine::renderingLoop()
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getIndices().size() * sizeof(float), data->getIndices().data(), GL_STATIC_DRAW);
 
-            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
+            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
             glEnableVertexAttribArray(0);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(2 * sizeof(float)));
+            glEnableVertexAttribArray(1);
+
             // Draw rectangle
             glUseProgram(shaderProgram);
             glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);

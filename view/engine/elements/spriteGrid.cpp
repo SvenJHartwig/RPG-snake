@@ -56,5 +56,76 @@ void SpriteGrid::render()
 
 RenderData *SpriteGrid::createRenderData()
 {
-    //  return new RenderData(new vector<float>(), new vector<unsigned int>());
+    vector<float> vertices = {};
+    vector<unsigned int> indices = {};
+    for (int i = 0; i < grid->size(); i++)
+    {
+        for (int j = 0; j < grid->at(i).size(); j++)
+        {
+            float c1, c2, c3;
+            switch (grid->at(i)[j])
+            {
+            case 'W':
+                c1 = 0.9f;
+                c2 = 0.9f;
+                c3 = 0.9f;
+                break;
+            case 'H':
+                c1 = 0.9f;
+                c2 = 0.2f;
+                c3 = 0.2f;
+                break;
+            case 'B':
+                c1 = 0.8f;
+                c2 = 0.2f;
+                c3 = 0.2f;
+                break;
+            case 'F':
+                c1 = 0.2f;
+                c2 = 0.9f;
+                c3 = 0.2f;
+                break;
+            case 'S':
+                c1 = 0.1f;
+                c2 = 0.1f;
+                c3 = 0.9f;
+                break;
+
+            default:
+                c1 = 0.0f;
+                c2 = 0.0f;
+                c3 = 0.0f;
+                break;
+            }
+            vertices.push_back(pos_x_top_left + j * 32);
+            vertices.push_back(pos_y_top_left + i * 32);
+            vertices.push_back(c1);
+            vertices.push_back(c2);
+            vertices.push_back(c3);
+            vertices.push_back(pos_x_top_left + j * 32 + 32);
+            vertices.push_back(pos_y_top_left + i * 32);
+            vertices.push_back(c1);
+            vertices.push_back(c2);
+            vertices.push_back(c3);
+            vertices.push_back(pos_x_top_left + j * 32);
+            vertices.push_back(pos_y_top_left + i * 32 + 32);
+            vertices.push_back(c1);
+            vertices.push_back(c2);
+            vertices.push_back(c3);
+            vertices.push_back(pos_x_top_left + j * 32 + 32);
+            vertices.push_back(pos_y_top_left + i * 32 + 32);
+            vertices.push_back(c1);
+            vertices.push_back(c2);
+            vertices.push_back(c3);
+            int baseIndex = i * grid->at(i).size() + j;
+            indices.push_back(baseIndex);
+            indices.push_back(baseIndex + 1);
+            indices.push_back(baseIndex + 2);
+            indices.push_back(baseIndex + 1);
+            indices.push_back(baseIndex + 2);
+            indices.push_back(baseIndex + 3);
+        }
+    }
+    RenderData *data = new RenderData(vertices, indices);
+    return data;
 }

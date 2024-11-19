@@ -31,10 +31,10 @@ RenderData *Button::createRenderData()
 {
     vector<float> vertices = {
         // x, y
-        pos_x_top_left * 1.0f, pos_y_top_left * 1.0f,
-        pos_x_top_left * 1.0f, pos_y_bottom_right * 1.0f,
-        pos_x_bottom_right * 1.0f, pos_y_top_left * 1.0f,
-        pos_x_bottom_right * 1.0f, pos_y_bottom_right * 1.0f};
+        pos_x_top_left * 1.0f, pos_y_top_left * 1.0f, 1.0f, 0.0f, 0.0f,
+        pos_x_top_left * 1.0f, pos_y_bottom_right * 1.0f, 1.0f, 0.0f, 0.0f,
+        pos_x_bottom_right * 1.0f, pos_y_top_left * 1.0f, 1.0f, 0.0f, 0.0f,
+        pos_x_bottom_right * 1.0f, pos_y_bottom_right * 1.0f, 1.0f, 0.0f, 0.0f};
     vector<unsigned int> indices = {
         0, 1, 2, // First triangle
         1, 2, 3  // Second triangle

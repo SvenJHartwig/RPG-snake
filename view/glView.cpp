@@ -68,11 +68,11 @@ void GlView::initGameScene()
     int windowWidth, windowHeight;
     glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
     inGame = new Scene();
-    Text *scoreText = new Text(0, windowHeight - 20, 40, windowHeight);
+    Text *scoreText = new Text(0, 20, 40, windowHeight);
     scoreText->text = "Score: 0";
     scoreText->fd = engine->getFontData();
     inGame->scene_elements = new std::vector<Element *>(1, scoreText);
-    SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, windowHeight - 80, 200, 100);
+    SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100);
     spriteGrid->setGrid(new vector<string>());
     inGame->scene_elements->push_back(spriteGrid);
 }

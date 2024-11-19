@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "renderData.h"
+#include <unistd.h>
 
 using std::string;
 
@@ -175,31 +176,9 @@ void RenderEngine::renderingLoop()
             glUseProgram(shaderProgram);
             glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);
         }
-        /*    vector<float> vertices = {
-                // x, y
-                (windowWidth - rectWidth) / 2.0f, (windowHeight - rectHeight) / 2.0f, // Bottom-left
-                (windowWidth + rectWidth) / 2.0f, (windowHeight - rectHeight) / 2.0f, // Bottom-right
-                (windowWidth + rectWidth) / 2.0f, (windowHeight + rectHeight) / 2.0f, // Top-right
-                (windowWidth - rectWidth) / 2.0f, (windowHeight + rectHeight) / 2.0f  // Top-left
-            };
-            vector<unsigned int> indices = {
-                0, 1, 2, // First triangle
-                2, 3, 0  // Second triangle
-            };
-
-            RenderData *data = new RenderData(&vertices, &indices);*/
 
         // Swap buffers
         glfwSwapBuffers(window);
-
-        // Update rectangle size for dynamic resizing
-        /*  rectWidth += 1;
-          rectHeight += 1;
-          if (rectWidth > 400 || rectHeight > 300)
-          {
-              rectWidth = 200;
-              rectHeight = 150;
-          }*/
     }
 
     // Clean up

@@ -117,7 +117,7 @@ RenderData *SpriteGrid::createRenderData()
             vertices.push_back(c1);
             vertices.push_back(c2);
             vertices.push_back(c3);
-            int baseIndex = i * grid->at(i).size() + j;
+            int baseIndex = i * grid->at(i).size() + j * 4;
             indices.push_back(baseIndex);
             indices.push_back(baseIndex + 1);
             indices.push_back(baseIndex + 2);

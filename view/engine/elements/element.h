@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../iEngineCallback.h"
+#include "../renderData.h"
 #include <functional>
 
 class Element
@@ -17,6 +18,7 @@ public:
     int getPosYTopLeft() { return pos_y_top_left; }
     int getPosXBottomRight() { return pos_x_bottom_right; }
     int getPosYBottomRight() { return pos_y_bottom_right; }
+    virtual RenderData *createRenderData() = 0;
     virtual void render() = 0;
     ~Element();
 };

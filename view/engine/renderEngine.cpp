@@ -123,12 +123,10 @@ void engine_mouse_button_callback(GLFWwindow *window, int button, int action, in
     for (int i = 0; i < engine->getCurrentScene()->scene_elements->size(); i++)
     {
         Element *currentSceneElement = engine->getCurrentScene()->scene_elements->at(i);
-        int windowWidth, windowHeight;
-        glfwGetWindowSize(window, &windowWidth, &windowHeight);
         int xpostl = currentSceneElement->getPosXTopLeft();
-        int ypostl = windowHeight - currentSceneElement->getPosYTopLeft();
+        int ypostl = currentSceneElement->getPosYTopLeft();
         int xposbr = currentSceneElement->getPosXBottomRight();
-        int yposbr = windowHeight - currentSceneElement->getPosYBottomRight();
+        int yposbr = currentSceneElement->getPosYBottomRight();
         if (xpos > xpostl && xpos < xposbr &&
             ypos > ypostl && ypos < yposbr)
         {
@@ -144,58 +142,54 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 void RenderEngine::renderingLoop()
 {
-    int windowWidth, windowHeight;
-    glfwGetWindowSize(window, &windowWidth, &windowHeight);
-    int rectWidth = 200, rectHeight = 150;
     // Main rendering loop
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
-
         glClear(GL_COLOR_BUFFER_BIT);
-        /*       for (int i = 0; i < currentScene->scene_elements->size(); i++)
-               {
-                   currentScene->scene_elements->at(i)->render();
-               }*/
-        float vertices[] = {
-            // x, y
-            (windowWidth - rectWidth) / 2.0f, (windowHeight - rectHeight) / 2.0f, // Bottom-left
-            (windowWidth + rectWidth) / 2.0f, (windowHeight - rectHeight) / 2.0f, // Bottom-right
-            (windowWidth + rectWidth) / 2.0f, (windowHeight + rectHeight) / 2.0f, // Top-right
-            (windowWidth - rectWidth) / 2.0f, (windowHeight + rectHeight) / 2.0f  // Top-left
-        };
 
-        unsigned int indices[] = {
-            0, 1, 2, // First triangle
-            2, 3, 0  // Second triangle
-        };
+        for (int i = 0; i < currentScene->scene_elements->size(); i++)
+        {
+            RenderData *data = currentScene->scene_elements->at(i)->createRenderData();
+            // Update buffers with new vertex data
 
-        // Update buffers with new vertex data
+            glBindBuffer(GL_ARRAY_BUFFER, VBO);
+            glBufferData(GL_ARRAY_BUFFER, data->getVertices().size() * sizeof(float), data->getVertices().data(), GL_DYNAMIC_DRAW);
 
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getIndices().size() * sizeof(float), data->getIndices().data(), GL_STATIC_DRAW);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
+            glEnableVertexAttribArray(0);
+            // Draw rectangle
+            glUseProgram(shaderProgram);
+            glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);
+        }
+        /*    vector<float> vertices = {
+                // x, y
+                (windowWidth - rectWidth) / 2.0f, (windowHeight - rectHeight) / 2.0f, // Bottom-left
+                (windowWidth + rectWidth) / 2.0f, (windowHeight - rectHeight) / 2.0f, // Bottom-right
+                (windowWidth + rectWidth) / 2.0f, (windowHeight + rectHeight) / 2.0f, // Top-right
+                (windowWidth - rectWidth) / 2.0f, (windowHeight + rectHeight) / 2.0f  // Top-left
+            };
+            vector<unsigned int> indices = {
+                0, 1, 2, // First triangle
+                2, 3, 0  // Second triangle
+            };
 
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-
-        // Draw rectangle
-        glUseProgram(shaderProgram);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            RenderData *data = new RenderData(&vertices, &indices);*/
 
         // Swap buffers
         glfwSwapBuffers(window);
 
         // Update rectangle size for dynamic resizing
-        rectWidth += 1;
-        rectHeight += 1;
-        if (rectWidth > 400 || rectHeight > 300)
-        {
-            rectWidth = 200;
-            rectHeight = 150;
-        }
+        /*  rectWidth += 1;
+          rectHeight += 1;
+          if (rectWidth > 400 || rectHeight > 300)
+          {
+              rectWidth = 200;
+              rectHeight = 150;
+          }*/
     }
 
     // Clean up

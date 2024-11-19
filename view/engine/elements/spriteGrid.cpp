@@ -53,3 +53,8 @@ void SpriteGrid::render()
         }
     }
 }
+
+RenderData *SpriteGrid::createRenderData()
+{
+    //  return new RenderData(new vector<float>(), new vector<unsigned int>());
+}

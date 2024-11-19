@@ -15,3 +15,8 @@ void Text::render()
     glColor3f(0.9f, 0.9f, 0.9f);
     print(*fd, pos_x_top_left, pos_y_top_left, text);
 }
+
+RenderData *Text::createRenderData()
+{
+    // return new RenderData(new vector<float>(), new vector<unsigned int>());
+}

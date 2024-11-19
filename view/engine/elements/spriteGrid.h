@@ -15,6 +15,7 @@ public:
                int pos_x_bottom_right,
                int pos_y_bottom_right);
     void render();
+    RenderData *createRenderData();
     void setGrid(std::vector<std::string> *grid) { this->grid = grid; }
     std::vector<std::string> *getGrid() { return grid; }
 };

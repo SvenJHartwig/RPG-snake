@@ -26,3 +26,20 @@ void Button::render()
     glColor3f(0.1f, 0.1f, 0.1f);
     print(*fd, pos_x_top_left, pos_y_bottom_right, text);
 }
+
+RenderData *Button::createRenderData()
+{
+    vector<float> vertices = {
+        // x, y
+        pos_x_top_left * 1.0f, pos_y_top_left * 1.0f,
+        pos_x_top_left * 1.0f, pos_y_bottom_right * 1.0f,
+        pos_x_bottom_right * 1.0f, pos_y_top_left * 1.0f,
+        pos_x_bottom_right * 1.0f, pos_y_bottom_right * 1.0f};
+    vector<unsigned int> indices = {
+        0, 1, 2, // First triangle
+        1, 2, 3  // Second triangle
+    };
+
+    RenderData *data = new RenderData(vertices, indices);
+    return data;
+}

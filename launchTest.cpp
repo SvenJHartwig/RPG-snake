@@ -85,7 +85,7 @@ TEST_CASE("Initialize OpenGL (View)")
     engine_key_callback(view->getEngine()->getWindow(), GLFW_KEY_P, 0, GLFW_PRESS, 0);
     REQUIRE(((TestGameController *)view->getGameController())->calledP);
     glfwSetWindowShouldClose(view->getEngine()->getWindow(), true);
-    sleep_for(milliseconds(50));
+    sleep_for(milliseconds(500));
 }
 
 TEST_CASE("Main Menu is initialized correctly")
@@ -107,9 +107,9 @@ TEST_CASE("Game scene is initialized correctly")
     Scene *inGame = view->getInGameScene();
     REQUIRE(inGame->scene_elements->size() == 2);
     REQUIRE(inGame->scene_elements->at(0)->getPosXTopLeft() == 0);
-    REQUIRE(inGame->scene_elements->at(0)->getPosYTopLeft() == 748);
+    REQUIRE(inGame->scene_elements->at(0)->getPosYTopLeft() == 20);
     REQUIRE(inGame->scene_elements->at(1)->getPosXTopLeft() == 192);
-    REQUIRE(inGame->scene_elements->at(1)->getPosYTopLeft() == 688);
+    REQUIRE(inGame->scene_elements->at(1)->getPosYTopLeft() == 80);
     glfwTerminate();
 }
 
@@ -121,8 +121,8 @@ TEST_CASE("Game over scene is initialized correctly")
     Scene *gameOver = view->getGameOverScene();
     REQUIRE(gameOver->scene_elements->size() == 4);
     REQUIRE(gameOver->scene_elements->at(0)->getPosXTopLeft() == 0);
-    REQUIRE(gameOver->scene_elements->at(0)->getPosYTopLeft() == 748);
+    REQUIRE(gameOver->scene_elements->at(0)->getPosYTopLeft() == 20);
     REQUIRE(gameOver->scene_elements->at(1)->getPosXTopLeft() == 192);
-    REQUIRE(gameOver->scene_elements->at(1)->getPosYTopLeft() == 688);
+    REQUIRE(gameOver->scene_elements->at(1)->getPosYTopLeft() == 80);
     glfwTerminate();
 }

@@ -161,7 +161,6 @@ void RenderEngine::renderingLoop()
             RenderData *data = currentScene->scene_elements->at(i)->createRenderData();
             // Update buffers with new vertex data
             glBufferData(GL_ARRAY_BUFFER, data->getVertices().size() * sizeof(float), data->getVertices().data(), GL_DYNAMIC_DRAW);
-
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getIndices().size() * sizeof(float), data->getIndices().data(), GL_STATIC_DRAW);
 
             // Draw rectangle

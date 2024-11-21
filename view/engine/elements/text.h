@@ -13,6 +13,5 @@ public:
          int pos_x_bottom_right,
          int pos_y_bottom_right);
     ~Text();
-    void render();
     RenderData *createRenderData();
 };

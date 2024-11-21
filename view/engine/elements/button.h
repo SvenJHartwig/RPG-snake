@@ -15,5 +15,4 @@ public:
            int pos_y_bottom_right);
     ~Button();
     RenderData *createRenderData();
-    void render();
 };

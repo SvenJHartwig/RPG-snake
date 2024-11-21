@@ -92,9 +92,9 @@ RenderData *SpriteGrid::createRenderData()
                 break;
 
             default:
-                c1 = 0.0f;
-                c2 = 0.0f;
-                c3 = 0.0f;
+                c1 = 0.2f;
+                c2 = 0.2f;
+                c3 = 0.2f;
                 break;
             }
             vertices.push_back(pos_x_top_left + j * 32);
@@ -117,7 +117,7 @@ RenderData *SpriteGrid::createRenderData()
             vertices.push_back(c1);
             vertices.push_back(c2);
             vertices.push_back(c3);
-            int baseIndex = i * grid->at(i).size() + j * 4;
+            int baseIndex = (i * grid->at(i).size() + j) * 4;
             indices.push_back(baseIndex);
             indices.push_back(baseIndex + 1);
             indices.push_back(baseIndex + 2);

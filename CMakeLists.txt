@@ -32,3 +32,15 @@ target_link_options(launchTests PRIVATE -coverage)
 target_compile_definitions(launchTests PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/resources")
 
 add_test(NAME launchTest COMMAND launchTests)
+
+add_executable(engineTests launchTest.cpp model/grid.cpp model/snake.cpp controller/gridController.cpp controller/gameController.cpp 
+    view/glView.cpp view/engine/TextRenderer/TextRenderer.cpp view/engine/elements/button.cpp view/engine/elements/scene.cpp
+    view/engine/elements/element.cpp view/engine/renderEngine.cpp view/engine/elements/text.cpp view/engine/elements/spriteGrid.cpp)
+target_link_directories(engineTests PRIVATE /usr/local/lib /usr/lib64)
+target_link_libraries(engineTests PRIVATE Catch2::Catch2WithMain)
+target_compile_options(engineTests PRIVATE -coverage)
+target_link_libraries(engineTests PRIVATE glfw3 rt m dl GLEW GLU OpenGL freetype)
+target_link_options(engineTests PRIVATE -coverage)
+target_compile_definitions(engineTests PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/resources")
+
+add_test(NAME engineTests COMMAND engineTests)

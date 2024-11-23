@@ -13,11 +13,10 @@ struct Character
     unsigned int Advance;   // Offset to advance to next glyph
 };
 
-std::map<char, Character> Characters;
-
 class TextRenderer
 {
 public:
+    std::map<char, Character> Characters;
     void RenderText(Shader &s, unsigned int VAO, unsigned int VBO, std::string text, float x, float y, float scale, glm::vec3 color);
     int init();
 };

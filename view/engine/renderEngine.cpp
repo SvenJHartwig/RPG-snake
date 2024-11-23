@@ -155,6 +155,7 @@ void RenderEngine::renderingLoop()
     {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
+        glUseProgram(shaderProgram);
 
         for (int i = 0; i < currentScene->scene_elements->size(); i++)
         {
@@ -166,6 +167,8 @@ void RenderEngine::renderingLoop()
             // Draw rectangle
             glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);
         }
+
+        textRenderer->RenderText(*textShader, VAO, VBO, "This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
 
         // Swap buffers
         glfwSwapBuffers(window);
@@ -239,6 +242,14 @@ int RenderEngine::init()
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
+
+    string pathToVs = RESOURCE_DIR;
+    pathToVs.append("/shaders/text.vs");
+    string pathToFs = RESOURCE_DIR;
+    pathToFs.append("/shaders/text.fs");
+    textShader = new Shader(pathToVs.c_str(), pathToFs.c_str());
+    textRenderer = new TextRenderer();
+    textRenderer->init();
 
     if (error != 0)
     {

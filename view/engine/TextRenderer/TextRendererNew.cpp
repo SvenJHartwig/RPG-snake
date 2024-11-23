@@ -43,7 +43,7 @@ void TextRenderer::RenderText(Shader &shader, unsigned int VAO, unsigned int VBO
         // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
         x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
     }
-    glBindVertexArray(0);
+    //  glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 

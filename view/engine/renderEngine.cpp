@@ -160,15 +160,21 @@ void RenderEngine::renderingLoop()
         for (int i = 0; i < currentScene->scene_elements->size(); i++)
         {
             RenderData *data = currentScene->scene_elements->at(i)->createRenderData();
+
+            glBindVertexArray(VAO);
+            glBindBuffer(GL_ARRAY_BUFFER, VBO);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
             // Update buffers with new vertex data
             glBufferData(GL_ARRAY_BUFFER, data->getVertices().size() * sizeof(float), data->getVertices().data(), GL_DYNAMIC_DRAW);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getIndices().size() * sizeof(float), data->getIndices().data(), GL_STATIC_DRAW);
 
             // Draw rectangle
             glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
         }
 
-        textRenderer->RenderText(*textShader, VAO, VBO, "This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+        textRenderer->RenderText(*textShader, "This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
 
         // Swap buffers
         glfwSwapBuffers(window);
@@ -248,6 +254,9 @@ int RenderEngine::init()
     string pathToFs = RESOURCE_DIR;
     pathToFs.append("/shaders/text.fs");
     textShader = new Shader(pathToVs.c_str(), pathToFs.c_str());
+    glm::mat4 textProjection = glm::ortho(0.0f, static_cast<float>(windowWidth), 0.0f, static_cast<float>(windowHeight));
+    textShader->use();
+    glUniformMatrix4fv(glGetUniformLocation(textShader->ID, "projection"), 1, GL_FALSE, glm::value_ptr(textProjection));
     textRenderer = new TextRenderer();
     textRenderer->init();
 

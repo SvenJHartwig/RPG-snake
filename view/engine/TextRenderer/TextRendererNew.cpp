@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-void TextRenderer::RenderText(Shader &shader, unsigned int VAO, unsigned int VBO, std::string text, float x, float y, float scale, glm::vec3 color)
+void TextRenderer::RenderText(Shader &shader, std::string text, float x, float y, float scale, glm::vec3 color)
 {
     // activate corresponding render state
     shader.use();
@@ -43,12 +43,15 @@ void TextRenderer::RenderText(Shader &shader, unsigned int VAO, unsigned int VBO
         // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
         x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
     }
-    //  glBindVertexArray(0);
+    glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 int TextRenderer::init()
 {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     std::string path = RESOURCE_DIR;
     path.append("/fonts/WorkSans-Black.ttf");
     FT_Library ft;
@@ -68,9 +71,10 @@ int TextRenderer::init()
 
     for (unsigned char c = 0; c < 128; c++)
     {
-        // load character glyph
+        // Load character glyph
         if (FT_Load_Char(face, c, FT_LOAD_RENDER))
         {
+            std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
             continue;
         }
         // generate texture
@@ -97,9 +101,23 @@ int TextRenderer::init()
             texture,
             glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
             glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-            face->glyph->advance.x};
+            static_cast<unsigned int>(face->glyph->advance.x)};
         Characters.insert(std::pair<char, Character>(c, character));
     }
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    // destroy FreeType once we're finished
+    FT_Done_Face(face);
+    FT_Done_FreeType(ft);
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
     return 0;
 }

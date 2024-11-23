@@ -15,8 +15,10 @@ struct Character
 
 class TextRenderer
 {
+    unsigned int VAO, VBO;
+
 public:
     std::map<char, Character> Characters;
-    void RenderText(Shader &s, unsigned int VAO, unsigned int VBO, std::string text, float x, float y, float scale, glm::vec3 color);
+    void RenderText(Shader &s, std::string text, float x, float y, float scale, glm::vec3 color);
     int init();
 };

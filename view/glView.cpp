@@ -48,15 +48,12 @@ void GlView::initMainMenu()
     mainMenu = new Scene();
     Button *first = new Button(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2);
     first->text = "Begin game";
-    first->fd = engine->getFontData();
     first->callback = &inputP;
     Button *second = new Button(windowWidth / 2 - 40, windowHeight / 2 + 20, windowWidth / 2 + 40, windowHeight / 2 + 40);
     second->text = "Load level";
-    second->fd = engine->getFontData();
     second->callback = &inputO;
     Button *third = new Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 220);
     third->text = "Exit";
-    third->fd = engine->getFontData();
     third->callback = &inputL;
     mainMenu->scene_elements = new std::vector<Element *>(1, first);
     mainMenu->scene_elements->push_back(second);
@@ -70,7 +67,6 @@ void GlView::initGameScene()
     inGame = new Scene();
     Text *scoreText = new Text(0, 20, 40, windowHeight);
     scoreText->text = "Score: 0";
-    scoreText->fd = engine->getFontData();
     inGame->scene_elements = new std::vector<Element *>(1, scoreText);
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100);
     spriteGrid->setGrid(new vector<string>());
@@ -84,18 +80,15 @@ void GlView::initGameOverScene()
     gameOver = new Scene();
     Text *scoreText = new Text(0, 20, 40, windowHeight);
     scoreText->text = "Score: 0";
-    scoreText->fd = engine->getFontData();
     gameOver->scene_elements = new std::vector<Element *>(1, scoreText);
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100);
     spriteGrid->setGrid(new vector<string>());
     gameOver->scene_elements->push_back(spriteGrid);
     Text *gameOverText = new Text(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2);
     gameOverText->text = "GAME OVER";
-    gameOverText->fd = engine->getFontData();
     gameOver->scene_elements->push_back(gameOverText);
     Text *gameOverText2 = new Text(windowWidth / 2 - 40, windowHeight / 2 + 20, windowWidth / 2 + 40, windowHeight / 2 + 40);
     gameOverText2->text = "PRESS P TO RETURN TO MAIN MENU";
-    gameOverText2->fd = engine->getFontData();
     gameOver->scene_elements->push_back(gameOverText2);
 }
 
@@ -106,18 +99,15 @@ void GlView::initWinScene()
     win = new Scene();
     Text *scoreText = new Text(0, 20, 40, windowHeight);
     scoreText->text = "Score: 0";
-    scoreText->fd = engine->getFontData();
     win->scene_elements = new std::vector<Element *>(1, scoreText);
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100);
     spriteGrid->setGrid(new vector<string>());
     win->scene_elements->push_back(spriteGrid);
     Text *gameOverText = new Text(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2);
     gameOverText->text = "YOU WON THIS LEVEL!";
-    gameOverText->fd = engine->getFontData();
     win->scene_elements->push_back(gameOverText);
     Text *gameOverText2 = new Text(windowWidth / 2 - 40, windowHeight / 2 + 20, windowWidth / 2 + 40, windowHeight / 2 + 40);
     gameOverText2->text = "PRESS P TO GO TO THE NEXT LEVEL";
-    gameOverText2->fd = engine->getFontData();
     win->scene_elements->push_back(gameOverText2);
 }
 

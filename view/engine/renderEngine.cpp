@@ -212,11 +212,6 @@ int RenderEngine::init()
         error = -1;
     }
 
-    // Initialize text renderer
-    string path = RESOURCE_DIR;
-    path.append("/fonts/WorkSans-Black.ttf");
-    fd->init(path.c_str(), 10);
-
     // Initialize input callbacks
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, engine_key_callback);
@@ -258,7 +253,10 @@ int RenderEngine::init()
     textShader->use();
     glUniformMatrix4fv(glGetUniformLocation(textShader->ID, "projection"), 1, GL_FALSE, glm::value_ptr(textProjection));
     textRenderer = new TextRenderer();
-    textRenderer->init();
+    if (textRenderer->init() != 0)
+    {
+        error = -2;
+    }
 
     if (error != 0)
     {

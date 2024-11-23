@@ -7,7 +7,6 @@ class Button : public Element
 {
 private:
 public:
-    font_data *fd;
     std::string text;
     Button(int pos_x_top_left,
            int pos_y_top_left,

@@ -11,5 +11,4 @@ public:
     virtual void setCurrentScene(Scene *currentScene) = 0;
     virtual void renderingLoop() = 0;
     virtual int init() = 0;
-    virtual font_data *getFontData() = 0;
 };

@@ -1,27 +1,24 @@
 #pragma once
-#include <GL/gl.h>
-#include <string>
-#include <vector>
-// NEHE tutorial
+#include <glm/glm.hpp>
+#include <map>
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include "../shaders/shader.h"
 
-// This Holds All Of The Information Related To Any
-// FreeType Font That We Want To Create.
-struct font_data
+struct Character
 {
-    float h;                      // Holds The Height Of The Font.
-    std::vector<GLuint> textures; // Holds The Texture Id's
-    GLuint list_base;             // Holds The First Display List Id
-
-    // The Init Function Will Create A Font With
-    // The Height h From The File fname.
-    void init(const char *fname, unsigned int h);
-
-    // Free All The Resources Associated With The Font.
-    void clean();
+    unsigned int TextureID; // ID handle of the glyph texture
+    glm::ivec2 Size;        // Size of glyph
+    glm::ivec2 Bearing;     // Offset from baseline to left/top of glyph
+    unsigned int Advance;   // Offset to advance to next glyph
 };
 
-// The Flagship Function Of The Library - This Thing Will Print
-// Out Text At Window Coordinates X, Y, Using The Font ft_font.
-// The Current Modelview Matrix Will Also Be Applied To The Text.
-void print(font_data const &ft_font, float x, float y,
-           std::string const &text);
+class TextRenderer
+{
+    unsigned int VAO, VBO;
+
+public:
+    std::map<char, Character> Characters;
+    void RenderText(Shader &s, std::string text, float x, float y, float scale, glm::vec3 color);
+    int init();
+};

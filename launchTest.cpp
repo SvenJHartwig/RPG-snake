@@ -41,10 +41,6 @@ public:
     void setCurrentScene(Scene *currentScene) {}
     void renderingLoop() {}
     int init() { return 0; }
-    font_data *getFontData()
-    {
-        return new font_data();
-    }
 };
 
 TEST_CASE("Initialize OpenGL (Engine)")

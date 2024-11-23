@@ -5,7 +5,7 @@
 #include "iEngineCallback.h"
 #include "iRenderEngine.h"
 #include "shaders/shader.h"
-#include "TextRenderer/TextRendererNew.h"
+#include "TextRenderer/TextRenderer.h"
 
 void engine_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 void engine_mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
@@ -13,7 +13,6 @@ void engine_mouse_button_callback(GLFWwindow *window, int button, int action, in
 class RenderEngine : public IRenderEngine
 {
 private:
-    font_data *fd = new font_data();
     GLFWwindow *window;
     Scene *currentScene;
     IEngineCallback *callback;
@@ -30,5 +29,4 @@ public:
     void setCurrentScene(Scene *currentScene) { this->currentScene = currentScene; }
     void renderingLoop();
     int init();
-    font_data *getFontData() { return fd; }
 };

@@ -155,12 +155,12 @@ void RenderEngine::renderingLoop()
     {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
-        glUseProgram(shaderProgram);
 
         for (int i = 0; i < currentScene->scene_elements->size(); i++)
         {
             RenderData *data = currentScene->scene_elements->at(i)->createRenderData();
 
+            glUseProgram(shaderProgram);
             glBindVertexArray(VAO);
             glBindBuffer(GL_ARRAY_BUFFER, VBO);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -172,9 +172,12 @@ void RenderEngine::renderingLoop()
             glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
-        }
 
-        textRenderer->RenderText(*textShader, "This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+            if (data->getText() != "")
+            {
+                textRenderer->RenderText(*textShader, data->getText(), data->getTextPosX(), data->getTextPosY(), data->getTextScale(), data->getTextColor());
+            }
+        }
 
         // Swap buffers
         glfwSwapBuffers(window);

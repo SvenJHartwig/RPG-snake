@@ -11,7 +11,7 @@ class RenderData
 private:
     vector<float> vertices;
     vector<unsigned int> indices;
-    std::string text;
+    std::string text = "";
     float textPosX;
     float textPosY;
     float textScale;
@@ -35,4 +35,9 @@ public:
     }
     vector<float> getVertices() { return vertices; }
     vector<unsigned int> getIndices() { return indices; }
+    std::string getText() { return text; }
+    float getTextPosX() { return textPosX; }
+    float getTextPosY() { return textPosY; }
+    float getTextScale() { return textScale; }
+    glm::vec3 getTextColor() { return textColor; }
 };

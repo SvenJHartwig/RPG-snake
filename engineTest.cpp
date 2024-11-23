@@ -7,6 +7,6 @@ TEST_CASE("Button produces a colored rectangle")
     button->text = "Test";
     RenderData *data = button->createRenderData();
     REQUIRE(button->text == "Test");
-    REQUIRE(data->getVertices().size() == 4);
+    REQUIRE(data->getVertices().size() == 20);
     REQUIRE(data->getIndices().size() == 6);
 }

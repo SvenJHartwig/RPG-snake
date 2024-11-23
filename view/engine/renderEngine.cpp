@@ -160,15 +160,14 @@ void RenderEngine::renderingLoop()
         {
             RenderData *data = currentScene->scene_elements->at(i)->createRenderData();
 
+            // Bind normal buffers That are unbound during text rendering
             glUseProgram(shaderProgram);
             glBindVertexArray(VAO);
             glBindBuffer(GL_ARRAY_BUFFER, VBO);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
             // Update buffers with new vertex data
             glBufferData(GL_ARRAY_BUFFER, data->getVertices().size() * sizeof(float), data->getVertices().data(), GL_DYNAMIC_DRAW);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getIndices().size() * sizeof(float), data->getIndices().data(), GL_STATIC_DRAW);
 
-            // Draw rectangle
             glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -254,7 +253,7 @@ int RenderEngine::init()
     textShader = new Shader(pathToVs.c_str(), pathToFs.c_str());
     glm::mat4 textProjection = glm::ortho(0.0f, static_cast<float>(windowWidth), 0.0f, static_cast<float>(windowHeight));
     textShader->use();
-    glUniformMatrix4fv(glGetUniformLocation(textShader->ID, "projection"), 1, GL_FALSE, glm::value_ptr(textProjection));
+    glUniformMatrix4fv(glGetUniformLocation(textShader->ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
     textRenderer = new TextRenderer();
     if (textRenderer->init() != 0)
     {

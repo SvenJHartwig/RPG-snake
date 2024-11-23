@@ -35,7 +35,7 @@ target_compile_definitions(launchTests PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}
 
 add_test(NAME launchTest COMMAND launchTests)
 
-add_executable(engineTests launchTest.cpp model/grid.cpp model/snake.cpp controller/gridController.cpp controller/gameController.cpp 
+add_executable(engineTests engineTest.cpp model/grid.cpp model/snake.cpp controller/gridController.cpp controller/gameController.cpp 
     view/glView.cpp view/engine/TextRenderer/TextRenderer.cpp view/engine/elements/button.cpp view/engine/elements/scene.cpp
     view/engine/elements/element.cpp view/engine/renderEngine.cpp view/engine/elements/text.cpp view/engine/elements/spriteGrid.cpp
     view/engine/shaders/shader.cpp)

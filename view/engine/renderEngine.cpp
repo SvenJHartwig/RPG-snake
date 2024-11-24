@@ -174,7 +174,7 @@ void RenderEngine::renderingLoop()
 
             if (data->getText() != "")
             {
-                textRenderer->RenderText(*textShader, data->getText(), data->getTextPosX(), data->getTextPosY(), data->getTextScale(), data->getTextColor());
+                textRenderer->RenderText(data->getText(), data->getTextPosX(), data->getTextPosY(), data->getTextScale(), data->getTextColor());
             }
         }
 
@@ -246,16 +246,8 @@ int RenderEngine::init()
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    string pathToVs = RESOURCE_DIR;
-    pathToVs.append("/shaders/text.vs");
-    string pathToFs = RESOURCE_DIR;
-    pathToFs.append("/shaders/text.fs");
-    textShader = new Shader(pathToVs.c_str(), pathToFs.c_str());
-    glm::mat4 textProjection = glm::ortho(0.0f, static_cast<float>(windowWidth), 0.0f, static_cast<float>(windowHeight));
-    textShader->use();
-    glUniformMatrix4fv(glGetUniformLocation(textShader->ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
     textRenderer = new TextRenderer();
-    if (textRenderer->init() != 0)
+    if (textRenderer->init(windowWidth, windowHeight, projection) != 0)
     {
         error = -2;
     }

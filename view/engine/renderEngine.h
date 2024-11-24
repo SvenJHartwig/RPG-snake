@@ -18,7 +18,6 @@ private:
     IEngineCallback *callback;
     unsigned int VBO, VAO, EBO;
     unsigned int shaderProgram;
-    Shader *textShader;
     TextRenderer *textRenderer;
 
 public:

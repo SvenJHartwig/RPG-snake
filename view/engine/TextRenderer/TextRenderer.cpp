@@ -2,17 +2,20 @@
 #include <string>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/type_ptr.hpp>
 
-void TextRenderer::RenderText(Shader &shader, std::string text, float x, float y, float scale, glm::vec3 color)
+using std::string;
+
+void TextRenderer::RenderText(std::string text, float x, float y, float scale, glm::vec3 color)
 {
     // activate corresponding render state
-    shader.use();
-    glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
+    shader->use();
+    glUniform3f(glGetUniformLocation(shader->ID, "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(VAO);
 
     // iterate through all characters
-    std::string::const_iterator c;
+    string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
     {
         Character ch = Characters[*c];
@@ -47,8 +50,10 @@ void TextRenderer::RenderText(Shader &shader, std::string text, float x, float y
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-int TextRenderer::init()
+int TextRenderer::init(unsigned int windowWidth, unsigned int windowHeight, glm::mat4 projection)
 {
+    this->windowWidth = windowWidth;
+    this->windowHeight = windowHeight;
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -118,6 +123,14 @@ int TextRenderer::init()
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    string pathToVs = RESOURCE_DIR;
+    pathToVs.append("/shaders/text.vs");
+    string pathToFs = RESOURCE_DIR;
+    pathToFs.append("/shaders/text.fs");
+    shader = new Shader(pathToVs.c_str(), pathToFs.c_str());
+    shader->use();
+    glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     return 0;
 }

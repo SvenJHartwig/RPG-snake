@@ -32,7 +32,7 @@ void GameController::reactOnInput(char input)
         {
             infinite = false;
             string path = RESOURCE_DIR;
-            path.append("/tests/level/level1");
+            path.append("/level/level1");
             gridController->loadLevel(path);
             gridController->updateGrid();
             gameState = IN_GAME;
@@ -68,7 +68,7 @@ void GameController::reactOnInput(char input)
         {
             resetGame();
             string path = RESOURCE_DIR;
-            path.append("/tests/level/level" + std::to_string(level));
+            path.append("/level/level" + std::to_string(level));
             gridController->loadLevel(path);
             gridController->updateGrid();
             gameState = IN_GAME;

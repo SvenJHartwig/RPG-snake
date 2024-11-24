@@ -22,5 +22,5 @@ class TextRenderer
 
 public:
     void RenderText(std::string text, float x, float y, float scale, glm::vec3 color);
-    int init(unsigned int windowWidth, unsigned int windowHeight, glm::mat4 projection);
+    int init(unsigned int windowWidth, unsigned int windowHeight);
 };

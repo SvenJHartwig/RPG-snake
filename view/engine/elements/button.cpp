@@ -24,6 +24,6 @@ RenderData *Button::createRenderData()
         1, 2, 3  // Second triangle
     };
 
-    RenderData *data = new RenderData(vertices, indices, text, pos_x_top_left, pos_y_top_left, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+    RenderData *data = new RenderData(vertices, indices, text, pos_x_top_left, pos_y_bottom_right, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
     return data;
 }

@@ -247,7 +247,7 @@ int RenderEngine::init()
     glEnableVertexAttribArray(1);
 
     textRenderer = new TextRenderer();
-    if (textRenderer->init(windowWidth, windowHeight, projection) != 0)
+    if (textRenderer->init(windowWidth, windowHeight) != 0)
     {
         error = -2;
     }

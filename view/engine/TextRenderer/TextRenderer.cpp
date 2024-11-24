@@ -2,6 +2,7 @@
 #include <string>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 using std::string;
@@ -21,7 +22,7 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
         Character ch = Characters[*c];
 
         float xpos = x + ch.Bearing.x * scale;
-        float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
+        float ypos = windowHeight - y - (ch.Size.y - ch.Bearing.y) * scale;
 
         float w = ch.Size.x * scale;
         float h = ch.Size.y * scale;
@@ -50,7 +51,7 @@ void TextRenderer::RenderText(std::string text, float x, float y, float scale, g
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-int TextRenderer::init(unsigned int windowWidth, unsigned int windowHeight, glm::mat4 projection)
+int TextRenderer::init(unsigned int windowWidth, unsigned int windowHeight)
 {
     this->windowWidth = windowWidth;
     this->windowHeight = windowHeight;
@@ -130,7 +131,8 @@ int TextRenderer::init(unsigned int windowWidth, unsigned int windowHeight, glm:
     pathToFs.append("/shaders/text.fs");
     shader = new Shader(pathToVs.c_str(), pathToFs.c_str());
     shader->use();
-    glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    glm::mat4 textProjection = glm::ortho(0.0f, static_cast<float>(windowWidth), 0.0f, static_cast<float>(windowHeight));
+    glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projection"), 1, GL_FALSE, glm::value_ptr(textProjection));
 
     return 0;
 }

@@ -518,6 +518,20 @@ TEST_CASE("Win game")
   gameController->reactOnInput('p');
   REQUIRE(gameController->getGameState() == IN_GAME);
   REQUIRE(gameController->getLevel() == 2);
+  // Hard reset on restarting game
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->updateGrid();
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getGridController()->isGameOver());
+  REQUIRE(gameController->getGameState() == GAME_OVER);
+  gameController->reactOnInput('p');
+  gameController->reactOnInput('p');
+  REQUIRE(gameController->getLevel() == 1);
+  REQUIRE(gameController->getScore() == 0);
 }
 
 TEST_CASE("Infinite game")

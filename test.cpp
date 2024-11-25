@@ -12,6 +12,10 @@ class TestGenerator : public RandomGenerator
 
 public:
   int specificValue = 0;
+  std::pair<int, int> getRandomPair(int max_value_x, int max_value_y, const std::set<std::pair<int, int>> &exclusions) override
+  {
+    return std::pair<int, int>(9, 5);
+  }
   int getRandom(int max_value) override
   {
     if (specificValue != 0)
@@ -122,6 +126,7 @@ TEST_CASE("Test grid movement")
   expectedGrid->at(snake->getHeadY())[9] = 'F';
   chars = gridController->updateGrid();
   REQUIRE(!gridController->isGameOver());
+  printGridComparison(expectedGrid, chars, 20);
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);

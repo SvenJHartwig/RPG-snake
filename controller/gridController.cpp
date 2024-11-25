@@ -7,6 +7,28 @@
 
 using std::vector;
 
+std::pair<int, int> RandomGeneratorImpl::getRandomPair(int max_value_x, int max_value_y, const std::set<std::pair<int, int>> &exclusions)
+{
+
+    int index = 0;
+    for (int i = 0; i < max_value_x; i++)
+    {
+        for (int j = 0; j < max_value_y; j++)
+        {
+            if (exclusions.find({i, j}) == exclusions.end())
+            {
+                indexToPair[index++] = {i, j};
+            }
+        }
+    }
+    if (indexToPair.size() == 0)
+    {
+        return {0, 0};
+    }
+    int randomIndex = (rand() % indexToPair.size()) - 1;
+    return indexToPair[randomIndex];
+}
+
 int RandomGeneratorImpl::getRandom(int max_value)
 {
     return (rand() % max_value) + 1;
@@ -63,12 +85,15 @@ vector<string> *GridController::updateGrid()
                     if (indexOfFoodOnThisField == 0)
                     {
                         snake->eat();
-                        int newX = rng->getRandom(grid->getGridSizeX() - 2);
-                        int newY = rng->getRandom(grid->getGridSizeY() - 2);
+                        std::set<std::pair<int, int>> *exclusions = grid->occupiedSpacesWall;
+                        std::pair<int, int> newPair = rng->getRandomPair(grid->getGridSizeX(), grid->getGridSizeY(), *exclusions);
+                        int newX = newPair.first;
+                        int newY = newPair.second;
                         if (rng->getRandom(5) == 1)
                         {
-                            int newSpecialX = rng->getRandom(grid->getGridSizeX() - 2);
-                            int newSpecialY = rng->getRandom(grid->getGridSizeY() - 2);
+                            std::pair<int, int> newSpecialPair = rng->getRandomPair(grid->getGridSizeX(), grid->getGridSizeY(), *exclusions);
+                            int newSpecialX = newSpecialPair.first;
+                            int newSpecialY = newSpecialPair.second;
                             generateNewSpecialFood(newSpecialX, newSpecialY);
                         }
                         generateNewFood(newX, newY);
@@ -318,10 +343,17 @@ vector<string> readFileAsStringArray(const string &filepath)
 }
 void GridController::loadLevel(const string path)
 {
+    grid->occupiedSpacesWall->clear();
     vector<string> level = readFileAsStringArray(path);
     grid->getLevel()->clear();
-    for (string l : level)
+    for (int i = 0; i < level.size(); i++)
     {
+        string l = level.at(i);
         grid->getLevel()->push_back(l);
+        for (int j = 0; j < l.size(); j++)
+        {
+            if (l.at(j) == 'W')
+                grid->occupiedSpacesWall->insert({j, i});
+        }
     }
 }

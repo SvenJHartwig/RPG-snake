@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "snake.h"
+#include <set>
 
 using std::string, std::vector;
 
@@ -15,6 +16,8 @@ private:
     vector<string> *grid;
 
 public:
+    std::set<std::pair<int, int>> *occupiedSpacesWall;
+    std::set<std::pair<int, int>> *occupiedSpacesSnake;
     Grid();
     ~Grid();
     void setGrid(vector<string> *grid) { this->grid = grid; }

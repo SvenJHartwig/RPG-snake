@@ -26,6 +26,15 @@ void GameController::reactOnInput(char input)
         if (input == 'p')
         {
             gameState = IN_GAME;
+            Grid *grid = gridController->getGrid();
+            grid->occupiedSpacesWall->clear();
+            for (int i = 0; i < grid->getGrid()->size(); i++)
+            {
+                for (int j = 0; j < grid->getGrid()->at(i).size(); j++)
+                {
+                    grid->occupiedSpacesWall->insert({j, i});
+                }
+            }
             view->gameStateChanged(gameState);
         }
         else if (input == 'o')

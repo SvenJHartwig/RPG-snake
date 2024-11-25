@@ -20,6 +20,9 @@ Grid::Grid()
         }
     }
     grid = new vector<string>();
+
+    occupiedSpacesWall = new std::set<std::pair<int, int>>();
+    occupiedSpacesSnake = new std::set<std::pair<int, int>>();
 }
 
 Grid::~Grid()

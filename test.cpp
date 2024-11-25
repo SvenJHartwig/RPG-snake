@@ -530,6 +530,7 @@ TEST_CASE("Win game")
   REQUIRE(gameController->getGameState() == GAME_OVER);
   gameController->reactOnInput('p');
   gameController->reactOnInput('p');
+  REQUIRE(gameController->getGameState() == IN_GAME);
   REQUIRE(gameController->getLevel() == 1);
   REQUIRE(gameController->getScore() == 0);
 }
@@ -545,4 +546,15 @@ TEST_CASE("Infinite game")
     gameController->eat(true);
   }
   REQUIRE(gameController->getGameState() == IN_GAME);
+}
+
+TEST_CASE("RNG doesn't generate pair on wall")
+{
+  RandomGeneratorImpl *rng = new RandomGeneratorImpl();
+  for (int i = 0; i < 40; i++)
+  {
+    std::pair<int, int> pair = rng->getRandomPair(2, 1, {{0, 1}});
+    std::pair<int, int> pair2 = {0, 1};
+    REQUIRE(pair != pair2);
+  }
 }

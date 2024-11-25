@@ -75,7 +75,7 @@ void GameController::reactOnInput(char input)
     case WIN:
         if (input == 'p')
         {
-            resetGame();
+            softReset();
             string path = RESOURCE_DIR;
             path.append("/level/level" + std::to_string(level));
             gridController->loadLevel(path);
@@ -210,15 +210,20 @@ GameState GameController::getGameState()
     return gameState;
 }
 
-void GameController::resetGame()
+void GameController::softReset()
 {
     lastInput = ' ';
+    lastDirection = ' ';
     speed = l1;
     eatCount = 0;
+    gridController->reset();
+}
+
+void GameController::resetGame()
+{
     view->setScore(0);
     level = 1;
     infinite = true;
     score = 0;
-    lastDirection = ' ';
-    gridController->reset();
+    softReset();
 }

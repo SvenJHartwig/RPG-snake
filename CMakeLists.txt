@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.9)
-project (Tutorial)
+project (Snake)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(main main.cpp model/grid.cpp model/snake.cpp controller/gridController.cpp controller/gameController.cpp 
     view/glView.cpp view/engine/TextRenderer/TextRenderer.cpp view/engine/elements/button.cpp view/engine/elements/scene.cpp

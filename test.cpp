@@ -126,7 +126,6 @@ TEST_CASE("Test grid movement")
   expectedGrid->at(snake->getHeadY())[9] = 'F';
   chars = gridController->updateGrid();
   REQUIRE(!gridController->isGameOver());
-  printGridComparison(expectedGrid, chars, 20);
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
@@ -509,6 +508,7 @@ TEST_CASE("Win game")
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
   gameController->reactOnInput('o');
+  REQUIRE(gameController->getLevel() == 1);
   REQUIRE(gameController->getGameState() == IN_GAME);
   for (int i = 0; i < 20; i++)
   {
@@ -517,6 +517,7 @@ TEST_CASE("Win game")
   REQUIRE(gameController->getGameState() == WIN);
   gameController->reactOnInput('p');
   REQUIRE(gameController->getGameState() == IN_GAME);
+  REQUIRE(gameController->getLevel() == 2);
 }
 
 TEST_CASE("Infinite game")

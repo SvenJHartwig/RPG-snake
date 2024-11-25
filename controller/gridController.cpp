@@ -316,7 +316,7 @@ void GridController::reset()
 {
     food->clear();
     food->push_back(new Food());
-    grid->setGrid(new vector<string>());
+    grid->reset();
     snake = new Snake();
     updateGrid();
     game_over = false;

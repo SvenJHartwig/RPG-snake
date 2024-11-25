@@ -1,11 +1,10 @@
 #include "grid.h"
 
-Grid::Grid()
+void Grid::reset()
 {
     grid_size_x = 20;
     grid_size_y = 20;
     level = new vector<string>();
-    // Initialize standard level
     for (int i = 0; i < grid_size_y; i++)
     {
         string temp(grid_size_y, 'x');
@@ -23,6 +22,11 @@ Grid::Grid()
 
     occupiedSpacesWall = new std::set<std::pair<int, int>>();
     occupiedSpacesSnake = new std::set<std::pair<int, int>>();
+}
+Grid::Grid()
+{
+    // Initialize standard level
+    reset();
 }
 
 Grid::~Grid()

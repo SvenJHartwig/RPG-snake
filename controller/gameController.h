@@ -37,5 +37,7 @@ public:
     int getScore();
     GameState getGameState();
     void setGameState(GameState state) { this->gameState = state; }
+    void softReset();
     void resetGame();
+    int getLevel() { return level; }
 };

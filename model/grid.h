@@ -26,4 +26,5 @@ public:
     vector<string> *getLevel() { return level; }
     int getGridSizeX();
     int getGridSizeY();
+    void reset();
 };

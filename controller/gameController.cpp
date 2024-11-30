@@ -208,6 +208,7 @@ void GameController::softReset()
     speed = l1;
     eatCount = 0;
     gridController->reset();
+    gridController->updateGrid();
 }
 
 void GameController::resetGame()

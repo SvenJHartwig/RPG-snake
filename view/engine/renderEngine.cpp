@@ -8,81 +8,10 @@
 
 using std::string;
 
-// Vertex shader source code
-const char *vertexShaderSource = R"(
-#version 330 core
-layout (location = 0) in vec2 aPos;
-layout (location = 1) in vec3 aColor; 
-
-out vec3 vertexColor;
-
-uniform mat4 uProjection;
-
-void main() {
-    gl_Position = uProjection * vec4(aPos, 0.0, 1.0);
-    vertexColor = aColor;
-}
-)";
-
-// Fragment shader source code
-const char *fragmentShaderSource = R"(
-#version 330 core
-out vec4 FragColor;
-
-in vec3 vertexColor; // the input variable from the vertex shader (same name and same type)  
-
-void main()
-{
-    FragColor = vec4(vertexColor, 1.0);
-} 
-)";
-
 // Callback for resizing the window
 void framebufferSizeCallback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
-}
-
-// Compile shader and check for errors
-GLuint compileShader(GLenum type, const char *source)
-{
-    GLuint shader = glCreateShader(type);
-    glShaderSource(shader, 1, &source, nullptr);
-    glCompileShader(shader);
-
-    int success;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        char infoLog[512];
-        glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-    }
-    return shader;
-}
-
-// Link shaders into a program
-GLuint createShaderProgram(const char *vertexSource, const char *fragmentSource)
-{
-    GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexSource);
-    GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentSource);
-
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    int success;
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success)
-    {
-        char infoLog[512];
-        glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
-    }
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    return shaderProgram;
 }
 
 void engine_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
@@ -161,7 +90,7 @@ void RenderEngine::renderingLoop()
             RenderData *data = currentScene->scene_elements->at(i)->createRenderData();
 
             // Bind normal buffers That are unbound during text rendering
-            glUseProgram(shaderProgram);
+            colorShader->use();
             glBindVertexArray(VAO);
             glBindBuffer(GL_ARRAY_BUFFER, VBO);
             // Update buffers with new vertex data
@@ -186,7 +115,6 @@ void RenderEngine::renderingLoop()
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    glDeleteProgram(shaderProgram);
     callback->setWindowClosed(true);
     glfwTerminate();
 }
@@ -229,13 +157,16 @@ int RenderEngine::init()
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
 
-    shaderProgram = createShaderProgram(vertexShaderSource, fragmentShaderSource);
-    glUseProgram(shaderProgram);
-
-    // Set up orthographic projection matrix
+    /*************************Set up shaders*************************************** */
+    string pathToVs = RESOURCE_DIR;
+    pathToVs.append("/shaders/color.vs");
+    string pathToFs = RESOURCE_DIR;
+    pathToFs.append("/shaders/color.fs");
+    colorShader = new Shader(pathToVs.c_str(), pathToFs.c_str());
+    colorShader->use();
+    // Set up orthographic projection matrix for color shader
     glm::mat4 projection = glm::ortho(0.0f, (float)windowWidth, (float)windowHeight, 0.0f, -1.0f, 1.0f);
-    GLint projLoc = glGetUniformLocation(shaderProgram, "uProjection");
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    glUniformMatrix4fv(glGetUniformLocation(colorShader->ID, "uProjection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);

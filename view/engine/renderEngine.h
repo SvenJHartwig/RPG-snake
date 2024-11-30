@@ -17,8 +17,8 @@ private:
     Scene *currentScene;
     IEngineCallback *callback;
     unsigned int VBO, VAO, EBO;
-    unsigned int shaderProgram;
     TextRenderer *textRenderer;
+    Shader *colorShader;
 
 public:
     IEngineCallback *getEngineCallback() { return callback; }

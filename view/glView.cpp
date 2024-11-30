@@ -116,7 +116,7 @@ void GlView::gameStateChanged(GameState game_state)
     if (game_state == IN_GAME)
     {
         engine->setCurrentScene(inGame);
-        glfwSetInputMode(engine->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        //  glfwSetInputMode(engine->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
     else if (game_state == MAIN_MENU)
     {

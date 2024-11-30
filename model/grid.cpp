@@ -5,6 +5,8 @@ void Grid::reset()
     grid_size_x = 20;
     grid_size_y = 20;
     level = new vector<string>();
+    occupiedSpacesWall = new std::set<std::pair<int, int>>();
+    occupiedSpacesSnake = new std::set<std::pair<int, int>>();
     for (int i = 0; i < grid_size_y; i++)
     {
         string temp(grid_size_y, 'x');
@@ -15,13 +17,11 @@ void Grid::reset()
             {
                 // Wall
                 level->at(i)[j] = 'W';
+                occupiedSpacesWall->insert({j, i});
             }
         }
     }
     grid = new vector<string>();
-
-    occupiedSpacesWall = new std::set<std::pair<int, int>>();
-    occupiedSpacesSnake = new std::set<std::pair<int, int>>();
 }
 Grid::Grid()
 {

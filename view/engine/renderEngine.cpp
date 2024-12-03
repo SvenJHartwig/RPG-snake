@@ -5,6 +5,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "renderData.h"
 #include <unistd.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include "includes/stb_image.h"
 
 using std::string;
 
@@ -88,6 +90,7 @@ void RenderEngine::renderingLoop()
         for (int i = 0; i < currentScene->scene_elements->size(); i++)
         {
             RenderData *data = currentScene->scene_elements->at(i)->createRenderData();
+            glBindTexture(GL_TEXTURE_2D, texture);
 
             // Bind normal buffers That are unbound during text rendering
             colorShader->use();
@@ -121,17 +124,18 @@ void RenderEngine::renderingLoop()
 
 int RenderEngine::init()
 {
+    /*********************************Set up OpenGL*************************************************/
     int error = 0;
     if (!glfwInit())
     {
-        error = -1;
+        std::cerr << "Failed to initialize glfw" << std::endl;
     }
 
     // Create a window
     window = glfwCreateWindow(1024, 768, "Snake", NULL, NULL);
     if (!window)
     {
-        error = -1;
+        std::cerr << "Failed to create window" << std::endl;
     }
 
     // Make the window's context current
@@ -139,7 +143,7 @@ int RenderEngine::init()
 
     if (glewInit() != GLEW_OK)
     {
-        error = -1;
+        std::cerr << "Failed to initialize glew" << std::endl;
     }
 
     // Initialize input callbacks
@@ -148,14 +152,13 @@ int RenderEngine::init()
     glfwSetMouseButtonCallback(window, engine_mouse_button_callback);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    // Rectangle data in screen coordinates
-    int windowWidth, windowHeight;
-    glfwGetWindowSize(window, &windowWidth, &windowHeight);
-
     // Generate buffers
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
+
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
     /*************************Set up shaders*************************************** */
     string pathToVs = RESOURCE_DIR;
@@ -163,6 +166,7 @@ int RenderEngine::init()
     string pathToFs = RESOURCE_DIR;
     pathToFs.append("/shaders/color.fs");
     colorShader = new Shader(pathToVs.c_str(), pathToFs.c_str());
+    glActiveTexture(GL_TEXTURE0);
     colorShader->use();
     // Set up orthographic projection matrix for color shader
     glm::mat4 projection = glm::ortho(0.0f, (float)windowWidth, (float)windowHeight, 0.0f, -1.0f, 1.0f);
@@ -172,15 +176,47 @@ int RenderEngine::init()
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(2 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(5 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+    // Load sample texture
+    glGenTextures(1, &texture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    colorShader->setInt("ourTexture", 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // set texture filtering parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // load image, create texture and generate mipmaps
+    int width, height, nrChannels;
+    std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/container.jpg");
+    unsigned char *data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
+
+    if (data)
+    {
+        // Match internal format to number of channels
+        GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        stbi_image_free(data);
+    }
+    else
+    {
+        std::cerr << "Failed to load texture from path: " << texturePath << std::endl;
+    }
+
+    /****************************Set up text rendering***************************************************/
 
     textRenderer = new TextRenderer();
     if (textRenderer->init(windowWidth, windowHeight) != 0)
     {
-        error = -2;
+        std::cerr << "Failed to initialize text renderer" << std::endl;
     }
 
     if (error != 0)

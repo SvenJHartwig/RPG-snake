@@ -195,7 +195,7 @@ int RenderEngine::init()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     // load image, create texture and generate mipmaps
     int width, height, nrChannels;
-    std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/container.jpg");
+    std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/ground-001.png");
     unsigned char *data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
 
     if (data)

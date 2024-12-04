@@ -19,7 +19,6 @@ private:
     GameState gameState = MAIN_MENU;
     bool infinite = true;
     int level = 1;
-    vector<vector<Sprite> *> *convertToSpriteVector(vector<string> *chars);
 
 public:
     GameController();
@@ -41,4 +40,5 @@ public:
     void softReset();
     void resetGame();
     int getLevel() { return level; }
+    static vector<vector<Sprite> *> *convertToSpriteVector(vector<string> *chars);
 };

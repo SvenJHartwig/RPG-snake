@@ -10,6 +10,12 @@ include_directories (/usr/include/freetype2 includes)
 target_link_libraries(main PRIVATE glfw3 rt m dl GLEW GLU OpenGL freetype)
 target_compile_definitions(main PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/resources")
 
+configure_file(
+    ${CMAKE_SOURCE_DIR}/CTestCustom.cmake
+    ${CMAKE_BINARY_DIR}/CTestCustom.cmake
+    COPYONLY
+)
+
 find_package(Catch2 2 REQUIRED)
 # These tests can use the Catch2-provided main
 add_executable(tests test.cpp model/grid.cpp model/snake.cpp controller/gridController.cpp controller/gameController.cpp)
@@ -47,3 +53,7 @@ target_link_options(engineTests PRIVATE -coverage)
 target_compile_definitions(engineTests PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/resources")
 
 add_test(NAME engineTests COMMAND engineTests)
+
+set(CTEST_CUSTOM_COVERAGE_EXCLUDE
+    "view/engine/includes/*"
+)

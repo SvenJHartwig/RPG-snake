@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
-#include "view/engine/elements/button.h"
-#include "view/engine/elements/text.h"
+#include "../src/view/engine/elements/button.h"
+#include "../src/view/engine/elements/text.h"
 
 TEST_CASE("Button produces a colored rectangle")
 {

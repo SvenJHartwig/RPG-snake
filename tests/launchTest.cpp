@@ -1,11 +1,11 @@
 #include <catch2/catch.hpp>
-#include "view/engine/renderEngine.h"
-#include "view/glView.h"
-#include "view/engine/iRenderEngine.h"
-#include "view/engine/elements/text.h"
-#include "view/engine/elements/spriteGrid.h"
-#include "controller/iGameController.h"
-#include "controller/gameController.h"
+#include "../src/view/engine/renderEngine.h"
+#include "../src/view/glView.h"
+#include "../src/view/engine/iRenderEngine.h"
+#include "../src/view/engine/elements/text.h"
+#include "../src/view/engine/elements/spriteGrid.h"
+#include "../src/controller/iGameController.h"
+#include "../src/controller/gameController.h"
 #include <chrono>
 #include <thread>
 

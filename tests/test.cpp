@@ -1,10 +1,10 @@
 #include <catch2/catch.hpp>
-#include "controller/gridController.h"
+#include "../src/controller/gridController.h"
 #include <string.h>
 #include <iostream>
-#include "controller/gameController.h"
-#include "controller/iEatListener.h"
-#include "view/engine/elements/scene.h"
+#include "../src/controller/gameController.h"
+#include "../src/controller/iEatListener.h"
+#include "../src/view/engine/elements/scene.h"
 
 class TestGenerator : public RandomGenerator
 {

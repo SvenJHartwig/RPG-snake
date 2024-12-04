@@ -19,72 +19,19 @@ RenderData *SpriteGrid::createRenderData()
     vector<unsigned int> indices = {};
     for (int i = 0; i < grid->size(); i++)
     {
-        for (int j = 0; j < grid->at(i).size(); j++)
+        for (int j = 0; j < grid->at(i)->size(); j++)
         {
             float c1, c2, c3;
-            switch (grid->at(i)[j])
-            {
-            case 'W':
-                c1 = 0.9f;
-                c2 = 0.9f;
-                c3 = 0.9f;
-                break;
-            case 'H':
-                c1 = 0.9f;
-                c2 = 0.2f;
-                c3 = 0.2f;
-                break;
-            case 'B':
-                c1 = 0.8f;
-                c2 = 0.2f;
-                c3 = 0.2f;
-                break;
-            case 'F':
-                c1 = 0.2f;
-                c2 = 0.9f;
-                c3 = 0.2f;
-                break;
-            case 'S':
-                c1 = 0.1f;
-                c2 = 0.1f;
-                c3 = 0.9f;
-                break;
+            float texBaseX = grid->at(i)->at(j).texBaseX;
+            float texBaseY = grid->at(i)->at(j).texBaseY;
+            // Insert four vertices for the current rectangle
+            vertices.insert(vertices.end(), {(float)pos_x_top_left + j * 32, (float)pos_y_top_left + i * 32, c1, c2, c3, texBaseX, texBaseY,
+                                             (float)pos_x_top_left + j * 32 + 32, (float)pos_y_top_left + i * 32, c1, c2, c3, texBaseX + 0.5f, texBaseY,
+                                             (float)pos_x_top_left + j * 32, (float)pos_y_top_left + i * 32 + 32, c1, c2, c3, texBaseX, texBaseY + 0.5f,
+                                             (float)pos_x_top_left + j * 32 + 32, (float)pos_y_top_left + i * 32 + 32, c1, c2, c3, texBaseX + 0.5f, texBaseY + 0.5f});
 
-            default:
-                c1 = 0.2f;
-                c2 = 0.2f;
-                c3 = 0.2f;
-                break;
-            }
-            vertices.push_back(pos_x_top_left + j * 32);
-            vertices.push_back(pos_y_top_left + i * 32);
-            vertices.push_back(c1);
-            vertices.push_back(c2);
-            vertices.push_back(c3);
-            vertices.push_back(0.0f);
-            vertices.push_back(0.0f);
-            vertices.push_back(pos_x_top_left + j * 32 + 32);
-            vertices.push_back(pos_y_top_left + i * 32);
-            vertices.push_back(c1);
-            vertices.push_back(c2);
-            vertices.push_back(c3);
-            vertices.push_back(1.0f);
-            vertices.push_back(0.0f);
-            vertices.push_back(pos_x_top_left + j * 32);
-            vertices.push_back(pos_y_top_left + i * 32 + 32);
-            vertices.push_back(c1);
-            vertices.push_back(c2);
-            vertices.push_back(c3);
-            vertices.push_back(0.0f);
-            vertices.push_back(1.0f);
-            vertices.push_back(pos_x_top_left + j * 32 + 32);
-            vertices.push_back(pos_y_top_left + i * 32 + 32);
-            vertices.push_back(c1);
-            vertices.push_back(c2);
-            vertices.push_back(c3);
-            vertices.push_back(1.0f);
-            vertices.push_back(1.0f);
-            int baseIndex = (i * grid->at(i).size() + j) * 4;
+            // Indices for the current rectangle
+            int baseIndex = (i * grid->at(i)->size() + j) * 4;
             indices.push_back(baseIndex);
             indices.push_back(baseIndex + 1);
             indices.push_back(baseIndex + 2);

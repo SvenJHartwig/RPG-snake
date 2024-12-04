@@ -46,7 +46,7 @@ class TestView : public IGameView
   void gameStateChanged(GameState game_state) {}
   void setCurrentScene(Scene *current_scene) {}
   void setScore(int count) {}
-  void setGrid(std::vector<std::string> *grid) {}
+  void setGrid(vector<vector<Sprite> *> *grid) {}
 };
 
 void printGridComparison(vector<string> *chars, vector<string> *expectedGrid, int gridSize)

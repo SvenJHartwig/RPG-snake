@@ -122,12 +122,55 @@ void GameController::mainLoopIteration()
     }
     // Updates the grid in memory to be read by the graphics engine
     vector<string> *chars = gridController->updateGrid();
-    view->setGrid(chars);
+    view->setGrid(convertToSpriteVector(chars));
     if (gridController->isGameOver())
     {
         gameState = GAME_OVER;
         view->gameStateChanged(gameState);
     }
+}
+
+vector<vector<Sprite> *> *GameController::convertToSpriteVector(vector<string> *chars)
+{
+    vector<vector<Sprite> *> *result = new vector<vector<Sprite> *>();
+    for (int i = 0; i < chars->size(); i++)
+    {
+        vector<Sprite> *inner = new vector<Sprite>();
+        result->push_back(inner);
+        for (int j = 0; j < chars->at(i).size(); j++)
+        {
+            Sprite tempSprite = Sprite();
+            switch (chars->at(i)[j])
+            {
+            case 'W':
+                tempSprite.texBaseX = 0.0f;
+                tempSprite.texBaseY = 0.0f;
+                break;
+            case 'B':
+                tempSprite.texBaseX = 0.5f;
+                tempSprite.texBaseY = 0.5f;
+                break;
+            case 'H':
+                tempSprite.texBaseX = 0.5f;
+                tempSprite.texBaseY = 0.5f;
+                break;
+            case 'S':
+                tempSprite.texBaseX = 0.0f;
+                tempSprite.texBaseY = 0.5f;
+                break;
+            case 'F':
+                tempSprite.texBaseX = 0.0f;
+                tempSprite.texBaseY = 0.5f;
+                break;
+            default:
+                tempSprite.texBaseX = 0.5f;
+                tempSprite.texBaseY = 0.0f;
+                break;
+            }
+            result->at(i)->push_back(tempSprite);
+        }
+    }
+    return result;
 }
 
 Grid GameController::getGrid()

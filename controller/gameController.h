@@ -19,6 +19,7 @@ private:
     GameState gameState = MAIN_MENU;
     bool infinite = true;
     int level = 1;
+    vector<vector<Sprite> *> *convertToSpriteVector(vector<string> *chars);
 
 public:
     GameController();

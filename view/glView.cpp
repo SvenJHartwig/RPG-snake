@@ -69,7 +69,7 @@ void GlView::initGameScene()
     scoreText->text = "Score: 0";
     inGame->scene_elements = new std::vector<Element *>(1, scoreText);
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100);
-    spriteGrid->setGrid(new vector<string>());
+    spriteGrid->setGrid(new vector<vector<Sprite> *>());
     inGame->scene_elements->push_back(spriteGrid);
 }
 
@@ -82,7 +82,7 @@ void GlView::initGameOverScene()
     scoreText->text = "Score: 0";
     gameOver->scene_elements = new std::vector<Element *>(1, scoreText);
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100);
-    spriteGrid->setGrid(new vector<string>());
+    spriteGrid->setGrid(new vector<vector<Sprite> *>());
     gameOver->scene_elements->push_back(spriteGrid);
     Text *gameOverText = new Text(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2);
     gameOverText->text = "GAME OVER";
@@ -101,7 +101,7 @@ void GlView::initWinScene()
     scoreText->text = "Score: 0";
     win->scene_elements = new std::vector<Element *>(1, scoreText);
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100);
-    spriteGrid->setGrid(new vector<string>());
+    spriteGrid->setGrid(new vector<vector<Sprite> *>());
     win->scene_elements->push_back(spriteGrid);
     Text *gameOverText = new Text(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2);
     gameOverText->text = "YOU WON THIS LEVEL!";
@@ -141,7 +141,7 @@ void GlView::setScore(int count)
     ((Text *)win->scene_elements->at(0))->text = "Score: " + std::to_string(count);
 }
 
-void GlView::setGrid(vector<string> *grid)
+void GlView::setGrid(vector<vector<Sprite> *> *grid)
 {
     ((SpriteGrid *)inGame->scene_elements->at(1))->setGrid(grid);
     ((SpriteGrid *)gameOver->scene_elements->at(1))->setGrid(grid);

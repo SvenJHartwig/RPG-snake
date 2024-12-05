@@ -7,7 +7,7 @@ unsigned int IRenderEngine::createTexture(std::string path)
     unsigned int result;
     int width, height, nrChannels;
     glGenTextures(1, &result);
-    glActiveTexture(GL_TEXTURE1);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, result);
     unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
 

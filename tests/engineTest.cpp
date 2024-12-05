@@ -1,9 +1,12 @@
 #include <catch2/catch.hpp>
 #include "../src/view/engine/elements/button.h"
 #include "../src/view/engine/elements/text.h"
+#include "../src/view/engine/renderEngine.h"
 
 TEST_CASE("Button produces a colored rectangle")
 {
+    RenderEngine *engine = new RenderEngine();
+    engine->init();
     Button *button = new Button(0, 0, 20, 20);
     button->text = "Test";
     RenderData *data = button->createRenderData();
@@ -14,6 +17,8 @@ TEST_CASE("Button produces a colored rectangle")
 
 TEST_CASE("Text renders text")
 {
+    RenderEngine *engine = new RenderEngine();
+    engine->init();
     Text *text = new Text(0, 0, 20, 20);
     text->text = "Test";
     RenderData *data = text->createRenderData();

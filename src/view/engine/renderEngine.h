@@ -20,8 +20,6 @@ private:
     unsigned int VBO, VAO, EBO;
     TextRenderer *textRenderer;
     Shader *colorShader;
-    unsigned int textureMap;
-    unsigned int textureButton;
 
 public:
     IEngineCallback *getEngineCallback() { return callback; }

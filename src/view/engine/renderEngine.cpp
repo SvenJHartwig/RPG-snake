@@ -93,7 +93,7 @@ void RenderEngine::renderingLoop()
             }
             else
             {
-                glBindTexture(GL_TEXTURE_2D, textureMap);
+                glBindTexture(GL_TEXTURE_2D, 0);
             }
 
             // Bind normal buffers That are unbound during text rendering
@@ -193,12 +193,6 @@ int RenderEngine::init()
     // set texture filtering parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
-    textureMap = createTexture(texturePath);
-
-    texturePath = ((std::string)RESOURCE_DIR).append("/textures/button.png");
-    textureButton = createTexture(texturePath);
 
     /****************************Set up text rendering***************************************************/
 

@@ -16,6 +16,7 @@ private:
     float textPosY;
     float textScale;
     glm::vec3 textColor;
+    unsigned int texture;
 
 public:
     RenderData(vector<float> vertices, vector<unsigned int> indices)

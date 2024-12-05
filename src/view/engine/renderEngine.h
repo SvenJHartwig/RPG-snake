@@ -6,6 +6,9 @@
 #include "iRenderEngine.h"
 #include "shaders/shader.h"
 #include "TextRenderer/TextRenderer.h"
+#include <string>
+
+using std::string;
 
 void engine_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 void engine_mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
@@ -19,7 +22,8 @@ private:
     unsigned int VBO, VAO, EBO;
     TextRenderer *textRenderer;
     Shader *colorShader;
-    unsigned int texture;
+    unsigned int textureMap;
+    unsigned int textureButton;
 
 public:
     IEngineCallback *getEngineCallback() { return callback; }
@@ -29,4 +33,5 @@ public:
     void setCurrentScene(Scene *currentScene) { this->currentScene = currentScene; }
     void renderingLoop();
     int init();
+    unsigned int createTexture(string path);
 };

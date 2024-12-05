@@ -90,7 +90,7 @@ void RenderEngine::renderingLoop()
         for (int i = 0; i < currentScene->scene_elements->size(); i++)
         {
             RenderData *data = currentScene->scene_elements->at(i)->createRenderData();
-            glBindTexture(GL_TEXTURE_2D, texture);
+            glBindTexture(GL_TEXTURE_2D, textureButton);
 
             // Bind normal buffers That are unbound during text rendering
             colorShader->use();
@@ -183,33 +183,18 @@ int RenderEngine::init()
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(5 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
-    // Load sample texture
-    glGenTextures(1, &texture);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    colorShader->setInt("ourTexture", 0);
+    // colorShader->setInt("ourTexture", 0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     // set texture filtering parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // load image, create texture and generate mipmaps
-    int width, height, nrChannels;
-    std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
-    unsigned char *data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
 
-    if (data)
-    {
-        // Match internal format to number of channels
-        GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        stbi_image_free(data);
-    }
-    else
-    {
-        std::cerr << "Failed to load texture from path: " << texturePath << std::endl;
-    }
+    std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
+    textureMap = createTexture(texturePath);
+
+    texturePath = ((std::string)RESOURCE_DIR).append("/textures/button.png");
+    textureButton = createTexture(texturePath);
 
     /****************************Set up text rendering***************************************************/
 
@@ -226,4 +211,28 @@ int RenderEngine::init()
     }
 
     return 0;
+}
+
+unsigned int RenderEngine::createTexture(string path)
+{
+    unsigned int result;
+    int width, height, nrChannels;
+    glGenTextures(1, &result);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, result);
+    unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
+
+    if (data)
+    {
+        // Match internal format to number of channels
+        GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        stbi_image_free(data);
+    }
+    else
+    {
+        std::cerr << "Failed to load texture from path: " << path << std::endl;
+    }
+    return result;
 }

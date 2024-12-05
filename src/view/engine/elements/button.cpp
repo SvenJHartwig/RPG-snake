@@ -1,4 +1,5 @@
 #include "button.h"
+#include "../iRenderEngine.h"
 
 Button::Button(int pos_x_top_left,
                int pos_y_top_left,
@@ -9,6 +10,9 @@ Button::Button(int pos_x_top_left,
     this->pos_y_top_left = pos_y_top_left;
     this->pos_x_bottom_right = pos_x_bottom_right;
     this->pos_y_bottom_right = pos_y_bottom_right;
+
+    std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/button.png");
+    texture = IRenderEngine::createTexture(texturePath);
 }
 
 RenderData *Button::createRenderData()
@@ -24,6 +28,6 @@ RenderData *Button::createRenderData()
         1, 2, 3  // Second triangle
     };
 
-    RenderData *data = new RenderData(vertices, indices, text, pos_x_top_left, pos_y_bottom_right, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+    RenderData *data = new RenderData(vertices, indices, text, pos_x_top_left, pos_y_bottom_right, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f), texture);
     return data;
 }

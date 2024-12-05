@@ -6,6 +6,8 @@
 class Button : public Element
 {
 private:
+    unsigned int texture;
+
 public:
     std::string text;
     Button(int pos_x_top_left,

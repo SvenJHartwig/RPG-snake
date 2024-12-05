@@ -1,5 +1,11 @@
 #pragma once
-#include "TextRenderer/TextRenderer.h"
+#include "elements/scene.h"
+#include "iEngineCallback.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <string>
+#include <unistd.h>
+#include <iostream>
 
 class IRenderEngine
 {
@@ -11,4 +17,5 @@ public:
     virtual void setCurrentScene(Scene *currentScene) = 0;
     virtual void renderingLoop() = 0;
     virtual int init() = 0;
+    static unsigned int createTexture(std::string path);
 };

@@ -4,7 +4,7 @@
 #include "glm/glm.hpp"
 #include <string>
 
-using std::vector;
+using std::vector, std::string;
 
 class RenderData
 {
@@ -16,6 +16,7 @@ private:
     float textPosY;
     float textScale;
     glm::vec3 textColor;
+    bool hasTexture = false;
     unsigned int texture;
 
 public:
@@ -34,11 +35,32 @@ public:
         this->textScale = scale;
         this->textColor = color;
     }
+    RenderData(vector<float> vertices, vector<unsigned int> indices, unsigned int texture)
+    {
+        this->vertices = vertices;
+        this->indices = indices;
+        this->texture = texture;
+        hasTexture = true;
+    }
+    RenderData(vector<float> vertices, vector<unsigned int> indices, std::string text, float x, float y, float scale, glm::vec3 color, unsigned int texture)
+    {
+        this->vertices = vertices;
+        this->indices = indices;
+        this->text = text;
+        this->textPosX = x;
+        this->textPosY = y;
+        this->textScale = scale;
+        this->textColor = color;
+        this->texture = texture;
+        hasTexture = true;
+    }
     vector<float> getVertices() { return vertices; }
     vector<unsigned int> getIndices() { return indices; }
     std::string getText() { return text; }
     float getTextPosX() { return textPosX; }
     float getTextPosY() { return textPosY; }
     float getTextScale() { return textScale; }
+    bool getHasTexture() { return hasTexture; }
+    unsigned int getTexture() { return texture; }
     glm::vec3 getTextColor() { return textColor; }
 };

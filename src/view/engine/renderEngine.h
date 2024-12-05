@@ -1,6 +1,4 @@
 #pragma once
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "elements/scene.h"
 #include "iEngineCallback.h"
 #include "iRenderEngine.h"
@@ -33,5 +31,4 @@ public:
     void setCurrentScene(Scene *currentScene) { this->currentScene = currentScene; }
     void renderingLoop();
     int init();
-    unsigned int createTexture(string path);
 };

@@ -1,12 +1,8 @@
 #include "renderEngine.h"
-#include <string>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "renderData.h"
-#include <unistd.h>
-#define STB_IMAGE_IMPLEMENTATION
-#include "includes/stb_image.h"
 
 using std::string;
 
@@ -86,11 +82,19 @@ void RenderEngine::renderingLoop()
     {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
+        glActiveTexture(GL_TEXTURE0);
 
         for (int i = 0; i < currentScene->scene_elements->size(); i++)
         {
             RenderData *data = currentScene->scene_elements->at(i)->createRenderData();
-            glBindTexture(GL_TEXTURE_2D, textureButton);
+            if (data->getHasTexture())
+            {
+                glBindTexture(GL_TEXTURE_2D, data->getTexture());
+            }
+            else
+            {
+                glBindTexture(GL_TEXTURE_2D, textureMap);
+            }
 
             // Bind normal buffers That are unbound during text rendering
             colorShader->use();
@@ -211,28 +215,4 @@ int RenderEngine::init()
     }
 
     return 0;
-}
-
-unsigned int RenderEngine::createTexture(string path)
-{
-    unsigned int result;
-    int width, height, nrChannels;
-    glGenTextures(1, &result);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, result);
-    unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
-
-    if (data)
-    {
-        // Match internal format to number of channels
-        GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        stbi_image_free(data);
-    }
-    else
-    {
-        std::cerr << "Failed to load texture from path: " << path << std::endl;
-    }
-    return result;
 }

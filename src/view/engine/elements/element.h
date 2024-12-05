@@ -19,5 +19,5 @@ public:
     int getPosXBottomRight() { return pos_x_bottom_right; }
     int getPosYBottomRight() { return pos_y_bottom_right; }
     virtual RenderData *createRenderData() = 0;
-    ~Element();
+    ~Element() {}
 };

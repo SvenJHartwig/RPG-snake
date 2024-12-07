@@ -6,6 +6,8 @@
 #include "../src/controller/iEatListener.h"
 #include "../src/view/engine/elements/scene.h"
 
+using std::vector, std::string;
+
 class TestGenerator : public RandomGenerator
 {
   bool first = false;

@@ -9,6 +9,8 @@
 #include <chrono>
 #include <thread>
 
+using std::vector, std::string;
+
 class TestGameController : public IGameController
 {
 public:

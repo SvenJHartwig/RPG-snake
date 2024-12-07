@@ -5,7 +5,7 @@
 #include <fstream>
 #include <vector>
 
-using std::vector;
+using std::vector, std::string;
 
 std::pair<int, int> RandomGeneratorImpl::getRandomPair(int max_value_x, int max_value_y, const std::set<std::pair<int, int>> &exclusions)
 {

@@ -35,5 +35,5 @@ public:
     bool isInitialized() { return initialized; }
     void setInitialized(bool initialized) { this->initialized = initialized; }
     void setScore(int count);
-    void setGrid(vector<vector<Sprite> *> *grid);
+    void setGrid(std::vector<std::vector<Sprite> *> *grid);
 };

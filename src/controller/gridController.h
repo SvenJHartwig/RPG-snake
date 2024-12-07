@@ -6,8 +6,6 @@
 #include <set>
 #include <map>
 
-using std::string;
-
 class RandomGenerator
 {
 public:
@@ -44,7 +42,7 @@ private:
 public:
     GridController(IEatListener *eatListener);
     ~GridController();
-    vector<string> *updateGrid();
+    std::vector<std::string> *updateGrid();
     void moveSnakeRight();
     void moveSnakeLeft();
     void moveSnakeUp();
@@ -57,5 +55,5 @@ public:
     Grid *getGrid();
     std::vector<Food *> *getFood();
     void reset();
-    void loadLevel(string path);
+    void loadLevel(std::string path);
 };

@@ -3,6 +3,8 @@
 #include <GLFW/glfw3.h>
 #include "../iRenderEngine.h"
 
+using std::vector;
+
 SpriteGrid::SpriteGrid(int pos_x_top_left,
                        int pos_y_top_left,
                        int pos_x_bottom_right,

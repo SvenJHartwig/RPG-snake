@@ -4,6 +4,8 @@
 #include <thread>
 #include "../view/cliView.h"
 
+using std::string, std::vector;
+
 GameController::GameController()
 {
     gridController = new GridController(this);

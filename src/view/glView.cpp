@@ -5,6 +5,8 @@
 #include "engine/renderEngine.h"
 #include <thread>
 
+using std::string, std::vector;
+
 void initView(IRenderEngine *engine, GlView *view)
 {
     engine->init();

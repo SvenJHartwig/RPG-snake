@@ -1,5 +1,7 @@
 #include "grid.h"
 
+using std::vector, std::string;
+
 void Grid::reset()
 {
     grid_size_x = 20;

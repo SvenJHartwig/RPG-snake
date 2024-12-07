@@ -7,6 +7,30 @@
 
 using std::string;
 
+void TextRenderer::RenderText(std::string text, float x, float y, float maxWidth, float maxHeight, glm::vec3 color)
+{
+    float w, h = 0.0f;
+    // iterate through all characters
+    string::const_iterator c;
+    for (c = text.begin(); c != text.end(); c++)
+    {
+        Character ch = Characters[*c];
+        w = w + ch.Size.x;
+        if (h < ch.Size.y)
+            h = ch.Size.y;
+    }
+    float scale = 1.0f;
+    if (w > maxWidth)
+    {
+        scale = (float)maxWidth / (float)w;
+    }
+    if (h > maxHeight && scale > (float)maxHeight / (float)h)
+    {
+        scale = (float)maxHeight / (float)h;
+    }
+    RenderText(text, x, y, scale, color);
+}
+
 void TextRenderer::RenderText(std::string text, float x, float y, float scale, glm::vec3 color)
 {
     // activate corresponding render state

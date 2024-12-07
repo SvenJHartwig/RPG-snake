@@ -46,13 +46,13 @@ void GlView::initMainMenu()
     int windowWidth, windowHeight;
     glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
     mainMenu = new Scene();
-    Button *first = new Button(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2);
+    Button *first = new Button(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
     first->text = "Begin game";
     first->callback = &inputP;
-    Button *second = new Button(windowWidth / 2 - 40, windowHeight / 2 + 20, windowWidth / 2 + 40, windowHeight / 2 + 40);
+    Button *second = new Button(windowWidth / 2 - 80, windowHeight / 2 + 20, windowWidth / 2 + 80, windowHeight / 2 + 50);
     second->text = "Load level";
     second->callback = &inputO;
-    Button *third = new Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 220);
+    Button *third = new Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
     third->text = "Exit";
     third->callback = &inputL;
     mainMenu->scene_elements = new std::vector<Element *>(1, first);

@@ -110,7 +110,7 @@ void RenderEngine::renderingLoop()
 
             if (data->getText() != "")
             {
-                textRenderer->RenderText(data->getText(), data->getTextPosX(), data->getTextPosY(), data->getTextScale(), data->getTextColor());
+                textRenderer->RenderText(data->getText(), data->getTextPosX(), data->getTextPosY(), data->getTextWidth(), data->getTextMaxHeight(), data->getTextColor());
             }
         }
 

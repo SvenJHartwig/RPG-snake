@@ -21,6 +21,7 @@ class TextRenderer
     std::map<char, Character> Characters;
 
 public:
+    void RenderText(std::string text, float x, float y, float maxWidth, float maxHeight, glm::vec3 color);
     void RenderText(std::string text, float x, float y, float scale, glm::vec3 color);
     int init(unsigned int windowWidth, unsigned int windowHeight);
 };

@@ -93,7 +93,7 @@ TEST_CASE("Main Menu is initialized correctly")
     view->initMainMenu();
     Scene *mainMenu = view->getMainMenu();
     REQUIRE(mainMenu->scene_elements->size() == 3);
-    REQUIRE(mainMenu->scene_elements->at(0)->getPosXTopLeft() == 472);
+    REQUIRE(mainMenu->scene_elements->at(0)->getPosXTopLeft() == 432);
     glfwTerminate();
 }
 

@@ -28,6 +28,6 @@ RenderData *Button::createRenderData()
         1, 2, 3  // Second triangle
     };
 
-    RenderData *data = new RenderData(vertices, indices, text, pos_x_top_left + 2, pos_y_bottom_right - 8, (float)pos_x_bottom_right - pos_x_top_left, (float)pos_y_bottom_right - pos_y_top_left, glm::vec3(1.0f, 1.0f, 1.0f), texture);
+    RenderData *data = new RenderData(vertices, indices, text, pos_x_top_left + 2, pos_y_bottom_right - 8, (float)pos_x_bottom_right - pos_x_top_left - 8, (float)pos_y_bottom_right - pos_y_top_left - 8, glm::vec3(0.0f, 0.0f, 1.0f), texture);
     return data;
 }

@@ -9,7 +9,7 @@ using std::string;
 
 void TextRenderer::RenderText(std::string text, float x, float y, float maxWidth, float maxHeight, glm::vec3 color)
 {
-    float w, h = 0.0f;
+    float w = 0.0f, h = 0.0f;
     // iterate through all characters
     string::const_iterator c;
     for (c = text.begin(); c != text.end(); c++)
@@ -19,10 +19,11 @@ void TextRenderer::RenderText(std::string text, float x, float y, float maxWidth
         if (h < ch.Size.y)
             h = ch.Size.y;
     }
+    float lastCharWidth = Characters[text.back()].Size.x;
     float scale = 1.0f;
     if (w > maxWidth)
     {
-        scale = (float)maxWidth / (float)w;
+        scale = (float)maxWidth / ((float)w + lastCharWidth);
     }
     if (h > maxHeight && scale > (float)maxHeight / (float)h)
     {

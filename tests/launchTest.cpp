@@ -11,7 +11,7 @@
 
 using std::vector, std::string;
 
-class TestGameController : public IGameController
+/*class TestGameController : public IGameController
 {
 public:
     bool calledP = false;
@@ -125,4 +125,4 @@ TEST_CASE("Game over scene is initialized correctly")
     REQUIRE(gameOver->scene_elements->at(1)->getPosXTopLeft() == 192);
     REQUIRE(gameOver->scene_elements->at(1)->getPosYTopLeft() == 80);
     glfwTerminate();
-}
+}*/

@@ -2,6 +2,29 @@
 
 using std::vector, std::string;
 
+GridElementType GridElement::getGridElementType()
+{
+    return gridElementType;
+}
+
+int GridElement::getPosX()
+{
+    return pos_x;
+}
+
+int GridElement::getPosY()
+{
+    return pos_y;
+}
+void GridElement::setPosX(int pos)
+{
+    this->pos_x = pos;
+}
+void GridElement::setPosY(int pos)
+{
+    this->pos_y = pos;
+}
+
 void Grid::reset()
 {
     grid_size_x = 20;
@@ -23,7 +46,7 @@ void Grid::reset()
             }
         }
     }
-    grid = new vector<string>();
+    grid = new std::vector<std::vector<GridElement> *>();
 }
 Grid::Grid()
 {

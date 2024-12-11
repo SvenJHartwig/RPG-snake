@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../model/grid.h"
+#include "../model/snake.h"
+#include "../view/engine/elements/spriteGrid.h"
 #include "iEatListener.h"
 #include <string>
 #include <set>
@@ -42,7 +44,7 @@ private:
 public:
     GridController(IEatListener *eatListener);
     ~GridController();
-    std::vector<std::string> *updateGrid();
+    void updateGrid();
     void moveSnakeRight();
     void moveSnakeLeft();
     void moveSnakeUp();
@@ -56,4 +58,5 @@ public:
     std::vector<Food *> *getFood();
     void reset();
     void loadLevel(std::string path);
+    std::vector<std::vector<Sprite> *> *getSpriteVector();
 };

@@ -40,5 +40,4 @@ public:
     void softReset();
     void resetGame();
     int getLevel() { return level; }
-    static std::vector<std::vector<Sprite> *> *convertToSpriteVector(std::vector<std::string> *chars);
 };

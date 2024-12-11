@@ -1,20 +1,28 @@
 #pragma once
 
+#include "grid.h"
 #include <vector>
 
-class Food
+class Ground : public GridElement
 {
-private:
-    int pos_x;
-    int pos_y;
+public:
+    Ground();
+    ~Ground();
+};
+
+class Wall : public GridElement
+{
+public:
+    Wall();
+    ~Wall();
+};
+
+class Food : public GridElement
+{
 
 public:
     Food();
     ~Food();
-    int getPosX();
-    int getPosY();
-    void setPosX(int pos);
-    void setPosY(int pos);
 };
 
 class SpecialFood : public Food
@@ -27,38 +35,26 @@ public:
     int remainingTime() { return remainingMoves; }
     void decreaseTime() { remainingMoves--; }
 };
-class SnakeBodyPart
+class SnakeBodyPart : public GridElement
 {
 private:
-    int pos_x;
-    int pos_y;
     bool has_moved = false;
 
 public:
     SnakeBodyPart(int pos_x, int pos_y);
     ~SnakeBodyPart();
-    int getPosX();
-    int getPosY();
-    void setPosX(int pos);
-    void setPosY(int pos);
     bool getHasMoved();
     void setHasMoved(bool val);
 };
 
-class Snake
+class Snake : public GridElement
 {
 private:
-    int head_pos_x = 5;
-    int head_pos_y = 5;
     std::vector<SnakeBodyPart> body;
 
 public:
     Snake();
     ~Snake();
-    int getHeadX();
-    int getHeadY();
-    void setPosX(int pos);
-    void setPosY(int pos);
     void eat();
     std::vector<SnakeBodyPart> *getBody();
 };

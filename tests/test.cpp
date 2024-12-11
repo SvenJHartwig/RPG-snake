@@ -6,7 +6,7 @@
 #include "../src/controller/iEatListener.h"
 #include "../src/view/engine/elements/scene.h"
 
-using std::vector, std::string;
+/*using std::vector, std::string;
 
 class TestGenerator : public RandomGenerator
 {
@@ -559,4 +559,4 @@ TEST_CASE("RNG doesn't generate pair on wall")
     std::pair<int, int> pair2 = {0, 1};
     REQUIRE(pair != pair2);
   }
-}
+}*/

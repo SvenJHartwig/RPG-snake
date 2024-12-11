@@ -48,109 +48,94 @@ GridController::~GridController()
 {
 }
 
-vector<string> *GridController::updateGrid()
+void GridController::updateGrid()
 {
-    int grid_size_x = grid->getGridSizeX();
-    int grid_size_y = grid->getGridSizeY();
-
-    vector<string> *level = grid->getLevel();
-    vector<string> *chars = grid->getGrid();
-
-    if (chars->size() == 0)
+    int i = snake->getPosY();
+    int j = snake->getPosX();
+    int indexOfFoodOnThisField = returnFoodOnThisField(i, j);
+    if (indexOfFoodOnThisField != -1)
     {
-        for (int i = 0; i < grid_size_y; i++)
+        eatListener->eat(indexOfFoodOnThisField != 0);
+        if (indexOfFoodOnThisField == 0)
         {
-            string temp(grid_size_y, 'x');
-            chars->push_back(temp);
+            snake->eat();
+            std::set<std::pair<int, int>> *exclusions = grid->occupiedSpacesWall;
+            std::pair<int, int> newPair = rng->getRandomPair(grid->getGridSizeX(), grid->getGridSizeY(), *exclusions);
+            int newX = newPair.first;
+            int newY = newPair.second;
+            if (rng->getRandom(5) == 1)
+            {
+                std::pair<int, int> newSpecialPair = rng->getRandomPair(grid->getGridSizeX(), grid->getGridSizeY(), *exclusions);
+                int newSpecialX = newSpecialPair.first;
+                int newSpecialY = newSpecialPair.second;
+                generateNewSpecialFood(newSpecialX, newSpecialY);
+            }
+            generateNewFood(newX, newY);
         }
-    }
-
-    for (int i = 0; i < grid_size_y; i++)
-    {
-        for (int j = 0; j < grid_size_x; j++)
+        else
         {
-            if (level->size() != 0 && level->at(i)[j] == 'W')
-            {
-                // Wall
-                chars->at(i)[j] = 'W';
-            }
-            else if (i == snake->getHeadY() && j == snake->getHeadX())
-            {
-                // Snake
-                chars->at(i)[j] = 'H';
-                int indexOfFoodOnThisField = returnFoodOnThisField(i, j);
-                if (indexOfFoodOnThisField != -1)
-                {
-                    eatListener->eat(indexOfFoodOnThisField != 0);
-                    if (indexOfFoodOnThisField == 0)
-                    {
-                        snake->eat();
-                        std::set<std::pair<int, int>> *exclusions = grid->occupiedSpacesWall;
-                        std::pair<int, int> newPair = rng->getRandomPair(grid->getGridSizeX(), grid->getGridSizeY(), *exclusions);
-                        int newX = newPair.first;
-                        int newY = newPair.second;
-                        if (rng->getRandom(5) == 1)
-                        {
-                            std::pair<int, int> newSpecialPair = rng->getRandomPair(grid->getGridSizeX(), grid->getGridSizeY(), *exclusions);
-                            int newSpecialX = newSpecialPair.first;
-                            int newSpecialY = newSpecialPair.second;
-                            generateNewSpecialFood(newSpecialX, newSpecialY);
-                        }
-                        generateNewFood(newX, newY);
-                    }
-                    else
-                    {
-                        food->erase(food->begin() + indexOfFoodOnThisField);
-                    }
-                }
-            }
-            else if (anyBodypartOnThisField(i, j))
-            {
-                // Snake Body
-                chars->at(i)[j] = 'B';
-            }
-            else if (returnFoodOnThisField(i, j) == 0)
-            {
-                // Normal food
-                chars->at(i)[j] = 'F';
-            }
-            else if (returnFoodOnThisField(i, j) > 0)
-            {
-                // Special food
-                chars->at(i)[j] = 'S';
-            }
-            else
-            {
-                // Grid floor
-                chars->at(i)[j] = 'x';
-            }
-        }
-    }
-    // Update food position, since this could've changed during the loop
-    for (int i = 0; i < food->size(); i++)
-    {
-        if (chars->at(food->at(i)->getPosY())[food->at(i)->getPosX()] != 'B')
-        {
-            if (i == 0)
-            {
-                chars->at(food->at(i)->getPosY())[food->at(i)->getPosX()] = 'F';
-            }
-            else
-            {
-                chars->at(food->at(i)->getPosY())[food->at(i)->getPosX()] = 'S';
-            }
+            food->erase(food->begin() + indexOfFoodOnThisField);
         }
     }
     checkGameOver(grid);
-    return chars;
+}
+
+vector<vector<Sprite> *> *GridController::getSpriteVector()
+{
+    vector<vector<Sprite> *> *result = new vector<vector<Sprite> *>();
+    // Level grid
+    for (int i = 0; i < grid->getLevel()->size(); i++)
+    {
+        vector<Sprite> *inner = new vector<Sprite>();
+        result->push_back(inner);
+        for (int j = 0; j < grid->getLevel()->at(i).size(); j++)
+        {
+            Sprite tempSprite = Sprite();
+            switch (grid->getLevel()->at(i)[j])
+            {
+            case 'W':
+                tempSprite.texBaseX = 0.0f;
+                tempSprite.texBaseY = 0.0f;
+                break;
+            default:
+                tempSprite.texBaseX = 0.5f;
+                tempSprite.texBaseY = 0.0f;
+                break;
+            }
+            result->at(i)->push_back(tempSprite);
+        }
+    }
+    // Dynamic elements
+    for (int i = 0; i < food->size(); i++)
+    {
+        Food *f = food->at(i);
+        Sprite temp = result->at(f->getPosY())->at(f->getPosX());
+        temp.texBaseX = 0.0f;
+        temp.texBaseY = 0.5f;
+        result->at(f->getPosY())->at(f->getPosX()) = temp;
+    }
+    Sprite temp = result->at(snake->getPosY())->at(snake->getPosX());
+    temp.texBaseX = 0.5f;
+    temp.texBaseY = 0.5f;
+    result->at(snake->getPosY())->at(snake->getPosX()) = temp;
+    for (int i = 0; i < snake->getBody()->size(); i++)
+    {
+        SnakeBodyPart bodyPart = snake->getBody()->at(i);
+        Sprite temp = result->at(bodyPart.getPosY())->at(bodyPart.getPosX());
+        temp.texBaseX = 0.5f;
+        temp.texBaseY = 0.5f;
+        result->at(bodyPart.getPosY())->at(bodyPart.getPosX()) = temp;
+    }
+
+    return result;
 }
 
 void GridController::checkGameOver(Grid *grid)
 {
     // If a wall or the snake's body is reached, game over
-    int i = snake->getHeadY();
-    int j = snake->getHeadX();
-    if (grid->getGrid()->at(i)[j] == 'W')
+    int i = snake->getPosY();
+    int j = snake->getPosX();
+    if (grid->getLevel()->at(i)[j] == 'W')
     {
         game_over = true;
     }
@@ -203,10 +188,10 @@ void GridController::moveSnakeRight()
         return;
     }
     moveSnakeBody();
-    snake->setPosX((snake->getHeadX() + 1) % grid->getGridSizeX());
-    while (snake->getHeadX() < 0)
+    snake->setPosX((snake->getPosX() + 1) % grid->getGridSizeX());
+    while (snake->getPosX() < 0)
     {
-        snake->setPosX(snake->getHeadX() + grid->getGridSizeX());
+        snake->setPosX(snake->getPosX() + grid->getGridSizeX());
     }
 }
 
@@ -217,10 +202,10 @@ void GridController::moveSnakeLeft()
         return;
     }
     moveSnakeBody();
-    snake->setPosX((snake->getHeadX() - 1) % grid->getGridSizeX());
-    while (snake->getHeadX() < 0)
+    snake->setPosX((snake->getPosX() - 1) % grid->getGridSizeX());
+    while (snake->getPosX() < 0)
     {
-        snake->setPosX(snake->getHeadX() + grid->getGridSizeX());
+        snake->setPosX(snake->getPosX() + grid->getGridSizeX());
     }
 }
 
@@ -231,10 +216,10 @@ void GridController::moveSnakeUp()
         return;
     }
     moveSnakeBody();
-    snake->setPosY((snake->getHeadY() - 1) % grid->getGridSizeY());
-    while (snake->getHeadY() < 0)
+    snake->setPosY((snake->getPosY() - 1) % grid->getGridSizeY());
+    while (snake->getPosY() < 0)
     {
-        snake->setPosY(snake->getHeadY() + grid->getGridSizeY());
+        snake->setPosY(snake->getPosY() + grid->getGridSizeY());
     }
 }
 
@@ -245,10 +230,10 @@ void GridController::moveSnakeDown()
         return;
     }
     moveSnakeBody();
-    snake->setPosY((snake->getHeadY() + 1) % grid->getGridSizeY());
-    while (snake->getHeadY() < 0)
+    snake->setPosY((snake->getPosY() + 1) % grid->getGridSizeY());
+    while (snake->getPosY() < 0)
     {
-        snake->setPosY(snake->getHeadY() + grid->getGridSizeY());
+        snake->setPosY(snake->getPosY() + grid->getGridSizeY());
     }
 }
 
@@ -273,8 +258,8 @@ void GridController::moveSnakeBody()
     {
         SnakeBodyPart temp = snake->getBody()->at(snake->getBody()->size() - 1);
         temp.setHasMoved(true);
-        temp.setPosX(snake->getHeadX());
-        temp.setPosY(snake->getHeadY());
+        temp.setPosX(snake->getPosX());
+        temp.setPosY(snake->getPosY());
         snake->getBody()->pop_back();
         snake->getBody()->insert(snake->getBody()->begin(), temp);
     }

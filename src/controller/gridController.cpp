@@ -98,7 +98,7 @@ vector<vector<Sprite> *> *GridController::getSpriteVector()
                 tempSprite.texBaseY = 0.0f;
                 break;
             default:
-                tempSprite.texBaseX = 0.5f;
+                tempSprite.texBaseX = 0.25f;
                 tempSprite.texBaseY = 0.0f;
                 break;
             }
@@ -111,19 +111,36 @@ vector<vector<Sprite> *> *GridController::getSpriteVector()
         Food *f = food->at(i);
         Sprite temp = result->at(f->getPosY())->at(f->getPosX());
         temp.texBaseX = 0.0f;
-        temp.texBaseY = 0.5f;
+        temp.texBaseY = 0.25f;
         result->at(f->getPosY())->at(f->getPosX()) = temp;
     }
     Sprite temp = result->at(snake->getPosY())->at(snake->getPosX());
-    temp.texBaseX = 0.5f;
-    temp.texBaseY = 0.5f;
+    switch (snake->facing)
+    {
+    case RIGHT:
+        temp.texBaseX = 0.75f;
+        temp.texBaseY = 0.25f;
+        break;
+    case LEFT:
+        temp.texBaseX = 0.5f;
+        temp.texBaseY = 0.25f;
+        break;
+    case DOWN:
+        temp.texBaseX = 0.5f;
+        temp.texBaseY = 0.5f;
+        break;
+    case UP:
+        temp.texBaseX = 0.75f;
+        temp.texBaseY = 0.5f;
+        break;
+    }
     result->at(snake->getPosY())->at(snake->getPosX()) = temp;
     for (int i = 0; i < snake->getBody()->size(); i++)
     {
         SnakeBodyPart bodyPart = snake->getBody()->at(i);
         Sprite temp = result->at(bodyPart.getPosY())->at(bodyPart.getPosX());
         temp.texBaseX = 0.5f;
-        temp.texBaseY = 0.5f;
+        temp.texBaseY = 0.0f;
         result->at(bodyPart.getPosY())->at(bodyPart.getPosX()) = temp;
     }
 
@@ -189,6 +206,7 @@ void GridController::moveSnakeRight()
     }
     moveSnakeBody();
     snake->setPosX((snake->getPosX() + 1) % grid->getGridSizeX());
+    snake->facing = RIGHT;
     while (snake->getPosX() < 0)
     {
         snake->setPosX(snake->getPosX() + grid->getGridSizeX());
@@ -203,6 +221,7 @@ void GridController::moveSnakeLeft()
     }
     moveSnakeBody();
     snake->setPosX((snake->getPosX() - 1) % grid->getGridSizeX());
+    snake->facing = LEFT;
     while (snake->getPosX() < 0)
     {
         snake->setPosX(snake->getPosX() + grid->getGridSizeX());
@@ -217,6 +236,7 @@ void GridController::moveSnakeUp()
     }
     moveSnakeBody();
     snake->setPosY((snake->getPosY() - 1) % grid->getGridSizeY());
+    snake->facing = UP;
     while (snake->getPosY() < 0)
     {
         snake->setPosY(snake->getPosY() + grid->getGridSizeY());
@@ -231,6 +251,7 @@ void GridController::moveSnakeDown()
     }
     moveSnakeBody();
     snake->setPosY((snake->getPosY() + 1) % grid->getGridSizeY());
+    snake->facing = DOWN;
     while (snake->getPosY() < 0)
     {
         snake->setPosY(snake->getPosY() + grid->getGridSizeY());

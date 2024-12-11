@@ -47,12 +47,21 @@ public:
     void setHasMoved(bool val);
 };
 
+enum Facing
+{
+    RIGHT,
+    LEFT,
+    UP,
+    DOWN
+};
+
 class Snake : public GridElement
 {
 private:
     std::vector<SnakeBodyPart> body;
 
 public:
+    Facing facing = RIGHT;
     Snake();
     ~Snake();
     void eat();

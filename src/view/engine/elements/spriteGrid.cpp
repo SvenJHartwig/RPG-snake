@@ -9,13 +9,15 @@ SpriteGrid::SpriteGrid(int pos_x_top_left,
                        int pos_y_top_left,
                        int pos_x_bottom_right,
                        int pos_y_bottom_right,
-                       std::string path)
+                       std::string path,
+                       float spriteFraction)
 {
     this->pos_x_top_left = pos_x_top_left;
     this->pos_y_top_left = pos_y_top_left;
     this->pos_x_bottom_right = pos_x_bottom_right;
     this->pos_y_bottom_right = pos_y_bottom_right;
     this->textureMap = IRenderEngine::createTexture(path);
+    this->spriteFraction = spriteFraction;
 }
 
 RenderData *SpriteGrid::createRenderData()
@@ -31,9 +33,9 @@ RenderData *SpriteGrid::createRenderData()
             float texBaseY = grid->at(i)->at(j).texBaseY;
             // Insert four vertices for the current rectangle
             vertices.insert(vertices.end(), {(float)pos_x_top_left + j * 32, (float)pos_y_top_left + i * 32, c1, c2, c3, texBaseX, texBaseY,
-                                             (float)pos_x_top_left + j * 32 + 32, (float)pos_y_top_left + i * 32, c1, c2, c3, texBaseX + 0.5f, texBaseY,
-                                             (float)pos_x_top_left + j * 32, (float)pos_y_top_left + i * 32 + 32, c1, c2, c3, texBaseX, texBaseY + 0.5f,
-                                             (float)pos_x_top_left + j * 32 + 32, (float)pos_y_top_left + i * 32 + 32, c1, c2, c3, texBaseX + 0.5f, texBaseY + 0.5f});
+                                             (float)pos_x_top_left + j * 32 + 32, (float)pos_y_top_left + i * 32, c1, c2, c3, texBaseX + spriteFraction, texBaseY,
+                                             (float)pos_x_top_left + j * 32, (float)pos_y_top_left + i * 32 + 32, c1, c2, c3, texBaseX, texBaseY + spriteFraction,
+                                             (float)pos_x_top_left + j * 32 + 32, (float)pos_y_top_left + i * 32 + 32, c1, c2, c3, texBaseX + spriteFraction, texBaseY + spriteFraction});
 
             // Indices for the current rectangle
             int baseIndex = (i * grid->at(i)->size() + j) * 4;

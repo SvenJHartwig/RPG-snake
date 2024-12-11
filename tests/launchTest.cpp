@@ -1,50 +1,13 @@
-#include <catch2/catch.hpp>
 #include "../src/view/engine/renderEngine.h"
 #include "../src/view/glView.h"
-#include "../src/view/engine/iRenderEngine.h"
 #include "../src/view/engine/elements/text.h"
 #include "../src/view/engine/elements/spriteGrid.h"
-#include "../src/controller/iGameController.h"
 #include "../src/controller/gameController.h"
 #include <chrono>
 #include <thread>
+#include "testClasses.h"
 
 using std::vector, std::string;
-
-/*class TestGameController : public IGameController
-{
-public:
-    bool calledP = false;
-    GameState getGameState() { return MAIN_MENU; };
-    Grid getGrid()
-    {
-        Grid grid;
-        return grid;
-    }
-    int getScore() { return 0; }
-    void reactOnInput(char input)
-    {
-        if (input == 'p')
-            calledP = true;
-    }
-    void setWindowClosed(bool closed) {}
-};
-
-class TestRenderEngine : public IRenderEngine
-{
-public:
-    IEngineCallback *getEngineCallback() { return new TestGameController(); }
-    void setEngineCallback(IEngineCallback *callback) {}
-    Scene *getCurrentScene() { return new Scene(); }
-    GLFWwindow *getWindow()
-    {
-        glfwInit();
-        return glfwCreateWindow(1024, 768, "Snake", NULL, NULL);
-    }
-    void setCurrentScene(Scene *currentScene) {}
-    void renderingLoop() {}
-    int init() { return 0; }
-};
 
 TEST_CASE("Initialize OpenGL (Engine)")
 {
@@ -74,7 +37,7 @@ TEST_CASE("Initialize OpenGL (View)")
     view->setScore(2);
     REQUIRE(((Text *)view->getInGameScene()->scene_elements->at(0))->text.compare("Score: 2") == 0);
     std::vector<std::string> *grid = new std::vector<std::string>();
-    std::vector<std::vector<Sprite> *> *spriteGrid = GameController::convertToSpriteVector(grid);
+    std::vector<std::vector<Sprite> *> *spriteGrid = GridController(new TestEatListener()).getSpriteVector(); // GameController::convertToSpriteVector(grid);
     view->setGrid(spriteGrid);
     REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(1))->getGrid() == spriteGrid);
     view->gameStateChanged(WIN);
@@ -125,4 +88,4 @@ TEST_CASE("Game over scene is initialized correctly")
     REQUIRE(gameOver->scene_elements->at(1)->getPosXTopLeft() == 192);
     REQUIRE(gameOver->scene_elements->at(1)->getPosYTopLeft() == 80);
     glfwTerminate();
-}*/
+}

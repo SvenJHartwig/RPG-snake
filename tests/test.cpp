@@ -38,16 +38,6 @@ TEST_CASE("Test grid movement")
         // Wall
         expectedGrid->at(i)[j] = 'W';
       }
-      /*    else if (i == snake->getPosY() && j == snake->getPosX())
-          {
-            // Snake
-            expectedGrid->at(i)[j] = 'H';
-          }
-          else if (i == food[0].getPosY() && j == food[0].getPosX())
-          {
-            // Food
-            expectedGrid->at(i)[j] = 'F';
-          }*/
       else
       {
         // Grid floor
@@ -62,43 +52,45 @@ TEST_CASE("Test grid movement")
     REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
   }
   gridController->moveSnakeRight();
-  //  expectedGrid->at(snake->getPosY())[snake->getPosX() - 1] = 'x';
-  //  expectedGrid->at(snake->getPosY())[snake->getPosX()] = 'H';
   gridController->updateGrid();
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
   }
+  REQUIRE(gridController->getSnake()->getPosX() == 6);
+  REQUIRE(gridController->getSnake()->getPosY() == 5);
+  REQUIRE(gridController->getFood()->at(0)->getPosX() == 7);
 
   // Snake on Food
   gridController->moveSnakeRight();
-  //  expectedGrid->at(snake->getPosY())[snake->getPosX() - 1] = 'x';
-  //  expectedGrid->at(snake->getPosY())[snake->getPosX()] = 'H';
-  //  expectedGrid->at(snake->getPosY())[9] = 'F';
   gridController->updateGrid();
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
   }
+  REQUIRE(gridController->getSnake()->getPosX() == 7);
+  REQUIRE(gridController->getSnake()->getPosY() == 5);
+  REQUIRE(gridController->getFood()->at(0)->getPosX() == 9);
+  REQUIRE(gridController->getFood()->at(0)->getPosY() == 5);
+
   gridController->moveSnakeRight();
-  //  expectedGrid->at(snake->getPosY())[snake->getPosX() - 1] = 'B';
-  //  expectedGrid->at(snake->getPosY())[snake->getPosX()] = 'H';
   gridController->updateGrid();
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
   }
+  REQUIRE(gridController->getSnake()->getPosX() == 8);
+  REQUIRE(gridController->getSnake()->getPosY() == 5);
+  REQUIRE(gridController->getFood()->at(0)->getPosX() == 9);
+  REQUIRE(gridController->getFood()->at(0)->getPosY() == 5);
+
   // Eating special food does not increase snake length
   gridController->generateNewSpecialFood(snake->getPosX() + 2, snake->getPosY());
   gridController->moveSnakeRight();
   gridController->moveSnakeRight();
-  //  expectedGrid->at(snake->getPosY())[snake->getPosX() - 3] = 'x';
-  //  expectedGrid->at(snake->getPosY())[snake->getPosX() - 2] = 'x';
-  //  expectedGrid->at(snake->getPosY())[snake->getPosX() - 1] = 'B';
-  //  expectedGrid->at(snake->getPosY())[snake->getPosX()] = 'H';
   gridController->updateGrid();
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
@@ -391,29 +383,17 @@ TEST_CASE("Load level from disk")
   {
     REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
   }
-
-  for (int i = 0; i < grid_size_y; i++)
-  {
-    for (int j = 0; j < grid_size_x; j++)
-    {
-      /*   if (i == snake->getPosY() && j == snake->getPosX())
-         {
-           // Snake
-           expectedGrid->at(i)[j] = 'H';
-         }
-         else if (i == food[0].getPosY() && j == food[0].getPosX())
-         {
-           // Food
-           expectedGrid->at(i)[j] = 'F';
-         }*/
-    }
-  }
   gridController->updateGrid();
   vector<string> *chars2 = grid->getLevel();
   for (int i = 0; i < grid_size_y; i++)
   {
     REQUIRE(chars2->at(i).compare(expectedGrid->at(i)) == 0);
   }
+  REQUIRE(gridController->getSnake()->getPosX() == 5);
+  REQUIRE(gridController->getSnake()->getPosY() == 5);
+  REQUIRE(gridController->getFood()->size() == 1);
+  REQUIRE(gridController->getFood()->at(0)->getPosX() == 7);
+  REQUIRE(gridController->getFood()->at(0)->getPosY() == 5);
 }
 
 TEST_CASE("If snake goes out of bounds, wrap around")

@@ -5,7 +5,8 @@
 #include "engine/renderEngine.h"
 #include <thread>
 
-using std::string, std::vector;
+using std::string, std::vector, SEngine::RenderData, SEngine::Button, SEngine::RenderEngine, SEngine::IRenderEngine,
+    SEngine::IEngineCallback, SEngine::Scene, SEngine::Text, SEngine::SpriteGrid, SEngine::Sprite;
 
 void initView(IRenderEngine *engine, GlView *view)
 {
@@ -57,7 +58,7 @@ void GlView::initMainMenu()
     Button *third = new Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
     third->text = "Exit";
     third->callback = &inputL;
-    mainMenu->scene_elements = new std::vector<Element *>(1, first);
+    mainMenu->scene_elements = new std::vector<SEngine::Element *>(1, first);
     mainMenu->scene_elements->push_back(second);
     mainMenu->scene_elements->push_back(third);
 }
@@ -69,10 +70,10 @@ void GlView::initGameScene()
     inGame = new Scene();
     Text *scoreText = new Text(0, 20, 40, windowHeight);
     scoreText->text = "Score: 0";
-    inGame->scene_elements = new std::vector<Element *>(1, scoreText);
+    inGame->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.25f);
-    spriteGrid->setGrid(new vector<vector<Sprite> *>());
+    spriteGrid->setGrid(new vector<vector<SEngine::Sprite> *>());
     inGame->scene_elements->push_back(spriteGrid);
 }
 
@@ -83,10 +84,10 @@ void GlView::initGameOverScene()
     gameOver = new Scene();
     Text *scoreText = new Text(0, 20, 40, windowHeight);
     scoreText->text = "Score: 0";
-    gameOver->scene_elements = new std::vector<Element *>(1, scoreText);
+    gameOver->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.25f);
-    spriteGrid->setGrid(new vector<vector<Sprite> *>());
+    spriteGrid->setGrid(new vector<vector<SEngine::Sprite> *>());
     gameOver->scene_elements->push_back(spriteGrid);
     Text *gameOverText = new Text(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2);
     gameOverText->text = "GAME OVER";
@@ -103,10 +104,10 @@ void GlView::initWinScene()
     win = new Scene();
     Text *scoreText = new Text(0, 20, 40, windowHeight);
     scoreText->text = "Score: 0";
-    win->scene_elements = new std::vector<Element *>(1, scoreText);
+    win->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.25f);
-    spriteGrid->setGrid(new vector<vector<Sprite> *>());
+    spriteGrid->setGrid(new vector<vector<SEngine::Sprite> *>());
     win->scene_elements->push_back(spriteGrid);
     Text *gameOverText = new Text(windowWidth / 2 - 40, windowHeight / 2 - 20, windowWidth / 2 + 40, windowHeight / 2);
     gameOverText->text = "YOU WON THIS LEVEL!";
@@ -146,7 +147,7 @@ void GlView::setScore(int count)
     ((Text *)win->scene_elements->at(0))->text = "Score: " + std::to_string(count);
 }
 
-void GlView::setGrid(vector<vector<Sprite> *> *grid)
+void GlView::setGrid(vector<vector<SEngine::Sprite> *> *grid)
 {
     ((SpriteGrid *)inGame->scene_elements->at(1))->setGrid(grid);
     ((SpriteGrid *)gameOver->scene_elements->at(1))->setGrid(grid);

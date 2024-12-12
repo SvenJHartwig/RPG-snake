@@ -80,8 +80,9 @@ void GridController::updateGrid()
     checkGameOver(grid);
 }
 
-vector<vector<Sprite> *> *GridController::getSpriteVector()
+vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
 {
+    using SEngine::Sprite;
     vector<vector<Sprite> *> *result = new vector<vector<Sprite> *>();
     // Level grid
     for (int i = 0; i < grid->getLevel()->size(); i++)

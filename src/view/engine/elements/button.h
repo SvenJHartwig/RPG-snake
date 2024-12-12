@@ -3,17 +3,20 @@
 #include "../TextRenderer/TextRenderer.h"
 #include "element.h"
 
-class Button : public Element
+namespace SEngine
 {
-private:
-    unsigned int texture;
+    class Button : public Element
+    {
+    private:
+        unsigned int texture;
 
-public:
-    std::string text;
-    Button(int pos_x_top_left,
-           int pos_y_top_left,
-           int pos_x_bottom_right,
-           int pos_y_bottom_right);
-    ~Button();
-    RenderData *createRenderData();
-};
+    public:
+        std::string text;
+        Button(int pos_x_top_left,
+               int pos_y_top_left,
+               int pos_x_bottom_right,
+               int pos_y_bottom_right);
+        ~Button();
+        RenderData *createRenderData();
+    };
+}

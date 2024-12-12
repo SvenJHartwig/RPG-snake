@@ -22,7 +22,7 @@ enum GameState
     WIN,
 };
 
-class IGameController : public IEngineCallback
+class IGameController : public SEngine::IEngineCallback
 {
 public:
     virtual Grid getGrid() = 0;

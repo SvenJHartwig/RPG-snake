@@ -42,9 +42,9 @@ TEST_CASE("Initialize OpenGL (View)")
     view->gameStateChanged(WIN);
     REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(1))->getGrid() == spriteGrid);
     view->gameStateChanged(MAIN_MENU);
-    engine_key_callback(view->getEngine()->getWindow(), GLFW_KEY_P, 0, GLFW_RELEASE, 0);
+    SEngine::engine_key_callback(view->getEngine()->getWindow(), GLFW_KEY_P, 0, GLFW_RELEASE, 0);
     REQUIRE(!((TestGameController *)view->getGameController())->calledP);
-    engine_key_callback(view->getEngine()->getWindow(), GLFW_KEY_P, 0, GLFW_PRESS, 0);
+    SEngine::engine_key_callback(view->getEngine()->getWindow(), GLFW_KEY_P, 0, GLFW_PRESS, 0);
     REQUIRE(((TestGameController *)view->getGameController())->calledP);
     glfwSetWindowShouldClose(view->getEngine()->getWindow(), true);
     sleep_for(milliseconds(500));

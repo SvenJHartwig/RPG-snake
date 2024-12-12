@@ -1,7 +1,5 @@
 #include <catch2/catch.hpp>
-#include "../src/view/engine/elements/button.h"
-#include "../src/view/engine/elements/text.h"
-#include "../src/view/engine/renderEngine.h"
+#include "testClasses.h"
 
 TEST_CASE("Button produces a colored rectangle")
 {

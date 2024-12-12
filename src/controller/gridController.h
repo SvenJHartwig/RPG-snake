@@ -57,5 +57,5 @@ public:
     std::vector<Food *> *getFood();
     void reset();
     void loadLevel(std::string path);
-    std::vector<std::vector<Sprite> *> *getSpriteVector();
+    std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
 };

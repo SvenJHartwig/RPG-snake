@@ -1,8 +1,11 @@
 #pragma once
 
-class IEngineCallback
+namespace SEngine
 {
-public:
-    virtual void reactOnInput(char input) = 0;
-    virtual void setWindowClosed(bool closed) = 0;
-};
+    class IEngineCallback
+    {
+    public:
+        virtual void reactOnInput(char input) = 0;
+        virtual void setWindowClosed(bool closed) = 0;
+    };
+}

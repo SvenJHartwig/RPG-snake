@@ -10,30 +10,30 @@
 class GlView : public IGameView
 {
 private:
-    IRenderEngine *engine;
+    SEngine::IRenderEngine *engine;
     IGameController *gameController;
-    Scene *mainMenu;
-    Scene *inGame;
-    Scene *gameOver;
-    Scene *win;
+    SEngine::Scene *mainMenu;
+    SEngine::Scene *inGame;
+    SEngine::Scene *gameOver;
+    SEngine::Scene *win;
     bool initialized = false;
 
 public:
     int init();
     void gameStateChanged(GameState game_state);
-    Scene *getMainMenu() { return mainMenu; }
-    Scene *getInGameScene() { return inGame; }
-    Scene *getGameOverScene() { return gameOver; }
+    SEngine::Scene *getMainMenu() { return mainMenu; }
+    SEngine::Scene *getInGameScene() { return inGame; }
+    SEngine::Scene *getGameOverScene() { return gameOver; }
     void initMainMenu();
     void initGameScene();
     void initGameOverScene();
     void initWinScene();
     IGameController *getGameController() { return gameController; }
     void setGameController(IGameController *gc) { this->gameController = gc; }
-    void setEngine(IRenderEngine *engine) { this->engine = engine; }
-    IRenderEngine *getEngine() { return engine; }
+    void setEngine(SEngine::IRenderEngine *engine) { this->engine = engine; }
+    SEngine::IRenderEngine *getEngine() { return engine; }
     bool isInitialized() { return initialized; }
     void setInitialized(bool initialized) { this->initialized = initialized; }
     void setScore(int count);
-    void setGrid(std::vector<std::vector<Sprite> *> *grid);
+    void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid);
 };

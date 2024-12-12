@@ -3,8 +3,11 @@
 #include <vector>
 #include "element.h"
 
-class Scene
+namespace SEngine
 {
-public:
-    std::vector<Element *> *scene_elements;
-};
+    class Scene
+    {
+    public:
+        std::vector<Element *> *scene_elements;
+    };
+}

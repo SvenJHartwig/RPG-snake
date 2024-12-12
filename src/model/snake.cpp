@@ -1,20 +1,7 @@
 #include "snake.h"
 
-Ground::Ground()
-{
-    gridElementType = GROUND;
-}
-Ground::~Ground() {}
-
-Wall::Wall()
-{
-    gridElementType = WALL;
-}
-Wall::~Wall() {}
-
 Food::Food()
 {
-    gridElementType = FOOD;
     pos_x = 7;
     pos_y = 5;
 }
@@ -23,7 +10,6 @@ Food::~Food() {}
 
 SnakeBodyPart::SnakeBodyPart(int pos_x, int pos_y)
 {
-    gridElementType = SNAKE;
     this->pos_x = pos_x;
     this->pos_y = pos_y;
 }
@@ -41,7 +27,6 @@ Snake::Snake()
 {
     pos_x = 5;
     pos_y = 5;
-    gridElementType = SNAKE;
 }
 
 Snake::~Snake() {}

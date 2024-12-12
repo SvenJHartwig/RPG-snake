@@ -2,11 +2,6 @@
 
 using std::vector, std::string;
 
-GridElementType GridElement::getGridElementType()
-{
-    return gridElementType;
-}
-
 int GridElement::getPosX()
 {
     return pos_x;
@@ -46,7 +41,6 @@ void Grid::reset()
             }
         }
     }
-    grid = new std::vector<std::vector<GridElement> *>();
 }
 Grid::Grid()
 {

@@ -3,20 +3,6 @@
 #include "grid.h"
 #include <vector>
 
-class Ground : public GridElement
-{
-public:
-    Ground();
-    ~Ground();
-};
-
-class Wall : public GridElement
-{
-public:
-    Wall();
-    ~Wall();
-};
-
 class Food : public GridElement
 {
 

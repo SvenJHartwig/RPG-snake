@@ -2,7 +2,6 @@
 #include "../src/view/glView.h"
 #include "../src/view/engine/elements/text.h"
 #include "../src/view/engine/elements/spriteGrid.h"
-#include "../src/controller/gameController.h"
 #include <chrono>
 #include <thread>
 #include "testClasses.h"

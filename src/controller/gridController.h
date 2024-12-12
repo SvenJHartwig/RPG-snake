@@ -38,8 +38,7 @@ private:
     void checkGameOver(Grid *grid);
     int returnFoodOnThisField(int i, int j);
     bool anyMovedBodypartOnThisField(int i, int j);
-    bool anyBodypartOnThisField(int i, int j);
-    void moveSnakeBody();
+    void moveSnakeBody(BodyPartFacing facing);
 
 public:
     GridController(IEatListener *eatListener);

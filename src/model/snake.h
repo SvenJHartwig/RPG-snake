@@ -21,12 +21,24 @@ public:
     int remainingTime() { return remainingMoves; }
     void decreaseTime() { remainingMoves--; }
 };
+
+enum BodyPartFacing
+{
+    HORIZONTAL,
+    VERTICAL,
+    LEFT_TO_DOWN,
+    RIGHT_TO_DOWN,
+    LEFT_TO_UP,
+    RIGHT_TO_UP
+};
+
 class SnakeBodyPart : public GridElement
 {
 private:
     bool has_moved = false;
 
 public:
+    BodyPartFacing facing = HORIZONTAL;
     SnakeBodyPart(int pos_x, int pos_y);
     ~SnakeBodyPart();
     bool getHasMoved();

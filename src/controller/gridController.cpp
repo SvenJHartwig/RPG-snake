@@ -114,6 +114,39 @@ vector<vector<Sprite> *> *GridController::getSpriteVector()
         temp.texBaseY = 0.25f;
         result->at(f->getPosY())->at(f->getPosX()) = temp;
     }
+    for (int i = 0; i < snake->getBody()->size(); i++)
+    {
+        SnakeBodyPart bodyPart = snake->getBody()->at(i);
+        Sprite temp = result->at(bodyPart.getPosY())->at(bodyPart.getPosX());
+        switch (bodyPart.facing)
+        {
+        case HORIZONTAL:
+            temp.texBaseX = 0.5f;
+            temp.texBaseY = 0.0f;
+            break;
+        case VERTICAL:
+            temp.texBaseX = 0.75f;
+            temp.texBaseY = 0.0f;
+            break;
+        case LEFT_TO_DOWN:
+            temp.texBaseX = 0.0f;
+            temp.texBaseY = 0.5f;
+            break;
+        case RIGHT_TO_DOWN:
+            temp.texBaseX = 0.25f;
+            temp.texBaseY = 0.75f;
+            break;
+        case LEFT_TO_UP:
+            temp.texBaseX = 0.0f;
+            temp.texBaseY = 0.75f;
+            break;
+        case RIGHT_TO_UP:
+            temp.texBaseX = 0.25f;
+            temp.texBaseY = 0.5f;
+            break;
+        }
+        result->at(bodyPart.getPosY())->at(bodyPart.getPosX()) = temp;
+    }
     Sprite temp = result->at(snake->getPosY())->at(snake->getPosX());
     switch (snake->facing)
     {
@@ -135,14 +168,6 @@ vector<vector<Sprite> *> *GridController::getSpriteVector()
         break;
     }
     result->at(snake->getPosY())->at(snake->getPosX()) = temp;
-    for (int i = 0; i < snake->getBody()->size(); i++)
-    {
-        SnakeBodyPart bodyPart = snake->getBody()->at(i);
-        Sprite temp = result->at(bodyPart.getPosY())->at(bodyPart.getPosX());
-        temp.texBaseX = 0.5f;
-        temp.texBaseY = 0.0f;
-        result->at(bodyPart.getPosY())->at(bodyPart.getPosX()) = temp;
-    }
 
     return result;
 }
@@ -186,25 +211,30 @@ bool GridController::anyMovedBodypartOnThisField(int i, int j)
     return false;
 }
 
-bool GridController::anyBodypartOnThisField(int i, int j)
-{
-    for (int k = 0; k < snake->getBody()->size(); k++)
-    {
-        if (i == snake->getBody()->at(k).getPosY() && j == snake->getBody()->at(k).getPosX())
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 void GridController::moveSnakeRight()
 {
     if (game_over)
     {
         return;
     }
-    moveSnakeBody();
+    BodyPartFacing facing;
+    if (snake->getBody()->size() > 0)
+    {
+        SnakeBodyPart temp = snake->getBody()->at(0);
+        if (temp.getPosY() < snake->getPosY())
+        {
+            facing = RIGHT_TO_UP;
+        }
+        else if (temp.getPosY() > snake->getPosY())
+        {
+            facing = RIGHT_TO_DOWN;
+        }
+        else
+        {
+            facing = HORIZONTAL;
+        }
+    }
+    moveSnakeBody(facing);
     snake->setPosX((snake->getPosX() + 1) % grid->getGridSizeX());
     snake->facing = RIGHT;
     while (snake->getPosX() < 0)
@@ -219,7 +249,24 @@ void GridController::moveSnakeLeft()
     {
         return;
     }
-    moveSnakeBody();
+    BodyPartFacing facing;
+    if (snake->getBody()->size() > 0)
+    {
+        SnakeBodyPart temp = snake->getBody()->at(0);
+        if (temp.getPosY() < snake->getPosY())
+        {
+            facing = LEFT_TO_UP;
+        }
+        else if (temp.getPosY() > snake->getPosY())
+        {
+            facing = LEFT_TO_DOWN;
+        }
+        else
+        {
+            facing = HORIZONTAL;
+        }
+    }
+    moveSnakeBody(facing);
     snake->setPosX((snake->getPosX() - 1) % grid->getGridSizeX());
     snake->facing = LEFT;
     while (snake->getPosX() < 0)
@@ -234,7 +281,24 @@ void GridController::moveSnakeUp()
     {
         return;
     }
-    moveSnakeBody();
+    BodyPartFacing facing;
+    if (snake->getBody()->size() > 0)
+    {
+        SnakeBodyPart temp = snake->getBody()->at(0);
+        if (temp.getPosX() < snake->getPosX())
+        {
+            facing = LEFT_TO_UP;
+        }
+        else if (temp.getPosX() > snake->getPosX())
+        {
+            facing = RIGHT_TO_UP;
+        }
+        else
+        {
+            facing = VERTICAL;
+        }
+    }
+    moveSnakeBody(facing);
     snake->setPosY((snake->getPosY() - 1) % grid->getGridSizeY());
     snake->facing = UP;
     while (snake->getPosY() < 0)
@@ -249,7 +313,24 @@ void GridController::moveSnakeDown()
     {
         return;
     }
-    moveSnakeBody();
+    BodyPartFacing facing;
+    if (snake->getBody()->size() > 0)
+    {
+        SnakeBodyPart temp = snake->getBody()->at(0);
+        if (temp.getPosX() < snake->getPosX())
+        {
+            facing = LEFT_TO_DOWN;
+        }
+        else if (temp.getPosX() > snake->getPosX())
+        {
+            facing = RIGHT_TO_DOWN;
+        }
+        else
+        {
+            facing = VERTICAL;
+        }
+    }
+    moveSnakeBody(facing);
     snake->setPosY((snake->getPosY() + 1) % grid->getGridSizeY());
     snake->facing = DOWN;
     while (snake->getPosY() < 0)
@@ -273,12 +354,13 @@ void GridController::setRNG(RandomGenerator *rng)
     this->rng = rng;
 }
 
-void GridController::moveSnakeBody()
+void GridController::moveSnakeBody(BodyPartFacing facing)
 {
     if (snake->getBody()->size() > 0)
     {
         SnakeBodyPart temp = snake->getBody()->at(snake->getBody()->size() - 1);
         temp.setHasMoved(true);
+        temp.facing = facing;
         temp.setPosX(snake->getPosX());
         temp.setPosY(snake->getPosY());
         snake->getBody()->pop_back();

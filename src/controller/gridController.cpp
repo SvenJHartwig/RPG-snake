@@ -111,8 +111,16 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
     {
         Food *f = food->at(i);
         Sprite temp = result->at(f->getPosY())->at(f->getPosX());
-        temp.texBaseX = 0.0f;
-        temp.texBaseY = 0.25f;
+        if (i == 0)
+        {
+            temp.texBaseX = 0.0f;
+            temp.texBaseY = 0.25f;
+        }
+        else
+        {
+            temp.texBaseX = 0.25f;
+            temp.texBaseY = 0.25f;
+        }
         result->at(f->getPosY())->at(f->getPosX()) = temp;
     }
     for (int i = 0; i < snake->getBody()->size(); i++)

@@ -2,6 +2,7 @@
 
 namespace SEngine
 {
+    // Callback for user input. Extend this class to receive user interaction.
     class IEngineCallback
     {
     public:

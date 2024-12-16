@@ -24,6 +24,7 @@ namespace SEngine
         else
         {
             std::cerr << "Failed to load texture from path: " << path << std::endl;
+            return 0;
         }
         return result;
     }

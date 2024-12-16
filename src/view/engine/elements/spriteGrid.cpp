@@ -10,6 +10,13 @@ namespace SEngine
     SpriteGrid::SpriteGrid(int pos_x_top_left,
                            int pos_y_top_left,
                            int pos_x_bottom_right,
+                           int pos_y_bottom_right)
+    {
+        SpriteGrid(pos_x_top_left, pos_y_top_left, pos_x_bottom_right, pos_y_bottom_right, "", 0.0f);
+    }
+    SpriteGrid::SpriteGrid(int pos_x_top_left,
+                           int pos_y_top_left,
+                           int pos_x_bottom_right,
                            int pos_y_bottom_right,
                            std::string path,
                            float spriteFraction)
@@ -27,10 +34,6 @@ namespace SEngine
     {
         vector<float> vertices = {};
         vector<unsigned int> indices = {};
-        if (grid == NULL)
-        {
-            return new RenderData(vertices, indices);
-        }
         for (int i = 0; i < grid->size(); i++)
         {
             for (int j = 0; j < grid->at(i)->size(); j++)

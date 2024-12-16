@@ -92,14 +92,15 @@ namespace SEngine
                 if (data->getHasTexture())
                 {
                     glBindTexture(GL_TEXTURE_2D, data->getTexture());
+                    textureShader->use();
                 }
                 else
                 {
                     glBindTexture(GL_TEXTURE_2D, 0);
+                    colorShader->use();
                 }
 
                 // Bind normal buffers That are unbound during text rendering
-                colorShader->use();
                 glBindVertexArray(VAO);
                 glBindBuffer(GL_ARRAY_BUFFER, VBO);
                 // Update buffers with new vertex data
@@ -167,15 +168,16 @@ namespace SEngine
         glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
         /*************************Set up shaders*************************************** */
+
+        // Set up orthographic projection matrix for shaders
+        glm::mat4 projection = glm::ortho(0.0f, (float)windowWidth, (float)windowHeight, 0.0f, -1.0f, 1.0f);
+
         string pathToVs = RESOURCE_DIR;
         pathToVs.append("/shaders/color.vs");
         string pathToFs = RESOURCE_DIR;
         pathToFs.append("/shaders/color.fs");
         colorShader = new Shader(pathToVs.c_str(), pathToFs.c_str());
-        glActiveTexture(GL_TEXTURE0);
         colorShader->use();
-        // Set up orthographic projection matrix for color shader
-        glm::mat4 projection = glm::ortho(0.0f, (float)windowWidth, (float)windowHeight, 0.0f, -1.0f, 1.0f);
         glUniformMatrix4fv(glGetUniformLocation(colorShader->ID, "uProjection"), 1, GL_FALSE, glm::value_ptr(projection));
 
         glBindVertexArray(VAO);
@@ -189,7 +191,26 @@ namespace SEngine
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(5 * sizeof(float)));
         glEnableVertexAttribArray(2);
 
-        // colorShader->setInt("ourTexture", 0);
+        pathToVs = RESOURCE_DIR;
+        pathToVs.append("/shaders/texture.vs");
+        pathToFs = RESOURCE_DIR;
+        pathToFs.append("/shaders/texture.fs");
+        textureShader = new Shader(pathToVs.c_str(), pathToFs.c_str());
+        glActiveTexture(GL_TEXTURE0);
+        textureShader->use();
+        glUniformMatrix4fv(glGetUniformLocation(textureShader->ID, "uProjection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)0);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(2 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(5 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         // set texture filtering parameters

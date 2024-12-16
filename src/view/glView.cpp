@@ -68,7 +68,7 @@ void GlView::initGameScene()
     int windowWidth, windowHeight;
     glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
     inGame = new Scene();
-    Text *scoreText = new Text(0, 20, 40, windowHeight);
+    Text *scoreText = new Text(0, 20, 100, windowHeight);
     scoreText->text = "Score: 0";
     inGame->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
@@ -82,7 +82,7 @@ void GlView::initGameOverScene()
     int windowWidth, windowHeight;
     glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
     gameOver = new Scene();
-    Text *scoreText = new Text(0, 20, 40, windowHeight);
+    Text *scoreText = new Text(0, 20, 100, windowHeight);
     scoreText->text = "Score: 0";
     gameOver->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
@@ -102,7 +102,7 @@ void GlView::initWinScene()
     int windowWidth, windowHeight;
     glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
     win = new Scene();
-    Text *scoreText = new Text(0, 20, 40, windowHeight);
+    Text *scoreText = new Text(0, 20, 100, windowHeight);
     scoreText->text = "Score: 0";
     win->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");

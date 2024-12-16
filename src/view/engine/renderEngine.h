@@ -20,6 +20,7 @@ namespace SEngine
         IEngineCallback *callback;
         unsigned int VBO, VAO, EBO;
         TextRenderer *textRenderer;
+        Shader *textureShader;
         Shader *colorShader;
 
     public:

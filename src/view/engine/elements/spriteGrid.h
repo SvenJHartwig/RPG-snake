@@ -24,6 +24,10 @@ namespace SEngine
         SpriteGrid(int pos_x_top_left,
                    int pos_y_top_left,
                    int pos_x_bottom_right,
+                   int pos_y_bottom_right);
+        SpriteGrid(int pos_x_top_left,
+                   int pos_y_top_left,
+                   int pos_x_bottom_right,
                    int pos_y_bottom_right,
                    std::string path,
                    float spriteFraction);

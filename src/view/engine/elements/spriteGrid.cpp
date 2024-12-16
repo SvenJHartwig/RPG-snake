@@ -20,12 +20,17 @@ namespace SEngine
         this->pos_y_bottom_right = pos_y_bottom_right;
         this->textureMap = IRenderEngine::createTexture(path);
         this->spriteFraction = spriteFraction;
+        this->grid = new std::vector<std::vector<Sprite> *>();
     }
 
     RenderData *SpriteGrid::createRenderData()
     {
         vector<float> vertices = {};
         vector<unsigned int> indices = {};
+        if (grid == NULL)
+        {
+            return new RenderData(vertices, indices);
+        }
         for (int i = 0; i < grid->size(); i++)
         {
             for (int j = 0; j < grid->at(i)->size(); j++)
@@ -49,7 +54,15 @@ namespace SEngine
                 indices.push_back(baseIndex + 3);
             }
         }
-        RenderData *data = new RenderData(vertices, indices, textureMap);
+        RenderData *data;
+        if (textureMap == 0)
+        {
+            data = new RenderData(vertices, indices);
+        }
+        else
+        {
+            data = new RenderData(vertices, indices, textureMap);
+        }
         return data;
     }
 }

@@ -50,34 +50,9 @@ GridController::~GridController()
 
 void GridController::updateGrid()
 {
-    int i = snake->getPosY();
-    int j = snake->getPosX();
-    int indexOfFoodOnThisField = returnFoodOnThisField(i, j);
-    if (indexOfFoodOnThisField != -1)
-    {
-        eatListener->eat(indexOfFoodOnThisField != 0);
-        if (indexOfFoodOnThisField == 0)
-        {
-            snake->eat();
-            std::set<std::pair<int, int>> *exclusions = grid->occupiedSpacesWall;
-            std::pair<int, int> newPair = rng->getRandomPair(grid->getGridSizeX(), grid->getGridSizeY(), *exclusions);
-            int newX = newPair.first;
-            int newY = newPair.second;
-            if (rng->getRandom(5) == 1)
-            {
-                std::pair<int, int> newSpecialPair = rng->getRandomPair(grid->getGridSizeX(), grid->getGridSizeY(), *exclusions);
-                int newSpecialX = newSpecialPair.first;
-                int newSpecialY = newSpecialPair.second;
-                generateNewSpecialFood(newSpecialX, newSpecialY);
-            }
-            generateNewFood(newX, newY);
-        }
-        else
-        {
-            food->erase(food->begin() + indexOfFoodOnThisField);
-        }
-    }
-    checkGameOver(grid);
+    updateCollisionMap();
+    checkOnFood();
+    checkGameOver();
 }
 
 vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
@@ -181,7 +156,50 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
     return result;
 }
 
-void GridController::checkGameOver(Grid *grid)
+void GridController::checkOnFood()
+{
+
+    int i = snake->getPosY();
+    int j = snake->getPosX();
+    int indexOfFoodOnThisField = returnFoodOnThisField(i, j);
+    if (indexOfFoodOnThisField != -1)
+    {
+        eatListener->eat(indexOfFoodOnThisField != 0);
+        if (indexOfFoodOnThisField == 0)
+        {
+            snake->eat();
+            std::set<std::pair<int, int>> exclusions = *(grid->occupiedSpacesWall);
+            exclusions.insert(grid->occupiedSpacesSnake->begin(), grid->occupiedSpacesSnake->end());
+            std::pair<int, int> newPair = rng->getRandomPair(grid->getGridSizeX(), grid->getGridSizeY(), exclusions);
+            int newX = newPair.first;
+            int newY = newPair.second;
+            if (rng->getRandom(5) == 1)
+            {
+                std::pair<int, int> newSpecialPair = rng->getRandomPair(grid->getGridSizeX(), grid->getGridSizeY(), exclusions);
+                int newSpecialX = newSpecialPair.first;
+                int newSpecialY = newSpecialPair.second;
+                generateNewSpecialFood(newSpecialX, newSpecialY);
+            }
+            generateNewFood(newX, newY);
+        }
+        else
+        {
+            food->erase(food->begin() + indexOfFoodOnThisField);
+        }
+    }
+}
+
+void GridController::updateCollisionMap()
+{
+    grid->occupiedSpacesSnake->clear();
+    grid->occupiedSpacesSnake->insert(std::pair<int, int>(snake->getPosX(), snake->getPosY()));
+    for (SnakeBodyPart s : *(snake->getBody()))
+    {
+        grid->occupiedSpacesSnake->insert(std::pair<int, int>(s.getPosX(), s.getPosY()));
+    }
+}
+
+void GridController::checkGameOver()
 {
     // If a wall or the snake's body is reached, game over
     int i = snake->getPosY();
@@ -440,8 +458,8 @@ vector<string> readFileAsStringArray(const string &filepath)
 }
 void GridController::loadLevel(const string path)
 {
-    grid->occupiedSpacesWall->clear();
     vector<string> level = readFileAsStringArray(path);
+    grid->occupiedSpacesWall->clear();
     grid->getLevel()->clear();
     for (int i = 0; i < level.size(); i++)
     {

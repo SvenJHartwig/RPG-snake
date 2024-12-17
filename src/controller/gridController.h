@@ -35,7 +35,9 @@ private:
     Grid *grid;
     IEatListener *eatListener;
 
-    void checkGameOver(Grid *grid);
+    void checkOnFood();
+    void updateCollisionMap();
+    void checkGameOver();
     int returnFoodOnThisField(int i, int j);
     bool anyMovedBodypartOnThisField(int i, int j);
     void moveSnakeBody(BodyPartFacing facing);

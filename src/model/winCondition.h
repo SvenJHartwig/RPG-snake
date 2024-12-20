@@ -2,11 +2,15 @@
 
 enum WinConType
 {
-    SCORE
+    SCORE,
+    TIME
 };
 
 class WinCondition
 {
+private:
+    WinConType type;
+
 public:
     WinCondition(WinConType type);
     ~WinCondition();

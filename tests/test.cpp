@@ -498,4 +498,7 @@ TEST_CASE("Load level with win condition from disk")
   path.append("/tests/level/levelWithWincon");
   gridController->loadLevel(path.c_str());
   REQUIRE(WinCondition(SCORE) == *(gridController->getWinCondition()));
+  path.append("2");
+  gridController->loadLevel(path.c_str());
+  REQUIRE(WinCondition(TIME) == *(gridController->getWinCondition()));
 }

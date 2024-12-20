@@ -465,11 +465,26 @@ void GridController::loadLevel(const string path)
     for (int i = 0; i < level.size(); i++)
     {
         string l = level.at(i);
-        grid->getLevel()->push_back(l);
-        for (int j = 0; j < l.size(); j++)
+        if (l.rfind("Wincon:", 0) == 0)
         {
-            if (l.at(j) == 'W')
-                grid->occupiedSpacesWall->insert({j, i});
+            l.replace(0, 7, 0, 's');
+            if (l.rfind("s", 0) == 0)
+            {
+                wincon = new WinCondition(SCORE);
+            }
+            else if (l.rfind("t", 0) == 0)
+            {
+                wincon = new WinCondition(TIME);
+            }
+        }
+        else
+        {
+            grid->getLevel()->push_back(l);
+            for (int j = 0; j < l.size(); j++)
+            {
+                if (l.at(j) == 'W')
+                    grid->occupiedSpacesWall->insert({j, i});
+            }
         }
     }
 }

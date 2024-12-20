@@ -490,3 +490,12 @@ TEST_CASE("RNG doesn't generate pair on wall")
     REQUIRE(pair != pair2);
   }
 }
+
+TEST_CASE("Load level with win condition from disk")
+{
+  GridController *gridController = new GridController(new TestEatListener());
+  string path = RESOURCE_DIR;
+  path.append("/tests/level/levelWithWincon");
+  gridController->loadLevel(path.c_str());
+  REQUIRE(WinCondition(SCORE) == *(gridController->getWinCondition()));
+}

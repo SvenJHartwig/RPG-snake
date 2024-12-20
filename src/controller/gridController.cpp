@@ -42,6 +42,7 @@ GridController::GridController(IEatListener *eatListener)
     food = new std::vector<Food *>(1, new Food());
     grid = new Grid();
     snake = new Snake();
+    wincon = new WinCondition(SCORE);
 }
 
 GridController::~GridController()
@@ -471,4 +472,9 @@ void GridController::loadLevel(const string path)
                 grid->occupiedSpacesWall->insert({j, i});
         }
     }
+}
+
+WinCondition *GridController::getWinCondition()
+{
+    return wincon;
 }

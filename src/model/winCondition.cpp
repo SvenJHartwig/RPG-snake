@@ -1,13 +1,14 @@
 #include "winCondition.h"
 
-WinCondition::WinCondition(WinConType type)
+WinCondition::WinCondition(WinConType type, int amount)
 {
     this->type = type;
+    this->amount = amount;
 }
 
 WinCondition::~WinCondition() {}
 
 bool WinCondition::operator==(WinCondition const &other) const
 {
-    return other.type == this->type;
+    return other.type == this->type && other.amount == this->amount;
 }

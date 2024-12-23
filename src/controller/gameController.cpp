@@ -125,6 +125,12 @@ void GameController::mainLoopIteration()
     // Updates the grid in memory to be read by the graphics engine
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
+    if (!infinite && score >= 40)
+    {
+        level++;
+        gameState = WIN;
+        view->gameStateChanged(gameState);
+    }
     if (gridController->isGameOver())
     {
         gameState = GAME_OVER;
@@ -180,12 +186,6 @@ void GameController::eat(bool isSpecial)
         speed = l6;
     }
     view->setScore(score);
-    if (!infinite && score >= 40)
-    {
-        level++;
-        gameState = WIN;
-        view->gameStateChanged(gameState);
-    }
 }
 
 char GameController::getLastDirection()

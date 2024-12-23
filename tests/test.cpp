@@ -446,6 +446,7 @@ TEST_CASE("Win game")
   {
     gameController->eat(true);
   }
+  gameController->mainLoopIteration();
   REQUIRE(gameController->getGameState() == WIN);
   gameController->reactOnInput('p');
   REQUIRE(gameController->getGameState() == IN_GAME);
@@ -497,8 +498,8 @@ TEST_CASE("Load level with win condition from disk")
   string path = RESOURCE_DIR;
   path.append("/tests/level/levelWithWincon");
   gridController->loadLevel(path.c_str());
-  REQUIRE(WinCondition(SCORE) == *(gridController->getWinCondition()));
+  REQUIRE(WinCondition(SCORE, 40) == *(gridController->getWinCondition()));
   path.append("2");
   gridController->loadLevel(path.c_str());
-  REQUIRE(WinCondition(TIME) == *(gridController->getWinCondition()));
+  REQUIRE(WinCondition(TIME, 40) == *(gridController->getWinCondition()));
 }

@@ -34,6 +34,11 @@ int RandomGeneratorImpl::getRandom(int max_value)
     return (rand() % max_value) + 1;
 }
 
+bool has_only_digits(const string s)
+{
+    return s.find_first_not_of("0123456789") == string::npos;
+}
+
 GridController::GridController(IEatListener *eatListener)
 {
     this->eatListener = eatListener;
@@ -42,7 +47,7 @@ GridController::GridController(IEatListener *eatListener)
     food = new std::vector<Food *>(1, new Food());
     grid = new Grid();
     snake = new Snake();
-    wincon = new WinCondition(SCORE);
+    wincon = new WinCondition(SCORE, 20);
 }
 
 GridController::~GridController()
@@ -467,14 +472,22 @@ void GridController::loadLevel(const string path)
         string l = level.at(i);
         if (l.rfind("Wincon:", 0) == 0)
         {
-            l.replace(0, 7, 0, 's');
+            l.replace(0, 7, 0, 'f');
             if (l.rfind("s", 0) == 0)
             {
-                wincon = new WinCondition(SCORE);
+                l.replace(0, 1, 0, 'f');
+                if (has_only_digits(l))
+                {
+                    wincon = new WinCondition(SCORE, std::stoi(l));
+                }
             }
             else if (l.rfind("t", 0) == 0)
             {
-                wincon = new WinCondition(TIME);
+                l.replace(0, 1, 0, 'f');
+                if (has_only_digits(l))
+                {
+                    wincon = new WinCondition(TIME, std::stoi(l));
+                }
             }
         }
         else

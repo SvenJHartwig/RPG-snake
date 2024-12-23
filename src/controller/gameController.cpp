@@ -20,6 +20,25 @@ void GameController::setView(IGameView *view)
     this->view = view;
 }
 
+bool GameController::checkWinCondition()
+{
+    if (gridController->getWinCondition()->getType() == SCORE)
+    {
+        if (score >= gridController->getWinCondition()->getAmount())
+        {
+            return true;
+        }
+    }
+    if (gridController->getWinCondition()->getType() == TIME)
+    {
+        if (steps >= gridController->getWinCondition()->getAmount())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void GameController::reactOnInput(char input)
 {
     switch (gameState)
@@ -106,26 +125,29 @@ void GameController::mainLoopIteration()
     case 'd':
         lastDirection = 'd';
         gridController->moveSnakeRight();
+        steps++;
         break;
     case 'w':
         lastDirection = 'w';
         gridController->moveSnakeUp();
+        steps++;
         break;
     case 'a':
         lastDirection = 'a';
         gridController->moveSnakeLeft();
+        steps++;
         break;
     case 's':
         lastDirection = 's';
         gridController->moveSnakeDown();
+        steps++;
         break;
     default:
         break;
     }
-    // Updates the grid in memory to be read by the graphics engine
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
-    if (!infinite && score >= 40)
+    if (!infinite && checkWinCondition())
     {
         level++;
         gameState = WIN;
@@ -210,8 +232,10 @@ void GameController::softReset()
     speed = l1;
     eatCount = 0;
     score = 0;
+    steps = 0;
     gridController->reset();
     gridController->updateGrid();
+    view->setGrid(gridController->getSpriteVector());
 }
 
 void GameController::resetGame()

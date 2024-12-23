@@ -15,10 +15,12 @@ private:
     SpeedSetting speed = l1;
     int eatCount = 0;
     int score = 0;
+    long steps = 0;
     char lastDirection;
     GameState gameState = MAIN_MENU;
     bool infinite = true;
     int level = 1;
+    bool checkWinCondition();
 
 public:
     GameController();

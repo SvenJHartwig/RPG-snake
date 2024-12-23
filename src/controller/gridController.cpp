@@ -9,7 +9,7 @@ using std::vector, std::string;
 
 std::pair<int, int> RandomGeneratorImpl::getRandomPair(int max_value_x, int max_value_y, const std::set<std::pair<int, int>> &exclusions)
 {
-
+    indexToPair.clear();
     int index = 0;
     for (int i = 0; i < max_value_x; i++)
     {

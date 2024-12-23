@@ -68,13 +68,16 @@ void GlView::initGameScene()
     int windowWidth, windowHeight;
     glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
     inGame = new Scene();
-    Text *scoreText = new Text(0, 20, 100, windowHeight);
+    Text *scoreText = new Text(0, 0, 100, 20);
     scoreText->text = "Score: 0";
     inGame->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.25f);
     spriteGrid->setGrid(new vector<vector<SEngine::Sprite> *>());
     inGame->scene_elements->push_back(spriteGrid);
+    Text *winConText = new Text(0, 20, 100, 40);
+    winConText->text = "Win condition: ";
+    inGame->scene_elements->push_back(winConText);
 }
 
 void GlView::initGameOverScene()
@@ -82,7 +85,7 @@ void GlView::initGameOverScene()
     int windowWidth, windowHeight;
     glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
     gameOver = new Scene();
-    Text *scoreText = new Text(0, 20, 100, windowHeight);
+    Text *scoreText = new Text(0, 0, 100, 20);
     scoreText->text = "Score: 0";
     gameOver->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
@@ -102,7 +105,7 @@ void GlView::initWinScene()
     int windowWidth, windowHeight;
     glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
     win = new Scene();
-    Text *scoreText = new Text(0, 20, 100, windowHeight);
+    Text *scoreText = new Text(0, 0, 100, 20);
     scoreText->text = "Score: 0";
     win->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
@@ -152,4 +155,9 @@ void GlView::setGrid(vector<vector<SEngine::Sprite> *> *grid)
     ((SpriteGrid *)inGame->scene_elements->at(1))->setGrid(grid);
     ((SpriteGrid *)gameOver->scene_elements->at(1))->setGrid(grid);
     ((SpriteGrid *)win->scene_elements->at(1))->setGrid(grid);
+}
+
+void GlView::setWinCondition(WinCondition condition)
+{
+    ((Text *)inGame->scene_elements->at(2))->text = "Win condition: " + condition.toString();
 }

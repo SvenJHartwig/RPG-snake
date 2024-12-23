@@ -47,7 +47,7 @@ GridController::GridController(IEatListener *eatListener)
     food = new std::vector<Food *>(1, new Food());
     grid = new Grid();
     snake = new Snake();
-    wincon = new WinCondition(SCORE, 20);
+    wincon = new WinCondition(NONE, 0);
 }
 
 GridController::~GridController()
@@ -441,6 +441,7 @@ void GridController::reset()
     snake = new Snake();
     updateGrid();
     game_over = false;
+    wincon = new WinCondition(NONE, 0);
 }
 vector<string> readFileAsStringArray(const string &filepath)
 {

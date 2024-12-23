@@ -48,6 +48,7 @@ void GameController::reactOnInput(char input)
         {
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
+            view->setWinCondition(*(gridController->getWinCondition()));
         }
         else if (input == 'o')
         {
@@ -58,6 +59,7 @@ void GameController::reactOnInput(char input)
             gridController->updateGrid();
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
+            view->setWinCondition(*(gridController->getWinCondition()));
         }
         else if (input == 'l')
         {
@@ -94,6 +96,7 @@ void GameController::reactOnInput(char input)
             gridController->updateGrid();
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
+            view->setWinCondition(*(gridController->getWinCondition()));
         }
         break;
     default:
@@ -236,6 +239,7 @@ void GameController::softReset()
     gridController->reset();
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
+    view->setWinCondition(*(gridController->getWinCondition()));
 }
 
 void GameController::resetGame()

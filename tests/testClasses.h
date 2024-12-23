@@ -54,6 +54,7 @@ class TestView : public IGameView
     void setCurrentScene(Scene *current_scene) {}
     void setScore(int count) {}
     void setGrid(vector<vector<Sprite> *> *grid) {}
+    void setWinCondition(WinCondition condition) {}
 };
 
 class TestGameController : public IGameController

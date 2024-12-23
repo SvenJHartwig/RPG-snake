@@ -22,3 +22,21 @@ WinConType WinCondition::getType()
 {
     return type;
 }
+
+std::string WinCondition::toString()
+{
+    std::string result;
+    switch (type)
+    {
+    case SCORE:
+        result = std::to_string(amount) + " points";
+        break;
+    case TIME:
+        result = std::to_string(amount) + " steps";
+        break;
+    case NONE:
+        result = "None";
+        break;
+    }
+    return result;
+}

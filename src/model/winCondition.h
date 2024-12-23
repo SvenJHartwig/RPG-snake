@@ -1,9 +1,12 @@
 #pragma once
 
+#include <string>
+
 enum WinConType
 {
     SCORE,
-    TIME
+    TIME,
+    NONE
 };
 
 class WinCondition
@@ -18,4 +21,5 @@ public:
     WinConType getType();
     int getAmount();
     bool operator==(WinCondition const &other) const;
+    std::string toString();
 };

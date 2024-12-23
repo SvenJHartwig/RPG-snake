@@ -499,6 +499,8 @@ void GridController::loadLevel(const string path)
                     grid->occupiedSpacesWall->insert({j, i});
             }
         }
+        grid->setGridSizeX(l.size());
+        grid->setGridSizeY(i);
     }
 }
 

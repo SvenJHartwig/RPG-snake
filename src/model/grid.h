@@ -34,6 +34,8 @@ public:
     ~Grid();
     void setLevel(std::vector<std::string> *level) { this->level = level; }
     std::vector<std::string> *getLevel() { return level; }
+    void setGridSizeX(int grid_size_x) { this->grid_size_x = grid_size_x; }
+    void setGridSizeY(int grid_size_y) { this->grid_size_y = grid_size_y; }
     int getGridSizeX();
     int getGridSizeY();
     void reset();

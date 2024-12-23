@@ -67,9 +67,9 @@ TEST_CASE("Game scene is initialized correctly")
     view->setEngine(new TestRenderEngine());
     view->initGameScene();
     Scene *inGame = view->getInGameScene();
-    REQUIRE(inGame->scene_elements->size() == 2);
+    REQUIRE(inGame->scene_elements->size() == 3);
     REQUIRE(inGame->scene_elements->at(0)->getPosXTopLeft() == 0);
-    REQUIRE(inGame->scene_elements->at(0)->getPosYTopLeft() == 20);
+    REQUIRE(inGame->scene_elements->at(0)->getPosYTopLeft() == 0);
     REQUIRE(inGame->scene_elements->at(1)->getPosXTopLeft() == 192);
     REQUIRE(inGame->scene_elements->at(1)->getPosYTopLeft() == 80);
     glfwTerminate();
@@ -83,7 +83,7 @@ TEST_CASE("Game over scene is initialized correctly")
     Scene *gameOver = view->getGameOverScene();
     REQUIRE(gameOver->scene_elements->size() == 4);
     REQUIRE(gameOver->scene_elements->at(0)->getPosXTopLeft() == 0);
-    REQUIRE(gameOver->scene_elements->at(0)->getPosYTopLeft() == 20);
+    REQUIRE(gameOver->scene_elements->at(0)->getPosYTopLeft() == 0);
     REQUIRE(gameOver->scene_elements->at(1)->getPosXTopLeft() == 192);
     REQUIRE(gameOver->scene_elements->at(1)->getPosYTopLeft() == 80);
     glfwTerminate();

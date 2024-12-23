@@ -467,6 +467,7 @@ void GridController::loadLevel(const string path)
     vector<string> level = readFileAsStringArray(path);
     grid->occupiedSpacesWall->clear();
     grid->getLevel()->clear();
+    grid->setGridSizeY(0);
     for (int i = 0; i < level.size(); i++)
     {
         string l = level.at(i);
@@ -498,9 +499,9 @@ void GridController::loadLevel(const string path)
                 if (l.at(j) == 'W')
                     grid->occupiedSpacesWall->insert({j, i});
             }
+            grid->setGridSizeX(l.size());
+            grid->setGridSizeY(grid->getGridSizeY() + 1);
         }
-        grid->setGridSizeX(l.size());
-        grid->setGridSizeY(i);
     }
 }
 

@@ -413,6 +413,7 @@ TEST_CASE("If snake goes out of bounds, wrap around")
   gridController->moveSnakeUp();
   gridController->moveSnakeUp();
   gridController->updateGrid();
+  REQUIRE(gridController->getGrid()->getGridSizeY() == 20);
   REQUIRE(gridController->getSnake()->getPosY() == grid_size_y - 1);
 }
 
@@ -501,5 +502,27 @@ TEST_CASE("Load level with win condition from disk")
   REQUIRE(WinCondition(SCORE, 40) == *(gridController->getWinCondition()));
   path.append("2");
   gridController->loadLevel(path.c_str());
-  REQUIRE(WinCondition(TIME, 40) == *(gridController->getWinCondition()));
+  REQUIRE(WinCondition(TIME, 20) == *(gridController->getWinCondition()));
+}
+
+TEST_CASE("Win game with win condition: time")
+{
+  GameController *gameController = new GameController();
+  gameController->setView(new TestView());
+  gameController->reactOnInput('o');
+  string path = RESOURCE_DIR;
+  path.append("/tests/level/levelWithWincon2");
+  gameController->getGridController()->loadLevel(path.c_str());
+  REQUIRE(gameController->getGameState() == IN_GAME);
+  gameController->reactOnInput('d');
+  for (int i = 0; i < 10; i++)
+  {
+    gameController->mainLoopIteration();
+  }
+  gameController->reactOnInput('s');
+  for (int i = 0; i < 10; i++)
+  {
+    gameController->mainLoopIteration();
+  }
+  REQUIRE(gameController->getGameState() == WIN);
 }

@@ -36,7 +36,7 @@ TEST_CASE("Initialize OpenGL (View)")
     view->setScore(2);
     REQUIRE(((Text *)view->getInGameScene()->scene_elements->at(0))->text.compare("Score: 2") == 0);
     std::vector<std::string> *grid = new std::vector<std::string>();
-    std::vector<std::vector<Sprite> *> *spriteGrid = GridController(new TestEatListener()).getSpriteVector(); // GameController::convertToSpriteVector(grid);
+    std::vector<std::vector<Sprite> *> *spriteGrid = GridController(new TestEatListener()).getSpriteVector();
     view->setGrid(spriteGrid);
     REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(1))->getGrid() == spriteGrid);
     view->gameStateChanged(WIN);

@@ -443,6 +443,7 @@ TEST_CASE("Win game")
   gameController->reactOnInput('o');
   REQUIRE(gameController->getLevel() == 1);
   REQUIRE(gameController->getGameState() == IN_GAME);
+  // Eat 20 special foods for 40 points
   for (int i = 0; i < 20; i++)
   {
     gameController->eat(true);
@@ -514,15 +515,18 @@ TEST_CASE("Win game with win condition: time")
   path.append("/tests/level/levelWithWincon2");
   gameController->getGridController()->loadLevel(path.c_str());
   REQUIRE(gameController->getGameState() == IN_GAME);
+  // 10 Steps to the right
   gameController->reactOnInput('d');
   for (int i = 0; i < 10; i++)
   {
     gameController->mainLoopIteration();
   }
+  // 10 Steps to the bottom
   gameController->reactOnInput('s');
   for (int i = 0; i < 10; i++)
   {
     gameController->mainLoopIteration();
   }
+  // After 20 steps, the win condition is fulfilled
   REQUIRE(gameController->getGameState() == WIN);
 }

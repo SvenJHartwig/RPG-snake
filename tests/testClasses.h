@@ -13,6 +13,10 @@
 using SEngine::RenderData, SEngine::Button, SEngine::IRenderEngine, SEngine::RenderEngine, SEngine::Text, SEngine::Sprite, SEngine::Scene, SEngine::IEngineCallback, SEngine::SpriteGrid;
 using std::vector, std::string;
 
+/*
+ * Define some test implementations for the interfaces
+ */
+
 class TestGenerator : public RandomGenerator
 {
     bool first = false;

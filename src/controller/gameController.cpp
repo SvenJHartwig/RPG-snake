@@ -9,6 +9,7 @@ using std::string, std::vector;
 GameController::GameController()
 {
     gridController = new GridController(this);
+    gameMode = GameModeFactory::createGameMode(INFINITE);
 }
 
 GameController::~GameController()

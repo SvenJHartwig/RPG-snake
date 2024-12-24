@@ -1,0 +1,13 @@
+- Switch level files to binary format, this allows to:
+    - Add teleporters between maps
+    - Add NPCs
+    - Add Quests
+- To allow for binary format maps, there needs to exist some kind of map editor first
+- Move the character input reactions from the engine to the gameController
+- Fix button sprites
+- Background image
+- Enemies
+- Health
+- Power Ups
+- Game modes for infinite game / rpg mode
+- Create design documents

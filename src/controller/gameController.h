@@ -2,6 +2,7 @@
 
 #include "gridController.h"
 #include "../view/iGameView.h"
+#include "../model/gameMode.h"
 #include "iEatListener.h"
 
 class GameController : public IGameController,
@@ -20,6 +21,7 @@ private:
     GameState gameState = MAIN_MENU;
     bool infinite = true;
     int level = 1;
+    IGameMode *gameMode;
     bool checkWinCondition();
 
 public:
@@ -42,4 +44,6 @@ public:
     void softReset();
     void resetGame();
     int getLevel() { return level; }
+    void setGameMode(GameModeEnum mode) { gameMode = GameModeFactory::createGameMode(mode); }
+    IGameMode *getGameMode() { return gameMode; }
 };

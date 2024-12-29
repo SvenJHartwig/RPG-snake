@@ -34,6 +34,11 @@ int RandomGeneratorImpl::getRandom(int max_value)
     return (rand() % max_value) + 1;
 }
 
+bool has_only_digits(const string s)
+{
+    return s.find_first_not_of("0123456789") == string::npos;
+}
+
 GridController::GridController(IEatListener *eatListener)
 {
     this->eatListener = eatListener;
@@ -42,6 +47,7 @@ GridController::GridController(IEatListener *eatListener)
     food = new std::vector<Food *>(1, new Food());
     grid = new Grid();
     snake = new Snake();
+    wincon = new WinCondition(NONE, 0);
 }
 
 GridController::~GridController()
@@ -435,6 +441,7 @@ void GridController::reset()
     snake = new Snake();
     updateGrid();
     game_over = false;
+    wincon = new WinCondition(NONE, 0);
 }
 vector<string> readFileAsStringArray(const string &filepath)
 {
@@ -461,14 +468,45 @@ void GridController::loadLevel(const string path)
     vector<string> level = readFileAsStringArray(path);
     grid->occupiedSpacesWall->clear();
     grid->getLevel()->clear();
+    grid->setGridSizeY(0);
     for (int i = 0; i < level.size(); i++)
     {
         string l = level.at(i);
-        grid->getLevel()->push_back(l);
-        for (int j = 0; j < l.size(); j++)
+        if (l.rfind("Wincon:", 0) == 0)
         {
-            if (l.at(j) == 'W')
-                grid->occupiedSpacesWall->insert({j, i});
+            l.replace(0, 7, 0, 'f');
+            if (l.rfind("s", 0) == 0)
+            {
+                l.replace(0, 1, 0, 'f');
+                if (has_only_digits(l))
+                {
+                    wincon = new WinCondition(SCORE, std::stoi(l));
+                }
+            }
+            else if (l.rfind("t", 0) == 0)
+            {
+                l.replace(0, 1, 0, 'f');
+                if (has_only_digits(l))
+                {
+                    wincon = new WinCondition(TIME, std::stoi(l));
+                }
+            }
+        }
+        else
+        {
+            grid->getLevel()->push_back(l);
+            for (int j = 0; j < l.size(); j++)
+            {
+                if (l.at(j) == 'W')
+                    grid->occupiedSpacesWall->insert({j, i});
+            }
+            grid->setGridSizeX(l.size());
+            grid->setGridSizeY(grid->getGridSizeY() + 1);
         }
     }
+}
+
+WinCondition *GridController::getWinCondition()
+{
+    return wincon;
 }

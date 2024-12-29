@@ -413,6 +413,7 @@ TEST_CASE("If snake goes out of bounds, wrap around")
   gridController->moveSnakeUp();
   gridController->moveSnakeUp();
   gridController->updateGrid();
+  REQUIRE(gridController->getGrid()->getGridSizeY() == 20);
   REQUIRE(gridController->getSnake()->getPosY() == grid_size_y - 1);
 }
 
@@ -442,10 +443,12 @@ TEST_CASE("Win game")
   gameController->reactOnInput('o');
   REQUIRE(gameController->getLevel() == 1);
   REQUIRE(gameController->getGameState() == IN_GAME);
+  // Eat 20 special foods for 40 points
   for (int i = 0; i < 20; i++)
   {
     gameController->eat(true);
   }
+  gameController->mainLoopIteration();
   REQUIRE(gameController->getGameState() == WIN);
   gameController->reactOnInput('p');
   REQUIRE(gameController->getGameState() == IN_GAME);
@@ -489,4 +492,43 @@ TEST_CASE("RNG doesn't generate pair on wall")
     std::pair<int, int> pair2 = {0, 1};
     REQUIRE(pair != pair2);
   }
+}
+
+TEST_CASE("Load level with win condition from disk")
+{
+  GridController *gridController = new GridController(new TestEatListener());
+  string path = RESOURCE_DIR;
+  path.append("/tests/level/levelWithWincon");
+  gridController->loadLevel(path.c_str());
+  REQUIRE(WinCondition(SCORE, 40) == *(gridController->getWinCondition()));
+  path.append("2");
+  gridController->loadLevel(path.c_str());
+  REQUIRE(WinCondition(TIME, 20) == *(gridController->getWinCondition()));
+}
+
+TEST_CASE("Win game with win condition: time")
+{
+  GameController *gameController = new GameController();
+  gameController->setView(new TestView());
+  gameController->reactOnInput('o');
+  string path = RESOURCE_DIR;
+  path.append("/tests/level/levelWithWincon2");
+  gameController->getGridController()->loadLevel(path.c_str());
+  gameController->getGameMode()->clearQuests();
+  gameController->getGameMode()->addQuest(*(gameController->getGridController()->getWinCondition()));
+  REQUIRE(gameController->getGameState() == IN_GAME);
+  // 10 Steps to the right
+  gameController->reactOnInput('d');
+  for (int i = 0; i < 10; i++)
+  {
+    gameController->mainLoopIteration();
+  }
+  // 10 Steps to the bottom
+  gameController->reactOnInput('s');
+  for (int i = 0; i < 10; i++)
+  {
+    gameController->mainLoopIteration();
+  }
+  // After 20 steps, the win condition is fulfilled
+  REQUIRE(gameController->getGameState() == WIN);
 }

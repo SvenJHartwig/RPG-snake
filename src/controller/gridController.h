@@ -2,6 +2,7 @@
 
 #include "../model/grid.h"
 #include "../model/snake.h"
+#include "../model/winCondition.h"
 #include "../view/engine/elements/spriteGrid.h"
 #include "iEatListener.h"
 #include <string>
@@ -34,6 +35,7 @@ private:
     RandomGenerator *rng;
     Grid *grid;
     IEatListener *eatListener;
+    WinCondition *wincon;
 
     void checkOnFood();
     void updateCollisionMap();
@@ -50,14 +52,15 @@ public:
     void moveSnakeLeft();
     void moveSnakeUp();
     void moveSnakeDown();
-    Snake *getSnake();
     bool isGameOver();
     void setRNG(RandomGenerator *rng);
     void generateNewFood(int i, int j);
     void generateNewSpecialFood(int i, int j);
-    Grid *getGrid();
-    std::vector<Food *> *getFood();
     void reset();
     void loadLevel(std::string path);
+    Grid *getGrid();
+    std::vector<Food *> *getFood();
+    Snake *getSnake();
     std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
+    WinCondition *getWinCondition();
 };

@@ -9,6 +9,7 @@ using std::string, std::vector;
 GameController::GameController()
 {
     gridController = new GridController(this);
+    gameMode = GameModeFactory::createGameMode(INFINITE, this);
 }
 
 GameController::~GameController()
@@ -29,16 +30,19 @@ void GameController::reactOnInput(char input)
         {
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
+            view->setWinCondition(*(gridController->getWinCondition()));
         }
         else if (input == 'o')
         {
-            infinite = false;
             string path = RESOURCE_DIR;
             path.append("/level/level1");
             gridController->loadLevel(path);
             gridController->updateGrid();
             gameState = IN_GAME;
+            gameMode = GameModeFactory::createGameMode(RPG, this);
+            gameMode->addQuest(*(gridController->getWinCondition()));
             view->gameStateChanged(gameState);
+            view->setWinCondition(*(gridController->getWinCondition()));
         }
         else if (input == 'l')
         {
@@ -75,6 +79,7 @@ void GameController::reactOnInput(char input)
             gridController->updateGrid();
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
+            view->setWinCondition(*(gridController->getWinCondition()));
         }
         break;
     default:
@@ -106,25 +111,34 @@ void GameController::mainLoopIteration()
     case 'd':
         lastDirection = 'd';
         gridController->moveSnakeRight();
+        steps++;
         break;
     case 'w':
         lastDirection = 'w';
         gridController->moveSnakeUp();
+        steps++;
         break;
     case 'a':
         lastDirection = 'a';
         gridController->moveSnakeLeft();
+        steps++;
         break;
     case 's':
         lastDirection = 's';
         gridController->moveSnakeDown();
+        steps++;
         break;
     default:
         break;
     }
-    // Updates the grid in memory to be read by the graphics engine
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
+    if (gameMode->checkWinCondition())
+    {
+        level++;
+        gameState = WIN;
+        view->gameStateChanged(gameState);
+    }
     if (gridController->isGameOver())
     {
         gameState = GAME_OVER;
@@ -180,12 +194,6 @@ void GameController::eat(bool isSpecial)
         speed = l6;
     }
     view->setScore(score);
-    if (!infinite && score >= 40)
-    {
-        level++;
-        gameState = WIN;
-        view->gameStateChanged(gameState);
-    }
 }
 
 char GameController::getLastDirection()
@@ -210,14 +218,17 @@ void GameController::softReset()
     speed = l1;
     eatCount = 0;
     score = 0;
+    steps = 0;
     gridController->reset();
     gridController->updateGrid();
+    view->setGrid(gridController->getSpriteVector());
+    view->setWinCondition(*(gridController->getWinCondition()));
 }
 
 void GameController::resetGame()
 {
     view->setScore(0);
     level = 1;
-    infinite = true;
+    gameMode = GameModeFactory::createGameMode(INFINITE, this);
     softReset();
 }

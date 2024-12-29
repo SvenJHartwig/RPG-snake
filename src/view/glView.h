@@ -36,4 +36,5 @@ public:
     void setInitialized(bool initialized) { this->initialized = initialized; }
     void setScore(int count);
     void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid);
+    void setWinCondition(WinCondition condition);
 };

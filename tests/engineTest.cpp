@@ -1,4 +1,3 @@
-#include <catch2/catch.hpp>
 #include "testClasses.h"
 
 TEST_CASE("Button produces a colored rectangle")

@@ -13,6 +13,10 @@
 using SEngine::RenderData, SEngine::Button, SEngine::IRenderEngine, SEngine::RenderEngine, SEngine::Text, SEngine::Sprite, SEngine::Scene, SEngine::IEngineCallback, SEngine::SpriteGrid;
 using std::vector, std::string;
 
+/*
+ * Define some test implementations for the interfaces
+ */
+
 class TestGenerator : public RandomGenerator
 {
     bool first = false;
@@ -54,6 +58,7 @@ class TestView : public IGameView
     void setCurrentScene(Scene *current_scene) {}
     void setScore(int count) {}
     void setGrid(vector<vector<Sprite> *> *grid) {}
+    void setWinCondition(WinCondition condition) {}
 };
 
 class TestGameController : public IGameController
@@ -73,6 +78,7 @@ public:
             calledP = true;
     }
     void setWindowClosed(bool closed) {}
+    long getSteps() { return 0; }
 };
 
 class TestRenderEngine : public IRenderEngine

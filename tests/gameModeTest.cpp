@@ -4,7 +4,7 @@ TEST_CASE("Switch game modes")
 {
     GameController *gameController = new GameController();
     gameController->setGameMode(INFINITE);
-    REQUIRE(*(gameController->getGameMode()) == InfiniteGameMode());
+    REQUIRE(*(gameController->getGameMode()) == InfiniteGameMode(gameController));
     gameController->setGameMode(RPG);
-    REQUIRE(*(gameController->getGameMode()) == RPGGameMode());
+    REQUIRE(*(gameController->getGameMode()) == RPGGameMode(gameController));
 }

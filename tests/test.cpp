@@ -514,6 +514,8 @@ TEST_CASE("Win game with win condition: time")
   string path = RESOURCE_DIR;
   path.append("/tests/level/levelWithWincon2");
   gameController->getGridController()->loadLevel(path.c_str());
+  gameController->getGameMode()->clearQuests();
+  gameController->getGameMode()->addQuest(*(gameController->getGridController()->getWinCondition()));
   REQUIRE(gameController->getGameState() == IN_GAME);
   // 10 Steps to the right
   gameController->reactOnInput('d');

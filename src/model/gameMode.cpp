@@ -1,18 +1,28 @@
 #include "gameMode.h"
 
-IGameMode *GameModeFactory::createGameMode(GameModeEnum mode)
+IGameMode *GameModeFactory::createGameMode(GameModeEnum mode, IGameController *controller)
 {
     switch (mode)
     {
     case INFINITE:
-        return new InfiniteGameMode();
+        return new InfiniteGameMode(controller);
     case RPG:
-        return new RPGGameMode();
+        return new RPGGameMode(controller);
+    default:
+        return new InfiniteGameMode(controller);
     }
 }
 
-InfiniteGameMode::InfiniteGameMode()
+InfiniteGameMode::InfiniteGameMode(IGameController *controller)
 {
+}
+
+void InfiniteGameMode::clearQuests() {}
+void InfiniteGameMode::addQuest(WinCondition condition) {}
+
+bool InfiniteGameMode::checkWinCondition()
+{
+    return false;
 }
 
 bool InfiniteGameMode::operator==(IGameMode const &other) const
@@ -22,8 +32,49 @@ bool InfiniteGameMode::operator==(IGameMode const &other) const
     return false;
 }
 
-RPGGameMode::RPGGameMode()
+RPGGameMode::RPGGameMode(IGameController *controller)
 {
+    this->controller = controller;
+}
+
+bool RPGGameMode::checkWinCondition(WinCondition condition)
+{
+    if (condition.getType() == SCORE)
+    {
+        if (controller->getScore() >= condition.getAmount())
+        {
+            return true;
+        }
+    }
+    if (condition.getType() == TIME)
+    {
+        if (controller->getSteps() >= condition.getAmount())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void RPGGameMode::clearQuests()
+{
+    quests->clear();
+}
+void RPGGameMode::addQuest(WinCondition condition)
+{
+    quests->push_back(condition);
+}
+
+bool RPGGameMode::checkWinCondition()
+{
+    for (int i = 0; i < quests->size(); i++)
+    {
+        if (!checkWinCondition(quests->at(i)))
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool RPGGameMode::operator==(IGameMode const &other) const

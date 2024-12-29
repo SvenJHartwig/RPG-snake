@@ -9,7 +9,7 @@ using std::string, std::vector;
 GameController::GameController()
 {
     gridController = new GridController(this);
-    gameMode = GameModeFactory::createGameMode(INFINITE);
+    gameMode = GameModeFactory::createGameMode(INFINITE, this);
 }
 
 GameController::~GameController()
@@ -19,25 +19,6 @@ GameController::~GameController()
 void GameController::setView(IGameView *view)
 {
     this->view = view;
-}
-
-bool GameController::checkWinCondition()
-{
-    if (gridController->getWinCondition()->getType() == SCORE)
-    {
-        if (score >= gridController->getWinCondition()->getAmount())
-        {
-            return true;
-        }
-    }
-    if (gridController->getWinCondition()->getType() == TIME)
-    {
-        if (steps >= gridController->getWinCondition()->getAmount())
-        {
-            return true;
-        }
-    }
-    return false;
 }
 
 void GameController::reactOnInput(char input)
@@ -53,12 +34,13 @@ void GameController::reactOnInput(char input)
         }
         else if (input == 'o')
         {
-            infinite = false;
             string path = RESOURCE_DIR;
             path.append("/level/level1");
             gridController->loadLevel(path);
             gridController->updateGrid();
             gameState = IN_GAME;
+            gameMode = GameModeFactory::createGameMode(RPG, this);
+            gameMode->addQuest(*(gridController->getWinCondition()));
             view->gameStateChanged(gameState);
             view->setWinCondition(*(gridController->getWinCondition()));
         }
@@ -151,7 +133,7 @@ void GameController::mainLoopIteration()
     }
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
-    if (!infinite && checkWinCondition())
+    if (gameMode->checkWinCondition())
     {
         level++;
         gameState = WIN;
@@ -247,6 +229,6 @@ void GameController::resetGame()
 {
     view->setScore(0);
     level = 1;
-    infinite = true;
+    gameMode = GameModeFactory::createGameMode(INFINITE, this);
     softReset();
 }

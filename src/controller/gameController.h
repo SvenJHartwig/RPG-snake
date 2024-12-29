@@ -19,10 +19,8 @@ private:
     long steps = 0;
     char lastDirection;
     GameState gameState = MAIN_MENU;
-    bool infinite = true;
     int level = 1;
     IGameMode *gameMode;
-    bool checkWinCondition();
 
 public:
     GameController();
@@ -39,11 +37,12 @@ public:
     char getLastDirection();
     char getLastInput() { return lastInput; }
     int getScore();
+    long getSteps() { return steps; }
     GameState getGameState();
     void setGameState(GameState state) { this->gameState = state; }
     void softReset();
     void resetGame();
     int getLevel() { return level; }
-    void setGameMode(GameModeEnum mode) { gameMode = GameModeFactory::createGameMode(mode); }
+    void setGameMode(GameModeEnum mode) { gameMode = GameModeFactory::createGameMode(mode, this); }
     IGameMode *getGameMode() { return gameMode; }
 };

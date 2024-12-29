@@ -78,6 +78,7 @@ public:
             calledP = true;
     }
     void setWindowClosed(bool closed) {}
+    long getSteps() { return 0; }
 };
 
 class TestRenderEngine : public IRenderEngine

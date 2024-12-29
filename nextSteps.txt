@@ -9,5 +9,5 @@
 - Enemies
 - Health
 - Power Ups
-- Game modes for infinite game / rpg mode
 - Create design documents
+- Fix different grid sizes

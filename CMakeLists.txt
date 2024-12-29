@@ -10,6 +10,10 @@ include_directories (/usr/include/freetype2 includes)
 target_link_libraries(main PRIVATE glfw3 rt m dl GLEW GLU OpenGL freetype)
 target_compile_definitions(main PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/src/resources")
 
+add_executable(editor src/editor.cpp src/model/grid.cpp src/model/snake.cpp src/model/winCondition.cpp src/model/gameMode.cpp)
+target_compile_definitions(editor PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/src/resources")
+
+
 # Copy CTestCustom.cmake to build folder
 configure_file(
     ${CMAKE_SOURCE_DIR}/CTestCustom.cmake

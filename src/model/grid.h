@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <set>
+#include "winCondition.h"
 
 class GridElement
 {
@@ -25,6 +26,7 @@ private:
     int grid_size_x;
     int grid_size_y;
     std::vector<std::string> *level;
+    WinCondition winCon = WinCondition(NONE, 0);
 
 public:
     std::set<std::pair<int, int>> *occupiedSpacesWall;
@@ -39,4 +41,6 @@ public:
     int getGridSizeX();
     int getGridSizeY();
     void reset();
+    void setWinCondition(WinCondition winCondition) { this->winCon = winCondition; }
+    WinCondition getWinCondition() { return winCon; }
 };

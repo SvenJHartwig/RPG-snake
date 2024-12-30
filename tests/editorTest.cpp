@@ -8,4 +8,5 @@ TEST_CASE("Import text file")
     Grid *grid = new Grid();
     loadLevelFromTextFile(path.c_str(), grid);
     REQUIRE(grid->getLevel()->size() == 15);
+    REQUIRE(grid->getWinCondition() == WinCondition(TIME, 20));
 }

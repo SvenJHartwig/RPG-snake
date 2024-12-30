@@ -21,7 +21,7 @@ void loadLevelFromTextFile(const string path, Grid *grid)
                 l.replace(0, 1, 0, 'f');
                 if (has_only_digits(l))
                 {
-                    //    wincon = new WinCondition(SCORE, std::stoi(l));
+                    grid->setWinCondition(WinCondition(SCORE, std::stoi(l)));
                 }
             }
             else if (l.rfind("t", 0) == 0)
@@ -29,7 +29,7 @@ void loadLevelFromTextFile(const string path, Grid *grid)
                 l.replace(0, 1, 0, 'f');
                 if (has_only_digits(l))
                 {
-                    //    wincon = new WinCondition(TIME, std::stoi(l));
+                    grid->setWinCondition(WinCondition(TIME, std::stoi(l)));
                 }
             }
         }

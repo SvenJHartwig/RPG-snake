@@ -24,6 +24,7 @@ void Grid::reset()
 {
     grid_size_x = 20;
     grid_size_y = 20;
+    winCon = WinCondition(NONE, 0);
     level = new vector<string>();
     occupiedSpacesWall = new std::set<std::pair<int, int>>();
     occupiedSpacesSnake = new std::set<std::pair<int, int>>();

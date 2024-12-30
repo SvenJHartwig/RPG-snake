@@ -517,15 +517,21 @@ TEST_CASE("Win game with win condition: time")
   gameController->getGameMode()->clearQuests();
   gameController->getGameMode()->addQuest(*(gameController->getGridController()->getWinCondition()));
   REQUIRE(gameController->getGameState() == IN_GAME);
-  // 10 Steps to the right
+  // 8 Steps to the right
   gameController->reactOnInput('d');
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 8; i++)
   {
     gameController->mainLoopIteration();
   }
-  // 10 Steps to the bottom
+  // 5 Steps to the bottom
   gameController->reactOnInput('s');
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 5; i++)
+  {
+    gameController->mainLoopIteration();
+  }
+  // 8 Steps to the left
+  gameController->reactOnInput('a');
+  for (int i = 0; i < 8; i++)
   {
     gameController->mainLoopIteration();
   }

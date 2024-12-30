@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "../commonFunctions.h"
 
 using std::vector, std::string;
 
@@ -32,11 +33,6 @@ std::pair<int, int> RandomGeneratorImpl::getRandomPair(int max_value_x, int max_
 int RandomGeneratorImpl::getRandom(int max_value)
 {
     return (rand() % max_value) + 1;
-}
-
-bool has_only_digits(const string s)
-{
-    return s.find_first_not_of("0123456789") == string::npos;
 }
 
 GridController::GridController(IEatListener *eatListener)
@@ -442,26 +438,6 @@ void GridController::reset()
     updateGrid();
     game_over = false;
     wincon = new WinCondition(NONE, 0);
-}
-vector<string> readFileAsStringArray(const string &filepath)
-{
-    std::ifstream file(filepath);
-    if (!file.is_open())
-    {
-        return {};
-    }
-
-    vector<string> lines;
-    string line;
-
-    // Read the file line by line and store each line in the vector
-    while (std::getline(file, line))
-    {
-        lines.push_back(line);
-    }
-
-    file.close();
-    return lines;
 }
 void GridController::loadLevel(const string path)
 {

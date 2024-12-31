@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <iostream>
+#include <fstream>
 
 enum WinConType
 {
@@ -22,4 +24,6 @@ public:
     int getAmount();
     bool operator==(WinCondition const &other) const;
     std::string toString();
+    void serialize(std::ofstream *outFile);
+    void deserialize(std::ifstream *inFile);
 };

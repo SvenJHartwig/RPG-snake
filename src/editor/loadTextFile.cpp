@@ -46,3 +46,12 @@ void loadLevelFromTextFile(const string path, Grid *grid)
         }
     }
 }
+void loadLevelFromBinaryFile(const std::string path, Grid *grid)
+{
+    grid->loadFromFile(path);
+}
+
+void saveGridAsBinaryFile(const std::string path, Grid *grid)
+{
+    grid->saveToFile(path);
+}

@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.9)
+cmake_minimum_required (VERSION 3.28)
 project (Snake)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(main src/main.cpp src/model/grid.cpp src/model/snake.cpp src/controller/gridController.cpp src/controller/gameController.cpp 
@@ -21,7 +21,7 @@ configure_file(
     COPYONLY
 )
 
-find_package(Catch2 2 REQUIRED)
+find_package(Catch2 3 REQUIRED)
 # These tests can use the Catch2-provided main
 add_executable(tests tests/test.cpp src/model/grid.cpp src/model/snake.cpp src/controller/gridController.cpp src/controller/gameController.cpp 
     src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp)

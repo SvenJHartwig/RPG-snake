@@ -4,6 +4,8 @@
 #include <string>
 #include <set>
 #include "winCondition.h"
+#include <iostream>
+#include <fstream>
 
 class GridElement
 {
@@ -43,4 +45,6 @@ public:
     void reset();
     void setWinCondition(WinCondition winCondition) { this->winCon = winCondition; }
     WinCondition getWinCondition() { return winCon; }
+    void saveToFile(const std::string &filename);
+    void loadFromFile(const std::string &filename);
 };

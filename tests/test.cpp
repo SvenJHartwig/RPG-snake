@@ -376,7 +376,7 @@ TEST_CASE("Load level from disk")
   }
   string path = RESOURCE_DIR;
   gridController->loadLevel(path.c_str());
-  path.append("/tests/level/level1");
+  path.append("/tests/level/level1Binary");
   gridController->loadLevel(path.c_str());
   vector<string> *chars = grid->getLevel();
   for (int i = 0; i < grid_size_y; i++)
@@ -403,7 +403,7 @@ TEST_CASE("If snake goes out of bounds, wrap around")
   int grid_size_x = grid->getGridSizeX();
   int grid_size_y = grid->getGridSizeY();
   string path = RESOURCE_DIR;
-  path.append("/tests/level/level2");
+  path.append("/tests/level/level2Binary");
   gridController->loadLevel(path.c_str());
   vector<string> *chars = grid->getLevel();
   gridController->moveSnakeUp();
@@ -498,12 +498,13 @@ TEST_CASE("Load level with win condition from disk")
 {
   GridController *gridController = new GridController(new TestEatListener());
   string path = RESOURCE_DIR;
-  path.append("/tests/level/levelWithWincon");
+  path.append("/tests/level/levelWithWinconBinary");
   gridController->loadLevel(path.c_str());
-  REQUIRE(WinCondition(SCORE, 40) == *(gridController->getWinCondition()));
-  path.append("2");
+  REQUIRE(WinCondition(SCORE, 40) == gridController->getGrid()->getWinCondition());
+  path = RESOURCE_DIR;
+  path.append("/tests/level/levelWithWincon2Binary");
   gridController->loadLevel(path.c_str());
-  REQUIRE(WinCondition(TIME, 20) == *(gridController->getWinCondition()));
+  REQUIRE(WinCondition(TIME, 20) == gridController->getGrid()->getWinCondition());
 }
 
 TEST_CASE("Win game with win condition: time")
@@ -512,10 +513,10 @@ TEST_CASE("Win game with win condition: time")
   gameController->setView(new TestView());
   gameController->reactOnInput('o');
   string path = RESOURCE_DIR;
-  path.append("/tests/level/levelWithWincon2");
+  path.append("/tests/level/levelWithWincon2Binary");
   gameController->getGridController()->loadLevel(path.c_str());
   gameController->getGameMode()->clearQuests();
-  gameController->getGameMode()->addQuest(*(gameController->getGridController()->getWinCondition()));
+  gameController->getGameMode()->addQuest(gameController->getGridController()->getGrid()->getWinCondition());
   REQUIRE(gameController->getGameState() == IN_GAME);
   // 8 Steps to the right
   gameController->reactOnInput('d');

@@ -30,7 +30,7 @@ void GameController::reactOnInput(char input)
         {
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
-            view->setWinCondition(*(gridController->getWinCondition()));
+            view->setWinCondition(gridController->getGrid()->getWinCondition());
         }
         else if (input == 'o')
         {
@@ -40,9 +40,9 @@ void GameController::reactOnInput(char input)
             gridController->updateGrid();
             gameState = IN_GAME;
             gameMode = GameModeFactory::createGameMode(RPG, this);
-            gameMode->addQuest(*(gridController->getWinCondition()));
+            gameMode->addQuest(gridController->getGrid()->getWinCondition());
             view->gameStateChanged(gameState);
-            view->setWinCondition(*(gridController->getWinCondition()));
+            view->setWinCondition(gridController->getGrid()->getWinCondition());
         }
         else if (input == 'l')
         {
@@ -79,7 +79,7 @@ void GameController::reactOnInput(char input)
             gridController->updateGrid();
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
-            view->setWinCondition(*(gridController->getWinCondition()));
+            view->setWinCondition(gridController->getGrid()->getWinCondition());
         }
         break;
     default:
@@ -222,7 +222,7 @@ void GameController::softReset()
     gridController->reset();
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
-    view->setWinCondition(*(gridController->getWinCondition()));
+    view->setWinCondition(gridController->getGrid()->getWinCondition());
 }
 
 void GameController::resetGame()

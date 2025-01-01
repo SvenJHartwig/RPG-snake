@@ -4,9 +4,11 @@
 int main()
 {
     std::string path = RESOURCE_DIR;
-    path.append("/level/level1");
+    path.append("/tests/level/level1");
     Grid *grid = new Grid();
     loadLevelFromTextFile(path.c_str(), grid);
+    path.append("Binary");
+    saveGridAsBinaryFile(path, grid);
 
     return 0;
 }

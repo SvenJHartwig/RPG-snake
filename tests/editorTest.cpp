@@ -14,7 +14,7 @@ TEST_CASE("Import text file")
     saveGridAsBinaryFile(path, grid);
     grid = new Grid();
     loadLevelFromBinaryFile(path, grid);
-    std::remove(path.c_str());
+    // std::remove(path.c_str());
     REQUIRE(grid->getLevel()->size() == 15);
     REQUIRE(grid->getWinCondition() == WinCondition(TIME, 20));
 }

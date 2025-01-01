@@ -88,30 +88,40 @@ void Grid::saveToFile(const std::string &filename)
 }
 
 // Load the object from a binary file
+// If the file doesn't match the format the grid is reset.
 void Grid::loadFromFile(const std::string &filename)
 {
     std::ifstream inFile(filename, std::ios::binary);
     if (!inFile)
     {
-        throw std::ios_base::failure("Failed to open file for reading.");
+        reset();
+        return;
     }
 
-    // Load the integers
-    inFile.read(reinterpret_cast<char *>(&grid_size_x), sizeof(grid_size_x));
-    inFile.read(reinterpret_cast<char *>(&grid_size_y), sizeof(grid_size_y));
-
-    // Load the vector of strings
-    size_t vectorSize;
-    inFile.read(reinterpret_cast<char *>(&vectorSize), sizeof(vectorSize));
-    level->resize(vectorSize);
-    for (auto &str : *(level))
+    try
     {
-        size_t strLength;
-        inFile.read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
-        str.resize(strLength);
-        inFile.read(&str[0], strLength); // Load string content
+        // Load the integers
+        inFile.read(reinterpret_cast<char *>(&grid_size_x), sizeof(grid_size_x));
+        inFile.read(reinterpret_cast<char *>(&grid_size_y), sizeof(grid_size_y));
+
+        // Load the vector of strings
+        size_t vectorSize;
+        inFile.read(reinterpret_cast<char *>(&vectorSize), sizeof(vectorSize));
+        level->resize(vectorSize);
+        for (auto &str : *(level))
+        {
+            size_t strLength;
+            inFile.read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
+            str.resize(strLength);
+            inFile.read(&str[0], strLength); // Load string content
+        }
+        winCon.deserialize(&inFile);
     }
-    winCon.deserialize(&inFile);
+    catch (const std::exception &e)
+    {
+        reset();
+        return;
+    }
 
     inFile.close();
 }

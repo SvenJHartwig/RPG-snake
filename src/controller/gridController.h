@@ -35,7 +35,6 @@ private:
     RandomGenerator *rng;
     Grid *grid;
     IEatListener *eatListener;
-    WinCondition *wincon;
 
     void checkOnFood();
     void updateCollisionMap();
@@ -62,5 +61,4 @@ public:
     std::vector<Food *> *getFood();
     Snake *getSnake();
     std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
-    WinCondition *getWinCondition();
 };

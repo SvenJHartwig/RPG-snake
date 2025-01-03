@@ -1,12 +1,13 @@
 #include "glView.h"
 #include "engine/elements/button.h"
+#include "engine/elements/image.h"
 #include "engine/elements/text.h"
 #include "engine/elements/spriteGrid.h"
 #include "engine/renderEngine.h"
 #include <thread>
 
 using std::string, std::vector, SEngine::RenderData, SEngine::Button, SEngine::RenderEngine, SEngine::IRenderEngine,
-    SEngine::IEngineCallback, SEngine::Scene, SEngine::Text, SEngine::SpriteGrid, SEngine::Sprite;
+    SEngine::IEngineCallback, SEngine::Scene, SEngine::Text, SEngine::SpriteGrid, SEngine::Sprite, SEngine::Image;
 
 void initView(IRenderEngine *engine, GlView *view)
 {
@@ -24,7 +25,7 @@ void initView(IRenderEngine *engine, GlView *view)
 int GlView::init()
 {
     engine = new RenderEngine();
-    std::thread *initThread = new std::thread(initView, engine, this);
+    const std::thread *initThread = new std::thread(initView, engine, this);
 
     return 0;
 }
@@ -78,6 +79,8 @@ void GlView::initGameScene()
     Text *winConText = new Text(0, 20, 100, 40);
     winConText->text = "Win condition: ";
     inGame->scene_elements->push_back(winConText);
+    Image *image = new Image(windowWidth / 2 - 320, 80, 200, 100, ((std::string)RESOURCE_DIR).append("/textures/grid.png").c_str());
+    inGame->scene_elements->push_back(image);
 }
 
 void GlView::initGameOverScene()

@@ -50,11 +50,10 @@ namespace SEngine
         for (int i = 0; i < engine->getCurrentScene()->scene_elements->size(); i++)
         {
             Element *currentSceneElement = engine->getCurrentScene()->scene_elements->at(i);
-            currentSceneElement->setIsHovered(false);
             if (sceneElementInCoords(currentSceneElement, xpos, ypos))
             {
-                currentSceneElement->setIsHovered(true);
                 currentSceneElement->callback(engine->getEngineCallback());
+                currentSceneElement->setIsHovered(false);
             }
         }
     }

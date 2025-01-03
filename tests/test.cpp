@@ -323,6 +323,25 @@ TEST_CASE("After Game Over pause before going to main menu")
   REQUIRE(gameController->getGameState() == MAIN_MENU);
 }
 
+TEST_CASE("Game Over on eating own tail")
+{
+  GameController *gameController = new GameController();
+  gameController->setView(new TestView());
+  gameController->getGridController()->getSnake()->eat();
+  gameController->getGridController()->getSnake()->eat();
+  gameController->getGridController()->getSnake()->eat();
+  gameController->getGridController()->getSnake()->eat();
+  gameController->getGridController()->getSnake()->eat();
+  gameController->getGridController()->moveSnakeUp();
+  gameController->getGridController()->moveSnakeLeft();
+  gameController->getGridController()->moveSnakeDown();
+  gameController->getGridController()->moveSnakeRight();
+  gameController->getGridController()->updateGrid();
+  gameController->mainLoopIteration();
+  REQUIRE(gameController->getGridController()->isGameOver());
+  REQUIRE(gameController->getGameState() == GAME_OVER);
+}
+
 TEST_CASE("Special food has a time out")
 {
   SpecialFood *spFood = new SpecialFood();

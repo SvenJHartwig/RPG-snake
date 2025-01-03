@@ -17,7 +17,7 @@ private:
     int eatCount = 0;
     int score = 0;
     long steps = 0;
-    char lastDirection;
+    char lastDirection = ' ';
     GameState gameState = MAIN_MENU;
     int level = 1;
     IGameMode *gameMode;
@@ -25,7 +25,7 @@ private:
 public:
     GameController();
     ~GameController();
-    void reactOnInput(char input);
+    void reactOnInput(int input);
     void setWindowClosed(bool closed);
     void setView(IGameView *view);
     void mainLoop();

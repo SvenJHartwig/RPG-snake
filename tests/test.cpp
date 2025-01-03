@@ -162,43 +162,43 @@ TEST_CASE("Movement in opposite direction of last direction is not possible if s
   GameController *gameController = new GameController();
   // Set gamestate to INGAME
   gameController->setView(new TestView());
-  gameController->reactOnInput('p');
+  gameController->reactOnInput(GLFW_KEY_P);
   gameController->eat(false);
-  gameController->reactOnInput('a');
+  gameController->reactOnInput(GLFW_KEY_LEFT);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'a');
-  gameController->reactOnInput('d');
+  gameController->reactOnInput(GLFW_KEY_RIGHT);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'a');
-  gameController->reactOnInput('w');
+  gameController->reactOnInput(GLFW_KEY_UP);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'w');
-  gameController->reactOnInput('s');
+  gameController->reactOnInput(GLFW_KEY_DOWN);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'w');
-  gameController->reactOnInput('d');
+  gameController->reactOnInput(GLFW_KEY_RIGHT);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'd');
-  gameController->reactOnInput('a');
+  gameController->reactOnInput(GLFW_KEY_LEFT);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'd');
-  gameController->reactOnInput('s');
+  gameController->reactOnInput(GLFW_KEY_DOWN);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
-  gameController->reactOnInput('w');
+  gameController->reactOnInput(GLFW_KEY_UP);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
-  gameController->reactOnInput('e');
+  gameController->reactOnInput(GLFW_KEY_E);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
-  gameController->reactOnInput('l');
+  gameController->reactOnInput(GLFW_KEY_L);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
-  gameController->reactOnInput('p');
+  gameController->reactOnInput(GLFW_KEY_P);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
   gameController->setGameState(EXIT);
-  gameController->reactOnInput('i');
+  gameController->reactOnInput(GLFW_KEY_I);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
 }
@@ -207,28 +207,28 @@ TEST_CASE("Movement in opposite direction of last direction is possible if snake
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
-  gameController->reactOnInput('a');
+  gameController->reactOnInput(GLFW_KEY_LEFT);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'a');
-  gameController->reactOnInput('d');
+  gameController->reactOnInput(GLFW_KEY_RIGHT);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'd');
-  gameController->reactOnInput('w');
+  gameController->reactOnInput(GLFW_KEY_UP);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'w');
-  gameController->reactOnInput('s');
+  gameController->reactOnInput(GLFW_KEY_DOWN);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
-  gameController->reactOnInput('d');
+  gameController->reactOnInput(GLFW_KEY_RIGHT);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'd');
-  gameController->reactOnInput('a');
+  gameController->reactOnInput(GLFW_KEY_LEFT);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'a');
-  gameController->reactOnInput('s');
+  gameController->reactOnInput(GLFW_KEY_DOWN);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 's');
-  gameController->reactOnInput('w');
+  gameController->reactOnInput(GLFW_KEY_UP);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'w');
 }
@@ -292,7 +292,7 @@ TEST_CASE("Pressing enter starts game")
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
   REQUIRE(gameController->getGameState() == MAIN_MENU);
-  gameController->reactOnInput('p');
+  gameController->reactOnInput(GLFW_KEY_P);
   REQUIRE(gameController->getGameState() == IN_GAME);
 }
 
@@ -319,7 +319,7 @@ TEST_CASE("After Game Over pause before going to main menu")
   REQUIRE(gameController->getGridController()->getSnake()->getPosX() == oldHeadX);
   gameController->getGridController()->moveSnakeLeft();
   REQUIRE(gameController->getGridController()->getSnake()->getPosX() == oldHeadX);
-  gameController->reactOnInput('p');
+  gameController->reactOnInput(GLFW_KEY_P);
   REQUIRE(gameController->getGameState() == MAIN_MENU);
 }
 
@@ -440,10 +440,10 @@ TEST_CASE("Only appropriate input works while in game")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
-  gameController->reactOnInput('o');
+  gameController->reactOnInput(GLFW_KEY_O);
   REQUIRE(gameController->getGameState() == IN_GAME);
-  gameController->reactOnInput('a');
-  gameController->reactOnInput('p');
+  gameController->reactOnInput(GLFW_KEY_LEFT);
+  gameController->reactOnInput(GLFW_KEY_P);
   REQUIRE(gameController->getLastInput() == 'a');
 }
 
@@ -451,7 +451,7 @@ TEST_CASE("Exit game")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
-  gameController->reactOnInput('l');
+  gameController->reactOnInput(GLFW_KEY_L);
   REQUIRE(gameController->getGameState() == EXIT);
 }
 
@@ -459,7 +459,7 @@ TEST_CASE("Win game")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
-  gameController->reactOnInput('o');
+  gameController->reactOnInput(GLFW_KEY_O);
   REQUIRE(gameController->getLevel() == 1);
   REQUIRE(gameController->getGameState() == IN_GAME);
   // Eat 20 special foods for 40 points
@@ -469,7 +469,7 @@ TEST_CASE("Win game")
   }
   gameController->mainLoopIteration();
   REQUIRE(gameController->getGameState() == WIN);
-  gameController->reactOnInput('p');
+  gameController->reactOnInput(GLFW_KEY_P);
   REQUIRE(gameController->getGameState() == IN_GAME);
   REQUIRE(gameController->getLevel() == 2);
   // Hard reset on restarting game
@@ -482,8 +482,8 @@ TEST_CASE("Win game")
   gameController->mainLoopIteration();
   REQUIRE(gameController->getGridController()->isGameOver());
   REQUIRE(gameController->getGameState() == GAME_OVER);
-  gameController->reactOnInput('p');
-  gameController->reactOnInput('p');
+  gameController->reactOnInput(GLFW_KEY_P);
+  gameController->reactOnInput(GLFW_KEY_P);
   REQUIRE(gameController->getGameState() == IN_GAME);
   REQUIRE(gameController->getLevel() == 1);
   REQUIRE(gameController->getScore() == 0);
@@ -493,7 +493,7 @@ TEST_CASE("Infinite game")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
-  gameController->reactOnInput('p');
+  gameController->reactOnInput(GLFW_KEY_P);
   REQUIRE(gameController->getGameState() == IN_GAME);
   for (int i = 0; i < 20; i++)
   {
@@ -530,7 +530,7 @@ TEST_CASE("Win game with win condition: time")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
-  gameController->reactOnInput('o');
+  gameController->reactOnInput(GLFW_KEY_O);
   string path = RESOURCE_DIR;
   path.append("/tests/level/levelWithWincon2Binary");
   gameController->getGridController()->loadLevel(path.c_str());
@@ -538,19 +538,19 @@ TEST_CASE("Win game with win condition: time")
   gameController->getGameMode()->addQuest(gameController->getGridController()->getGrid()->getWinCondition());
   REQUIRE(gameController->getGameState() == IN_GAME);
   // 8 Steps to the right
-  gameController->reactOnInput('d');
+  gameController->reactOnInput(GLFW_KEY_RIGHT);
   for (int i = 0; i < 8; i++)
   {
     gameController->mainLoopIteration();
   }
   // 5 Steps to the bottom
-  gameController->reactOnInput('s');
+  gameController->reactOnInput(GLFW_KEY_DOWN);
   for (int i = 0; i < 5; i++)
   {
     gameController->mainLoopIteration();
   }
   // 8 Steps to the left
-  gameController->reactOnInput('a');
+  gameController->reactOnInput(GLFW_KEY_LEFT);
   for (int i = 0; i < 8; i++)
   {
     gameController->mainLoopIteration();

@@ -21,30 +21,7 @@ namespace SEngine
             return;
         }
         RenderEngine *engine = static_cast<RenderEngine *>(glfwGetWindowUserPointer(window));
-        switch (key)
-        {
-        case GLFW_KEY_RIGHT:
-            engine->getEngineCallback()->reactOnInput('d');
-            break;
-        case GLFW_KEY_LEFT:
-            engine->getEngineCallback()->reactOnInput('a');
-            break;
-        case GLFW_KEY_UP:
-            engine->getEngineCallback()->reactOnInput('w');
-            break;
-        case GLFW_KEY_DOWN:
-            engine->getEngineCallback()->reactOnInput('s');
-            break;
-        case GLFW_KEY_P:
-            engine->getEngineCallback()->reactOnInput('p');
-            break;
-        case GLFW_KEY_L:
-            engine->getEngineCallback()->reactOnInput('l');
-            break;
-        case GLFW_KEY_O:
-            engine->getEngineCallback()->reactOnInput('o');
-            break;
-        }
+        engine->getEngineCallback()->reactOnInput(key);
     }
 
     void engine_mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
@@ -59,6 +36,7 @@ namespace SEngine
         for (int i = 0; i < engine->getCurrentScene()->scene_elements->size(); i++)
         {
             Element *currentSceneElement = engine->getCurrentScene()->scene_elements->at(i);
+            currentSceneElement->setIsHovered(false);
             int xpostl = currentSceneElement->getPosXTopLeft();
             int ypostl = currentSceneElement->getPosYTopLeft();
             int xposbr = currentSceneElement->getPosXBottomRight();
@@ -66,6 +44,7 @@ namespace SEngine
             if (xpos > xpostl && xpos < xposbr &&
                 ypos > ypostl && ypos < yposbr)
             {
+                currentSceneElement->setIsHovered(true);
                 currentSceneElement->callback(engine->getEngineCallback());
             }
         }

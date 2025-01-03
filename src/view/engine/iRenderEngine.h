@@ -1,8 +1,6 @@
 #pragma once
 #include "elements/scene.h"
 #include "iEngineCallback.h"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <string>
 #include <unistd.h>
 #include <iostream>

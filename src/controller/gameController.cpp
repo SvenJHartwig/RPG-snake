@@ -21,18 +21,18 @@ void GameController::setView(IGameView *view)
     this->view = view;
 }
 
-void GameController::reactOnInput(char input)
+void GameController::reactOnInput(int input)
 {
     switch (gameState)
     {
     case MAIN_MENU:
-        if (input == 'p')
+        if (input == GLFW_KEY_P)
         {
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
             view->setWinCondition(gridController->getGrid()->getWinCondition());
         }
-        else if (input == 'o')
+        else if (input == GLFW_KEY_O)
         {
             string path = RESOURCE_DIR;
             path.append("/level/level1");
@@ -44,25 +44,40 @@ void GameController::reactOnInput(char input)
             view->gameStateChanged(gameState);
             view->setWinCondition(gridController->getGrid()->getWinCondition());
         }
-        else if (input == 'l')
+        else if (input == GLFW_KEY_L)
         {
             gameState = EXIT;
             view->gameStateChanged(gameState);
         }
     case IN_GAME:
         if (eatCount > 0 &&
-                (lastDirection == 'a' && input == 'd' ||
-                 lastDirection == 'w' && input == 's' ||
-                 lastDirection == 'd' && input == 'a' ||
-                 lastDirection == 's' && input == 'w') ||
-            input != 'a' && input != 'w' && input != 'd' && input != 's')
+                (lastDirection == 'a' && input == GLFW_KEY_RIGHT ||
+                 lastDirection == 'w' && input == GLFW_KEY_DOWN ||
+                 lastDirection == 'd' && input == GLFW_KEY_LEFT ||
+                 lastDirection == 's' && input == GLFW_KEY_UP) ||
+            input != GLFW_KEY_RIGHT && input != GLFW_KEY_DOWN && input != GLFW_KEY_LEFT && input != GLFW_KEY_UP)
         {
             return;
         }
-        lastInput = input;
+        if (input == GLFW_KEY_RIGHT)
+        {
+            lastInput = 'd';
+        }
+        else if (input == GLFW_KEY_DOWN)
+        {
+            lastInput = 's';
+        }
+        else if (input == GLFW_KEY_LEFT)
+        {
+            lastInput = 'a';
+        }
+        else if (input == GLFW_KEY_UP)
+        {
+            lastInput = 'w';
+        }
         break;
     case GAME_OVER:
-        if (input == 'p')
+        if (input == GLFW_KEY_P)
         {
             resetGame();
             gameState = MAIN_MENU;
@@ -70,7 +85,7 @@ void GameController::reactOnInput(char input)
         }
         break;
     case WIN:
-        if (input == 'p')
+        if (input == GLFW_KEY_P)
         {
             softReset();
             string path = RESOURCE_DIR;

@@ -72,9 +72,9 @@ public:
         return grid;
     }
     int getScore() { return 0; }
-    void reactOnInput(char input)
+    void reactOnInput(int input)
     {
-        if (input == 'p')
+        if (input == GLFW_KEY_P)
             calledP = true;
     }
     void setWindowClosed(bool closed) {}

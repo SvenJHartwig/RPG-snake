@@ -31,17 +31,17 @@ int GlView::init()
 
 void inputP(IEngineCallback *gc)
 {
-    gc->reactOnInput('p');
+    gc->reactOnInput(GLFW_KEY_P);
 }
 
 void inputO(IEngineCallback *gc)
 {
-    gc->reactOnInput('o');
+    gc->reactOnInput(GLFW_KEY_O);
 }
 
 void inputL(IEngineCallback *gc)
 {
-    gc->reactOnInput('l');
+    gc->reactOnInput(GLFW_KEY_L);
 }
 
 void GlView::initMainMenu()

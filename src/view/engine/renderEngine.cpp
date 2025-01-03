@@ -49,7 +49,6 @@ namespace SEngine
 
     void engine_mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
     {
-
         if (action != GLFW_PRESS)
         {
             return;
@@ -68,6 +67,24 @@ namespace SEngine
                 ypos > ypostl && ypos < yposbr)
             {
                 currentSceneElement->callback(engine->getEngineCallback());
+            }
+        }
+    }
+    void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
+    {
+        RenderEngine *engine = static_cast<RenderEngine *>(glfwGetWindowUserPointer(window));
+        for (int i = 0; i < engine->getCurrentScene()->scene_elements->size(); i++)
+        {
+            Element *currentSceneElement = engine->getCurrentScene()->scene_elements->at(i);
+            currentSceneElement->setIsHovered(false);
+            int xpostl = currentSceneElement->getPosXTopLeft();
+            int ypostl = currentSceneElement->getPosYTopLeft();
+            int xposbr = currentSceneElement->getPosXBottomRight();
+            int yposbr = currentSceneElement->getPosYBottomRight();
+            if (xpos > xpostl && xpos < xposbr &&
+                ypos > ypostl && ypos < yposbr)
+            {
+                currentSceneElement->setIsHovered(true);
             }
         }
     }
@@ -157,6 +174,7 @@ namespace SEngine
         glfwSetWindowUserPointer(window, this);
         glfwSetKeyCallback(window, engine_key_callback);
         glfwSetMouseButtonCallback(window, engine_mouse_button_callback);
+        glfwSetCursorPosCallback(window, cursor_position_callback);
         glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
         // Generate buffers

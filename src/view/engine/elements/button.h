@@ -8,7 +8,8 @@ namespace SEngine
     class Button : public Element
     {
     private:
-        unsigned int texture;
+        unsigned int textureNotHovered;
+        unsigned int textureHovered;
 
     public:
         std::string text;

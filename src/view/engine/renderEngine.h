@@ -10,6 +10,7 @@ namespace SEngine
 {
     void engine_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
     void engine_mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
+    void cursor_position_callback(GLFWwindow *window, double xpos, double ypos);
 
     // Main class of the rendering engine. To use, create an instance of this class and then call the init method on that object.
     class RenderEngine : public IRenderEngine

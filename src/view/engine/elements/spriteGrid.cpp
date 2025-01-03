@@ -38,7 +38,7 @@ namespace SEngine
         {
             for (int j = 0; j < grid->at(i)->size(); j++)
             {
-                float c1, c2, c3;
+                float c1 = 0.0f, c2 = 0.0f, c3 = 0.0f;
                 float texBaseX = grid->at(i)->at(j).texBaseX;
                 float texBaseY = grid->at(i)->at(j).texBaseY;
                 // Insert four vertices for the current rectangle

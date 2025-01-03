@@ -8,6 +8,20 @@ namespace SEngine
 {
     using std::string;
 
+    bool sceneElementInCoords(Element *element, double xpos, double ypos)
+    {
+        int xpostl = element->getPosXTopLeft();
+        int ypostl = element->getPosYTopLeft();
+        int xposbr = element->getPosXBottomRight();
+        int yposbr = element->getPosYBottomRight();
+        if (xpos > xpostl && xpos < xposbr &&
+            ypos > ypostl && ypos < yposbr)
+        {
+            return true;
+        }
+        return false;
+    }
+
     // Callback for resizing the window
     void framebufferSizeCallback(GLFWwindow *window, int width, int height)
     {
@@ -37,12 +51,7 @@ namespace SEngine
         {
             Element *currentSceneElement = engine->getCurrentScene()->scene_elements->at(i);
             currentSceneElement->setIsHovered(false);
-            int xpostl = currentSceneElement->getPosXTopLeft();
-            int ypostl = currentSceneElement->getPosYTopLeft();
-            int xposbr = currentSceneElement->getPosXBottomRight();
-            int yposbr = currentSceneElement->getPosYBottomRight();
-            if (xpos > xpostl && xpos < xposbr &&
-                ypos > ypostl && ypos < yposbr)
+            if (sceneElementInCoords(currentSceneElement, xpos, ypos))
             {
                 currentSceneElement->setIsHovered(true);
                 currentSceneElement->callback(engine->getEngineCallback());
@@ -56,12 +65,7 @@ namespace SEngine
         {
             Element *currentSceneElement = engine->getCurrentScene()->scene_elements->at(i);
             currentSceneElement->setIsHovered(false);
-            int xpostl = currentSceneElement->getPosXTopLeft();
-            int ypostl = currentSceneElement->getPosYTopLeft();
-            int xposbr = currentSceneElement->getPosXBottomRight();
-            int yposbr = currentSceneElement->getPosYBottomRight();
-            if (xpos > xpostl && xpos < xposbr &&
-                ypos > ypostl && ypos < yposbr)
+            if (sceneElementInCoords(currentSceneElement, xpos, ypos))
             {
                 currentSceneElement->setIsHovered(true);
             }

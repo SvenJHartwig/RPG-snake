@@ -17,9 +17,9 @@ namespace SEngine
 
     class TextRenderer
     {
-        unsigned int VAO, VBO;
-        unsigned int windowWidth, windowHeight;
-        Shader *shader;
+        unsigned int VAO = 0, VBO = 0;
+        unsigned int windowWidth = 0, windowHeight = 0;
+        Shader *shader = NULL;
         std::map<char, Character> Characters;
 
     public:

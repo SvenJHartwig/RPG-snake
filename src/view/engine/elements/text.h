@@ -14,6 +14,6 @@ namespace SEngine
              int pos_x_bottom_right,
              int pos_y_bottom_right);
         ~Text();
-        RenderData *createRenderData();
+        RenderData *createRenderData() override;
     };
 }

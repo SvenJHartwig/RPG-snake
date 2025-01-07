@@ -34,18 +34,18 @@ TEST_CASE("Initialize OpenGL (View)")
     view->gameStateChanged(IN_GAME);
     view->gameStateChanged(GAME_OVER);
     view->setScore(2);
-    REQUIRE(((Text *)view->getInGameScene()->scene_elements->at(0))->text.compare("Score: 2") == 0);
-    std::vector<std::string> *grid = new std::vector<std::string>();
+    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(0))->text.compare("Score: 2") == 0);
+    const std::vector<std::string> *grid = new std::vector<std::string>();
     std::vector<std::vector<Sprite> *> *spriteGrid = GridController(new TestEatListener()).getSpriteVector();
     view->setGrid(spriteGrid);
-    REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(2))->getGrid() == spriteGrid);
+    REQUIRE(static_cast<SpriteGrid *>(view->getInGameScene()->scene_elements->at(2))->getGrid() == spriteGrid);
     view->gameStateChanged(WIN);
-    REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(2))->getGrid() == spriteGrid);
+    REQUIRE(static_cast<SpriteGrid *>(view->getInGameScene()->scene_elements->at(2))->getGrid() == spriteGrid);
     view->gameStateChanged(MAIN_MENU);
     SEngine::engine_key_callback(view->getEngine()->getWindow(), GLFW_KEY_P, 0, GLFW_RELEASE, 0);
-    REQUIRE(!((TestGameController *)view->getGameController())->calledP);
+    REQUIRE(!static_cast<TestGameController *>(view->getGameController())->calledP);
     SEngine::engine_key_callback(view->getEngine()->getWindow(), GLFW_KEY_P, 0, GLFW_PRESS, 0);
-    REQUIRE(((TestGameController *)view->getGameController())->calledP);
+    REQUIRE(static_cast<TestGameController *>(view->getGameController())->calledP);
     glfwSetWindowShouldClose(view->getEngine()->getWindow(), true);
     sleep_for(milliseconds(500));
 }

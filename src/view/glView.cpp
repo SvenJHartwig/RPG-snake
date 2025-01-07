@@ -9,6 +9,8 @@
 using std::string, std::vector, SEngine::RenderData, SEngine::Button, SEngine::RenderEngine, SEngine::IRenderEngine,
     SEngine::IEngineCallback, SEngine::Scene, SEngine::Text, SEngine::SpriteGrid, SEngine::Sprite, SEngine::Image;
 
+GlView::GlView() {}
+
 void initView(IRenderEngine *engine, GlView *view)
 {
     engine->init();
@@ -24,6 +26,7 @@ void initView(IRenderEngine *engine, GlView *view)
 
 int GlView::init()
 {
+    delete (engine);
     engine = new RenderEngine();
     const std::thread *initThread = new std::thread(initView, engine, this);
 

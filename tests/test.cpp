@@ -25,7 +25,6 @@ TEST_CASE("Test grid movement")
   int grid_size_y = grid.getGridSizeY();
   vector<string> *expectedGrid = new vector<string>();
   Snake *snake = gridController->getSnake();
-  Food *food = new Food[1];
 
   for (int i = 0; i < grid_size_y; i++)
   {
@@ -356,7 +355,7 @@ TEST_CASE("Special food has a time out")
   gridController->generateNewFood(snake->getPosX(), snake->getPosY());
   gridController->updateGrid();
   REQUIRE(gridController->getFood()->size() == 2);
-  spFood = (SpecialFood *)gridController->getFood()->at(1);
+  spFood = static_cast<SpecialFood *>(gridController->getFood()->at(1));
   for (int i = 20; i > 0; i--)
   {
     REQUIRE(spFood->remainingTime() == i);
@@ -372,8 +371,6 @@ TEST_CASE("Load level from disk")
   int grid_size_x = grid->getGridSizeX();
   int grid_size_y = grid->getGridSizeY();
   vector<string> *expectedGrid = new vector<string>();
-  Snake *snake = gridController->getSnake();
-  Food *food = new Food[1];
 
   for (int i = 0; i < grid_size_y; i++)
   {

@@ -42,7 +42,7 @@ namespace SEngine
                    const std::string &textureMapPath,
                    float spriteFraction);
         RenderData *createRenderData() override;
-        void setGrid(std::vector<std::vector<Sprite> *> *grid) { this->grid = grid; }
-        std::vector<std::vector<Sprite> *> *getGrid() { return grid; }
+        void setGrid(std::vector<std::vector<Sprite> *> *grid);
+        std::vector<std::vector<Sprite> *> *getGrid();
     };
 }

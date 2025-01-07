@@ -18,11 +18,11 @@ namespace SEngine
 
     public:
         void (*callback)(IEngineCallback *) = &empty;
-        void setIsHovered(bool isHovered) { this->isHovered = isHovered; }
-        int getPosXTopLeft() { return pos_x_top_left; }
-        int getPosYTopLeft() { return pos_y_top_left; }
-        int getPosXBottomRight() { return pos_x_bottom_right; }
-        int getPosYBottomRight() { return pos_y_bottom_right; }
+        void setIsHovered(bool isHovered);
+        int getPosXTopLeft();
+        int getPosYTopLeft();
+        int getPosXBottomRight();
+        int getPosYBottomRight();
         virtual RenderData *createRenderData() = 0;
         ~Element() {}
     };

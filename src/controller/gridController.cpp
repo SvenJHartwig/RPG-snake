@@ -61,14 +61,14 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
     using SEngine::Sprite;
     vector<vector<Sprite> *> *result = new vector<vector<Sprite> *>();
     // Level grid
-    for (int i = 0; i < grid->getLevel()->size(); i++)
+    for (int yCoord = 0; yCoord < grid->getLevel()->size(); yCoord++)
     {
         vector<Sprite> *inner = new vector<Sprite>();
         result->push_back(inner);
-        for (int j = 0; j < grid->getLevel()->at(i).size(); j++)
+        for (int xCoord = 0; xCoord < grid->getLevel()->at(yCoord).size(); xCoord++)
         {
             Sprite tempSprite = Sprite();
-            switch (grid->getLevel()->at(i)[j])
+            switch (grid->getLevel()->at(yCoord)[xCoord])
             {
             case 'W':
                 tempSprite.texBaseX = 0.0f;
@@ -79,15 +79,15 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
                 tempSprite.texBaseY = 0.0f;
                 break;
             }
-            result->at(i)->push_back(tempSprite);
+            result->at(yCoord)->push_back(tempSprite);
         }
     }
     // Dynamic elements
-    for (int i = 0; i < food->size(); i++)
+    for (int foodIndex = 0; foodIndex < food->size(); foodIndex++)
     {
-        Food *f = food->at(i);
+        Food *f = food->at(foodIndex);
         Sprite temp = result->at(f->getPosY())->at(f->getPosX());
-        if (i == 0)
+        if (foodIndex == 0)
         {
             temp.texBaseX = 0.0f;
             temp.texBaseY = 0.25f;
@@ -99,9 +99,9 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
         }
         result->at(f->getPosY())->at(f->getPosX()) = temp;
     }
-    for (int i = 0; i < snake->getBody()->size(); i++)
+    for (int snakeBodyIndex = 0; snakeBodyIndex < snake->getBody()->size(); snakeBodyIndex++)
     {
-        SnakeBodyPart bodyPart = snake->getBody()->at(i);
+        SnakeBodyPart bodyPart = snake->getBody()->at(snakeBodyIndex);
         Sprite temp = result->at(bodyPart.getPosY())->at(bodyPart.getPosX());
         switch (bodyPart.facing)
         {
@@ -159,10 +159,7 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
 
 void GridController::checkOnFood()
 {
-
-    int i = snake->getPosY();
-    int j = snake->getPosX();
-    int indexOfFoodOnThisField = returnFoodOnThisField(i, j);
+    int indexOfFoodOnThisField = returnFoodOnThisField(snake->getPosY(), snake->getPosX());
     if (indexOfFoodOnThisField != -1)
     {
         eatListener->eat(indexOfFoodOnThisField != 0);
@@ -215,23 +212,23 @@ void GridController::checkGameOver()
     }
 }
 
-int GridController::returnFoodOnThisField(int i, int j)
+int GridController::returnFoodOnThisField(int posY, int posX)
 {
-    for (int k = 0; k < food->size(); k++)
+    for (int foodIndex = 0; foodIndex < food->size(); foodIndex++)
     {
-        if (i == food->at(k)->getPosY() && j == food->at(k)->getPosX())
+        if (posY == food->at(foodIndex)->getPosY() && posX == food->at(foodIndex)->getPosX())
         {
-            return k;
+            return foodIndex;
         }
     }
     return -1;
 }
 
-bool GridController::anyMovedBodypartOnThisField(int i, int j)
+bool GridController::anyMovedBodypartOnThisField(int posY, int posX)
 {
     for (int k = 0; k < snake->getBody()->size(); k++)
     {
-        if (snake->getBody()->at(k).getHasMoved() && i == snake->getBody()->at(k).getPosY() && j == snake->getBody()->at(k).getPosX())
+        if (snake->getBody()->at(k).getHasMoved() && posY == snake->getBody()->at(k).getPosY() && posX == snake->getBody()->at(k).getPosX())
         {
             return true;
         }
@@ -245,7 +242,7 @@ void GridController::moveSnakeRight()
     {
         return;
     }
-    BodyPartFacing facing;
+    BodyPartFacing facing = HORIZONTAL;
     if (snake->getBody()->size() > 0)
     {
         SnakeBodyPart temp = snake->getBody()->at(0);
@@ -277,7 +274,7 @@ void GridController::moveSnakeLeft()
     {
         return;
     }
-    BodyPartFacing facing;
+    BodyPartFacing facing = HORIZONTAL;
     if (snake->getBody()->size() > 0)
     {
         SnakeBodyPart temp = snake->getBody()->at(0);
@@ -309,7 +306,7 @@ void GridController::moveSnakeUp()
     {
         return;
     }
-    BodyPartFacing facing;
+    BodyPartFacing facing = VERTICAL;
     if (snake->getBody()->size() > 0)
     {
         SnakeBodyPart temp = snake->getBody()->at(0);
@@ -341,7 +338,7 @@ void GridController::moveSnakeDown()
     {
         return;
     }
-    BodyPartFacing facing;
+    BodyPartFacing facing = VERTICAL;
     if (snake->getBody()->size() > 0)
     {
         SnakeBodyPart temp = snake->getBody()->at(0);
@@ -396,8 +393,9 @@ void GridController::moveSnakeBody(BodyPartFacing facing)
     }
     for (int i = 1; i < food->size(); i++)
     {
-        ((SpecialFood *)food->at(i))->decreaseTime();
-        if (((SpecialFood *)food->at(i))->remainingTime() == 0)
+        SpecialFood *special = static_cast<SpecialFood *>(food->at(i));
+        special->decreaseTime();
+        if (special->remainingTime() == 0)
         {
             food->erase(food->begin() + i);
         }

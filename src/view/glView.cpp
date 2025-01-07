@@ -148,19 +148,19 @@ void GlView::gameStateChanged(GameState game_state)
 
 void GlView::setScore(int count)
 {
-    ((Text *)inGame->scene_elements->at(0))->text = "Score: " + std::to_string(count);
-    ((Text *)gameOver->scene_elements->at(0))->text = "Score: " + std::to_string(count);
-    ((Text *)win->scene_elements->at(0))->text = "Score: " + std::to_string(count);
+    static_cast<Text *>(inGame->scene_elements->at(0))->text = "Score: " + std::to_string(count);
+    static_cast<Text *>(gameOver->scene_elements->at(0))->text = "Score: " + std::to_string(count);
+    static_cast<Text *>(win->scene_elements->at(0))->text = "Score: " + std::to_string(count);
 }
 
 void GlView::setGrid(vector<vector<SEngine::Sprite> *> *grid)
 {
-    ((SpriteGrid *)inGame->scene_elements->at(2))->setGrid(grid);
-    ((SpriteGrid *)gameOver->scene_elements->at(2))->setGrid(grid);
-    ((SpriteGrid *)win->scene_elements->at(2))->setGrid(grid);
+    static_cast<SpriteGrid *>(inGame->scene_elements->at(2))->setGrid(grid);
+    static_cast<SpriteGrid *>(gameOver->scene_elements->at(2))->setGrid(grid);
+    static_cast<SpriteGrid *>(win->scene_elements->at(2))->setGrid(grid);
 }
 
 void GlView::setWinCondition(WinCondition condition)
 {
-    ((Text *)inGame->scene_elements->at(3))->text = "Win condition: " + condition.toString();
+    static_cast<Text *>(inGame->scene_elements->at(3))->text = "Win condition: " + condition.toString();
 }

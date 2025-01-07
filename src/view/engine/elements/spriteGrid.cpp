@@ -99,4 +99,6 @@ namespace SEngine
         }
         return data;
     }
+    void SpriteGrid::setGrid(std::vector<std::vector<Sprite> *> *grid) { this->grid = grid; }
+    std::vector<std::vector<Sprite> *> *SpriteGrid::getGrid() { return grid; }
 }

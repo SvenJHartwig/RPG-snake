@@ -7,33 +7,65 @@ using std::vector;
 
 namespace SEngine
 {
-    SpriteGrid::SpriteGrid(int pos_x_top_left,
-                           int pos_y_top_left,
-                           int pos_x_bottom_right,
-                           int pos_y_bottom_right)
-    {
-        SpriteGrid(pos_x_top_left, pos_y_top_left, pos_x_bottom_right, pos_y_bottom_right, "", 0.0f);
-    }
-    SpriteGrid::SpriteGrid(int pos_x_top_left,
-                           int pos_y_top_left,
-                           int pos_x_bottom_right,
-                           int pos_y_bottom_right,
-                           std::string path,
-                           float spriteFraction)
+    void SpriteGrid::initValues(int pos_x_top_left,
+                                int pos_y_top_left,
+                                int pos_x_bottom_right,
+                                int pos_y_bottom_right)
     {
         this->pos_x_top_left = pos_x_top_left;
         this->pos_y_top_left = pos_y_top_left;
         this->pos_x_bottom_right = pos_x_bottom_right;
         this->pos_y_bottom_right = pos_y_bottom_right;
-        this->textureMap = IRenderEngine::createTexture(path);
+    }
+    void SpriteGrid::initValues(int pos_x_top_left,
+                                int pos_y_top_left,
+                                int pos_x_bottom_right,
+                                int pos_y_bottom_right,
+                                const std::string &textureMapPath,
+                                float spriteFraction)
+    {
+        initValues(pos_x_top_left,
+                   pos_y_top_left,
+                   pos_x_bottom_right,
+                   pos_y_bottom_right);
+        this->textureMap = IRenderEngine::createTexture(textureMapPath);
         this->spriteFraction = spriteFraction;
         this->grid = new std::vector<std::vector<Sprite> *>();
+    }
+    SpriteGrid::SpriteGrid(int pos_x_top_left,
+                           int pos_y_top_left,
+                           int pos_x_bottom_right,
+                           int pos_y_bottom_right)
+    {
+        initValues(pos_x_top_left,
+                   pos_y_top_left,
+                   pos_x_bottom_right,
+                   pos_y_bottom_right);
+    }
+    SpriteGrid::SpriteGrid(int pos_x_top_left,
+                           int pos_y_top_left,
+                           int pos_x_bottom_right,
+                           int pos_y_bottom_right,
+                           const std::string &textureMapPath,
+                           float spriteFraction)
+    {
+        initValues(pos_x_top_left,
+                   pos_y_top_left,
+                   pos_x_bottom_right,
+                   pos_y_bottom_right,
+                   textureMapPath,
+                   spriteFraction);
     }
 
     RenderData *SpriteGrid::createRenderData()
     {
         vector<float> vertices = {};
         vector<unsigned int> indices = {};
+        RenderData *data;
+        if (grid == NULL)
+        {
+            return data;
+        }
         for (int i = 0; i < grid->size(); i++)
         {
             for (int j = 0; j < grid->at(i)->size(); j++)
@@ -57,7 +89,6 @@ namespace SEngine
                 indices.push_back(baseIndex + 3);
             }
         }
-        RenderData *data;
         if (textureMap == 0)
         {
             data = new RenderData(vertices, indices);

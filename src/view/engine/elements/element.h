@@ -6,6 +6,7 @@
 
 namespace SEngine
 {
+    inline void empty(IEngineCallback *gc) {}
     class Element
     {
     protected:
@@ -16,7 +17,7 @@ namespace SEngine
         int pos_y_bottom_right;
 
     public:
-        void (*callback)(IEngineCallback *);
+        void (*callback)(IEngineCallback *) = &empty;
         void setIsHovered(bool isHovered) { this->isHovered = isHovered; }
         int getPosXTopLeft() { return pos_x_top_left; }
         int getPosYTopLeft() { return pos_y_top_left; }

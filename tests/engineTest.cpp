@@ -14,8 +14,6 @@ TEST_CASE("Button produces a colored rectangle")
 
 TEST_CASE("Text renders text")
 {
-    RenderEngine *engine = new RenderEngine();
-    engine->init();
     Text *text = new Text(0, 0, 20, 20);
     text->text = "Test";
     RenderData *data = text->createRenderData();

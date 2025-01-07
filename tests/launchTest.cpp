@@ -38,9 +38,9 @@ TEST_CASE("Initialize OpenGL (View)")
     std::vector<std::string> *grid = new std::vector<std::string>();
     std::vector<std::vector<Sprite> *> *spriteGrid = GridController(new TestEatListener()).getSpriteVector();
     view->setGrid(spriteGrid);
-    REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(1))->getGrid() == spriteGrid);
+    REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(2))->getGrid() == spriteGrid);
     view->gameStateChanged(WIN);
-    REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(1))->getGrid() == spriteGrid);
+    REQUIRE(((SpriteGrid *)view->getInGameScene()->scene_elements->at(2))->getGrid() == spriteGrid);
     view->gameStateChanged(MAIN_MENU);
     SEngine::engine_key_callback(view->getEngine()->getWindow(), GLFW_KEY_P, 0, GLFW_RELEASE, 0);
     REQUIRE(!((TestGameController *)view->getGameController())->calledP);

@@ -25,20 +25,20 @@ private:
 public:
     GameController();
     ~GameController();
-    void reactOnInput(int input);
-    void setWindowClosed(bool closed);
+    void reactOnInput(int input) override;
+    void setWindowClosed(bool closed) override;
     void setView(IGameView *view);
     void mainLoop();
     void mainLoopIteration();
-    Grid getGrid();
+    Grid getGrid() override;
     GridController *getGridController();
     SpeedSetting getSpeed();
-    void eat(bool isSpecial);
+    void eat(bool isSpecial) override;
     char getLastDirection();
     char getLastInput() { return lastInput; }
-    int getScore();
-    long getSteps() { return steps; }
-    GameState getGameState();
+    int getScore() override;
+    long getSteps() override { return steps; }
+    GameState getGameState() override;
     void setGameState(GameState state) { this->gameState = state; }
     void softReset();
     void resetGame();

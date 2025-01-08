@@ -45,39 +45,36 @@ public:
 class TestEatListener : public IEatListener
 {
 public:
-    void eat(bool isSpecial) {}
+    void eat(bool isSpecial) override {}
 };
 
 class TestView : public IGameView
 {
-    void setGameController(IGameController *gc) {}
-    void renderingLoop() {}
-    int init() { return 0; }
-    void showGrid(vector<string> *grid, int grid_size_x, int grid_size_y) {}
-    void gameStateChanged(GameState game_state) {}
-    void setCurrentScene(Scene *current_scene) {}
-    void setScore(int count) {}
-    void setGrid(vector<vector<Sprite> *> *grid) {}
-    void setWinCondition(WinCondition condition) {}
+    void setGameController(IGameController *gc) override {}
+    int init() override { return 0; }
+    void gameStateChanged(GameState game_state) override {}
+    void setScore(int count) override {}
+    void setGrid(vector<vector<Sprite> *> *grid) override {}
+    void setWinCondition(WinCondition condition) override {}
 };
 
 class TestGameController : public IGameController
 {
 public:
     bool calledP = false;
-    GameState getGameState() { return MAIN_MENU; };
-    Grid getGrid()
+    GameState getGameState() override { return MAIN_MENU; };
+    Grid getGrid() override
     {
         Grid grid;
         return grid;
     }
-    int getScore() { return 0; }
-    void reactOnInput(int input)
+    int getScore() override { return 0; }
+    void reactOnInput(int input) override
     {
         if (input == GLFW_KEY_P)
             calledP = true;
     }
-    void setWindowClosed(bool closed) {}
+    void setWindowClosed(bool closed) override {}
     long getSteps() { return 0; }
 };
 

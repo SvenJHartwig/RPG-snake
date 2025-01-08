@@ -416,7 +416,6 @@ TEST_CASE("If snake goes out of bounds, wrap around")
 {
   GridController *gridController = new GridController(new TestEatListener());
   Grid *grid = gridController->getGrid();
-  int grid_size_x = grid->getGridSizeX();
   int grid_size_y = grid->getGridSizeY();
   string path = RESOURCE_DIR;
   path.append("/tests/level/level2Binary");

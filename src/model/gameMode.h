@@ -32,10 +32,10 @@ class InfiniteGameMode : public IGameMode
 {
 public:
     InfiniteGameMode(IGameController *controller);
-    void clearQuests();
-    void addQuest(WinCondition condition);
-    bool checkWinCondition();
-    bool operator==(IGameMode const &other) const;
+    void clearQuests() override;
+    void addQuest(WinCondition condition) override;
+    bool checkWinCondition() override;
+    bool operator==(IGameMode const &other) const override;
 };
 
 class RPGGameMode : public IGameMode
@@ -47,8 +47,8 @@ private:
 
 public:
     RPGGameMode(IGameController *controller);
-    void clearQuests();
-    void addQuest(WinCondition condition);
-    bool checkWinCondition();
-    bool operator==(IGameMode const &other) const;
+    void clearQuests() override;
+    void addQuest(WinCondition condition) override;
+    bool checkWinCondition() override;
+    bool operator==(IGameMode const &other) const override;
 };

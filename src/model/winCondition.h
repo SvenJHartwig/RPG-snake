@@ -23,6 +23,7 @@ public:
     WinConType getType();
     int getAmount();
     bool operator==(WinCondition const &other) const;
+    bool operator!=(WinCondition const &other) const;
     std::string toString();
     void serialize(std::ofstream *outFile);
     void deserialize(std::ifstream *inFile);

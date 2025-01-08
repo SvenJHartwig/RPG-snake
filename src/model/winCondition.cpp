@@ -12,6 +12,10 @@ bool WinCondition::operator==(WinCondition const &other) const
 {
     return other.type == this->type && other.amount == this->amount;
 }
+bool WinCondition::operator!=(WinCondition const &other) const
+{
+    return other.type != this->type || other.amount != this->amount;
+}
 
 int WinCondition::getAmount()
 {

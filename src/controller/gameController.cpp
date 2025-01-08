@@ -12,9 +12,7 @@ GameController::GameController()
     gameMode = GameModeFactory::createGameMode(INFINITE, this);
 }
 
-GameController::~GameController()
-{
-}
+GameController::~GameController() {}
 
 void GameController::setView(IGameView *view)
 {
@@ -159,11 +157,6 @@ void GameController::mainLoopIteration()
         gameState = GAME_OVER;
         view->gameStateChanged(gameState);
     }
-}
-
-Grid GameController::getGrid()
-{
-    return *gridController->getGrid();
 }
 
 void GameController::setWindowClosed(bool closed)

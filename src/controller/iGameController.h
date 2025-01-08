@@ -25,7 +25,6 @@ enum GameState
 class IGameController : public SEngine::IEngineCallback
 {
 public:
-    virtual Grid getGrid() = 0;
     virtual int getScore() = 0;
     virtual long getSteps() = 0;
     virtual GameState getGameState() = 0;

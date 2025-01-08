@@ -63,11 +63,6 @@ class TestGameController : public IGameController
 public:
     bool calledP = false;
     GameState getGameState() override { return MAIN_MENU; };
-    Grid getGrid() override
-    {
-        Grid grid;
-        return grid;
-    }
     int getScore() override { return 0; }
     void reactOnInput(int input) override
     {

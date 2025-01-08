@@ -507,6 +507,9 @@ TEST_CASE("RNG doesn't generate pair on wall")
     std::pair<int, int> pair2 = {0, 1};
     REQUIRE(pair != pair2);
   }
+  std::pair<int, int> pair = rng->getRandomPair(1, 1, {});
+  std::pair<int, int> pair2 = {0, 0};
+  REQUIRE(pair == pair2);
 }
 
 TEST_CASE("Load level with win condition from disk")

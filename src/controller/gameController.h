@@ -30,7 +30,6 @@ public:
     void setView(IGameView *view);
     void mainLoop();
     void mainLoopIteration();
-    Grid getGrid() override;
     GridController *getGridController();
     SpeedSetting getSpeed();
     void eat(bool isSpecial) override;

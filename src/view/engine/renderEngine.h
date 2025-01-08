@@ -5,6 +5,7 @@
 #include "shaders/shader.h"
 #include "TextRenderer/TextRenderer.h"
 #include <string>
+#include <vector>
 
 namespace SEngine
 {
@@ -17,21 +18,22 @@ namespace SEngine
     {
     private:
         GLFWwindow *window;
-        Scene *currentScene;
+        std::vector<Scene *> *currentScenes;
         IEngineCallback *callback;
         unsigned int VBO, VAO, EBO;
         TextRenderer *textRenderer;
         Shader *textureShader;
         Shader *colorShader;
+        void initShader(Shader *shader, glm::mat4 projection);
 
     public:
         IEngineCallback *getEngineCallback() override { return callback; }
         // Set the engine callback object. That objects reactOnInput method is called every time the user presses a button on the OpenGL window.
         void setEngineCallback(IEngineCallback *callback) override { this->callback = callback; }
         // Set the Scene to render in the RenderEngine.
-        void setCurrentScene(Scene *currentScene) override { this->currentScene = currentScene; }
+        void addScene(Scene *currentScene) override { this->currentScenes->push_back(currentScene); }
         // Return the scene that is currently rendered by this RenderEngine.
-        Scene *getCurrentScene() override { return currentScene; }
+        std::vector<Scene *> *getScenes() override { return currentScenes; }
         // Return the GLFWwindow.
         GLFWwindow *getWindow() override { return window; }
         // Start the rendering loop. Call only once and only in the same thread as init.

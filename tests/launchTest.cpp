@@ -83,10 +83,10 @@ TEST_CASE("Game over scene is initialized correctly")
     view->setEngine(new TestRenderEngine());
     view->initGameOverScene();
     Scene *gameOver = view->getGameOverScene();
-    REQUIRE(gameOver->scene_elements->size() == 4);
-    REQUIRE(gameOver->scene_elements->at(0)->getPosXTopLeft() == 0);
-    REQUIRE(gameOver->scene_elements->at(0)->getPosYTopLeft() == 0);
-    REQUIRE(gameOver->scene_elements->at(1)->getPosXTopLeft() == 192);
-    REQUIRE(gameOver->scene_elements->at(1)->getPosYTopLeft() == 80);
+    REQUIRE(gameOver->scene_elements->size() == 2);
+    REQUIRE(gameOver->scene_elements->at(0)->getPosXTopLeft() == 472);
+    REQUIRE(gameOver->scene_elements->at(0)->getPosYTopLeft() == 364);
+    REQUIRE(gameOver->scene_elements->at(1)->getPosXTopLeft() == 472);
+    REQUIRE(gameOver->scene_elements->at(1)->getPosYTopLeft() == 404);
     glfwTerminate();
 }

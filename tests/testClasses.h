@@ -75,7 +75,7 @@ public:
             calledP = true;
     }
     void setWindowClosed(bool closed) override {}
-    long getSteps() { return 0; }
+    long getSteps() override { return 0; }
 };
 
 class TestRenderEngine : public IRenderEngine
@@ -83,13 +83,13 @@ class TestRenderEngine : public IRenderEngine
 public:
     IEngineCallback *getEngineCallback() { return new TestGameController(); }
     void setEngineCallback(IEngineCallback *callback) {}
-    Scene *getCurrentScene() { return new Scene(); }
+    std::vector<Scene *> *getScenes() { return new std::vector<Scene *>(); }
     GLFWwindow *getWindow()
     {
         glfwInit();
         return glfwCreateWindow(1024, 768, "Snake", NULL, NULL);
     }
-    void setCurrentScene(Scene *currentScene) {}
+    void addScene(Scene *currentScene) {}
     void renderingLoop() {}
     int init() { return 0; }
 };

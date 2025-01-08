@@ -47,26 +47,32 @@ namespace SEngine
         RenderEngine *engine = static_cast<RenderEngine *>(glfwGetWindowUserPointer(window));
         double xpos, ypos;
         glfwGetCursorPos(window, &xpos, &ypos);
-        for (int i = 0; i < engine->getCurrentScene()->scene_elements->size(); i++)
+        for (Scene *scene : *engine->getScenes())
         {
-            Element *currentSceneElement = engine->getCurrentScene()->scene_elements->at(i);
-            if (sceneElementInCoords(currentSceneElement, xpos, ypos))
+            for (int i = 0; i < scene->scene_elements->size(); i++)
             {
-                currentSceneElement->callback(engine->getEngineCallback());
-                currentSceneElement->setIsHovered(false);
+                Element *currentSceneElement = scene->scene_elements->at(i);
+                if (sceneElementInCoords(currentSceneElement, xpos, ypos))
+                {
+                    currentSceneElement->callback(engine->getEngineCallback());
+                    currentSceneElement->setIsHovered(false);
+                }
             }
         }
     }
     void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
     {
         RenderEngine *engine = static_cast<RenderEngine *>(glfwGetWindowUserPointer(window));
-        for (int i = 0; i < engine->getCurrentScene()->scene_elements->size(); i++)
+        for (Scene *scene : *engine->getScenes())
         {
-            Element *currentSceneElement = engine->getCurrentScene()->scene_elements->at(i);
-            currentSceneElement->setIsHovered(false);
-            if (sceneElementInCoords(currentSceneElement, xpos, ypos))
+            for (int i = 0; i < scene->scene_elements->size(); i++)
             {
-                currentSceneElement->setIsHovered(true);
+                Element *currentSceneElement = scene->scene_elements->at(i);
+                currentSceneElement->setIsHovered(false);
+                if (sceneElementInCoords(currentSceneElement, xpos, ypos))
+                {
+                    currentSceneElement->setIsHovered(true);
+                }
             }
         }
     }
@@ -85,34 +91,37 @@ namespace SEngine
             glClear(GL_COLOR_BUFFER_BIT);
             glActiveTexture(GL_TEXTURE0);
 
-            for (int i = 0; i < currentScene->scene_elements->size(); i++)
+            for (Scene *scene : *currentScenes)
             {
-                RenderData *data = currentScene->scene_elements->at(i)->createRenderData();
-                if (data->getHasTexture())
+                for (int i = 0; i < scene->scene_elements->size(); i++)
                 {
-                    glBindTexture(GL_TEXTURE_2D, data->getTexture());
-                    textureShader->use();
-                }
-                else
-                {
-                    glBindTexture(GL_TEXTURE_2D, 0);
-                    colorShader->use();
-                }
+                    RenderData *data = scene->scene_elements->at(i)->createRenderData();
+                    if (data->getHasTexture())
+                    {
+                        glBindTexture(GL_TEXTURE_2D, data->getTexture());
+                        textureShader->use();
+                    }
+                    else
+                    {
+                        glBindTexture(GL_TEXTURE_2D, 0);
+                        colorShader->use();
+                    }
 
-                // Bind normal buffers That are unbound during text rendering
-                glBindVertexArray(VAO);
-                glBindBuffer(GL_ARRAY_BUFFER, VBO);
-                // Update buffers with new vertex data
-                glBufferData(GL_ARRAY_BUFFER, data->getVertices().size() * sizeof(float), data->getVertices().data(), GL_DYNAMIC_DRAW);
-                glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getIndices().size() * sizeof(float), data->getIndices().data(), GL_STATIC_DRAW);
+                    // Bind normal buffers That are unbound during text rendering
+                    glBindVertexArray(VAO);
+                    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+                    // Update buffers with new vertex data
+                    glBufferData(GL_ARRAY_BUFFER, data->getVertices().size() * sizeof(float), data->getVertices().data(), GL_DYNAMIC_DRAW);
+                    glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getIndices().size() * sizeof(float), data->getIndices().data(), GL_STATIC_DRAW);
 
-                glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);
-                glBindVertexArray(0);
-                glBindBuffer(GL_ARRAY_BUFFER, 0);
+                    glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);
+                    glBindVertexArray(0);
+                    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-                if (data->getText() != "")
-                {
-                    textRenderer->RenderText(data->getText(), data->getTextPosX(), data->getTextPosY(), data->getTextWidth(), data->getTextMaxHeight(), data->getTextColor());
+                    if (data->getText() != "")
+                    {
+                        textRenderer->RenderText(data->getText(), data->getTextPosX(), data->getTextPosY(), data->getTextWidth(), data->getTextMaxHeight(), data->getTextColor());
+                    }
                 }
             }
 
@@ -172,44 +181,12 @@ namespace SEngine
         // Set up orthographic projection matrix for shaders
         glm::mat4 projection = glm::ortho(0.0f, (float)windowWidth, (float)windowHeight, 0.0f, -1.0f, 1.0f);
 
-        string pathToVs = RESOURCE_DIR;
-        pathToVs.append("/shaders/color.vs");
-        string pathToFs = RESOURCE_DIR;
-        pathToFs.append("/shaders/color.fs");
-        colorShader = new Shader(pathToVs.c_str(), pathToFs.c_str());
+        colorShader = new Shader(static_cast<string>(RESOURCE_DIR).append("/shaders/color.vs").c_str(), static_cast<string>(RESOURCE_DIR).append("/shaders/color.fs").c_str());
         colorShader->use();
-        glUniformMatrix4fv(glGetUniformLocation(colorShader->ID, "uProjection"), 1, GL_FALSE, glm::value_ptr(projection));
-
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(2 * sizeof(float)));
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(5 * sizeof(float)));
-        glEnableVertexAttribArray(2);
-
-        pathToVs = RESOURCE_DIR;
-        pathToVs.append("/shaders/texture.vs");
-        pathToFs = RESOURCE_DIR;
-        pathToFs.append("/shaders/texture.fs");
-        textureShader = new Shader(pathToVs.c_str(), pathToFs.c_str());
-        glActiveTexture(GL_TEXTURE0);
+        initShader(colorShader, projection);
+        textureShader = new Shader(static_cast<string>(RESOURCE_DIR).append("/shaders/texture.vs").c_str(), static_cast<string>(RESOURCE_DIR).append("/shaders/texture.fs").c_str());
         textureShader->use();
-        glUniformMatrix4fv(glGetUniformLocation(textureShader->ID, "uProjection"), 1, GL_FALSE, glm::value_ptr(projection));
-
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(2 * sizeof(float)));
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(5 * sizeof(float)));
-        glEnableVertexAttribArray(2);
+        initShader(textureShader, projection);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -225,6 +202,8 @@ namespace SEngine
             std::cerr << "Failed to initialize text renderer" << std::endl;
         }
 
+        currentScenes = new std::vector<Scene *>();
+
         if (error != 0)
         {
             callback->setWindowClosed(true);
@@ -232,5 +211,20 @@ namespace SEngine
         }
 
         return 0;
+    }
+    void RenderEngine::initShader(Shader *shader, glm::mat4 projection)
+    {
+        glUniformMatrix4fv(glGetUniformLocation(shader->ID, "uProjection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)0);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(2 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(5 * sizeof(float)));
+        glEnableVertexAttribArray(2);
     }
 }

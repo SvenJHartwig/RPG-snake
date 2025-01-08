@@ -10,4 +10,4 @@
 - Create design documents
 - Fix different grid sizes
 - Fix crash on loading a file with not the correct format
-- Multiple scene support
+- Fix sometimes rng gives a pair that is not allowed

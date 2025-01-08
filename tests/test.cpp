@@ -557,3 +557,7 @@ TEST_CASE("Win game with win condition: time")
   // After 20 steps, the win condition is fulfilled
   REQUIRE(gameController->getGameState() == WIN);
 }
+
+TEST_CASE("Mobs moving around")
+{
+}

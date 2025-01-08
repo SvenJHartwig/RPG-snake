@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../model/grid.h"
+#include "../model/mob.h"
 #include "../model/snake.h"
 #include "../model/winCondition.h"
 #include "../view/engine/elements/spriteGrid.h"
@@ -35,6 +36,7 @@ private:
     RandomGenerator *rng;
     Grid *grid;
     IEatListener *eatListener;
+    std::vector<Mob *> *mobs;
 
     void checkOnFood();
     void updateCollisionMap();

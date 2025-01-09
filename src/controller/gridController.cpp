@@ -52,6 +52,7 @@ GridController::~GridController()
 
 void GridController::updateGrid()
 {
+    updateMobs();
     updateCollisionMap();
     checkOnFood();
     checkGameOver();
@@ -156,6 +157,14 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
     result->at(snake->getPosY())->at(snake->getPosX()) = temp;
 
     return result;
+}
+
+void GridController::updateMobs()
+{
+    for (Mob *mob : *mobs)
+    {
+        mob->tick();
+    }
 }
 
 void GridController::checkOnFood()
@@ -439,4 +448,13 @@ void GridController::reset()
 void GridController::loadLevel(const string path)
 {
     grid->loadFromFile(path);
+}
+
+void GridController::addMob(Mob *mob)
+{
+    mobs->push_back(mob);
+}
+vector<Mob *> *GridController::getMobs()
+{
+    return mobs;
 }

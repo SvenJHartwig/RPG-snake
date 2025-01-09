@@ -27,6 +27,8 @@ namespace SEngine
         void initShader(Shader *shader, glm::mat4 projection);
 
     public:
+        RenderEngine() {}
+        ~RenderEngine() {}
         IEngineCallback *getEngineCallback() override { return callback; }
         // Set the engine callback object. That objects reactOnInput method is called every time the user presses a button on the OpenGL window.
         void setEngineCallback(IEngineCallback *callback) override { this->callback = callback; }

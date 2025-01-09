@@ -560,4 +560,9 @@ TEST_CASE("Win game with win condition: time")
 
 TEST_CASE("Mobs moving around")
 {
+  GridController *gridController = new GridController(new TestEatListener());
+  gridController->addMob(new Enemy(2, 2));
+  REQUIRE(gridController->getMobs()->size() == 1);
+  gridController->updateGrid();
+  REQUIRE((gridController->getMobs()->at(0)->getPosX() != 2 || gridController->getMobs()->at(0)->getPosY() != 2));
 }

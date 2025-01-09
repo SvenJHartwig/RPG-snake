@@ -38,8 +38,9 @@ private:
     IEatListener *eatListener;
     std::vector<Mob *> *mobs;
 
-    void checkOnFood();
+    void updateMobs();
     void updateCollisionMap();
+    void checkOnFood();
     void checkGameOver();
     int returnFoodOnThisField(int i, int j);
     bool anyMovedBodypartOnThisField(int i, int j);
@@ -63,4 +64,6 @@ public:
     std::vector<Food *> *getFood();
     Snake *getSnake();
     std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
+    void addMob(Mob *mob);
+    std::vector<Mob *> *getMobs();
 };

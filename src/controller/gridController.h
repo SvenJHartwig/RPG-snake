@@ -45,6 +45,7 @@ private:
     int returnFoodOnThisField(int i, int j);
     bool anyMovedBodypartOnThisField(int i, int j);
     void moveSnakeBody(BodyPartFacing facing);
+    bool collisionOnPosition(int x, int y);
 
 public:
     GridController(IEatListener *eatListener);

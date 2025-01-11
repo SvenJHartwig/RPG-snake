@@ -4,9 +4,12 @@
 int main()
 {
     std::string path = RESOURCE_DIR;
-    path.append("/tests/level/level1");
+    std::cout << "Choose resource to open:";
+    std::string input;
+    std::cin >> input;
+    path.append(input);
     Grid *grid = new Grid();
-    loadLevelFromTextFile(path.c_str(), grid);
+    loadLevelFromBinaryFile(path.c_str(), grid);
     path.append("Binary");
     saveGridAsBinaryFile(path, grid);
 

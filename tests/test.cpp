@@ -565,4 +565,9 @@ TEST_CASE("Mobs moving around")
   REQUIRE(gridController->getMobs()->size() == 1);
   gridController->updateGrid();
   REQUIRE((gridController->getMobs()->at(0)->getPosX() != 2 || gridController->getMobs()->at(0)->getPosY() != 2));
+  for (int i = 0; i < 20; i++)
+  {
+    gridController->updateGrid();
+  }
+  REQUIRE(gridController->getMobs()->at(0)->getPosX() == 18);
 }

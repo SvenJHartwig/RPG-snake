@@ -101,6 +101,13 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
         }
         result->at(f->getPosY())->at(f->getPosX()) = temp;
     }
+    for (Mob *mob : *mobs)
+    {
+        Sprite temp = result->at(mob->getPosY())->at(mob->getPosX());
+        temp.texBaseX = 0.25f;
+        temp.texBaseY = 0.25f;
+        result->at(mob->getPosY())->at(mob->getPosX()) = temp;
+    }
     for (int snakeBodyIndex = 0; snakeBodyIndex < snake->getBody()->size(); snakeBodyIndex++)
     {
         SnakeBodyPart bodyPart = snake->getBody()->at(snakeBodyIndex);
@@ -165,6 +172,22 @@ void GridController::updateMobs()
     {
         mob->tick();
     }
+    for (Mob *mob : *mobs)
+    {
+        IntendedAction mobAction = mob->getIntendedAction();
+        switch (mobAction)
+        {
+        case IntendedAction::MOVE_RIGHT:
+            if (!collisionOnPosition(mob->getPosX() + 1, mob->getPosY()))
+            {
+                mob->setPosX(mob->getPosX() + 1);
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
 }
 
 void GridController::checkOnFood()
@@ -207,16 +230,31 @@ void GridController::updateCollisionMap()
     }
 }
 
+bool GridController::collisionOnPosition(int x, int y)
+{
+    if (grid->getLevel()->at(y)[x] == 'W')
+    {
+        return true;
+    }
+    if (anyMovedBodypartOnThisField(snake->getPosY(), snake->getPosX()))
+    {
+        return true;
+    }
+    if (snake->getPosX() == x && snake->getPosY() == y)
+    {
+        return true;
+    }
+    return false;
+}
+
 void GridController::checkGameOver()
 {
     // If a wall or the snake's body is reached, game over
-    int i = snake->getPosY();
-    int j = snake->getPosX();
-    if (grid->getLevel()->at(i)[j] == 'W')
+    if (grid->getLevel()->at(snake->getPosY())[snake->getPosX()] == 'W')
     {
         game_over = true;
     }
-    if (anyMovedBodypartOnThisField(i, j))
+    if (anyMovedBodypartOnThisField(snake->getPosY(), snake->getPosX()))
     {
         game_over = true;
     }

@@ -1,8 +1,13 @@
 #include "mob.h"
 
+IntendedAction Mob::getIntendedAction()
+{
+    return intendedAction;
+}
+
 void Enemy::tick()
 {
-    pos_x++;
+    intendedAction = IntendedAction::MOVE_RIGHT;
 }
 
 Enemy::Enemy(int pos_x, int pos_y)

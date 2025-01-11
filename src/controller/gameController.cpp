@@ -3,6 +3,7 @@
 #include <iostream>
 #include <thread>
 #include "../view/cliView.h"
+#include "../model/mob.h"
 
 using std::string, std::vector;
 

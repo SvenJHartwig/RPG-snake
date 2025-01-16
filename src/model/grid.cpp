@@ -24,16 +24,24 @@ Ground::Ground(int pos_x, int pos_y)
     this->pos_x = pos_x;
     this->pos_y = pos_y;
 }
-void Ground::serialize(std::ofstream *outFile) {}
-void Ground::deserialize(std::ifstream *inFile) {}
+void Ground::serialize(std::ofstream *outFile)
+{
+    outFile->write(reinterpret_cast<const char *>(&"x"), sizeof(char));
+    outFile->write(reinterpret_cast<const char *>(&pos_x), sizeof(pos_x));
+    outFile->write(reinterpret_cast<const char *>(&pos_y), sizeof(pos_y));
+}
 
 Wall::Wall(int pos_x, int pos_y)
 {
     this->pos_x = pos_x;
     this->pos_y = pos_y;
 }
-void Wall::serialize(std::ofstream *outFile) {}
-void Wall::deserialize(std::ifstream *inFile) {}
+void Wall::serialize(std::ofstream *outFile)
+{
+    outFile->write(reinterpret_cast<const char *>(&"W"), sizeof(char));
+    outFile->write(reinterpret_cast<const char *>(&pos_x), sizeof(pos_x));
+    outFile->write(reinterpret_cast<const char *>(&pos_y), sizeof(pos_y));
+}
 
 void Grid::reset()
 {
@@ -129,15 +137,26 @@ void Grid::loadFromFile(const std::string &filename)
         size_t vectorSize;
         inFile.read(reinterpret_cast<char *>(&vectorSize), sizeof(vectorSize));
         level->resize(vectorSize);
-        for (auto &levelVec : *(level))
+        for (int i = 0; i < grid_size_y; i++)
         {
-            for (GridElement *element : *(levelVec))
+            vector<GridElement *> *temp = new vector<GridElement *>(grid_size_x);
+            level->at(i) = temp;
+            for (int j = 0; j < grid_size_x; j++)
             {
-                element->deserialize(&inFile);
-                //           size_t strLength;
-                //           inFile.read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
-                //           levelVec.resize(strLength);
-                //           inFile.read(&levelVec[0], strLength); // Load string content
+                char gridElementType;
+                inFile.read(reinterpret_cast<char *>(&gridElementType), sizeof(char));
+                int x, y;
+                inFile.read(reinterpret_cast<char *>(&x), sizeof(x));
+                inFile.read(reinterpret_cast<char *>(&y), sizeof(y));
+
+                if (gridElementType == 'x')
+                {
+                    level->at(i)->at(j) = new Ground(x, y);
+                }
+                if (gridElementType == 'W')
+                {
+                    level->at(i)->at(j) = new Wall(x, y);
+                }
             }
         }
         winCon.deserialize(&inFile);

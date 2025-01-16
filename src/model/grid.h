@@ -15,7 +15,6 @@ protected:
 
 public:
     virtual void serialize(std::ofstream *outFile) = 0;
-    virtual void deserialize(std::ifstream *inFile) = 0;
     int getPosX();
     int getPosY();
     void setPosX(int pos);
@@ -27,7 +26,6 @@ class Ground : public GridElement
 public:
     Ground(int pos_x, int pos_y);
     void serialize(std::ofstream *outFile) override;
-    void deserialize(std::ifstream *inFile) override;
 };
 
 class Wall : public GridElement
@@ -35,7 +33,6 @@ class Wall : public GridElement
 public:
     Wall(int pos_x, int pos_y);
     void serialize(std::ofstream *outFile) override;
-    void deserialize(std::ifstream *inFile) override;
 };
 
 // Holds data for a level as a vector of strings, likely to be changed to a more flexible

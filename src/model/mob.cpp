@@ -5,6 +5,8 @@ IntendedAction Mob::getIntendedAction()
     return intendedAction;
 }
 
+void Enemy::serialize(std::ofstream *outFile) {}
+void Enemy::deserialize(std::ifstream *inFile) {}
 void Enemy::tick()
 {
     intendedAction = IntendedAction::MOVE_RIGHT;

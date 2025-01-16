@@ -8,7 +8,6 @@ class Food : public GridElement
 
 public:
     void serialize(std::ofstream *outFile) override;
-    void deserialize(std::ifstream *inFile) override;
     Food();
     ~Food();
 };
@@ -20,7 +19,6 @@ private:
 
 public:
     void serialize(std::ofstream *outFile) override;
-    void deserialize(std::ifstream *inFile) override;
     SpecialFood() { remainingMoves = 20; }
     int remainingTime() { return remainingMoves; }
     void decreaseTime() { remainingMoves--; }
@@ -43,7 +41,6 @@ private:
 
 public:
     void serialize(std::ofstream *outFile) override;
-    void deserialize(std::ifstream *inFile) override;
     BodyPartFacing facing = HORIZONTAL;
     SnakeBodyPart(int pos_x, int pos_y);
     ~SnakeBodyPart();
@@ -66,7 +63,6 @@ private:
 
 public:
     void serialize(std::ofstream *outFile) override;
-    void deserialize(std::ifstream *inFile) override;
     Facing facing = RIGHT;
     Snake();
     ~Snake();

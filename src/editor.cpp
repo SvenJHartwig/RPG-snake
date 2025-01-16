@@ -9,7 +9,7 @@ int main()
     std::cin >> input;
     path.append(input);
     Grid *grid = new Grid();
-    loadLevelFromBinaryFile(path.c_str(), grid);
+    loadLevelFromTextFile(path.c_str(), grid);
     path.append("Binary");
     saveGridAsBinaryFile(path, grid);
 

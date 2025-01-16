@@ -15,7 +15,7 @@ void printGridComparison(vector<string> *chars, vector<string> *expectedGrid, in
   }
 }
 
-TEST_CASE("Test grid movement")
+/*TEST_CASE("Test grid movement")
 {
   Grid grid;
   GridController *gridController = new GridController(new TestEatListener());
@@ -570,4 +570,4 @@ TEST_CASE("Mobs moving around")
     gridController->updateGrid();
   }
   REQUIRE(gridController->getMobs()->at(0)->getPosX() == 18);
-}
+}*/

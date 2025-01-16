@@ -65,23 +65,22 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
     // Level grid
     for (int yCoord = 0; yCoord < grid->getLevel()->size(); yCoord++)
     {
-        vector<Sprite> *inner = new vector<Sprite>();
+        vector<Sprite> *inner = new vector<Sprite>(grid->getLevel()->at(yCoord)->size());
         result->push_back(inner);
-        for (int xCoord = 0; xCoord < grid->getLevel()->at(yCoord).size(); xCoord++)
+        for (int xCoord = 0; xCoord < grid->getLevel()->at(yCoord)->size(); xCoord++)
         {
             Sprite tempSprite = Sprite();
-            switch (grid->getLevel()->at(yCoord)[xCoord])
+            if (dynamic_cast<Wall *>(grid->getLevel()->at(yCoord)->at(xCoord)))
             {
-            case 'W':
                 tempSprite.texBaseX = 0.0f;
                 tempSprite.texBaseY = 0.0f;
-                break;
-            default:
+            }
+            else
+            {
                 tempSprite.texBaseX = 0.25f;
                 tempSprite.texBaseY = 0.0f;
-                break;
             }
-            result->at(yCoord)->push_back(tempSprite);
+            result->at(yCoord)->at(xCoord) = tempSprite;
         }
     }
     // Dynamic elements
@@ -232,7 +231,7 @@ void GridController::updateCollisionMap()
 
 bool GridController::collisionOnPosition(int x, int y)
 {
-    if (grid->getLevel()->at(y)[x] == 'W')
+    if (dynamic_cast<Wall *>(grid->getLevel()->at(y)->at(x)))
     {
         return true;
     }
@@ -250,7 +249,7 @@ bool GridController::collisionOnPosition(int x, int y)
 void GridController::checkGameOver()
 {
     // If a wall or the snake's body is reached, game over
-    if (grid->getLevel()->at(snake->getPosY())[snake->getPosX()] == 'W')
+    if (dynamic_cast<Wall *>(grid->getLevel()->at(snake->getPosY())->at(snake->getPosX())))
     {
         game_over = true;
     }

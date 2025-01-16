@@ -12,36 +12,36 @@ void loadLevelFromTextFile(const string path, Grid *grid)
     grid->setGridSizeY(0);
     for (int i = 0; i < level.size(); i++)
     {
-        string l = level.at(i);
-        if (l.rfind("Wincon:", 0) == 0)
+        string levelAt = level.at(i);
+        if (levelAt.rfind("Wincon:", 0) == 0)
         {
-            l.replace(0, 7, 0, 'f');
-            if (l.rfind("s", 0) == 0)
+            levelAt.replace(0, 7, 0, 'f');
+            if (levelAt.rfind("s", 0) == 0)
             {
-                l.replace(0, 1, 0, 'f');
-                if (has_only_digits(l))
+                levelAt.replace(0, 1, 0, 'f');
+                if (has_only_digits(levelAt))
                 {
-                    grid->setWinCondition(WinCondition(SCORE, std::stoi(l)));
+                    grid->setWinCondition(WinCondition(SCORE, std::stoi(levelAt)));
                 }
             }
-            else if (l.rfind("t", 0) == 0)
+            else if (levelAt.rfind("t", 0) == 0)
             {
-                l.replace(0, 1, 0, 'f');
-                if (has_only_digits(l))
+                levelAt.replace(0, 1, 0, 'f');
+                if (has_only_digits(levelAt))
                 {
-                    grid->setWinCondition(WinCondition(TIME, std::stoi(l)));
+                    grid->setWinCondition(WinCondition(TIME, std::stoi(levelAt)));
                 }
             }
         }
         else
         {
-            grid->getLevel()->push_back(l);
-            for (int j = 0; j < l.size(); j++)
+            //     grid->getLevel()->push_back(levelAt);
+            for (int j = 0; j < levelAt.size(); j++)
             {
-                if (l.at(j) == 'W')
+                if (levelAt.at(j) == 'W')
                     grid->occupiedSpacesWall->insert({j, i});
             }
-            grid->setGridSizeX(l.size());
+            grid->setGridSizeX(levelAt.size());
             grid->setGridSizeY(grid->getGridSizeY() + 1);
         }
     }

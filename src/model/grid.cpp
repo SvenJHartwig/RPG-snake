@@ -1,7 +1,6 @@
 #include "grid.h"
 
 using std::vector, std::string;
-
 int GridElement::getPosX()
 {
     return pos_x;
@@ -20,25 +19,45 @@ void GridElement::setPosY(int pos)
     this->pos_y = pos;
 }
 
+Ground::Ground(int pos_x, int pos_y)
+{
+    this->pos_x = pos_x;
+    this->pos_y = pos_y;
+}
+void Ground::serialize(std::ofstream *outFile) {}
+void Ground::deserialize(std::ifstream *inFile) {}
+
+Wall::Wall(int pos_x, int pos_y)
+{
+    this->pos_x = pos_x;
+    this->pos_y = pos_y;
+}
+void Wall::serialize(std::ofstream *outFile) {}
+void Wall::deserialize(std::ifstream *inFile) {}
+
 void Grid::reset()
 {
     grid_size_x = 20;
     grid_size_y = 20;
     winCon = WinCondition(NONE, 0);
-    level = new vector<string>();
+    level = new vector<vector<GridElement *> *>();
     occupiedSpacesWall = new std::set<std::pair<int, int>>();
     occupiedSpacesSnake = new std::set<std::pair<int, int>>();
     for (int i = 0; i < grid_size_y; i++)
     {
-        string temp(grid_size_y, 'x');
+        vector<GridElement *> *temp = new vector<GridElement *>(grid_size_x);
         level->push_back(temp);
         for (int j = 0; j < grid_size_x; j++)
         {
             if (i == 0 || i == grid_size_y - 1 || j == 0 || j == grid_size_x - 1)
             {
                 // Wall
-                level->at(i)[j] = 'W';
+                level->at(i)->at(j) = new Wall(j, i);
                 occupiedSpacesWall->insert({j, i});
+            }
+            else
+            {
+                level->at(i)->at(j) = new Ground(j, i);
             }
         }
     }
@@ -76,11 +95,13 @@ void Grid::saveToFile(const std::string &filename)
     // Save the vector of strings
     size_t vectorSize = level->size();
     outFile.write(reinterpret_cast<const char *>(&vectorSize), sizeof(vectorSize));
-    for (const auto &str : *(level))
+
+    for (auto &levelVec : *(level))
     {
-        size_t strLength = str.size();
-        outFile.write(reinterpret_cast<const char *>(&strLength), sizeof(strLength));
-        outFile.write(str.data(), strLength);
+        for (GridElement *element : *(levelVec))
+        {
+            element->serialize(&outFile);
+        }
     }
     winCon.serialize(&outFile);
 
@@ -108,12 +129,16 @@ void Grid::loadFromFile(const std::string &filename)
         size_t vectorSize;
         inFile.read(reinterpret_cast<char *>(&vectorSize), sizeof(vectorSize));
         level->resize(vectorSize);
-        for (auto &str : *(level))
+        for (auto &levelVec : *(level))
         {
-            size_t strLength;
-            inFile.read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
-            str.resize(strLength);
-            inFile.read(&str[0], strLength); // Load string content
+            for (GridElement *element : *(levelVec))
+            {
+                element->deserialize(&inFile);
+                //           size_t strLength;
+                //           inFile.read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
+                //           levelVec.resize(strLength);
+                //           inFile.read(&levelVec[0], strLength); // Load string content
+            }
         }
         winCon.deserialize(&inFile);
     }

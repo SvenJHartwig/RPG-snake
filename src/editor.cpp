@@ -4,7 +4,7 @@
 int main()
 {
     std::string path = RESOURCE_DIR;
-    std::cout << "Choose resource to open:";
+    std::cout << "Choose resource to open:\n";
     std::string input;
     std::cin >> input;
     path.append(input);

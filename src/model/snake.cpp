@@ -1,5 +1,7 @@
 #include "snake.h"
 
+void Food::serialize(std::ofstream *outFile) {}
+void Food::deserialize(std::ifstream *inFile) {}
 Food::Food()
 {
     pos_x = 7;
@@ -8,6 +10,11 @@ Food::Food()
 
 Food::~Food() {}
 
+void SpecialFood::serialize(std::ofstream *outFile) {}
+void SpecialFood::deserialize(std::ifstream *inFile) {}
+
+void SnakeBodyPart::serialize(std::ofstream *outFile) {}
+void SnakeBodyPart::deserialize(std::ifstream *inFile) {}
 SnakeBodyPart::SnakeBodyPart(int pos_x, int pos_y)
 {
     this->pos_x = pos_x;
@@ -23,6 +30,8 @@ void SnakeBodyPart::setHasMoved(bool val)
     this->has_moved = val;
 }
 
+void Snake::serialize(std::ofstream *outFile) {}
+void Snake::deserialize(std::ifstream *inFile) {}
 Snake::Snake()
 {
     pos_x = 5;

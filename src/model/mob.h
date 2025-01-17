@@ -22,8 +22,7 @@ class Enemy : public Mob
 {
 private:
 public:
-    void serialize(std::ofstream *outFile);
-    void deserialize(std::ifstream *inFile);
+    void serialize(std::ofstream *outFile) override;
     void tick();
     Enemy(int pos_x, int pos_y);
     ~Enemy();

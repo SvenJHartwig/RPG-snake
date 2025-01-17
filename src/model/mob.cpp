@@ -5,8 +5,12 @@ IntendedAction Mob::getIntendedAction()
     return intendedAction;
 }
 
-void Enemy::serialize(std::ofstream *outFile) {}
-void Enemy::deserialize(std::ifstream *inFile) {}
+void Enemy::serialize(std::ofstream *outFile)
+{
+    outFile->write(reinterpret_cast<const char *>(&"E"), sizeof(char));
+    outFile->write(reinterpret_cast<const char *>(&pos_x), sizeof(pos_x));
+    outFile->write(reinterpret_cast<const char *>(&pos_y), sizeof(pos_y));
+}
 void Enemy::tick()
 {
     intendedAction = IntendedAction::MOVE_RIGHT;

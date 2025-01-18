@@ -640,6 +640,8 @@ TEST_CASE("Mobs moving around")
     gridController->updateGrid();
   }
   REQUIRE(gridController->getMobs()->at(0)->getPosX() == 18);
+
+  // Mobs wrapping around like snake
   gridController->reset();
   string path = RESOURCE_DIR;
   path.append("/tests/level/level2Binary");

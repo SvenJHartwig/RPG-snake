@@ -170,18 +170,48 @@ void GridController::updateMobs()
     {
         mob->tick();
     }
+    int newPos;
     for (Mob *mob : *grid->getMobs())
     {
         IntendedAction mobAction = mob->getIntendedAction();
         switch (mobAction)
         {
         case IntendedAction::MOVE_RIGHT:
-            if (!collisionOnPosition((mob->getPosX() + 1) % grid->getGridSizeX(), mob->getPosY()))
+            newPos = (mob->getPosX() + 1) % grid->getGridSizeX();
+            if (!collisionOnPosition(newPos, mob->getPosY()))
             {
-                mob->setPosX((mob->getPosX() + 1) % grid->getGridSizeX());
+                mob->setPosX(newPos);
             }
             break;
-
+        case IntendedAction::MOVE_LEFT:
+            newPos = mob->getPosX() - 1;
+            if (newPos < 0)
+            {
+                newPos += grid->getGridSizeX();
+            }
+            if (!collisionOnPosition(newPos, mob->getPosY()))
+            {
+                mob->setPosX(newPos);
+            }
+            break;
+        case IntendedAction::MOVE_UP:
+            newPos = mob->getPosY() - 1;
+            if (newPos < 0)
+            {
+                newPos += grid->getGridSizeY();
+            }
+            if (!collisionOnPosition(mob->getPosX(), newPos))
+            {
+                mob->setPosY(newPos);
+            }
+            break;
+        case IntendedAction::MOVE_DOWN:
+            newPos = (mob->getPosY() + 1) % grid->getGridSizeY();
+            if (!collisionOnPosition(mob->getPosX(), newPos))
+            {
+                mob->setPosY(newPos);
+            }
+            break;
         default:
             break;
         }

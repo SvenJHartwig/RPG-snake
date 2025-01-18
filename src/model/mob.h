@@ -5,7 +5,10 @@
 enum class IntendedAction
 {
     NONE,
-    MOVE_RIGHT
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    MOVE_DOWN
 };
 
 class Mob : public GridElement

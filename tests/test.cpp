@@ -20,7 +20,7 @@ TEST_CASE("Test grid movement")
   Grid grid;
   GridController *gridController = new GridController(new TestEatListener());
   gridController->setRNG(new TestGenerator());
-  vector<vector<GridElement *> *> *chars = grid.getLevel();
+  vector<vector<GridElement *> *> *level = grid.getLevel();
   int grid_size_x = grid.getGridSizeX();
   int grid_size_y = grid.getGridSizeY();
   vector<string> *expectedGrid = new vector<string>();
@@ -48,14 +48,34 @@ TEST_CASE("Test grid movement")
   gridController->updateGrid();
   for (int i = 0; i < grid_size_y; i++)
   {
-    //  REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
+    for (int j = 0; j < grid_size_x; j++)
+    {
+      if (expectedGrid->at(i)[j] == 'W')
+      {
+        REQUIRE(dynamic_cast<Wall *>(level->at(i)->at(j)));
+      }
+      else if (expectedGrid->at(i)[j] == 'x')
+      {
+        REQUIRE(dynamic_cast<Ground *>(level->at(i)->at(j)));
+      }
+    }
   }
   gridController->moveSnakeRight();
   gridController->updateGrid();
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
-    //  REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
+    for (int j = 0; j < grid_size_x; j++)
+    {
+      if (expectedGrid->at(i)[j] == 'W')
+      {
+        REQUIRE(dynamic_cast<Wall *>(level->at(i)->at(j)));
+      }
+      else if (expectedGrid->at(i)[j] == 'x')
+      {
+        REQUIRE(dynamic_cast<Ground *>(level->at(i)->at(j)));
+      }
+    }
   }
   REQUIRE(gridController->getSnake()->getPosX() == 6);
   REQUIRE(gridController->getSnake()->getPosY() == 5);
@@ -67,7 +87,17 @@ TEST_CASE("Test grid movement")
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
-    // REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
+    for (int j = 0; j < grid_size_x; j++)
+    {
+      if (expectedGrid->at(i)[j] == 'W')
+      {
+        REQUIRE(dynamic_cast<Wall *>(level->at(i)->at(j)));
+      }
+      else if (expectedGrid->at(i)[j] == 'x')
+      {
+        REQUIRE(dynamic_cast<Ground *>(level->at(i)->at(j)));
+      }
+    }
   }
   REQUIRE(gridController->getSnake()->getPosX() == 7);
   REQUIRE(gridController->getSnake()->getPosY() == 5);
@@ -79,7 +109,17 @@ TEST_CASE("Test grid movement")
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
-    //  REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
+    for (int j = 0; j < grid_size_x; j++)
+    {
+      if (expectedGrid->at(i)[j] == 'W')
+      {
+        REQUIRE(dynamic_cast<Wall *>(level->at(i)->at(j)));
+      }
+      else if (expectedGrid->at(i)[j] == 'x')
+      {
+        REQUIRE(dynamic_cast<Ground *>(level->at(i)->at(j)));
+      }
+    }
   }
   REQUIRE(gridController->getSnake()->getPosX() == 8);
   REQUIRE(gridController->getSnake()->getPosY() == 5);
@@ -94,7 +134,17 @@ TEST_CASE("Test grid movement")
   REQUIRE(!gridController->isGameOver());
   for (int i = 0; i < grid_size_y; i++)
   {
-    // REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
+    for (int j = 0; j < grid_size_x; j++)
+    {
+      if (expectedGrid->at(i)[j] == 'W')
+      {
+        REQUIRE(dynamic_cast<Wall *>(level->at(i)->at(j)));
+      }
+      else if (expectedGrid->at(i)[j] == 'x')
+      {
+        REQUIRE(dynamic_cast<Ground *>(level->at(i)->at(j)));
+      }
+    }
   }
   REQUIRE(snake->getBody()->size() == 1);
 }
@@ -397,13 +447,33 @@ TEST_CASE("Load level from disk")
   vector<vector<GridElement *> *> *chars = grid->getLevel();
   for (int i = 0; i < grid_size_y; i++)
   {
-    //  REQUIRE(chars->at(i).compare(expectedGrid->at(i)) == 0);
+    for (int j = 0; j < grid_size_x; j++)
+    {
+      if (expectedGrid->at(i)[j] == 'W')
+      {
+        REQUIRE(dynamic_cast<Wall *>(chars->at(i)->at(j)));
+      }
+      else if (expectedGrid->at(i)[j] == 'x')
+      {
+        REQUIRE(dynamic_cast<Ground *>(chars->at(i)->at(j)));
+      }
+    }
   }
   gridController->updateGrid();
   vector<vector<GridElement *> *> *chars2 = grid->getLevel();
   for (int i = 0; i < grid_size_y; i++)
   {
-    // REQUIRE(chars2->at(i).compare(expectedGrid->at(i)) == 0);
+    for (int j = 0; j < grid_size_x; j++)
+    {
+      if (expectedGrid->at(i)[j] == 'W')
+      {
+        REQUIRE(dynamic_cast<Wall *>(chars->at(i)->at(j)));
+      }
+      else if (expectedGrid->at(i)[j] == 'x')
+      {
+        REQUIRE(dynamic_cast<Ground *>(chars->at(i)->at(j)));
+      }
+    }
   }
   REQUIRE(gridController->getSnake()->getPosX() == 5);
   REQUIRE(gridController->getSnake()->getPosY() == 5);

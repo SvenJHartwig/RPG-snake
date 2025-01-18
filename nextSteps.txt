@@ -11,4 +11,3 @@
 - Fix different grid sizes
 - Fix crash on loading a file with not the correct format
 - Fix sometimes rng gives a pair that is not allowed
-- Reimplement test case assertions

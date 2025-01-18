@@ -1,6 +1,6 @@
 #pragma once
 
-#include "grid.h"
+#include "gridElement.h"
 
 enum class IntendedAction
 {

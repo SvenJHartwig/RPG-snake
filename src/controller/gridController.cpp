@@ -43,7 +43,6 @@ GridController::GridController(IEatListener *eatListener)
     food = new std::vector<Food *>(1, new Food());
     grid = new Grid();
     snake = new Snake();
-    mobs = new std::vector<Mob *>();
 }
 
 GridController::~GridController()
@@ -100,7 +99,7 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
         }
         result->at(f->getPosY())->at(f->getPosX()) = temp;
     }
-    for (Mob *mob : *mobs)
+    for (Mob *mob : *grid->getMobs())
     {
         Sprite temp = result->at(mob->getPosY())->at(mob->getPosX());
         temp.texBaseX = 0.25f;
@@ -167,19 +166,19 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
 
 void GridController::updateMobs()
 {
-    for (Mob *mob : *mobs)
+    for (Mob *mob : *grid->getMobs())
     {
         mob->tick();
     }
-    for (Mob *mob : *mobs)
+    for (Mob *mob : *grid->getMobs())
     {
         IntendedAction mobAction = mob->getIntendedAction();
         switch (mobAction)
         {
         case IntendedAction::MOVE_RIGHT:
-            if (!collisionOnPosition(mob->getPosX() + 1, mob->getPosY()))
+            if (!collisionOnPosition((mob->getPosX() + 1) % grid->getGridSizeX(), mob->getPosY()))
             {
-                mob->setPosX(mob->getPosX() + 1);
+                mob->setPosX((mob->getPosX() + 1) % grid->getGridSizeX());
             }
             break;
 
@@ -489,9 +488,9 @@ void GridController::loadLevel(const string path)
 
 void GridController::addMob(Mob *mob)
 {
-    mobs->push_back(mob);
+    grid->getMobs()->push_back(mob);
 }
 vector<Mob *> *GridController::getMobs()
 {
-    return mobs;
+    return grid->getMobs();
 }

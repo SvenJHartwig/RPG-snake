@@ -1,47 +1,6 @@
 #include "grid.h"
 
 using std::vector, std::string;
-int GridElement::getPosX()
-{
-    return pos_x;
-}
-
-int GridElement::getPosY()
-{
-    return pos_y;
-}
-void GridElement::setPosX(int pos)
-{
-    this->pos_x = pos;
-}
-void GridElement::setPosY(int pos)
-{
-    this->pos_y = pos;
-}
-
-Ground::Ground(int pos_x, int pos_y)
-{
-    this->pos_x = pos_x;
-    this->pos_y = pos_y;
-}
-void Ground::serialize(std::ofstream *outFile)
-{
-    outFile->write(reinterpret_cast<const char *>(&"x"), sizeof(char));
-    outFile->write(reinterpret_cast<const char *>(&pos_x), sizeof(pos_x));
-    outFile->write(reinterpret_cast<const char *>(&pos_y), sizeof(pos_y));
-}
-
-Wall::Wall(int pos_x, int pos_y)
-{
-    this->pos_x = pos_x;
-    this->pos_y = pos_y;
-}
-void Wall::serialize(std::ofstream *outFile)
-{
-    outFile->write(reinterpret_cast<const char *>(&"W"), sizeof(char));
-    outFile->write(reinterpret_cast<const char *>(&pos_x), sizeof(pos_x));
-    outFile->write(reinterpret_cast<const char *>(&pos_y), sizeof(pos_y));
-}
 
 void Grid::reset()
 {
@@ -49,6 +8,7 @@ void Grid::reset()
     grid_size_y = 20;
     winCon = WinCondition(NONE, 0);
     level = new vector<vector<GridElement *> *>();
+    mobs = new std::vector<Mob *>();
     occupiedSpacesWall = new std::set<std::pair<int, int>>();
     occupiedSpacesSnake = new std::set<std::pair<int, int>>();
     for (int i = 0; i < grid_size_y; i++)
@@ -157,6 +117,10 @@ void Grid::loadFromFile(const std::string &filename)
                 {
                     level->at(i)->at(j) = new Wall(x, y);
                 }
+                if (gridElementType == 'E')
+                {
+                    mobs->push_back(new Enemy(x, y));
+                }
             }
         }
         winCon.deserialize(&inFile);
@@ -168,4 +132,9 @@ void Grid::loadFromFile(const std::string &filename)
     }
 
     inFile.close();
+}
+
+std::vector<Mob *> *Grid::getMobs()
+{
+    return mobs;
 }

@@ -44,14 +44,23 @@ int main()
             std::cout << "Loaded: " << path << "\n";
             std::cout << "Choose option:\n";
             std::cout << "1 - Save map\n";
-            std::cout << "2 - Add element\n";
-            std::cout << "3 - Back\n";
+            std::cout << "2 - Save map as\n";
+            std::cout << "3 - Add element\n";
+            std::cout << "4 - Back\n";
             std::cin >> input;
             if (input.compare("1") == 0)
             {
                 saveGridAsBinaryFile(path, grid);
             }
             if (input.compare("2") == 0)
+            {
+                std::cout << "File name:\n";
+                std::cin >> input;
+                path = RESOURCE_DIR;
+                path.append(input);
+                saveGridAsBinaryFile(path, grid);
+            }
+            if (input.compare("3") == 0)
             {
                 std::cout << "Position X:\n";
                 std::cin >> input;
@@ -61,7 +70,7 @@ int main()
                 y = std::stoi(input);
                 state = 2;
             }
-            else if (input.compare("3") == 0)
+            else if (input.compare("4") == 0)
             {
                 path = RESOURCE_DIR;
                 state = 0;

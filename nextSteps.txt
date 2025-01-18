@@ -2,7 +2,6 @@
     - Add teleporters between maps
     - Add NPCs
     - Add Quests
-- To allow for binary format maps, there needs to exist some kind of map editor first
 - Background image (also in spritegrid)
 - Enemies
 - Health
@@ -12,3 +11,4 @@
 - Fix different grid sizes
 - Fix crash on loading a file with not the correct format
 - Fix sometimes rng gives a pair that is not allowed
+- Reimplement test case assertions

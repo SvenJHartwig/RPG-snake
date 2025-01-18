@@ -570,4 +570,14 @@ TEST_CASE("Mobs moving around")
     gridController->updateGrid();
   }
   REQUIRE(gridController->getMobs()->at(0)->getPosX() == 18);
+  gridController->reset();
+  string path = RESOURCE_DIR;
+  path.append("/tests/level/level2Binary");
+  gridController->loadLevel(path.c_str());
+  gridController->addMob(new Enemy(2, 2));
+  for (int i = 0; i < 20; i++)
+  {
+    gridController->updateGrid();
+  }
+  REQUIRE(gridController->getMobs()->at(0)->getPosX() == 2);
 }

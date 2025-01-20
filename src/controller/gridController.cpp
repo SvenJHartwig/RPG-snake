@@ -53,7 +53,7 @@ void GridController::updateGrid()
 {
     updateMobs();
     updateCollisionMap();
-    checkOnFood();
+    checkCollisions();
     checkGameOver();
 }
 
@@ -218,7 +218,7 @@ void GridController::updateMobs()
     }
 }
 
-void GridController::checkOnFood()
+void GridController::checkCollisions()
 {
     int indexOfFoodOnThisField = returnFoodOnThisField(snake->getPosY(), snake->getPosX());
     if (indexOfFoodOnThisField != -1)
@@ -246,6 +246,17 @@ void GridController::checkOnFood()
             food->erase(food->begin() + indexOfFoodOnThisField);
         }
     }
+    for (Mob *mob : *grid->getMobs())
+    {
+        if (anyMovedBodypartOnThisField(mob->getPosY(), mob->getPosX()) || mob->getPosX() == snake->getPosX() && mob->getPosY() == snake->getPosY())
+        {
+            snake->loseHealth(1);
+            if (snake->getHealth() <= 0)
+            {
+                game_over = true;
+            }
+        }
+    }
 }
 
 void GridController::updateCollisionMap()
@@ -261,14 +272,6 @@ void GridController::updateCollisionMap()
 bool GridController::collisionOnPosition(int x, int y)
 {
     if (dynamic_cast<Wall *>(grid->getLevel()->at(y)->at(x)))
-    {
-        return true;
-    }
-    if (anyMovedBodypartOnThisField(snake->getPosY(), snake->getPosX()))
-    {
-        return true;
-    }
-    if (snake->getPosX() == x && snake->getPosY() == y)
     {
         return true;
     }

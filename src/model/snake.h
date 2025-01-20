@@ -59,6 +59,8 @@ enum Facing
 class Snake : public GridElement
 {
 private:
+    int maxHealth = 3;
+    int health = 3;
     std::vector<SnakeBodyPart> body;
 
 public:
@@ -68,4 +70,6 @@ public:
     ~Snake();
     void eat();
     std::vector<SnakeBodyPart> *getBody();
+    void loseHealth(int health);
+    int getHealth();
 };

@@ -653,3 +653,21 @@ TEST_CASE("Mobs moving around")
   }
   REQUIRE(gridController->getMobs()->at(0)->getPosX() == 2);
 }
+
+TEST_CASE("Mobs damaging the player")
+{
+  GridController *gridController = new GridController(new TestEatListener());
+  gridController->addMob(new Enemy(2, 2));
+  REQUIRE(gridController->getMobs()->size() == 1);
+  gridController->getSnake()->setPosX(3);
+  gridController->getSnake()->setPosY(2);
+  gridController->updateGrid();
+  REQUIRE(gridController->getSnake()->getHealth() == 2);
+  gridController->getSnake()->setPosX(4);
+  gridController->updateGrid();
+  REQUIRE(gridController->getSnake()->getHealth() == 1);
+  gridController->getSnake()->setPosX(5);
+  gridController->updateGrid();
+  REQUIRE(gridController->getSnake()->getHealth() == 0);
+  REQUIRE(gridController->isGameOver());
+}

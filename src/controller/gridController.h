@@ -39,7 +39,7 @@ private:
 
     void updateMobs();
     void updateCollisionMap();
-    void checkOnFood();
+    void checkCollisions();
     void checkGameOver();
     int returnFoodOnThisField(int i, int j);
     bool anyMovedBodypartOnThisField(int i, int j);

@@ -45,3 +45,11 @@ std::vector<SnakeBodyPart> *Snake::getBody()
 {
     return &body;
 }
+void Snake::loseHealth(int health)
+{
+    this->health -= health;
+}
+int Snake::getHealth()
+{
+    return this->health;
+}

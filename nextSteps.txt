@@ -4,7 +4,7 @@
     - Add Quests
 - Background image (also in spritegrid)
 - Enemies
-- Health
+- show Health in ui
 - Power Ups
 - Create design documents
 - Sound

@@ -36,6 +36,7 @@ public:
     bool isInitialized() { return initialized; }
     void setInitialized(bool initialized) { this->initialized = initialized; }
     void setScore(int count) override;
+    void setHealth(int count) override;
     void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) override;
     void setWinCondition(WinCondition condition) override;
 };

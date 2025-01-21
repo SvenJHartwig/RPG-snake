@@ -31,6 +31,10 @@ bool InfiniteGameMode::operator==(IGameMode const &other) const
         return true;
     return false;
 }
+bool InfiniteGameMode::hasHealth()
+{
+    return false;
+}
 
 RPGGameMode::RPGGameMode(IGameController *controller)
 {
@@ -82,4 +86,8 @@ bool RPGGameMode::operator==(IGameMode const &other) const
     if (dynamic_cast<const RPGGameMode *>(&other))
         return true;
     return false;
+}
+bool RPGGameMode::hasHealth()
+{
+    return true;
 }

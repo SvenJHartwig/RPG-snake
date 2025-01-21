@@ -147,6 +147,10 @@ void GameController::mainLoopIteration()
     }
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
+    if (gameMode->hasHealth())
+    {
+        view->setHealth(gridController->getSnake()->getHealth());
+    }
     if (gameMode->checkWinCondition())
     {
         level++;

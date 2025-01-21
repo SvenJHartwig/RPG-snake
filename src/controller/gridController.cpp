@@ -102,8 +102,8 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
     for (Mob *mob : *grid->getMobs())
     {
         Sprite temp = result->at(mob->getPosY())->at(mob->getPosX());
-        temp.texBaseX = 0.25f;
-        temp.texBaseY = 0.25f;
+        temp.texBaseX = 0.5f;
+        temp.texBaseY = 0.75f;
         result->at(mob->getPosY())->at(mob->getPosX()) = temp;
     }
     for (int snakeBodyIndex = 0; snakeBodyIndex < snake->getBody()->size(); snakeBodyIndex++)

@@ -17,6 +17,7 @@ public:
     virtual void addQuest(WinCondition condition) = 0;
     virtual bool operator==(IGameMode const &other) const = 0;
     virtual bool checkWinCondition() = 0;
+    virtual bool hasHealth() = 0;
 };
 
 class GameModeFactory
@@ -36,6 +37,7 @@ public:
     void addQuest(WinCondition condition) override;
     bool checkWinCondition() override;
     bool operator==(IGameMode const &other) const override;
+    bool hasHealth() override;
 };
 
 class RPGGameMode : public IGameMode
@@ -51,4 +53,5 @@ public:
     void addQuest(WinCondition condition) override;
     bool checkWinCondition() override;
     bool operator==(IGameMode const &other) const override;
+    bool hasHealth() override;
 };

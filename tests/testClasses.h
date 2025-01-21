@@ -54,6 +54,7 @@ class TestView : public IGameView
     int init() override { return 0; }
     void gameStateChanged(GameState game_state) override {}
     void setScore(int count) override {}
+    void setHealth(int count) override {}
     void setGrid(vector<vector<Sprite> *> *grid) override {}
     void setWinCondition(WinCondition condition) override {}
 };

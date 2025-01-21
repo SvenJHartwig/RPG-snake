@@ -75,8 +75,8 @@ void GlView::initGameScene()
     Text *scoreText = new Text(0, 0, 100, 20);
     scoreText->text = "Score: 0";
     inGame->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
-    Image *image = new Image(windowWidth / 2 - 320, 80, windowWidth / 2 + 320, 720, ((std::string)RESOURCE_DIR).append("/textures/grid.png").c_str());
-    inGame->scene_elements->push_back(image);
+    Image *background = new Image(windowWidth / 2 - 320, 80, windowWidth / 2 + 320, 720, ((std::string)RESOURCE_DIR).append("/textures/background.png").c_str());
+    inGame->scene_elements->push_back(background);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.25f);
     spriteGrid->setGrid(new vector<vector<SEngine::Sprite> *>());
@@ -84,6 +84,9 @@ void GlView::initGameScene()
     Text *winConText = new Text(0, 20, 100, 40);
     winConText->text = "Win condition: ";
     inGame->scene_elements->push_back(winConText);
+    Text *healthText = new Text(0, 40, 100, 60);
+    healthText->text = "";
+    inGame->scene_elements->push_back(healthText);
 }
 
 void GlView::initGameOverScene()
@@ -143,12 +146,17 @@ void GlView::setScore(int count)
     static_cast<Text *>(inGame->scene_elements->at(0))->text = "Score: " + std::to_string(count);
 }
 
-void GlView::setGrid(vector<vector<SEngine::Sprite> *> *grid)
-{
-    static_cast<SpriteGrid *>(inGame->scene_elements->at(2))->setGrid(grid);
-}
-
 void GlView::setWinCondition(WinCondition condition)
 {
     static_cast<Text *>(inGame->scene_elements->at(3))->text = "Win condition: " + condition.toString();
+}
+
+void GlView::setHealth(int count)
+{
+    static_cast<Text *>(inGame->scene_elements->at(4))->text = "Health: " + std::to_string(count);
+}
+
+void GlView::setGrid(vector<vector<SEngine::Sprite> *> *grid)
+{
+    static_cast<SpriteGrid *>(inGame->scene_elements->at(2))->setGrid(grid);
 }

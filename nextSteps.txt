@@ -2,7 +2,6 @@
     - Add teleporters between maps
     - Add NPCs
     - Add Quests
-- Background image (also in spritegrid)
 - Enemies
 - show Health in ui
 - Power Ups

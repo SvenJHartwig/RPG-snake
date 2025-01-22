@@ -3,3 +3,4 @@ Required installs:
 - OpenGL
 - GLFW
 - FreeType2
+- SFML

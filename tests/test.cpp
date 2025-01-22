@@ -211,6 +211,7 @@ TEST_CASE("Movement in opposite direction of last direction is not possible if s
   GameController *gameController = new GameController();
   // Set gamestate to INGAME
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_P);
   gameController->eat(false);
   gameController->reactOnInput(GLFW_KEY_LEFT);
@@ -256,6 +257,7 @@ TEST_CASE("Movement in opposite direction of last direction is possible if snake
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_LEFT);
   gameController->mainLoopIteration();
   REQUIRE(gameController->getLastDirection() == 'a');
@@ -286,6 +288,7 @@ TEST_CASE("Speed setting increases")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   GridController *gridController = gameController->getGridController();
   gridController->setRNG(new TestGenerator());
   Snake *snake = gridController->getSnake();
@@ -321,6 +324,7 @@ TEST_CASE("sometimes one additional food is generated")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   GridController *gridController = gameController->getGridController();
   TestGenerator *trng = new TestGenerator();
   gridController->setRNG(trng);
@@ -340,15 +344,19 @@ TEST_CASE("Pressing enter starts game")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  TestSoundController *soundController = new TestSoundController();
+  gameController->setSoundController(soundController);
   REQUIRE(gameController->getGameState() == MAIN_MENU);
   gameController->reactOnInput(GLFW_KEY_P);
   REQUIRE(gameController->getGameState() == IN_GAME);
+  REQUIRE(soundController->requestedBackgroundMusic);
 }
 
 TEST_CASE("After Game Over pause before going to main menu")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   gameController->getGridController()->moveSnakeUp();
   gameController->getGridController()->moveSnakeUp();
   gameController->getGridController()->moveSnakeUp();
@@ -376,6 +384,7 @@ TEST_CASE("Game Over on eating own tail")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   gameController->getGridController()->getSnake()->eat();
   gameController->getGridController()->getSnake()->eat();
   gameController->getGridController()->getSnake()->eat();
@@ -397,6 +406,7 @@ TEST_CASE("Special food has a time out")
   REQUIRE(spFood->remainingTime() == 20);
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   GridController *gridController = gameController->getGridController();
   TestGenerator *trng = new TestGenerator();
   gridController->setRNG(trng);
@@ -506,6 +516,7 @@ TEST_CASE("Only appropriate input works while in game")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_O);
   REQUIRE(gameController->getGameState() == IN_GAME);
   gameController->reactOnInput(GLFW_KEY_LEFT);
@@ -517,6 +528,7 @@ TEST_CASE("Exit game")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_L);
   REQUIRE(gameController->getGameState() == EXIT);
 }
@@ -525,6 +537,7 @@ TEST_CASE("Win game")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_O);
   REQUIRE(gameController->getLevel() == 1);
   REQUIRE(gameController->getGameState() == IN_GAME);
@@ -559,6 +572,7 @@ TEST_CASE("Infinite game")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_P);
   REQUIRE(gameController->getGameState() == IN_GAME);
   for (int i = 0; i < 20; i++)
@@ -599,6 +613,7 @@ TEST_CASE("Win game with win condition: time")
 {
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_O);
   string path = RESOURCE_DIR;
   path.append("/tests/level/levelWithWincon2Binary");

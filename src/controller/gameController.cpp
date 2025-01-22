@@ -19,6 +19,10 @@ void GameController::setView(IGameView *view)
 {
     this->view = view;
 }
+void GameController::setSoundController(ISoundController *soundController)
+{
+    this->soundController = soundController;
+}
 
 void GameController::reactOnInput(int input)
 {
@@ -30,6 +34,7 @@ void GameController::reactOnInput(int input)
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
             view->setWinCondition(gridController->getGrid()->getWinCondition());
+            soundController->playBackgroundMusic();
         }
         else if (input == GLFW_KEY_O)
         {

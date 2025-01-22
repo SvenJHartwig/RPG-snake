@@ -9,6 +9,7 @@
 #include "../src/view/engine/elements/button.h"
 #include "../src/view/engine/elements/text.h"
 #include "../src/view/engine/renderEngine.h"
+#include "../src/controller/iSoundController.h"
 
 using SEngine::RenderData, SEngine::Button, SEngine::IRenderEngine, SEngine::RenderEngine, SEngine::Text, SEngine::Sprite, SEngine::Scene, SEngine::IEngineCallback, SEngine::SpriteGrid;
 using std::vector, std::string;
@@ -88,4 +89,15 @@ public:
     void addScene(Scene *currentScene) {}
     void renderingLoop() {}
     int init() { return 0; }
+};
+
+class TestSoundController : public ISoundController
+{
+public:
+    bool requestedBackgroundMusic = false;
+    int playBackgroundMusic()
+    {
+        requestedBackgroundMusic = true;
+        return 0;
+    };
 };

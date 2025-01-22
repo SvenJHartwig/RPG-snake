@@ -3,7 +3,6 @@
     - Add NPCs
     - Add Quests
 - Enemies
-- show Health in ui
 - Power Ups
 - Create design documents
 - Sound

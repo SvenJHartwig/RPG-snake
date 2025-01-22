@@ -4,6 +4,7 @@
 #include "../view/iGameView.h"
 #include "../model/gameMode.h"
 #include "iEatListener.h"
+#include "iSoundController.h"
 
 class GameController : public IGameController,
                        public IEatListener
@@ -11,6 +12,7 @@ class GameController : public IGameController,
 private:
     GridController *gridController;
     IGameView *view;
+    ISoundController *soundController;
     bool windowClosed = false;
     char lastInput;
     SpeedSetting speed = l1;
@@ -28,6 +30,7 @@ public:
     void reactOnInput(int input) override;
     void setWindowClosed(bool closed) override;
     void setView(IGameView *view);
+    void setSoundController(ISoundController *soundController);
     void mainLoop();
     void mainLoopIteration();
     GridController *getGridController();

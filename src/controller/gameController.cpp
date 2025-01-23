@@ -34,7 +34,7 @@ void GameController::reactOnInput(int input)
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
             view->setWinCondition(gridController->getGrid()->getWinCondition());
-            soundController->playBackgroundMusic();
+            soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/background.mp3"));
         }
         else if (input == GLFW_KEY_O)
         {
@@ -47,6 +47,7 @@ void GameController::reactOnInput(int input)
             gameMode->addQuest(gridController->getGrid()->getWinCondition());
             view->gameStateChanged(gameState);
             view->setWinCondition(gridController->getGrid()->getWinCondition());
+            soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/background.mp3"));
         }
         else if (input == GLFW_KEY_L)
         {
@@ -86,6 +87,7 @@ void GameController::reactOnInput(int input)
             resetGame();
             gameState = MAIN_MENU;
             view->gameStateChanged(gameState);
+            soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/mainMenu.mp3"));
         }
         break;
     case WIN:
@@ -111,6 +113,7 @@ void GameController::mainLoop()
     view->setGameController(this);
     gridController->updateGrid();
     view->init();
+    soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/mainMenu.mp3"));
 
     while (gameState != EXIT && !windowClosed)
     {
@@ -186,6 +189,7 @@ SpeedSetting GameController::getSpeed()
 
 void GameController::eat(bool isSpecial)
 {
+    soundController->playSoundEffect(static_cast<std::string>(RESOURCE_DIR).append("/sfx/eat.mp3"));
     if (isSpecial)
         score += 2;
     else

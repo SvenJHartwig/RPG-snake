@@ -95,9 +95,13 @@ class TestSoundController : public ISoundController
 {
 public:
     bool requestedBackgroundMusic = false;
-    int playBackgroundMusic()
+    int playBackgroundMusic(std::string path)
     {
         requestedBackgroundMusic = true;
         return 0;
     };
+    int playSoundEffect(std::string path)
+    {
+        return 0;
+    }
 };

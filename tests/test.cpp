@@ -216,36 +216,51 @@ TEST_CASE("Movement in opposite direction of last direction is not possible if s
   gameController->eat(false);
   gameController->reactOnInput(GLFW_KEY_LEFT);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
+  REQUIRE(gameController->getLastDirection() == ' ');
+  gameController->reactOnInput(GLFW_KEY_LEFT);
+  gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'a');
   gameController->reactOnInput(GLFW_KEY_RIGHT);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'a');
   gameController->reactOnInput(GLFW_KEY_UP);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'w');
   gameController->reactOnInput(GLFW_KEY_DOWN);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'w');
   gameController->reactOnInput(GLFW_KEY_RIGHT);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'd');
   gameController->reactOnInput(GLFW_KEY_LEFT);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'd');
   gameController->reactOnInput(GLFW_KEY_DOWN);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 's');
   gameController->reactOnInput(GLFW_KEY_UP);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 's');
   gameController->reactOnInput(GLFW_KEY_E);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 's');
   gameController->reactOnInput(GLFW_KEY_L);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 's');
   gameController->reactOnInput(GLFW_KEY_P);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 's');
   gameController->setGameState(EXIT);
   gameController->reactOnInput(GLFW_KEY_I);
@@ -256,31 +271,40 @@ TEST_CASE("Movement in opposite direction of last direction is not possible if s
 TEST_CASE("Movement in opposite direction of last direction is possible if snake is exactly 1 long")
 {
   GameController *gameController = new GameController();
+  gameController->setTicksSinceLastMovement(1000);
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_LEFT);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'a');
   gameController->reactOnInput(GLFW_KEY_RIGHT);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'd');
   gameController->reactOnInput(GLFW_KEY_UP);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'w');
   gameController->reactOnInput(GLFW_KEY_DOWN);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 's');
   gameController->reactOnInput(GLFW_KEY_RIGHT);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'd');
   gameController->reactOnInput(GLFW_KEY_LEFT);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'a');
   gameController->reactOnInput(GLFW_KEY_DOWN);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 's');
   gameController->reactOnInput(GLFW_KEY_UP);
   gameController->mainLoopIteration();
+  gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 'w');
 }
 
@@ -612,6 +636,7 @@ TEST_CASE("Load level with win condition from disk")
 TEST_CASE("Win game with win condition: time")
 {
   GameController *gameController = new GameController();
+  gameController->setTicksSinceLastMovement(1000);
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_O);
@@ -626,18 +651,21 @@ TEST_CASE("Win game with win condition: time")
   for (int i = 0; i < 8; i++)
   {
     gameController->mainLoopIteration();
+    gameController->setTicksSinceLastMovement(1000);
   }
   // 5 Steps to the bottom
   gameController->reactOnInput(GLFW_KEY_DOWN);
   for (int i = 0; i < 5; i++)
   {
     gameController->mainLoopIteration();
+    gameController->setTicksSinceLastMovement(1000);
   }
   // 8 Steps to the left
   gameController->reactOnInput(GLFW_KEY_LEFT);
   for (int i = 0; i < 8; i++)
   {
     gameController->mainLoopIteration();
+    gameController->setTicksSinceLastMovement(1000);
   }
   // After 20 steps, the win condition is fulfilled
   REQUIRE(gameController->getGameState() == WIN);
@@ -646,12 +674,15 @@ TEST_CASE("Win game with win condition: time")
 TEST_CASE("Mobs moving around")
 {
   GridController *gridController = new GridController(new TestEatListener());
-  gridController->addMob(new Enemy(2, 2));
+  Enemy *enemy = new Enemy(2, 2);
+  gridController->addMob(enemy);
   REQUIRE(gridController->getMobs()->size() == 1);
+  enemy->setTicksSinceLastMovement(1000);
   gridController->updateGrid();
   REQUIRE((gridController->getMobs()->at(0)->getPosX() != 2 || gridController->getMobs()->at(0)->getPosY() != 2));
   for (int i = 0; i < 20; i++)
   {
+    enemy->setTicksSinceLastMovement(1000);
     gridController->updateGrid();
   }
   REQUIRE(gridController->getMobs()->at(0)->getPosX() == 18);
@@ -661,9 +692,11 @@ TEST_CASE("Mobs moving around")
   string path = RESOURCE_DIR;
   path.append("/tests/level/level2Binary");
   gridController->loadLevel(path.c_str());
-  gridController->addMob(new Enemy(2, 2));
+  Enemy *enemy2 = new Enemy(2, 2);
+  gridController->addMob(enemy2);
   for (int i = 0; i < 20; i++)
   {
+    enemy2->setTicksSinceLastMovement(1000);
     gridController->updateGrid();
   }
   REQUIRE(gridController->getMobs()->at(0)->getPosX() == 2);
@@ -672,16 +705,20 @@ TEST_CASE("Mobs moving around")
 TEST_CASE("Mobs damaging the player")
 {
   GridController *gridController = new GridController(new TestEatListener());
-  gridController->addMob(new Enemy(2, 2));
+  Enemy *enemy = new Enemy(2, 2);
+  gridController->addMob(enemy);
   REQUIRE(gridController->getMobs()->size() == 1);
   gridController->getSnake()->setPosX(3);
   gridController->getSnake()->setPosY(2);
+  enemy->setTicksSinceLastMovement(1000);
   gridController->updateGrid();
   REQUIRE(gridController->getSnake()->getHealth() == 2);
   gridController->getSnake()->setPosX(4);
+  enemy->setTicksSinceLastMovement(1000);
   gridController->updateGrid();
   REQUIRE(gridController->getSnake()->getHealth() == 1);
   gridController->getSnake()->setPosX(5);
+  enemy->setTicksSinceLastMovement(1000);
   gridController->updateGrid();
   REQUIRE(gridController->getSnake()->getHealth() == 0);
   REQUIRE(gridController->isGameOver());

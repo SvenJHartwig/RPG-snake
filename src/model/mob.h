@@ -24,7 +24,10 @@ public:
 class Enemy : public Mob
 {
 private:
+    int ticksSinceLastMovement = 0;
+
 public:
+    void setTicksSinceLastMovement(int ticksSinceLastMovement);
     void serialize(std::ofstream *outFile) override;
     void tick();
     Enemy(int pos_x, int pos_y);

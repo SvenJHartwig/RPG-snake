@@ -5,6 +5,10 @@ IntendedAction Mob::getIntendedAction()
     return intendedAction;
 }
 
+void Enemy::setTicksSinceLastMovement(int ticksSinceLastMovement)
+{
+    this->ticksSinceLastMovement = ticksSinceLastMovement;
+}
 void Enemy::serialize(std::ofstream *outFile)
 {
     outFile->write(reinterpret_cast<const char *>(&"E"), sizeof(char));
@@ -13,7 +17,13 @@ void Enemy::serialize(std::ofstream *outFile)
 }
 void Enemy::tick()
 {
-    intendedAction = IntendedAction::MOVE_RIGHT;
+    intendedAction = IntendedAction::NONE;
+    ticksSinceLastMovement++;
+    if (ticksSinceLastMovement > 100)
+    {
+        intendedAction = IntendedAction::MOVE_RIGHT;
+        ticksSinceLastMovement = 0;
+    }
 }
 
 Enemy::Enemy(int pos_x, int pos_y)

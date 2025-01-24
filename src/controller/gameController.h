@@ -18,6 +18,7 @@ private:
     SpeedSetting speed = l1;
     int eatCount = 0;
     int score = 0;
+    int ticksSinceMovement = 0;
     long steps = 0;
     char lastDirection = ' ';
     GameState gameState = MAIN_MENU;
@@ -45,6 +46,7 @@ public:
     void softReset();
     void resetGame();
     int getLevel() { return level; }
+    void setTicksSinceLastMovement(int ticksSinceMovement) { this->ticksSinceMovement = ticksSinceMovement; }
     void setGameMode(GameModeEnum mode) { gameMode = GameModeFactory::createGameMode(mode, this); }
     IGameMode *getGameMode() { return gameMode; }
 };

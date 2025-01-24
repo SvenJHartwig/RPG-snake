@@ -121,37 +121,41 @@ void GameController::mainLoop()
         {
             mainLoopIteration();
         }
-        usleep(speed);
+        usleep(10000);
+        ticksSinceMovement++;
     }
 }
 
 void GameController::mainLoopIteration()
 {
-
-    switch (lastInput)
+    if (ticksSinceMovement >= speed)
     {
-    case 'd':
-        lastDirection = 'd';
-        gridController->moveSnakeRight();
-        steps++;
-        break;
-    case 'w':
-        lastDirection = 'w';
-        gridController->moveSnakeUp();
-        steps++;
-        break;
-    case 'a':
-        lastDirection = 'a';
-        gridController->moveSnakeLeft();
-        steps++;
-        break;
-    case 's':
-        lastDirection = 's';
-        gridController->moveSnakeDown();
-        steps++;
-        break;
-    default:
-        break;
+        ticksSinceMovement = 0;
+        switch (lastInput)
+        {
+        case 'd':
+            lastDirection = 'd';
+            gridController->moveSnakeRight();
+            steps++;
+            break;
+        case 'w':
+            lastDirection = 'w';
+            gridController->moveSnakeUp();
+            steps++;
+            break;
+        case 'a':
+            lastDirection = 'a';
+            gridController->moveSnakeLeft();
+            steps++;
+            break;
+        case 's':
+            lastDirection = 's';
+            gridController->moveSnakeDown();
+            steps++;
+            break;
+        default:
+            break;
+        }
     }
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());

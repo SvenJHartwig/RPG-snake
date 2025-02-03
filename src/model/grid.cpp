@@ -80,6 +80,7 @@ void Grid::saveToFile(const std::string &filename)
 // If the file doesn't match the format the grid is reset.
 void Grid::loadFromFile(const std::string &filename)
 {
+    mobs->clear();
     std::ifstream inFile(filename, std::ios::binary);
     if (!inFile)
     {
@@ -128,7 +129,7 @@ void Grid::loadFromFile(const std::string &filename)
                     std::string path;
                     inFile.read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
                     path.resize(strLength);
-                    inFile.read(&path[0], strLength); // Load string content
+                    inFile.read(&path[0], strLength);
                     level->at(i)->at(j) = new Teleporter(x, y, path);
                 }
             }

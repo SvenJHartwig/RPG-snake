@@ -148,7 +148,7 @@ void GlView::setScore(int count)
 
 void GlView::setWinCondition(WinCondition condition)
 {
-    static_cast<Text *>(inGame->scene_elements->at(3))->text = "Win condition: " + condition.toString();
+    static_cast<Text *>(inGame->scene_elements->at(3))->text = "Quests: " + condition.toString();
 }
 
 void GlView::setHealth(int count)

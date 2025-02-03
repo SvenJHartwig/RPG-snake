@@ -71,14 +71,16 @@ void RPGGameMode::addQuest(WinCondition condition)
 
 bool RPGGameMode::checkWinCondition()
 {
+    return false;
+    /*   For now, ignore quests. Reimplement when quest givers and rewards are added
     for (int i = 0; i < quests->size(); i++)
-    {
-        if (!checkWinCondition(quests->at(i)))
-        {
-            return false;
-        }
-    }
-    return true;
+       {
+           if (!checkWinCondition(quests->at(i)))
+           {
+               return false;
+           }
+       }
+       return true;*/
 }
 
 bool RPGGameMode::operator==(IGameMode const &other) const

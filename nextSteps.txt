@@ -1,5 +1,4 @@
 - Switch level files to binary format, this allows to:
-    - Add teleporters between maps
     - Add NPCs
     - Add Quests
 - Enemies

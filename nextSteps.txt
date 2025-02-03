@@ -3,6 +3,7 @@
     - Add Quests
 - Enemies
 - Power Ups
+- Savestates
 - Create design documents
 - Fix different grid sizes
 - Fix crash on loading a file with not the correct format

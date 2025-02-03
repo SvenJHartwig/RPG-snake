@@ -53,7 +53,7 @@ Teleporter::Teleporter(int pos_x, int pos_y, std::string path)
 }
 void Teleporter::snakeOnElement(IGridController *controller)
 {
-    controller->loadLevel(path);
+    controller->loadLevel(static_cast<string>(RESOURCE_DIR).append(path));
 }
 void Teleporter::serialize(std::ofstream *outFile)
 {

@@ -101,8 +101,7 @@ int main()
             {
                 std::cout << "File name:\n";
                 std::cin >> input;
-                std::string mapPath = RESOURCE_DIR;
-                mapPath.append(input);
+                std::string mapPath = input;
                 grid->getLevel()->at(y)->at(x) = new Teleporter(x, y, mapPath);
             }
             else if (input.compare("5") == 0)

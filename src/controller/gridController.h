@@ -36,7 +36,6 @@ private:
     RandomGenerator *rng;
     Grid *grid;
     IEatListener *eatListener;
-    std::vector<Teleporter *> *teleporters;
 
     void updateMobs();
     void updateCollisionMap();

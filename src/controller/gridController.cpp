@@ -43,7 +43,6 @@ GridController::GridController(IEatListener *eatListener)
     food = new std::vector<Food *>(1, new Food());
     grid = new Grid();
     snake = new Snake();
-    teleporters = new std::vector<Teleporter *>();
 }
 
 GridController::~GridController()
@@ -74,6 +73,11 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
             {
                 tempSprite.texBaseX = 0.0f;
                 tempSprite.texBaseY = 0.0f;
+            }
+            else if (dynamic_cast<Teleporter *>(grid->getLevel()->at(yCoord)->at(xCoord)))
+            {
+                tempSprite.texBaseX = 0.75f;
+                tempSprite.texBaseY = 0.75f;
             }
             else
             {
@@ -258,13 +262,7 @@ void GridController::checkCollisions()
             }
         }
     }
-    for (Teleporter *porter : *teleporters)
-    {
-        if (porter->getPosX() == snake->getPosX() && porter->getPosY() == snake->getPosY())
-        {
-            porter->snakeOnElement(this);
-        }
-    }
+    grid->getLevel()->at(snake->getPosY())->at(snake->getPosX())->snakeOnElement(this);
 }
 
 void GridController::updateCollisionMap()

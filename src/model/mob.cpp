@@ -5,6 +5,7 @@ IntendedAction Mob::getIntendedAction()
     return intendedAction;
 }
 
+void Enemy::snakeOnElement(IGridController *controller) {}
 void Enemy::setTicksSinceLastMovement(int ticksSinceLastMovement)
 {
     this->ticksSinceLastMovement = ticksSinceLastMovement;

@@ -6,7 +6,7 @@
 #include "../model/winCondition.h"
 #include "../view/engine/elements/spriteGrid.h"
 #include "iEatListener.h"
-#include <string>
+#include "iGridController.h"
 #include <set>
 #include <map>
 
@@ -27,7 +27,7 @@ public:
     int getRandom(int max_value) override;
 };
 
-class GridController
+class GridController : public IGridController
 {
 private:
     Snake *snake;
@@ -36,6 +36,7 @@ private:
     RandomGenerator *rng;
     Grid *grid;
     IEatListener *eatListener;
+    std::vector<Teleporter *> *teleporters;
 
     void updateMobs();
     void updateCollisionMap();
@@ -59,7 +60,7 @@ public:
     void generateNewFood(int i, int j);
     void generateNewSpecialFood(int i, int j);
     void reset();
-    void loadLevel(std::string path);
+    void loadLevel(std::string path) override;
     Grid *getGrid();
     std::vector<Food *> *getFood();
     Snake *getSnake();

@@ -119,7 +119,17 @@ void Grid::loadFromFile(const std::string &filename)
                 }
                 if (gridElementType == 'E')
                 {
+                    level->at(i)->at(j) = new Enemy(x, y);
                     mobs->push_back(new Enemy(x, y));
+                }
+                if (gridElementType == 'T')
+                {
+                    size_t strLength;
+                    std::string path;
+                    inFile.read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
+                    path.resize(strLength);
+                    inFile.read(&path[0], strLength); // Load string content
+                    level->at(i)->at(j) = new Teleporter(x, y, path);
                 }
             }
         }

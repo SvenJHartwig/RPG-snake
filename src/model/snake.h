@@ -7,6 +7,7 @@ class Food : public GridElement
 {
 
 public:
+    void snakeOnElement(IGridController *controller) override;
     void serialize(std::ofstream *outFile) override;
     Food();
     ~Food();
@@ -18,6 +19,7 @@ private:
     int remainingMoves = 0;
 
 public:
+    void snakeOnElement(IGridController *controller) override;
     void serialize(std::ofstream *outFile) override;
     SpecialFood() { remainingMoves = 20; }
     int remainingTime() { return remainingMoves; }
@@ -40,6 +42,7 @@ private:
     bool has_moved = false;
 
 public:
+    void snakeOnElement(IGridController *controller) override;
     void serialize(std::ofstream *outFile) override;
     BodyPartFacing facing = HORIZONTAL;
     SnakeBodyPart(int pos_x, int pos_y);
@@ -64,6 +67,7 @@ private:
     std::vector<SnakeBodyPart> body;
 
 public:
+    void snakeOnElement(IGridController *controller) override;
     void serialize(std::ofstream *outFile) override;
     Facing facing = RIGHT;
     Snake();

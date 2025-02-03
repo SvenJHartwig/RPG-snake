@@ -27,6 +27,7 @@ private:
     int ticksSinceLastMovement = 0;
 
 public:
+    void snakeOnElement(IGridController *controller);
     void setTicksSinceLastMovement(int ticksSinceLastMovement);
     void serialize(std::ofstream *outFile) override;
     void tick();

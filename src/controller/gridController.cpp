@@ -43,6 +43,7 @@ GridController::GridController(IEatListener *eatListener)
     food = new std::vector<Food *>(1, new Food());
     grid = new Grid();
     snake = new Snake();
+    teleporters = new std::vector<Teleporter *>();
 }
 
 GridController::~GridController()
@@ -255,6 +256,13 @@ void GridController::checkCollisions()
             {
                 game_over = true;
             }
+        }
+    }
+    for (Teleporter *porter : *teleporters)
+    {
+        if (porter->getPosX() == snake->getPosX() && porter->getPosY() == snake->getPosY())
+        {
+            porter->snakeOnElement(this);
         }
     }
 }

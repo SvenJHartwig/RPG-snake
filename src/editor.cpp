@@ -31,7 +31,7 @@ int main()
                 std::cin >> input;
                 path.append(input);
                 grid = new Grid();
-                loadLevelFromTextFile(path.c_str(), grid);
+                loadLevelFromBinaryFile(path.c_str(), grid);
                 state = 1;
             }
             else if (input.compare("2") == 0)
@@ -78,12 +78,12 @@ int main()
         }
         else if (state == 2)
         {
-            std::cout << "Loaded: " << path << "\n";
             std::cout << "Choose option:\n";
             std::cout << "1 - Wall\n";
             std::cout << "2 - Ground\n";
             std::cout << "3 - Enemy\n";
-            std::cout << "4 - Back:\n";
+            std::cout << "4 - Teleporter\n";
+            std::cout << "5 - Back:\n";
             std::cin >> input;
             if (input.compare("1") == 0)
             {
@@ -97,7 +97,15 @@ int main()
             {
                 grid->getLevel()->at(y)->at(x) = new Enemy(x, y);
             }
-            else if (input.compare("4") == 0)
+            if (input.compare("4") == 0)
+            {
+                std::cout << "File name:\n";
+                std::cin >> input;
+                std::string mapPath = RESOURCE_DIR;
+                mapPath.append(input);
+                grid->getLevel()->at(y)->at(x) = new Teleporter(x, y, mapPath);
+            }
+            else if (input.compare("5") == 0)
             {
                 state = 1;
             }

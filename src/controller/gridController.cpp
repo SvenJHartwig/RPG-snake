@@ -187,6 +187,7 @@ void GridController::updateMobs()
             {
                 mob->setPosX(newPos);
             }
+            checkMobCollision(mob);
             break;
         case IntendedAction::MOVE_LEFT:
             newPos = mob->getPosX() - 1;
@@ -198,6 +199,7 @@ void GridController::updateMobs()
             {
                 mob->setPosX(newPos);
             }
+            checkMobCollision(mob);
             break;
         case IntendedAction::MOVE_UP:
             newPos = mob->getPosY() - 1;
@@ -209,6 +211,7 @@ void GridController::updateMobs()
             {
                 mob->setPosY(newPos);
             }
+            checkMobCollision(mob);
             break;
         case IntendedAction::MOVE_DOWN:
             newPos = (mob->getPosY() + 1) % grid->getGridSizeY();
@@ -216,9 +219,22 @@ void GridController::updateMobs()
             {
                 mob->setPosY(newPos);
             }
+            checkMobCollision(mob);
             break;
         default:
             break;
+        }
+    }
+}
+
+void GridController::checkMobCollision(Mob *mob)
+{
+    if (anyMovedBodypartOnThisField(mob->getPosY(), mob->getPosX()) || mob->getPosX() == snake->getPosX() && mob->getPosY() == snake->getPosY())
+    {
+        snake->loseHealth(1);
+        if (snake->getHealth() <= 0)
+        {
+            game_over = true;
         }
     }
 }
@@ -249,17 +265,6 @@ void GridController::checkCollisions()
         else
         {
             food->erase(food->begin() + indexOfFoodOnThisField);
-        }
-    }
-    for (Mob *mob : *grid->getMobs())
-    {
-        if (anyMovedBodypartOnThisField(mob->getPosY(), mob->getPosX()) || mob->getPosX() == snake->getPosX() && mob->getPosY() == snake->getPosY())
-        {
-            snake->loseHealth(1);
-            if (snake->getHealth() <= 0)
-            {
-                game_over = true;
-            }
         }
     }
     grid->getLevel()->at(snake->getPosY())->at(snake->getPosX())->snakeOnElement(this);

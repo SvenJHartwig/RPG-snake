@@ -5,6 +5,7 @@
 #include <chrono>
 #include <thread>
 #include "testClasses.h"
+#include <stdio.h>
 
 using std::vector, std::string;
 
@@ -75,11 +76,12 @@ TEST_CASE("Game scene is initialized correctly")
     REQUIRE(inGame->scene_elements->at(2)->getPosXTopLeft() == 192);
     REQUIRE(inGame->scene_elements->at(2)->getPosYTopLeft() == 80);
     view->setWinCondition(WinCondition(SCORE, 20));
-    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Win condition: 20 points") == 0);
+    std::cout << static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text;
+    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: 20 points") == 0);
     view->setWinCondition(WinCondition(TIME, 20));
-    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Win condition: 20 steps") == 0);
+    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: 20 steps") == 0);
     view->setWinCondition(WinCondition(NONE, 20));
-    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Win condition: None") == 0);
+    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: None") == 0);
     glfwTerminate();
 }
 

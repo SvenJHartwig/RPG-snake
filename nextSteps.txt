@@ -3,6 +3,7 @@
     - Add Quests
 - Enemies
 - Power Ups
+- Move on own volition in RPG mode
 - Savestates
 - Create design documents
 - Fix different grid sizes

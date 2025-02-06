@@ -51,7 +51,8 @@ void inputL(IEngineCallback *gc)
 void GlView::initMainMenu()
 {
     int windowWidth, windowHeight;
-    glfwGetWindowSize(engine->getWindow(), &windowWidth, &windowHeight);
+    GLFWwindow *window = engine->getWindow();
+    glfwGetWindowSize(window, &windowWidth, &windowHeight);
     mainMenu = new Scene();
     Button *first = new Button(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
     first->text = "Begin game";

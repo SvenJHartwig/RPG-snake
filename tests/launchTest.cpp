@@ -75,12 +75,12 @@ TEST_CASE("Game scene is initialized correctly")
     REQUIRE(inGame->scene_elements->at(1)->getPosYTopLeft() == 80);
     REQUIRE(inGame->scene_elements->at(2)->getPosXTopLeft() == 192);
     REQUIRE(inGame->scene_elements->at(2)->getPosYTopLeft() == 80);
-    view->setWinCondition(WinCondition(SCORE, 20));
+    view->setQuests(WinCondition(SCORE, 20).toString());
     std::cout << static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text;
     REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: 20 points") == 0);
-    view->setWinCondition(WinCondition(TIME, 20));
+    view->setQuests(WinCondition(TIME, 20).toString());
     REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: 20 steps") == 0);
-    view->setWinCondition(WinCondition(NONE, 20));
+    view->setQuests(WinCondition(NONE, 20).toString());
     REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: None") == 0);
     glfwTerminate();
 }

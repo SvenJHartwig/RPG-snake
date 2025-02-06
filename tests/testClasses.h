@@ -57,7 +57,7 @@ class TestView : public IGameView
     void setScore(int count) override {}
     void setHealth(int count) override {}
     void setGrid(vector<vector<Sprite> *> *grid) override {}
-    void setWinCondition(WinCondition condition) override {}
+    void setQuests(string questNames) override {}
 };
 
 class TestGameController : public IGameController

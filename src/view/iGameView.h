@@ -15,5 +15,5 @@ public:
     virtual void setHealth(int count) = 0;
     virtual void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) = 0;
     virtual ~IGameView() {};
-    virtual void setWinCondition(WinCondition condition) = 0;
+    virtual void setQuests(std::string questNames) = 0;
 };

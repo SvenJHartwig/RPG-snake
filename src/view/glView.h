@@ -38,5 +38,5 @@ public:
     void setScore(int count) override;
     void setHealth(int count) override;
     void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) override;
-    void setWinCondition(WinCondition condition) override;
+    void setQuests(std::string questNames) override;
 };

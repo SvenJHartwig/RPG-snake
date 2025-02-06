@@ -147,9 +147,9 @@ void GlView::setScore(int count)
     static_cast<Text *>(inGame->scene_elements->at(0))->text = "Score: " + std::to_string(count);
 }
 
-void GlView::setWinCondition(WinCondition condition)
+void GlView::setQuests(string questNames)
 {
-    static_cast<Text *>(inGame->scene_elements->at(3))->text = "Quests: " + condition.toString();
+    static_cast<Text *>(inGame->scene_elements->at(3))->text = "Quests: " + questNames;
 }
 
 void GlView::setHealth(int count)

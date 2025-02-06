@@ -18,7 +18,7 @@ InfiniteGameMode::InfiniteGameMode(IGameController *controller)
 }
 
 void InfiniteGameMode::clearQuests() {}
-void InfiniteGameMode::addQuest(WinCondition *condition) {}
+void InfiniteGameMode::addQuest(std::string name, WinCondition *condition) {}
 
 std::vector<Quest *> *InfiniteGameMode::getQuests()
 {
@@ -44,9 +44,9 @@ void RPGGameMode::clearQuests()
 {
     quests->clear();
 }
-void RPGGameMode::addQuest(WinCondition *condition)
+void RPGGameMode::addQuest(std::string name, WinCondition *condition)
 {
-    quests->push_back(new Quest(controller, condition));
+    quests->push_back(new Quest(name, controller, condition));
 }
 std::vector<Quest *> *RPGGameMode::getQuests()
 {

@@ -22,8 +22,14 @@ bool Quest::checkWinCondition()
 {
     return checkWinCondition(*winCondition);
 }
-Quest::Quest(IGameController *controller, WinCondition *winCon)
+
+std::string Quest::getName()
 {
+    return name;
+}
+Quest::Quest(std::string name, IGameController *controller, WinCondition *winCon)
+{
+    this->name = name;
     this->controller = controller;
     winCondition = winCon;
 }

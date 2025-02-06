@@ -15,7 +15,7 @@ class IGameMode
 {
 public:
     virtual void clearQuests() = 0;
-    virtual void addQuest(WinCondition *condition) = 0;
+    virtual void addQuest(std::string name, WinCondition *condition) = 0;
     virtual std::vector<Quest *> *getQuests() = 0;
     virtual bool operator==(IGameMode const &other) const = 0;
     virtual bool hasHealth() = 0;
@@ -35,7 +35,7 @@ class InfiniteGameMode : public IGameMode
 public:
     InfiniteGameMode(IGameController *controller);
     void clearQuests() override;
-    void addQuest(WinCondition *condition) override;
+    void addQuest(std::string name, WinCondition *condition) override;
     std::vector<Quest *> *getQuests() override;
     bool operator==(IGameMode const &other) const override;
     bool hasHealth() override;
@@ -50,7 +50,7 @@ private:
 public:
     RPGGameMode(IGameController *controller);
     void clearQuests() override;
-    void addQuest(WinCondition *condition) override;
+    void addQuest(std::string name, WinCondition *condition) override;
     std::vector<Quest *> *getQuests() override;
     bool operator==(IGameMode const &other) const override;
     bool hasHealth() override;

@@ -646,7 +646,7 @@ TEST_CASE("Win game with win condition: time")
   gameController->getGridController()->loadLevel(path.c_str());
   gameController->getGameMode()->clearQuests();
   WinCondition winCon = gameController->getGridController()->getGrid()->getWinCondition();
-  gameController->getGameMode()->addQuest(&winCon);
+  gameController->getGameMode()->addQuest("Test", &winCon);
   REQUIRE(gameController->getGameState() == IN_GAME);
   // 8 Steps to the right
   gameController->reactOnInput(GLFW_KEY_RIGHT);
@@ -670,8 +670,7 @@ TEST_CASE("Win game with win condition: time")
     gameController->setTicksSinceLastMovement(1000);
   }
   // After 20 steps, the win condition is fulfilled
-  // TODO: Reimplement after adding quests
-  // REQUIRE(gameController->getGameState() == WIN);
+  REQUIRE(gameController->getGameMode()->getQuests()->at(0)->checkWinCondition());
 }
 
 TEST_CASE("Mobs moving around")

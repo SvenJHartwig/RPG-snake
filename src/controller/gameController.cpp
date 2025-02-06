@@ -33,7 +33,7 @@ void GameController::reactOnInput(int input)
         {
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
-            view->setWinCondition(gridController->getGrid()->getWinCondition());
+            view->setQuests(gridController->getGrid()->getWinCondition().toString());
             soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/background.mp3"));
         }
         else if (input == GLFW_KEY_O)
@@ -46,9 +46,9 @@ void GameController::reactOnInput(int input)
             gameMode = GameModeFactory::createGameMode(RPG, this);
 
             WinCondition winCon = gridController->getGrid()->getWinCondition();
-            gameMode->addQuest(&winCon);
+            gameMode->addQuest("First quest", &winCon);
             view->gameStateChanged(gameState);
-            view->setWinCondition(gridController->getGrid()->getWinCondition());
+            view->setQuests(gameMode->getQuests()->at(0)->getName());
             soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/background.mp3"));
         }
         else if (input == GLFW_KEY_L)
@@ -102,7 +102,7 @@ void GameController::reactOnInput(int input)
             gridController->updateGrid();
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
-            view->setWinCondition(gridController->getGrid()->getWinCondition());
+            view->setQuests(gridController->getGrid()->getWinCondition().toString());
         }
         break;
     default:
@@ -250,7 +250,7 @@ void GameController::softReset()
     gridController->reset();
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
-    view->setWinCondition(gridController->getGrid()->getWinCondition());
+    view->setQuests(gridController->getGrid()->getWinCondition().toString());
 }
 
 void GameController::resetGame()

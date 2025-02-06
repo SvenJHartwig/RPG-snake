@@ -44,7 +44,9 @@ void GameController::reactOnInput(int input)
             gridController->updateGrid();
             gameState = IN_GAME;
             gameMode = GameModeFactory::createGameMode(RPG, this);
-            gameMode->addQuest(gridController->getGrid()->getWinCondition());
+
+            WinCondition winCon = gridController->getGrid()->getWinCondition();
+            gameMode->addQuest(&winCon);
             view->gameStateChanged(gameState);
             view->setWinCondition(gridController->getGrid()->getWinCondition());
             soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/background.mp3"));
@@ -163,12 +165,12 @@ void GameController::mainLoopIteration()
     {
         view->setHealth(gridController->getSnake()->getHealth());
     }
-    if (gameMode->checkWinCondition())
-    {
-        level++;
-        gameState = WIN;
-        view->gameStateChanged(gameState);
-    }
+    /* if (gameMode->checkWinCondition())
+     {
+         level++;
+         gameState = WIN;
+         view->gameStateChanged(gameState);
+     }*/
     if (gridController->isGameOver())
     {
         gameState = GAME_OVER;

@@ -645,7 +645,8 @@ TEST_CASE("Win game with win condition: time")
   path.append("/tests/level/levelWithWincon2Binary");
   gameController->getGridController()->loadLevel(path.c_str());
   gameController->getGameMode()->clearQuests();
-  gameController->getGameMode()->addQuest(gameController->getGridController()->getGrid()->getWinCondition());
+  WinCondition winCon = gameController->getGridController()->getGrid()->getWinCondition();
+  gameController->getGameMode()->addQuest(&winCon);
   REQUIRE(gameController->getGameState() == IN_GAME);
   // 8 Steps to the right
   gameController->reactOnInput(GLFW_KEY_RIGHT);

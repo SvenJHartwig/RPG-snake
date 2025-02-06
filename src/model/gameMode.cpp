@@ -18,13 +18,12 @@ InfiniteGameMode::InfiniteGameMode(IGameController *controller)
 }
 
 void InfiniteGameMode::clearQuests() {}
-void InfiniteGameMode::addQuest(WinCondition condition) {}
+void InfiniteGameMode::addQuest(WinCondition *condition) {}
 
-bool InfiniteGameMode::checkWinCondition()
+std::vector<Quest *> *InfiniteGameMode::getQuests()
 {
-    return false;
+    return new std::vector<Quest *>();
 }
-
 bool InfiniteGameMode::operator==(IGameMode const &other) const
 {
     if (dynamic_cast<const InfiniteGameMode *>(&other))
@@ -41,46 +40,17 @@ RPGGameMode::RPGGameMode(IGameController *controller)
     this->controller = controller;
 }
 
-bool RPGGameMode::checkWinCondition(WinCondition condition)
-{
-    if (condition.getType() == SCORE)
-    {
-        if (controller->getScore() >= condition.getAmount())
-        {
-            return true;
-        }
-    }
-    if (condition.getType() == TIME)
-    {
-        if (controller->getSteps() >= condition.getAmount())
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 void RPGGameMode::clearQuests()
 {
     quests->clear();
 }
-void RPGGameMode::addQuest(WinCondition condition)
+void RPGGameMode::addQuest(WinCondition *condition)
 {
-    quests->push_back(condition);
+    quests->push_back(new Quest(controller, condition));
 }
-
-bool RPGGameMode::checkWinCondition()
+std::vector<Quest *> *RPGGameMode::getQuests()
 {
-    return false;
-    /*   For now, ignore quests. Reimplement when quest givers and rewards are added
-    for (int i = 0; i < quests->size(); i++)
-       {
-           if (!checkWinCondition(quests->at(i)))
-           {
-               return false;
-           }
-       }
-       return true;*/
+    return quests;
 }
 
 bool RPGGameMode::operator==(IGameMode const &other) const

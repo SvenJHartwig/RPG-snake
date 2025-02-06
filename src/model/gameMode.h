@@ -3,6 +3,7 @@
 #include "winCondition.h"
 #include "../controller/iGameController.h"
 #include <vector>
+#include "quest.h"
 
 enum GameModeEnum
 {
@@ -14,9 +15,9 @@ class IGameMode
 {
 public:
     virtual void clearQuests() = 0;
-    virtual void addQuest(WinCondition condition) = 0;
+    virtual void addQuest(WinCondition *condition) = 0;
+    virtual std::vector<Quest *> *getQuests() = 0;
     virtual bool operator==(IGameMode const &other) const = 0;
-    virtual bool checkWinCondition() = 0;
     virtual bool hasHealth() = 0;
 };
 
@@ -34,8 +35,8 @@ class InfiniteGameMode : public IGameMode
 public:
     InfiniteGameMode(IGameController *controller);
     void clearQuests() override;
-    void addQuest(WinCondition condition) override;
-    bool checkWinCondition() override;
+    void addQuest(WinCondition *condition) override;
+    std::vector<Quest *> *getQuests() override;
     bool operator==(IGameMode const &other) const override;
     bool hasHealth() override;
 };
@@ -44,14 +45,13 @@ class RPGGameMode : public IGameMode
 {
 private:
     IGameController *controller;
-    std::vector<WinCondition> *quests = new std::vector<WinCondition>();
-    bool checkWinCondition(WinCondition condition);
+    std::vector<Quest *> *quests = new std::vector<Quest *>();
 
 public:
     RPGGameMode(IGameController *controller);
     void clearQuests() override;
-    void addQuest(WinCondition condition) override;
-    bool checkWinCondition() override;
+    void addQuest(WinCondition *condition) override;
+    std::vector<Quest *> *getQuests() override;
     bool operator==(IGameMode const &other) const override;
     bool hasHealth() override;
 };

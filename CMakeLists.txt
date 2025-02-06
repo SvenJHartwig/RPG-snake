@@ -5,7 +5,8 @@ add_executable(main src/main.cpp src/model/grid.cpp src/model/snake.cpp src/cont
     src/view/glView.cpp src/view/engine/TextRenderer/TextRenderer.cpp src/view/engine/elements/button.cpp src/view/engine/elements/scene.cpp
     src/view/engine/elements/element.cpp src/view/engine/renderEngine.cpp src/view/engine/elements/text.cpp src/view/engine/elements/spriteGrid.cpp
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
-    src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/controller/soundController.cpp)
+    src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/controller/soundController.cpp
+    src/model/quest.cpp)
 target_link_directories(main PRIVATE /usr/local/lib /usr/lib64 /usr/include)
 include_directories (/usr/include/freetype2 includes)
 target_link_libraries(main PRIVATE glfw3 rt m dl GLEW GLU OpenGL freetype)
@@ -13,7 +14,7 @@ target_link_libraries(main PRIVATE SFML::Audio)
 
 target_compile_definitions(main PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/src/resources")
 
-add_executable(editor src/editor.cpp src/model/grid.cpp src/model/snake.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/editor/loadTextFile.cpp src/commonFunctions.cpp src/model/mob.cpp src/model/gridElement.cpp)
+add_executable(editor src/editor.cpp src/model/grid.cpp src/model/snake.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/editor/loadTextFile.cpp src/commonFunctions.cpp src/model/mob.cpp src/model/gridElement.cpp src/model/quest.cpp)
 target_compile_definitions(editor PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/src/resources")
 
 
@@ -29,7 +30,7 @@ find_package(SFML 3 REQUIRED COMPONENTS Audio)
 find_package(Catch2 3 REQUIRED)
 # These tests can use the Catch2-provided main
 add_executable(tests tests/test.cpp src/model/grid.cpp src/model/snake.cpp src/controller/gridController.cpp src/controller/gameController.cpp 
-    src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp src/model/mob.cpp src/model/gridElement.cpp)
+    src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp src/model/mob.cpp src/model/gridElement.cpp src/model/quest.cpp)
 target_link_directories(tests PRIVATE /usr/local/lib /usr/lib64)
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 target_compile_options(tests PRIVATE -coverage)
@@ -43,7 +44,7 @@ add_executable(launchTests tests/launchTest.cpp src/model/grid.cpp src/model/sna
     src/view/glView.cpp src/view/engine/TextRenderer/TextRenderer.cpp src/view/engine/elements/button.cpp src/view/engine/elements/scene.cpp
     src/view/engine/elements/element.cpp src/view/engine/renderEngine.cpp src/view/engine/elements/text.cpp src/view/engine/elements/spriteGrid.cpp
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
-    src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp)
+    src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/model/quest.cpp)
 target_link_directories(launchTests PRIVATE /usr/local/lib /usr/lib64 /usr/include/glfw3)
 target_link_libraries(launchTests PRIVATE Catch2::Catch2WithMain)
 target_compile_options(launchTests PRIVATE -coverage)
@@ -57,7 +58,7 @@ add_executable(engineTests tests/engineTest.cpp src/model/grid.cpp src/model/sna
     src/view/glView.cpp src/view/engine/TextRenderer/TextRenderer.cpp src/view/engine/elements/button.cpp src/view/engine/elements/scene.cpp
     src/view/engine/elements/element.cpp src/view/engine/renderEngine.cpp src/view/engine/elements/text.cpp src/view/engine/elements/spriteGrid.cpp
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
-    src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp)
+    src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/model/quest.cpp)
 target_link_directories(engineTests PRIVATE /usr/local/lib /usr/lib64 /usr/include)
 target_link_libraries(engineTests PRIVATE Catch2::Catch2WithMain)
 target_compile_options(engineTests PRIVATE -coverage)
@@ -71,7 +72,7 @@ add_executable(gameModeTests tests/gameModeTest.cpp src/model/grid.cpp src/model
     src/view/glView.cpp src/view/engine/TextRenderer/TextRenderer.cpp src/view/engine/elements/button.cpp src/view/engine/elements/scene.cpp
     src/view/engine/elements/element.cpp src/view/engine/renderEngine.cpp src/view/engine/elements/text.cpp src/view/engine/elements/spriteGrid.cpp
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
-    src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp)
+    src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/model/quest.cpp)
 target_link_directories(gameModeTests PRIVATE /usr/local/lib /usr/lib64 /usr/include)
 target_link_libraries(gameModeTests PRIVATE Catch2::Catch2WithMain)
 target_compile_options(gameModeTests PRIVATE -coverage)
@@ -82,7 +83,8 @@ target_compile_definitions(gameModeTests PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DI
 add_test(NAME gameModeTests COMMAND gameModeTests)
 
 add_executable(editorTests tests/editorTest.cpp src/model/grid.cpp src/model/snake.cpp src/controller/gridController.cpp src/controller/gameController.cpp 
-    src/model/winCondition.cpp src/model/gameMode.cpp src/editor/loadTextFile.cpp src/commonFunctions.cpp src/model/mob.cpp src/model/gridElement.cpp)
+    src/model/winCondition.cpp src/model/gameMode.cpp src/editor/loadTextFile.cpp src/commonFunctions.cpp src/model/mob.cpp src/model/gridElement.cpp 
+    src/model/quest.cpp)
 target_link_directories(editorTests PRIVATE /usr/local/lib /usr/lib64)
 target_link_libraries(editorTests PRIVATE Catch2::Catch2WithMain)
 target_compile_options(editorTests PRIVATE -coverage)

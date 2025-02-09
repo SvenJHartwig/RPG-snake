@@ -76,7 +76,7 @@ void GlView::initGameScene()
     Text *scoreText = new Text(0, 0, 100, 20);
     scoreText->text = "Score: 0";
     inGame->scene_elements = new std::vector<SEngine::Element *>(1, scoreText);
-    Image *background = new Image(windowWidth / 2 - 320, 80, windowWidth / 2 + 320, 720, ((std::string)RESOURCE_DIR).append("/textures/background.png").c_str());
+    Image *background = new Image(windowWidth / 2 - 320, 80, windowWidth / 2 + 320, 720, ((std::string)RESOURCE_DIR).append("/textures/background.png").c_str(), SEngine::StretchMode::ORIGINAL);
     inGame->scene_elements->push_back(background);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
     SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.25f);

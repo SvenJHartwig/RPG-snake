@@ -1,4 +1,7 @@
 #include "testClasses.h"
+#include "../src/view/engine/elements/image.h"
+
+using SEngine::Image, SEngine::StretchMode;
 
 TEST_CASE("Button produces a colored rectangle")
 {
@@ -55,4 +58,14 @@ TEST_CASE("Sprite grid tests")
     data = spriteGrid2->createRenderData();
     REQUIRE(data->getVertices().size() == 11200);
     REQUIRE(data->getIndices().size() == 2400);
+}
+
+TEST_CASE("Image compute texture fractions")
+{
+    Image *image = new Image(0, 0, 64, 64, static_cast<string>(RESOURCE_DIR).append("/test/textures/background.png"), StretchMode::ORIGINAL);
+    REQUIRE(image->computeTextureFraction(32, 64) == 2.0f);
+    REQUIRE(image->computeTextureFraction(32, 16) == 0.5f);
+    image = new Image(0, 0, 64, 64, static_cast<string>(RESOURCE_DIR).append("/test/textures/background.png"), StretchMode::FIT_TO_SIZE);
+    REQUIRE(image->computeTextureFraction(32, 64) == 1.0f);
+    REQUIRE(image->computeTextureFraction(32, 16) == 1.0f);
 }

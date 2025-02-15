@@ -43,6 +43,7 @@ TEST_CASE("Sprite grid tests")
     GridController *gridController = new GridController(new TestEatListener());
     gridController->setRNG(new TestGenerator());
     gridController->updateGrid();
+    gridController->addMob(new Enemy(10, 10));
     spriteGrid->setGrid(gridController->getSpriteVector());
     data = spriteGrid->createRenderData();
     REQUIRE(data->getVertices().size() == 11200);

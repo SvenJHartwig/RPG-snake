@@ -82,6 +82,8 @@ TEST_CASE("Game scene is initialized correctly")
     REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: 20 steps") == 0);
     view->setQuests(WinCondition(NONE, 20).toString());
     REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: None") == 0);
+    view->setHealth(3);
+    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(4))->text.compare("Health: 3") == 0);
     glfwTerminate();
 }
 

@@ -3,6 +3,7 @@
 #include "../model/grid.h"
 #include "../model/mob.h"
 #include "../model/snake.h"
+#include "../model/teleporter.h"
 #include "../model/winCondition.h"
 #include "../view/engine/elements/spriteGrid.h"
 #include "iEatListener.h"
@@ -63,7 +64,7 @@ public:
     void loadLevel(std::string path) override;
     Grid *getGrid();
     std::vector<Food *> *getFood();
-    Snake *getSnake();
+    ISnake *getSnake();
     std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
     void addMob(Mob *mob);
     std::vector<Mob *> *getMobs();

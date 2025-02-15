@@ -36,14 +36,3 @@ public:
     void snakeOnElement(IGridController *controller) override;
     void serialize(std::ofstream *outFile) override;
 };
-
-class Teleporter : public GridElement
-{
-private:
-    std::string path;
-
-public:
-    Teleporter(int pos_x, int pos_y, std::string path);
-    void snakeOnElement(IGridController *controller) override;
-    void serialize(std::ofstream *outFile) override;
-};

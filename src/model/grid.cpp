@@ -125,12 +125,15 @@ void Grid::loadFromFile(const std::string &filename)
                 }
                 if (gridElementType == 'T')
                 {
+                    int targetX, targetY;
+                    inFile.read(reinterpret_cast<char *>(&targetX), sizeof(targetX));
+                    inFile.read(reinterpret_cast<char *>(&targetY), sizeof(targetY));
                     size_t strLength;
                     std::string path;
                     inFile.read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
                     path.resize(strLength);
                     inFile.read(&path[0], strLength);
-                    level->at(i)->at(j) = new Teleporter(x, y, path);
+                    level->at(i)->at(j) = new Teleporter(x, y, path, targetX, targetY);
                 }
             }
         }

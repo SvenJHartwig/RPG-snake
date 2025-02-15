@@ -24,7 +24,7 @@ TEST_CASE("Test grid movement")
   int grid_size_x = grid.getGridSizeX();
   int grid_size_y = grid.getGridSizeY();
   vector<string> *expectedGrid = new vector<string>();
-  Snake *snake = gridController->getSnake();
+  Snake *snake = static_cast<Snake *>(gridController->getSnake());
 
   for (int i = 0; i < grid_size_y; i++)
   {
@@ -152,7 +152,7 @@ TEST_CASE("Test grid movement")
 TEST_CASE("Test snake")
 {
   GridController *gridController = new GridController(new TestEatListener());
-  Snake *snake = gridController->getSnake();
+  Snake *snake = static_cast<Snake *>(gridController->getSnake());
   REQUIRE(snake->getBody()->size() == 0);
   int headX = snake->getPosX();
   int headY = snake->getPosY();
@@ -315,7 +315,7 @@ TEST_CASE("Speed setting increases")
   gameController->setSoundController(new TestSoundController());
   GridController *gridController = gameController->getGridController();
   gridController->setRNG(new TestGenerator());
-  Snake *snake = gridController->getSnake();
+  Snake *snake = static_cast<Snake *>(gridController->getSnake());
   REQUIRE(gameController->getSpeed() == l1);
   gridController->generateNewFood(snake->getPosX(), snake->getPosY());
   gridController->updateGrid();
@@ -352,7 +352,7 @@ TEST_CASE("sometimes one additional food is generated")
   GridController *gridController = gameController->getGridController();
   TestGenerator *trng = new TestGenerator();
   gridController->setRNG(trng);
-  Snake *snake = gridController->getSnake();
+  Snake *snake = static_cast<Snake *>(gridController->getSnake());
   REQUIRE(gridController->getFood()->size() == 1);
   trng->specificValue = 2;
   gridController->generateNewFood(snake->getPosX(), snake->getPosY());
@@ -434,7 +434,7 @@ TEST_CASE("Special food has a time out")
   GridController *gridController = gameController->getGridController();
   TestGenerator *trng = new TestGenerator();
   gridController->setRNG(trng);
-  Snake *snake = gridController->getSnake();
+  Snake *snake = static_cast<Snake *>(gridController->getSnake());
   trng->specificValue = 1;
   gridController->generateNewFood(snake->getPosX(), snake->getPosY());
   gridController->updateGrid();

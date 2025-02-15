@@ -1,6 +1,5 @@
 - Switch level files to binary format, this allows to:
     - Add NPCs that give quests
-- Teleports to a specific place
 - Enemies
 - Power Ups
 - Move on own volition in RPG mode

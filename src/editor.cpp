@@ -1,6 +1,7 @@
 #include "commonFunctions.h"
 #include "editor/loadTextFile.h"
 #include "model/mob.h"
+#include "model/teleporter.h"
 
 int main()
 {
@@ -102,7 +103,13 @@ int main()
                 std::cout << "File name:\n";
                 std::cin >> input;
                 std::string mapPath = input;
-                grid->getLevel()->at(y)->at(x) = new Teleporter(x, y, mapPath);
+                std::cout << "Target Position X:\n";
+                std::cin >> input;
+                int targetX = std::stoi(input);
+                std::cout << "Target Position Y:\n";
+                std::cin >> input;
+                int targetY = std::stoi(input);
+                grid->getLevel()->at(y)->at(x) = new Teleporter(x, y, mapPath, targetX, targetY);
             }
             else if (input.compare("5") == 0)
             {

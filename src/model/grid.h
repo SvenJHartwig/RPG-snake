@@ -8,6 +8,7 @@
 #include <fstream>
 #include "gridElement.h"
 #include "mob.h"
+#include "teleporter.h"
 
 // Holds data for a level as a vector of strings, likely to be changed to a more flexible
 // structure in the future.

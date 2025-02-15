@@ -57,3 +57,19 @@ int Snake::getHealth()
 {
     return this->health;
 }
+int Snake::getPosX()
+{
+    return pos_x;
+}
+int Snake::getPosY()
+{
+    return pos_y;
+}
+void Snake::setPosX(int pos)
+{
+    this->pos_x = pos;
+}
+void Snake::setPosY(int pos)
+{
+    this->pos_y = pos;
+}

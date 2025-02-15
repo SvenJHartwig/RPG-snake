@@ -454,7 +454,7 @@ void GridController::moveSnakeDown()
     }
 }
 
-Snake *GridController::getSnake()
+ISnake *GridController::getSnake()
 {
     return snake;
 }

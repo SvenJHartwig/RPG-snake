@@ -5,7 +5,6 @@
 
 class Food : public GridElement
 {
-
 public:
     void snakeOnElement(IGridController *controller) override;
     void serialize(std::ofstream *outFile) override;
@@ -59,7 +58,7 @@ enum Facing
     DOWN
 };
 
-class Snake : public GridElement
+class Snake : public GridElement, public ISnake
 {
 private:
     int maxHealth = 3;
@@ -76,4 +75,8 @@ public:
     std::vector<SnakeBodyPart> *getBody();
     void loseHealth(int health);
     int getHealth();
+    int getPosX() override;
+    int getPosY() override;
+    void setPosX(int pos) override;
+    void setPosY(int pos) override;
 };

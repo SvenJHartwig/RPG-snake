@@ -32,3 +32,12 @@ TEST_CASE("Import text file score")
     REQUIRE(grid->getLevel()->size() == 20);
     REQUIRE(grid->getWinCondition() == WinCondition(SCORE, 40));
 }
+TEST_CASE("Import File with teleporter and Mob")
+{
+    string path = RESOURCE_DIR;
+    path.append("/tests/level/levelWithTeleporter");
+    Grid *grid = new Grid();
+    loadLevelFromBinaryFile(path, grid);
+    REQUIRE(dynamic_cast<Teleporter *>(grid->getLevel()->at(3)->at(3)));
+    REQUIRE(dynamic_cast<Mob *>(grid->getLevel()->at(10)->at(10)));
+}

@@ -40,4 +40,8 @@ TEST_CASE("Import File with teleporter and Mob")
     loadLevelFromBinaryFile(path, grid);
     REQUIRE(dynamic_cast<Teleporter *>(grid->getLevel()->at(3)->at(3)));
     REQUIRE(dynamic_cast<Mob *>(grid->getLevel()->at(10)->at(10)));
+    saveGridAsBinaryFile(path, grid);
+    loadLevelFromBinaryFile(path, grid);
+    REQUIRE(dynamic_cast<Teleporter *>(grid->getLevel()->at(3)->at(3)));
+    REQUIRE(dynamic_cast<Mob *>(grid->getLevel()->at(10)->at(10)));
 }

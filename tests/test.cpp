@@ -732,6 +732,7 @@ TEST_CASE("Teleport to a position")
   string path = RESOURCE_DIR;
   path.append("/tests/level/levelWithTeleporter");
   gridController->loadLevel(path.c_str());
+  gridController->getSnake()->eat();
   gridController->getSnake()->setPosX(3);
   gridController->getSnake()->setPosY(3);
   gridController->updateGrid();

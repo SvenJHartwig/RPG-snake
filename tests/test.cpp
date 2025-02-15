@@ -725,3 +725,16 @@ TEST_CASE("Mobs damaging the player")
   REQUIRE(gridController->getSnake()->getHealth() == 0);
   REQUIRE(gridController->isGameOver());
 }
+
+TEST_CASE("Teleport to a position")
+{
+  GridController *gridController = new GridController(new TestEatListener());
+  string path = RESOURCE_DIR;
+  path.append("/tests/level/levelWithTeleporter");
+  gridController->loadLevel(path.c_str());
+  gridController->getSnake()->setPosX(3);
+  gridController->getSnake()->setPosY(3);
+  gridController->updateGrid();
+  REQUIRE(gridController->getSnake()->getPosX() == 4);
+  REQUIRE(gridController->getSnake()->getPosY() == 4);
+}

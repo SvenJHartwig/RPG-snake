@@ -451,7 +451,7 @@ TEST_CASE("Special food has a time out")
 TEST_CASE("Load level from disk")
 {
   GridController *gridController = new GridController(new TestEatListener());
-  Grid *grid = gridController->getGrid();
+  Grid *grid = static_cast<Grid *>(gridController->getGrid());
   int grid_size_x = grid->getGridSizeX();
   int grid_size_y = grid->getGridSizeY();
   vector<string> *expectedGrid = new vector<string>();
@@ -519,7 +519,7 @@ TEST_CASE("Load level from disk")
 TEST_CASE("If snake goes out of bounds, wrap around")
 {
   GridController *gridController = new GridController(new TestEatListener());
-  Grid *grid = gridController->getGrid();
+  Grid *grid = static_cast<Grid *>(gridController->getGrid());
   int grid_size_y = grid->getGridSizeY();
   string path = RESOURCE_DIR;
   path.append("/tests/level/level2Binary");

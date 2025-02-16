@@ -24,9 +24,11 @@ public:
 class Enemy : public Mob
 {
 private:
+    int id = 0;
     int ticksSinceLastMovement = 0;
 
 public:
+    static int currentId;
     void snakeOnElement(IGridController *controller);
     void setTicksSinceLastMovement(int ticksSinceLastMovement);
     void serialize(std::ofstream *outFile) override;

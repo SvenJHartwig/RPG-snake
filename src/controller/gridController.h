@@ -62,7 +62,7 @@ public:
     void generateNewSpecialFood(int i, int j);
     void reset();
     void loadLevel(std::string path) override;
-    Grid *getGrid();
+    IGrid *getGrid();
     std::vector<Food *> *getFood();
     ISnake *getSnake();
     std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();

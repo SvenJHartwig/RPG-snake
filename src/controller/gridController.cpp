@@ -506,7 +506,7 @@ void GridController::generateNewSpecialFood(int i, int j)
     food->push_back(newFood);
 }
 
-Grid *GridController::getGrid()
+IGrid *GridController::getGrid()
 {
     return grid;
 }

@@ -9,10 +9,11 @@
 #include "gridElement.h"
 #include "mob.h"
 #include "teleporter.h"
+#include "iGrid.h"
 
 // Holds data for a level as a vector of strings, likely to be changed to a more flexible
 // structure in the future.
-class Grid
+class Grid : public IGrid
 {
 private:
     int grid_size_x;

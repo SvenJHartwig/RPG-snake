@@ -712,14 +712,16 @@ TEST_CASE("Mobs damaging the player")
   REQUIRE(gridController->getMobs()->size() == 1);
   gridController->getSnake()->setPosX(3);
   gridController->getSnake()->setPosY(2);
+  gridController->getSnake()->eat();
+  gridController->moveSnakeRight();
   enemy->setTicksSinceLastMovement(1000);
   gridController->updateGrid();
   REQUIRE(gridController->getSnake()->getHealth() == 2);
-  gridController->getSnake()->setPosX(4);
+  gridController->moveSnakeRight();
   enemy->setTicksSinceLastMovement(1000);
   gridController->updateGrid();
   REQUIRE(gridController->getSnake()->getHealth() == 1);
-  gridController->getSnake()->setPosX(5);
+  gridController->moveSnakeRight();
   enemy->setTicksSinceLastMovement(1000);
   gridController->updateGrid();
   REQUIRE(gridController->getSnake()->getHealth() == 0);
@@ -738,4 +740,15 @@ TEST_CASE("Teleport to a position")
   gridController->updateGrid();
   REQUIRE(gridController->getSnake()->getPosX() == 4);
   REQUIRE(gridController->getSnake()->getPosY() == 4);
+}
+
+TEST_CASE("Kill enemy")
+{
+  GridController *gridController = new GridController(new TestEatListener());
+  Enemy *enemy = new Enemy(2, 2);
+  gridController->addMob(enemy);
+  gridController->getSnake()->setPosX(2);
+  gridController->getSnake()->setPosY(2);
+  gridController->updateGrid();
+  REQUIRE(gridController->getMobs()->size() == 0);
 }

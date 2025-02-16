@@ -268,6 +268,13 @@ void GridController::checkCollisions()
         }
     }
     grid->getLevel()->at(snake->getPosY())->at(snake->getPosX())->snakeOnElement(this);
+    for (Mob *mob : *grid->getMobs())
+    {
+        if (mob->getPosX() == snake->getPosX() && mob->getPosY() == snake->getPosY())
+        {
+            mob->snakeOnElement(this);
+        }
+    }
 }
 
 void GridController::updateCollisionMap()

@@ -7,7 +7,20 @@
 class TestEditorView : public IEditorView
 {
 public:
-    std::string showOutput(std::string out) { return "1"; }
+    bool out1 = true;
+    std::string nextOutput1 = "";
+    std::string nextOutput2 = "";
+
+    std::string showOutput(std::string out)
+    {
+        if (out1)
+        {
+            out1 = false;
+            return nextOutput1;
+        }
+        out1 = true;
+        return nextOutput2;
+    }
 };
 
 TEST_CASE("Import text file time")
@@ -55,7 +68,19 @@ TEST_CASE("Import File with teleporter and Mob")
 }
 TEST_CASE("Editor controller")
 {
-    EditorController *controller = new EditorController(new TestEditorView());
+    TestEditorView *view = new TestEditorView();
+    EditorController *controller = new EditorController(view);
+    view->out1 = true;
+    view->nextOutput1 = "0";
+    controller->mainLoopIteration();
+    REQUIRE(controller->state == 0);
+    view->out1 = true;
+    view->nextOutput1 = "1";
+    view->nextOutput2 = "/test/level/level1";
+    controller->mainLoopIteration();
+    REQUIRE(controller->state == 1);
+    view->out1 = true;
+    view->nextOutput1 = "4";
     controller->mainLoopIteration();
     REQUIRE(controller->state == 0);
 }

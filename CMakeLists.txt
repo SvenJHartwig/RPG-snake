@@ -15,7 +15,7 @@ target_link_libraries(main PRIVATE SFML::Audio)
 target_compile_definitions(main PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/src/resources")
 
 add_executable(editor src/editor.cpp src/model/grid.cpp src/model/snake.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/editor/loadTextFile.cpp src/commonFunctions.cpp src/model/mob.cpp src/model/gridElement.cpp 
-    src/model/quest.cpp src/model/teleporter.cpp)
+    src/model/quest.cpp src/model/teleporter.cpp src/editor/view/editorView.cpp src/editor/controller/editorController.cpp)
 target_compile_definitions(editor PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/src/resources")
 
 
@@ -86,7 +86,7 @@ add_test(NAME gameModeTests COMMAND gameModeTests)
 
 add_executable(editorTests tests/editorTest.cpp src/model/grid.cpp src/model/snake.cpp src/controller/gridController.cpp src/controller/gameController.cpp 
     src/model/winCondition.cpp src/model/gameMode.cpp src/editor/loadTextFile.cpp src/commonFunctions.cpp src/model/mob.cpp src/model/gridElement.cpp 
-    src/model/quest.cpp src/model/teleporter.cpp)
+    src/model/quest.cpp src/model/teleporter.cpp src/editor/view/editorView.cpp src/editor/controller/editorController.cpp)
 target_link_directories(editorTests PRIVATE /usr/local/lib /usr/lib64)
 target_link_libraries(editorTests PRIVATE Catch2::Catch2WithMain)
 target_compile_options(editorTests PRIVATE -coverage)

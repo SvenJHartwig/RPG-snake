@@ -1,6 +1,14 @@
 #include "testClasses.h"
 #include "../src/editor/loadTextFile.h"
 #include <cstdio>
+#include "../src/editor/controller/editorController.h"
+#include "../src/editor/view/editorView.h"
+
+class TestEditorView : public IEditorView
+{
+public:
+    std::string showOutput(std::string out) { return "1"; }
+};
 
 TEST_CASE("Import text file time")
 {
@@ -44,4 +52,10 @@ TEST_CASE("Import File with teleporter and Mob")
     loadLevelFromBinaryFile(path, grid);
     REQUIRE(dynamic_cast<Teleporter *>(grid->getLevel()->at(3)->at(3)));
     REQUIRE(dynamic_cast<Mob *>(grid->getLevel()->at(10)->at(10)));
+}
+TEST_CASE("Editor controller")
+{
+    EditorController *controller = new EditorController(new TestEditorView());
+    controller->mainLoopIteration();
+    REQUIRE(controller->state == 0);
 }

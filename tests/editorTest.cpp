@@ -21,6 +21,7 @@ public:
         out1 = true;
         return nextOutput2;
     }
+    int init() override { return 0; }
 };
 
 TEST_CASE("Import text file time")
@@ -83,4 +84,35 @@ TEST_CASE("Editor controller")
     view->nextOutput1 = "4";
     controller->mainLoopIteration();
     REQUIRE(controller->state == 0);
+    view->out1 = true;
+    view->nextOutput1 = "2";
+    controller->mainLoopIteration();
+    REQUIRE(controller->exit);
+    controller->exit = false;
+    view->out1 = true;
+    view->nextOutput1 = "1";
+    view->nextOutput2 = "/test/level/level1";
+    controller->mainLoopIteration();
+    REQUIRE(controller->state == 1);
+    view->out1 = true;
+    view->nextOutput1 = "3";
+    view->nextOutput2 = "3";
+    controller->mainLoopIteration();
+    REQUIRE(controller->state == 2);
+    view->out1 = true;
+    view->nextOutput1 = "1";
+    controller->mainLoopIteration();
+    REQUIRE(controller->state == 2);
+    view->out1 = true;
+    view->nextOutput1 = "2";
+    controller->mainLoopIteration();
+    REQUIRE(controller->state == 2);
+    view->out1 = true;
+    view->nextOutput1 = "3";
+    controller->mainLoopIteration();
+    REQUIRE(controller->state == 2);
+    view->out1 = true;
+    view->nextOutput1 = "5";
+    controller->mainLoopIteration();
+    REQUIRE(controller->state == 1);
 }

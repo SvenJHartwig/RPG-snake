@@ -7,6 +7,7 @@ EditorController::EditorController(IEditorView *view)
 EditorController::~EditorController() {}
 void EditorController::mainLoop()
 {
+    view->init();
     while (!exit)
     {
         mainLoopIteration();

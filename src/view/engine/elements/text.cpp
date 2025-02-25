@@ -15,6 +15,8 @@ namespace SEngine
         this->pos_y_bottom_right = pos_y_bottom_right;
     }
 
+    Text::~Text() {}
+
     RenderData *Text::createRenderData()
     {
         vector<float> vertices = {};

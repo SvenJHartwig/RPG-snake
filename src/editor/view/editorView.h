@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "../../view/engine/iRenderEngine.h"
+#include "../../view/engine/elements/scene.h"
 
 class IEditorView
 {
@@ -14,6 +15,7 @@ class EditorView : public IEditorView
 private:
     bool initialized = false;
     SEngine::IRenderEngine *engine = NULL;
+    SEngine::Scene *loadingScene = NULL;
 
 public:
     bool isInitialized() { return initialized; }
@@ -21,4 +23,6 @@ public:
     std::string showOutput(std::string out);
     EditorView();
     int init() override;
+    void initLoadingScene();
+    SEngine::Scene *getLoadingScene() { return loadingScene; }
 };

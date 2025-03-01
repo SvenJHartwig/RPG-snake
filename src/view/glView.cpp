@@ -33,17 +33,17 @@ int GlView::init()
     return 0;
 }
 
-void inputP(IEngineCallback *gc)
+void inputP(IEngineCallback *gc, int key)
 {
     gc->reactOnInput(GLFW_KEY_P);
 }
 
-void inputO(IEngineCallback *gc)
+void inputO(IEngineCallback *gc, int key)
 {
     gc->reactOnInput(GLFW_KEY_O);
 }
 
-void inputL(IEngineCallback *gc)
+void inputL(IEngineCallback *gc, int key)
 {
     gc->reactOnInput(GLFW_KEY_L);
 }

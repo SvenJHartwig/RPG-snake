@@ -1,7 +1,6 @@
 #pragma once
 
 #include "element.h"
-#include "../TextRenderer/TextRenderer.h"
 
 namespace SEngine
 {

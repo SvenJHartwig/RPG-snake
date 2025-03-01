@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "renderData.h"
+#include "elements/textInput.h"
 
 namespace SEngine
 {
@@ -26,6 +27,22 @@ namespace SEngine
     void framebufferSizeCallback(GLFWwindow *window, int width, int height)
     {
         glViewport(0, 0, width, height);
+    }
+
+    void engine_character_callback(GLFWwindow *window, unsigned int codepoint)
+    {
+        RenderEngine *engine = static_cast<RenderEngine *>(glfwGetWindowUserPointer(window));
+        for (Scene *scene : *engine->getScenes())
+        {
+            for (Element *element : *scene->scene_elements)
+            {
+                if (dynamic_cast<TextInput *>(element))
+                {
+                    TextInput *textInput = dynamic_cast<TextInput *>(element);
+                    textInput->callback(textInput, codepoint);
+                }
+            }
+        }
     }
 
     void engine_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
@@ -54,7 +71,15 @@ namespace SEngine
                 Element *currentSceneElement = scene->scene_elements->at(i);
                 if (sceneElementInCoords(currentSceneElement, xpos, ypos))
                 {
-                    currentSceneElement->callback(engine->getEngineCallback());
+                    if (dynamic_cast<TextInput *>(currentSceneElement))
+                    {
+                        TextInput *textInput = dynamic_cast<TextInput *>(currentSceneElement);
+                        textInput->callback(textInput, GLFW_MOUSE_BUTTON_1);
+                    }
+                    else
+                    {
+                        currentSceneElement->callback(engine->getEngineCallback(), GLFW_MOUSE_BUTTON_1);
+                    }
                     currentSceneElement->setIsHovered(false);
                 }
             }

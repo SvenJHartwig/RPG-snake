@@ -6,7 +6,7 @@
 #include "../../model/mob.h"
 #include "../../model/teleporter.h"
 
-class EditorController
+class EditorController : public SEngine::IEngineCallback
 {
 private:
     IEditorView *view;
@@ -29,4 +29,6 @@ public:
     ~EditorController();
     void mainLoop();
     void mainLoopIteration();
+    void reactOnInput(int input);
+    void setWindowClosed(bool closed);
 };

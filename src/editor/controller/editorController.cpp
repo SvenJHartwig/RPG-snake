@@ -3,6 +3,7 @@
 EditorController::EditorController(IEditorView *view)
 {
     this->view = view;
+    this->view->setCallback(this);
 }
 EditorController::~EditorController() {}
 void EditorController::mainLoop()
@@ -89,4 +90,10 @@ void EditorController::mainLoopIteration()
             state = 1;
         }
     }
+}
+
+void EditorController::reactOnInput(int input) {}
+void EditorController::setWindowClosed(bool closed)
+{
+    exit = closed;
 }

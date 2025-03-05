@@ -20,6 +20,7 @@ void editorInitView(SEngine::IRenderEngine *engine, EditorView *view)
     engine->init();
     view->initLoadingScene();
     view->setInitialized(true);
+    engine->setEngineCallback(view->getCallback());
     engine->addScene(view->getLoadingScene());
     engine->renderingLoop();
 }
@@ -53,10 +54,20 @@ void EditorView::initLoadingScene()
     first->text = "Load map";
     first->callback = &inputP;
     SEngine::TextInput *second = new SEngine::TextInput(windowWidth / 2 - 80, windowHeight / 2 + 30, windowWidth / 2 + 80, windowHeight / 2 + 60);
+    second->text = "Test";
     SEngine::Button *third = new SEngine::Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
     third->text = "Exit";
     third->callback = &inputL;
     loadingScene->scene_elements = new std::vector<SEngine::Element *>(1, first);
     loadingScene->scene_elements->push_back(second);
     loadingScene->scene_elements->push_back(third);
+}
+
+void EditorView::setCallback(SEngine::IEngineCallback *callback)
+{
+    this->callback = callback;
+}
+SEngine::IEngineCallback *EditorView::getCallback()
+{
+    return callback;
 }

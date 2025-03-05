@@ -22,6 +22,7 @@ public:
         return nextOutput2;
     }
     int init() override { return 0; }
+    void setCallback(SEngine::IEngineCallback *callback) override {}
 };
 
 TEST_CASE("Import text file time")

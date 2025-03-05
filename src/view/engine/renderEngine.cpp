@@ -53,6 +53,20 @@ namespace SEngine
         }
         RenderEngine *engine = static_cast<RenderEngine *>(glfwGetWindowUserPointer(window));
         engine->getEngineCallback()->reactOnInput(key);
+        if (key == GLFW_KEY_BACKSPACE)
+        {
+            for (Scene *scene : *engine->getScenes())
+            {
+                for (Element *element : *scene->scene_elements)
+                {
+                    if (dynamic_cast<TextInput *>(element))
+                    {
+                        TextInput *textInput = dynamic_cast<TextInput *>(element);
+                        textInput->callback(textInput, key);
+                    }
+                }
+            }
+        }
     }
 
     void engine_mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
@@ -189,6 +203,7 @@ namespace SEngine
         // Initialize input callbacks
         glfwSetWindowUserPointer(window, this);
         glfwSetKeyCallback(window, engine_key_callback);
+        glfwSetCharCallback(window, engine_character_callback);
         glfwSetMouseButtonCallback(window, engine_mouse_button_callback);
         glfwSetCursorPosCallback(window, cursor_position_callback);
         glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);

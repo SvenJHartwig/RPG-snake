@@ -41,9 +41,13 @@ namespace SEngine
         {
             focussed = true;
         }
+        if (input == GLFW_KEY_BACKSPACE)
+        {
+            text.erase(text.size() - 1, text.size());
+        }
         else if (focussed)
         {
-            this->text += static_cast<char>(input);
+            text += static_cast<char>(input);
         }
     }
     void TextInput::setWindowClosed(bool closed)

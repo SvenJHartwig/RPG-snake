@@ -29,7 +29,7 @@ void GameController::reactOnInput(int input)
     switch (gameState)
     {
     case MAIN_MENU:
-        if (input == GLFW_KEY_P)
+        if (input == GLFW_KEY_ENTER)
         {
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
@@ -51,7 +51,7 @@ void GameController::reactOnInput(int input)
             view->setQuests(gameMode->getQuests()->at(0)->getName());
             soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/background.mp3"));
         }
-        else if (input == GLFW_KEY_L)
+        else if (input == GLFW_KEY_ESCAPE)
         {
             gameState = EXIT;
             view->gameStateChanged(gameState);
@@ -84,7 +84,7 @@ void GameController::reactOnInput(int input)
         }
         break;
     case GAME_OVER:
-        if (input == GLFW_KEY_P)
+        if (input == GLFW_KEY_ENTER)
         {
             resetGame();
             gameState = MAIN_MENU;
@@ -93,7 +93,7 @@ void GameController::reactOnInput(int input)
         }
         break;
     case WIN:
-        if (input == GLFW_KEY_P)
+        if (input == GLFW_KEY_ENTER)
         {
             softReset();
             string path = RESOURCE_DIR;

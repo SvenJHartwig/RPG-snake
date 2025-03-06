@@ -68,7 +68,7 @@ public:
     int getScore() override { return 0; }
     void reactOnInput(int input) override
     {
-        if (input == GLFW_KEY_P)
+        if (input == GLFW_KEY_ENTER)
             calledP = true;
     }
     void setWindowClosed(bool closed) override {}

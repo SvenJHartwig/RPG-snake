@@ -34,14 +34,14 @@ int EditorView::init()
     return 0;
 }
 
-void inputP(SEngine::IEngineCallback *gc, int key)
+void inputEnter(SEngine::IEngineCallback *gc, int key)
 {
-    gc->reactOnInput(GLFW_KEY_P);
+    gc->reactOnInput(GLFW_KEY_ENTER);
 }
 
-void inputL(SEngine::IEngineCallback *gc, int key)
+void inputEscape(SEngine::IEngineCallback *gc, int key)
 {
-    gc->reactOnInput(GLFW_KEY_L);
+    gc->reactOnInput(GLFW_KEY_ESCAPE);
 }
 
 void EditorView::initLoadingScene()
@@ -52,12 +52,12 @@ void EditorView::initLoadingScene()
     loadingScene = new SEngine::Scene();
     SEngine::Button *first = new SEngine::Button(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
     first->text = "Load map";
-    first->callback = &inputP;
+    first->callback = &inputEnter;
     SEngine::TextInput *second = new SEngine::TextInput(windowWidth / 2 - 80, windowHeight / 2 + 30, windowWidth / 2 + 80, windowHeight / 2 + 60);
     second->text = "Test";
     SEngine::Button *third = new SEngine::Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
     third->text = "Exit";
-    third->callback = &inputL;
+    third->callback = &inputEscape;
     loadingScene->scene_elements = new std::vector<SEngine::Element *>(1, first);
     loadingScene->scene_elements->push_back(second);
     loadingScene->scene_elements->push_back(third);

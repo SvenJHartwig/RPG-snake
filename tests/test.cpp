@@ -212,7 +212,7 @@ TEST_CASE("Movement in opposite direction of last direction is not possible if s
   // Set gamestate to INGAME
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
-  gameController->reactOnInput(GLFW_KEY_P);
+  gameController->reactOnInput(GLFW_KEY_ENTER);
   gameController->eat(false);
   gameController->reactOnInput(GLFW_KEY_LEFT);
   gameController->mainLoopIteration();
@@ -254,11 +254,11 @@ TEST_CASE("Movement in opposite direction of last direction is not possible if s
   gameController->mainLoopIteration();
   gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 's');
-  gameController->reactOnInput(GLFW_KEY_L);
+  gameController->reactOnInput(GLFW_KEY_ESCAPE);
   gameController->mainLoopIteration();
   gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 's');
-  gameController->reactOnInput(GLFW_KEY_P);
+  gameController->reactOnInput(GLFW_KEY_ENTER);
   gameController->mainLoopIteration();
   gameController->setTicksSinceLastMovement(1000);
   REQUIRE(gameController->getLastDirection() == 's');
@@ -371,7 +371,7 @@ TEST_CASE("Pressing enter starts game")
   TestSoundController *soundController = new TestSoundController();
   gameController->setSoundController(soundController);
   REQUIRE(gameController->getGameState() == MAIN_MENU);
-  gameController->reactOnInput(GLFW_KEY_P);
+  gameController->reactOnInput(GLFW_KEY_ENTER);
   REQUIRE(gameController->getGameState() == IN_GAME);
   REQUIRE(soundController->requestedBackgroundMusic);
 }
@@ -400,7 +400,7 @@ TEST_CASE("After Game Over pause before going to main menu")
   REQUIRE(gameController->getGridController()->getSnake()->getPosX() == oldHeadX);
   gameController->getGridController()->moveSnakeLeft();
   REQUIRE(gameController->getGridController()->getSnake()->getPosX() == oldHeadX);
-  gameController->reactOnInput(GLFW_KEY_P);
+  gameController->reactOnInput(GLFW_KEY_ENTER);
   REQUIRE(gameController->getGameState() == MAIN_MENU);
 }
 
@@ -544,7 +544,7 @@ TEST_CASE("Only appropriate input works while in game")
   gameController->reactOnInput(GLFW_KEY_O);
   REQUIRE(gameController->getGameState() == IN_GAME);
   gameController->reactOnInput(GLFW_KEY_LEFT);
-  gameController->reactOnInput(GLFW_KEY_P);
+  gameController->reactOnInput(GLFW_KEY_ENTER);
   REQUIRE(gameController->getLastInput() == 'a');
 }
 
@@ -553,7 +553,7 @@ TEST_CASE("Exit game")
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
-  gameController->reactOnInput(GLFW_KEY_L);
+  gameController->reactOnInput(GLFW_KEY_ESCAPE);
   REQUIRE(gameController->getGameState() == EXIT);
 }
 
@@ -573,7 +573,7 @@ TEST_CASE("Win game")
   gameController->mainLoopIteration();
   // TODO: Reimplement after adding quests
   // REQUIRE(gameController->getGameState() == WIN);
-  gameController->reactOnInput(GLFW_KEY_P);
+  gameController->reactOnInput(GLFW_KEY_ENTER);
   REQUIRE(gameController->getGameState() == IN_GAME);
   // REQUIRE(gameController->getLevel() == 2);
   // Hard reset on restarting game
@@ -598,7 +598,7 @@ TEST_CASE("Infinite game")
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
-  gameController->reactOnInput(GLFW_KEY_P);
+  gameController->reactOnInput(GLFW_KEY_ENTER);
   REQUIRE(gameController->getGameState() == IN_GAME);
   for (int i = 0; i < 20; i++)
   {

@@ -33,9 +33,9 @@ int GlView::init()
     return 0;
 }
 
-void inputP(IEngineCallback *gc, int key)
+void inputEnter(IEngineCallback *gc, int key)
 {
-    gc->reactOnInput(GLFW_KEY_P);
+    gc->reactOnInput(GLFW_KEY_ENTER);
 }
 
 void inputO(IEngineCallback *gc, int key)
@@ -43,9 +43,9 @@ void inputO(IEngineCallback *gc, int key)
     gc->reactOnInput(GLFW_KEY_O);
 }
 
-void inputL(IEngineCallback *gc, int key)
+void inputEscape(IEngineCallback *gc, int key)
 {
-    gc->reactOnInput(GLFW_KEY_L);
+    gc->reactOnInput(GLFW_KEY_ESCAPE);
 }
 
 void GlView::initMainMenu()
@@ -56,13 +56,13 @@ void GlView::initMainMenu()
     mainMenu = new Scene();
     Button *first = new Button(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
     first->text = "Begin game";
-    first->callback = &inputP;
+    first->callback = &inputEnter;
     Button *second = new Button(windowWidth / 2 - 80, windowHeight / 2 + 20, windowWidth / 2 + 80, windowHeight / 2 + 50);
     second->text = "Load level";
     second->callback = &inputO;
     Button *third = new Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
     third->text = "Exit";
-    third->callback = &inputL;
+    third->callback = &inputEscape;
     mainMenu->scene_elements = new std::vector<SEngine::Element *>(1, first);
     mainMenu->scene_elements->push_back(second);
     mainMenu->scene_elements->push_back(third);

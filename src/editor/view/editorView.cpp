@@ -71,3 +71,7 @@ SEngine::IEngineCallback *EditorView::getCallback()
 {
     return callback;
 }
+std::string EditorView::getText()
+{
+    return static_cast<SEngine::TextInput *>(loadingScene->scene_elements->at(1))->text;
+}

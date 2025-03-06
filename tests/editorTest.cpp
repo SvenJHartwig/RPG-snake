@@ -23,6 +23,7 @@ public:
     }
     int init() override { return 0; }
     void setCallback(SEngine::IEngineCallback *callback) override {}
+    std::string getText() override { return ""; }
 };
 
 TEST_CASE("Import text file time")

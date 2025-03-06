@@ -10,6 +10,7 @@ public:
     virtual std::string showOutput(std::string out) = 0;
     virtual int init() = 0;
     virtual void setCallback(SEngine::IEngineCallback *callback) = 0;
+    virtual std::string getText() = 0;
 };
 
 class EditorView : public IEditorView
@@ -30,4 +31,5 @@ public:
     SEngine::Scene *getLoadingScene() { return loadingScene; }
     void setCallback(SEngine::IEngineCallback *callback);
     SEngine::IEngineCallback *getCallback();
+    std::string getText();
 };

@@ -1,7 +1,8 @@
 #include "testClasses.h"
 #include "../src/view/engine/elements/image.h"
+#include "../src/view/engine/elements/textInput.h"
 
-using SEngine::Image, SEngine::StretchMode;
+using SEngine::Image, SEngine::StretchMode, SEngine::TextInput;
 
 TEST_CASE("Button produces a colored rectangle")
 {
@@ -69,4 +70,14 @@ TEST_CASE("Image compute texture fractions")
     image = new Image(0, 0, 64, 64, static_cast<string>(RESOURCE_DIR).append("/test/textures/background.png"), StretchMode::FIT_TO_SIZE);
     REQUIRE(image->computeTextureFraction(32, 64) == 1.0f);
     REQUIRE(image->computeTextureFraction(32, 16) == 1.0f);
+}
+
+TEST_CASE("TextInput element")
+{
+    TextInput *input = new TextInput(0, 0, 20, 20);
+    input->callback(input, GLFW_MOUSE_BUTTON_1);
+    input->callback(input, GLFW_KEY_BACKSPACE);
+    input->callback(input, GLFW_KEY_BACKSPACE);
+    input->callback(input, 'a');
+    REQUIRE(input->text.compare("a") == 0);
 }

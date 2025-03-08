@@ -41,7 +41,7 @@ namespace SEngine
         {
             focussed = true;
         }
-        if (input == GLFW_KEY_BACKSPACE)
+        if (input == GLFW_KEY_BACKSPACE && text.size() > 0)
         {
             text.erase(text.size() - 1, text.size());
         }

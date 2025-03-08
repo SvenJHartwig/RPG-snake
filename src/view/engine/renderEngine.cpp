@@ -53,7 +53,7 @@ namespace SEngine
         }
         RenderEngine *engine = static_cast<RenderEngine *>(glfwGetWindowUserPointer(window));
         engine->getEngineCallback()->reactOnInput(key);
-        if (key == GLFW_KEY_BACKSPACE)
+        if (key == GLFW_KEY_BACKSPACE || key == GLFW_KEY_ESCAPE)
         {
             for (Scene *scene : *engine->getScenes())
             {

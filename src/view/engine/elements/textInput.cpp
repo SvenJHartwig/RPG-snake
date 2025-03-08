@@ -41,16 +41,18 @@ namespace SEngine
         {
             focussed = true;
         }
+        if (input == GLFW_KEY_ESCAPE)
+        {
+            focussed = false;
+        }
         if (input == GLFW_KEY_BACKSPACE && text.size() > 0)
         {
-            text.erase(text.size() - 1, text.size());
+            text.pop_back();
         }
-        else if (focussed)
+        else if (focussed && input != GLFW_KEY_BACKSPACE)
         {
             text += static_cast<char>(input);
         }
     }
-    void TextInput::setWindowClosed(bool closed)
-    {
-    }
+    void TextInput::setWindowClosed(bool closed) {}
 }

@@ -94,7 +94,7 @@ void EditorController::mainLoopIteration()
 
 void EditorController::reactOnInput(int key)
 {
-    if (key == GLFW_KEY_ESCAPE)
+    if (key == GLFW_KEY_F25)
     {
         exit = true;
     }
@@ -105,6 +105,7 @@ void EditorController::reactOnInput(int key)
         grid = new Grid();
         loadLevelFromBinaryFile(path.c_str(), grid);
         state = 1;
+        view->setState(state);
     }
 }
 void EditorController::setWindowClosed(bool closed)

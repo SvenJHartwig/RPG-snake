@@ -11,6 +11,7 @@ public:
     virtual int init() = 0;
     virtual void setCallback(SEngine::IEngineCallback *callback) = 0;
     virtual std::string getText() = 0;
+    virtual void setState(int state) = 0;
 };
 
 class EditorView : public IEditorView
@@ -19,6 +20,7 @@ private:
     bool initialized = false;
     SEngine::IRenderEngine *engine = NULL;
     SEngine::Scene *loadingScene = NULL;
+    SEngine::Scene *editorScene = NULL;
     SEngine::IEngineCallback *callback = NULL;
 
 public:
@@ -28,8 +30,10 @@ public:
     EditorView();
     int init() override;
     void initLoadingScene();
+    void initEditorScene();
     SEngine::Scene *getLoadingScene() { return loadingScene; }
     void setCallback(SEngine::IEngineCallback *callback);
     SEngine::IEngineCallback *getCallback();
     std::string getText();
+    void setState(int state);
 };

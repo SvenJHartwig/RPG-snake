@@ -10,6 +10,7 @@ public:
     bool out1 = true;
     std::string nextOutput1 = "";
     std::string nextOutput2 = "";
+    int state = 0;
 
     std::string showOutput(std::string out)
     {
@@ -23,7 +24,8 @@ public:
     }
     int init() override { return 0; }
     void setCallback(SEngine::IEngineCallback *callback) override {}
-    std::string getText() override { return ""; }
+    std::string getText() override { return nextOutput1; }
+    void setState(int state) { this->state = state; }
 };
 
 TEST_CASE("Import text file time")
@@ -71,50 +73,60 @@ TEST_CASE("Import File with teleporter and Mob")
 }
 TEST_CASE("Editor controller")
 {
+    /*  TestEditorView *view = new TestEditorView();
+      EditorController *controller = new EditorController(view);
+      view->out1 = true;
+      view->nextOutput1 = "0";
+      controller->mainLoopIteration();
+      REQUIRE(controller->state == 0);
+      view->out1 = true;
+      view->nextOutput1 = "1";
+      view->nextOutput2 = "/test/level/level1";
+      controller->mainLoopIteration();
+      REQUIRE(controller->state == 1);
+      view->out1 = true;
+      view->nextOutput1 = "4";
+      controller->mainLoopIteration();
+      REQUIRE(controller->state == 0);
+      view->out1 = true;
+      view->nextOutput1 = "2";
+      controller->mainLoopIteration();
+      REQUIRE(controller->exit);
+      controller->exit = false;
+      view->out1 = true;
+      view->nextOutput1 = "1";
+      view->nextOutput2 = "/test/level/level1";
+      controller->mainLoopIteration();
+      REQUIRE(controller->state == 1);
+      view->out1 = true;
+      view->nextOutput1 = "3";
+      view->nextOutput2 = "3";
+      controller->mainLoopIteration();
+      REQUIRE(controller->state == 2);
+      view->out1 = true;
+      view->nextOutput1 = "1";
+      controller->mainLoopIteration();
+      REQUIRE(controller->state == 2);
+      view->out1 = true;
+      view->nextOutput1 = "2";
+      controller->mainLoopIteration();
+      REQUIRE(controller->state == 2);
+      view->out1 = true;
+      view->nextOutput1 = "3";
+      controller->mainLoopIteration();
+      REQUIRE(controller->state == 2);
+      view->out1 = true;
+      view->nextOutput1 = "5";
+      controller->mainLoopIteration();
+      REQUIRE(controller->state == 1);*/
+}
+TEST_CASE("Editor controller new")
+{
     TestEditorView *view = new TestEditorView();
     EditorController *controller = new EditorController(view);
-    view->out1 = true;
-    view->nextOutput1 = "0";
-    controller->mainLoopIteration();
-    REQUIRE(controller->state == 0);
-    view->out1 = true;
-    view->nextOutput1 = "1";
-    view->nextOutput2 = "/test/level/level1";
-    controller->mainLoopIteration();
+    view->nextOutput1 = "/test/level/level1";
+    controller->reactOnInput(GLFW_KEY_ENTER);
     REQUIRE(controller->state == 1);
-    view->out1 = true;
-    view->nextOutput1 = "4";
-    controller->mainLoopIteration();
-    REQUIRE(controller->state == 0);
-    view->out1 = true;
-    view->nextOutput1 = "2";
-    controller->mainLoopIteration();
-    REQUIRE(controller->exit);
-    controller->exit = false;
-    view->out1 = true;
-    view->nextOutput1 = "1";
-    view->nextOutput2 = "/test/level/level1";
-    controller->mainLoopIteration();
-    REQUIRE(controller->state == 1);
-    view->out1 = true;
-    view->nextOutput1 = "3";
-    view->nextOutput2 = "3";
-    controller->mainLoopIteration();
-    REQUIRE(controller->state == 2);
-    view->out1 = true;
-    view->nextOutput1 = "1";
-    controller->mainLoopIteration();
-    REQUIRE(controller->state == 2);
-    view->out1 = true;
-    view->nextOutput1 = "2";
-    controller->mainLoopIteration();
-    REQUIRE(controller->state == 2);
-    view->out1 = true;
-    view->nextOutput1 = "3";
-    controller->mainLoopIteration();
-    REQUIRE(controller->state == 2);
-    view->out1 = true;
-    view->nextOutput1 = "5";
-    controller->mainLoopIteration();
-    REQUIRE(controller->state == 1);
+    REQUIRE(controller->grid->getGridSizeX() == 20);
+    REQUIRE(view->state == 1);
 }

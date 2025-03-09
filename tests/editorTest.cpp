@@ -26,6 +26,7 @@ public:
     void setCallback(SEngine::IEngineCallback *callback) override {}
     std::string getText() override { return nextOutput1; }
     void setState(int state) { this->state = state; }
+    void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) {}
 };
 
 TEST_CASE("Import text file time")
@@ -129,4 +130,8 @@ TEST_CASE("Editor controller new")
     REQUIRE(controller->state == 1);
     REQUIRE(controller->grid->getGridSizeX() == 20);
     REQUIRE(view->state == 1);
+    controller->reactOnInput(GLFW_KEY_F25);
+    REQUIRE(controller->state == 0);
+    controller->reactOnInput(GLFW_KEY_F25);
+    REQUIRE(controller->exit);
 }

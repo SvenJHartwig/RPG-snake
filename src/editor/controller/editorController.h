@@ -31,4 +31,5 @@ public:
     void mainLoopIteration();
     void reactOnInput(int input);
     void setWindowClosed(bool closed);
+    std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
 };

@@ -4,6 +4,7 @@
 #include "../../view/engine/iEngineCallback.h"
 #include "../../view/engine/elements/button.h"
 #include "../../view/engine/elements/textInput.h"
+#include "../../view/engine/elements/image.h"
 #include <thread>
 
 std::string EditorView::showOutput(std::string out)
@@ -55,7 +56,7 @@ void EditorView::initLoadingScene()
     first->text = "Load map";
     first->callback = &inputEnter;
     SEngine::TextInput *second = new SEngine::TextInput(windowWidth / 2 - 80, windowHeight / 2 + 30, windowWidth / 2 + 80, windowHeight / 2 + 60);
-    second->text = "Test";
+    second->text = "/tests/level/level1";
     SEngine::Button *third = new SEngine::Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
     third->text = "Exit";
     third->callback = &inputEscape;
@@ -70,17 +71,16 @@ void EditorView::initEditorScene()
     GLFWwindow *window = engine->getWindow();
     glfwGetWindowSize(window, &windowWidth, &windowHeight);
     editorScene = new SEngine::Scene();
-    SEngine::Button *first = new SEngine::Button(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
-    first->text = "Test";
-    first->callback = &inputEnter;
-    SEngine::TextInput *second = new SEngine::TextInput(windowWidth / 2 - 80, windowHeight / 2 + 30, windowWidth / 2 + 80, windowHeight / 2 + 60);
-    second->text = "Test";
-    SEngine::Button *third = new SEngine::Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
-    third->text = "Exit";
-    third->callback = &inputEscape;
-    editorScene->scene_elements = new std::vector<SEngine::Element *>(1, first);
-    editorScene->scene_elements->push_back(second);
-    editorScene->scene_elements->push_back(third);
+    SEngine::Image *background = new SEngine::Image(windowWidth / 2 - 320, 80, windowWidth / 2 + 320, 720, ((std::string)RESOURCE_DIR).append("/textures/background.png").c_str(), SEngine::StretchMode::ORIGINAL);
+    std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
+    SEngine::SpriteGrid *grid = new SEngine::SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.25f);
+    grid->setGrid(new std::vector<std::vector<SEngine::Sprite> *>());
+    SEngine::Button *backButton = new SEngine::Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
+    backButton->text = "Back";
+    backButton->callback = &inputEscape;
+    editorScene->scene_elements = new std::vector<SEngine::Element *>(1, background);
+    editorScene->scene_elements->push_back(grid);
+    editorScene->scene_elements->push_back(backButton);
 }
 
 void EditorView::setCallback(SEngine::IEngineCallback *callback)
@@ -107,4 +107,9 @@ void EditorView::setState(int state)
         engine->getScenes()->clear();
         engine->addScene(editorScene);
     }
+}
+
+void EditorView::setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid)
+{
+    static_cast<SEngine::SpriteGrid *>(editorScene->scene_elements->at(2))->setGrid(grid);
 }

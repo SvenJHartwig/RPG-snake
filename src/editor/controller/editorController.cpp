@@ -96,7 +96,16 @@ void EditorController::reactOnInput(int key)
 {
     if (key == GLFW_KEY_F25)
     {
-        exit = true;
+        if (state == 0)
+        {
+            exit = true;
+        }
+        else
+        {
+            path = RESOURCE_DIR;
+            state = 0;
+            view->setState(0);
+        }
     }
     else if (key == GLFW_KEY_ENTER)
     {
@@ -105,10 +114,44 @@ void EditorController::reactOnInput(int key)
         grid = new Grid();
         loadLevelFromBinaryFile(path.c_str(), grid);
         state = 1;
+        view->setGrid(getSpriteVector());
         view->setState(state);
     }
 }
 void EditorController::setWindowClosed(bool closed)
 {
     exit = closed;
+}
+std::vector<std::vector<SEngine::Sprite> *> *EditorController::getSpriteVector()
+{
+    // TODO: Unify with GridController::getSpriteVector into a new SpriteVectorProvider
+    using SEngine::Sprite;
+    std::vector<std::vector<Sprite> *> *result = new std::vector<std::vector<Sprite> *>();
+    // Level grid
+    for (int yCoord = 0; yCoord < grid->getLevel()->size(); yCoord++)
+    {
+        std::vector<Sprite> *inner = new std::vector<Sprite>(grid->getLevel()->at(yCoord)->size());
+        result->push_back(inner);
+        for (int xCoord = 0; xCoord < grid->getLevel()->at(yCoord)->size(); xCoord++)
+        {
+            Sprite tempSprite = Sprite();
+            if (dynamic_cast<Wall *>(grid->getLevel()->at(yCoord)->at(xCoord)))
+            {
+                tempSprite.texBaseX = 0.0f;
+                tempSprite.texBaseY = 0.0f;
+            }
+            else if (dynamic_cast<Teleporter *>(grid->getLevel()->at(yCoord)->at(xCoord)))
+            {
+                tempSprite.texBaseX = 0.75f;
+                tempSprite.texBaseY = 0.75f;
+            }
+            else
+            {
+                tempSprite.texBaseX = 0.25f;
+                tempSprite.texBaseY = 0.0f;
+            }
+            result->at(yCoord)->at(xCoord) = tempSprite;
+        }
+    }
+    return result;
 }

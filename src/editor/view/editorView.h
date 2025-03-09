@@ -3,6 +3,7 @@
 #include "../../view/engine/iRenderEngine.h"
 #include "../../view/engine/elements/scene.h"
 #include "../../view/engine/iEngineCallback.h"
+#include "../../view/engine/elements/spriteGrid.h"
 
 class IEditorView
 {
@@ -12,6 +13,7 @@ public:
     virtual void setCallback(SEngine::IEngineCallback *callback) = 0;
     virtual std::string getText() = 0;
     virtual void setState(int state) = 0;
+    virtual void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) = 0;
 };
 
 class EditorView : public IEditorView
@@ -36,4 +38,5 @@ public:
     SEngine::IEngineCallback *getCallback();
     std::string getText();
     void setState(int state);
+    void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid);
 };

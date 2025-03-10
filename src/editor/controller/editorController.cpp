@@ -153,5 +153,12 @@ std::vector<std::vector<SEngine::Sprite> *> *EditorController::getSpriteVector()
             result->at(yCoord)->at(xCoord) = tempSprite;
         }
     }
+    for (Mob *mob : *grid->getMobs())
+    {
+        Sprite temp = result->at(mob->getPosY())->at(mob->getPosX());
+        temp.texBaseX = 0.5f;
+        temp.texBaseY = 0.75f;
+        result->at(mob->getPosY())->at(mob->getPosX()) = temp;
+    }
     return result;
 }

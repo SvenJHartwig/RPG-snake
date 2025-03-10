@@ -111,5 +111,5 @@ void EditorView::setState(int state)
 
 void EditorView::setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid)
 {
-    static_cast<SEngine::SpriteGrid *>(editorScene->scene_elements->at(2))->setGrid(grid);
+    static_cast<SEngine::SpriteGrid *>(editorScene->scene_elements->at(1))->setGrid(grid);
 }

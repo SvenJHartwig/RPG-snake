@@ -135,3 +135,14 @@ TEST_CASE("Editor controller new")
     controller->reactOnInput(GLFW_KEY_F25);
     REQUIRE(controller->exit);
 }
+TEST_CASE("Get Sprite vector")
+{
+    TestEditorView *view = new TestEditorView();
+    EditorController *controller = new EditorController(view);
+    view->nextOutput1 = "/test/level/level1";
+    controller->reactOnInput(GLFW_KEY_ENTER);
+    REQUIRE(controller->state == 1);
+    std::vector<std::vector<SEngine::Sprite> *> *spriteVector = controller->getSpriteVector();
+    REQUIRE(spriteVector->size() == 20);
+    REQUIRE(spriteVector->at(1)->size() == 20);
+}

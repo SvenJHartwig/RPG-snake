@@ -41,6 +41,7 @@ namespace SEngine
                    int pos_y_bottom_right,
                    const std::string &textureMapPath,
                    float spriteFraction);
+        void click(IEngineCallback *callback) override;
         RenderData *createRenderData() override;
         void setGrid(std::vector<std::vector<Sprite> *> *grid);
         std::vector<std::vector<Sprite> *> *getGrid();

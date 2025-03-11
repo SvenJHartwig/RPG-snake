@@ -22,6 +22,10 @@ namespace SEngine
         this->callback = &inputKey;
     }
     TextInput::~TextInput() {}
+    void TextInput::click(IEngineCallback *callback)
+    {
+        this->callback(callback, GLFW_MOUSE_BUTTON_1);
+    }
     RenderData *TextInput::createRenderData()
     {
         vector<float> vertices = {};

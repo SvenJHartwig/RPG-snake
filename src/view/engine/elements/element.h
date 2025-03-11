@@ -26,6 +26,7 @@ namespace SEngine
         int getPosYTopLeft();
         int getPosXBottomRight();
         int getPosYBottomRight();
+        virtual void click(IEngineCallback *callback) = 0;
         virtual RenderData *createRenderData() = 0;
         ~Element() {}
     };

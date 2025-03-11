@@ -27,5 +27,6 @@ namespace SEngine
               StretchMode stretchMode = StretchMode::FIT_TO_SIZE);
         RenderData *createRenderData() override;
         float computeTextureFraction(int sizeFile, int sizeImage);
+        void click(IEngineCallback *callback) override;
     };
 }

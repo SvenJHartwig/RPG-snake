@@ -18,6 +18,7 @@ namespace SEngine
         textureNotHovered = IRenderEngine::createTexture(((std::string)RESOURCE_DIR).append("/textures/button.png"));
         textureHovered = IRenderEngine::createTexture(((std::string)RESOURCE_DIR).append("/textures/button-pressed.png"));
     }
+    void Button::click(IEngineCallback *callback) { this->callback(callback, GLFW_MOUSE_BUTTON_1); }
 
     RenderData *Button::createRenderData()
     {

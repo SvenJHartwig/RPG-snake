@@ -16,6 +16,7 @@ namespace SEngine
     }
 
     Text::~Text() {}
+    void Text::click(IEngineCallback *callback) { this->callback(callback, GLFW_MOUSE_BUTTON_1); }
 
     RenderData *Text::createRenderData()
     {

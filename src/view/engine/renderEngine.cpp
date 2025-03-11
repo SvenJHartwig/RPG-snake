@@ -85,15 +85,7 @@ namespace SEngine
                 Element *currentSceneElement = scene->scene_elements->at(i);
                 if (sceneElementInCoords(currentSceneElement, xpos, ypos))
                 {
-                    if (dynamic_cast<TextInput *>(currentSceneElement))
-                    {
-                        TextInput *textInput = dynamic_cast<TextInput *>(currentSceneElement);
-                        textInput->callback(textInput, GLFW_MOUSE_BUTTON_1);
-                    }
-                    else
-                    {
-                        currentSceneElement->callback(engine->getEngineCallback(), GLFW_MOUSE_BUTTON_1);
-                    }
+                    currentSceneElement->click(engine->getEngineCallback());
                     currentSceneElement->setIsHovered(false);
                 }
             }

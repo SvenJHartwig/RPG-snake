@@ -56,6 +56,7 @@ namespace SEngine
                    textureMapPath,
                    spriteFraction);
     }
+    void SpriteGrid::click(IEngineCallback *callback) { this->callback(callback, GLFW_MOUSE_BUTTON_1); }
 
     RenderData *SpriteGrid::createRenderData()
     {

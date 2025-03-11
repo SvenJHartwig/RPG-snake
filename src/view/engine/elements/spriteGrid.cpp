@@ -12,6 +12,8 @@ namespace SEngine
                                 int pos_x_bottom_right,
                                 int pos_y_bottom_right)
     {
+        this->focussedSpriteX = 0;
+        this->focussedSpriteY = 0;
         this->pos_x_top_left = pos_x_top_left;
         this->pos_y_top_left = pos_y_top_left;
         this->pos_x_bottom_right = pos_x_bottom_right;
@@ -58,8 +60,8 @@ namespace SEngine
     }
     void SpriteGrid::click(IEngineCallback *callback, int x, int y)
     {
-        focussedSpriteX = x / 32;
-        focussedSpriteY = y / 32;
+        focussedSpriteX = (x - pos_x_top_left) / 32;
+        focussedSpriteY = (y - pos_y_top_left) / 32;
         this->callback(callback, GLFW_MOUSE_BUTTON_1);
     }
     void SpriteGrid::reactOnInput(int input) {}
@@ -79,6 +81,12 @@ namespace SEngine
             for (int j = 0; j < grid->at(i)->size(); j++)
             {
                 float c1 = 0.0f, c2 = 0.0f, c3 = 0.0f;
+                if (highlightFocussedSprite && i == focussedSpriteY && j == focussedSpriteX)
+                {
+                    c1 = 0.5;
+                    c2 = 0.5;
+                    c3 = 0.5;
+                }
                 float texBaseX = grid->at(i)->at(j).texBaseX;
                 float texBaseY = grid->at(i)->at(j).texBaseY;
                 // Insert four vertices for the current rectangle
@@ -111,4 +119,6 @@ namespace SEngine
     std::vector<std::vector<Sprite> *> *SpriteGrid::getGrid() { return grid; }
     int SpriteGrid::getFocussedSpriteX() { return focussedSpriteX; }
     int SpriteGrid::getFocussedSpriteY() { return focussedSpriteY; }
+    void SpriteGrid::setHighlightFocussedSprite(bool highlight) { this->highlightFocussedSprite = highlight; }
+    bool SpriteGrid::getHighlightFocussedSprite() { return highlightFocussedSprite; }
 }

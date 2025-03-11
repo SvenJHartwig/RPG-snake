@@ -27,6 +27,8 @@ public:
     std::string getText() override { return nextOutput1; }
     void setState(int state) { this->state = state; }
     void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) {}
+    int getFocussedSpriteX() {}
+    int getFocussedSpriteY() {}
 };
 
 TEST_CASE("Import text file time")

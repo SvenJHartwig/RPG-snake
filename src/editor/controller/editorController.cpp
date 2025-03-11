@@ -130,6 +130,14 @@ void EditorController::reactOnInput(int key)
             view->setState(state);
         }
     }
+    if (state == 2)
+    {
+        if (key == 'w')
+        {
+            grid->getLevel()->at(view->getFocussedSpriteY())->at(view->getFocussedSpriteX()) = new Wall(0, 0);
+            view->setGrid(getSpriteVector());
+        }
+    }
 }
 void EditorController::setWindowClosed(bool closed)
 {

@@ -15,6 +15,8 @@ public:
     virtual std::string getText() = 0;
     virtual void setState(int state) = 0;
     virtual void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) = 0;
+    virtual int getFocussedSpriteX() = 0;
+    virtual int getFocussedSpriteY() = 0;
 };
 
 class EditorView : public IEditorView
@@ -43,6 +45,8 @@ public:
     SEngine::Scene *getLoadingScene() { return loadingScene; }
     void setCallback(SEngine::IEngineCallback *callback);
     SEngine::IEngineCallback *getCallback();
+    int getFocussedSpriteX();
+    int getFocussedSpriteY();
     std::string getText();
     void setState(int state);
     void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid);

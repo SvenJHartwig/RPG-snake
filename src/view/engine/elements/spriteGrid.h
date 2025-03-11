@@ -31,6 +31,7 @@ namespace SEngine
                         float spriteFraction);
         int focussedSpriteX;
         int focussedSpriteY;
+        bool highlightFocussedSprite;
 
     public:
         SpriteGrid(int pos_x_top_left,
@@ -45,6 +46,8 @@ namespace SEngine
                    float spriteFraction);
         int getFocussedSpriteX();
         int getFocussedSpriteY();
+        void setHighlightFocussedSprite(bool highlight);
+        bool getHighlightFocussedSprite();
         void click(IEngineCallback *callback, int x, int y) override;
         void reactOnInput(int input) override;
         void setWindowClosed(bool closed) override;

@@ -42,6 +42,8 @@ namespace SEngine
                    const std::string &textureMapPath,
                    float spriteFraction);
         void click(IEngineCallback *callback) override;
+        void reactOnInput(int input) override;
+        void setWindowClosed(bool closed) override;
         RenderData *createRenderData() override;
         void setGrid(std::vector<std::vector<Sprite> *> *grid);
         std::vector<std::vector<Sprite> *> *getGrid();

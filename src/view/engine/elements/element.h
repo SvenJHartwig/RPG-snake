@@ -7,7 +7,7 @@
 namespace SEngine
 {
     inline void empty(IEngineCallback *gc, int) {}
-    class Element
+    class Element : public IEngineCallback
     {
     protected:
         bool isHovered = false;

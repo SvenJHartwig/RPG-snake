@@ -36,11 +36,7 @@ namespace SEngine
         {
             for (Element *element : *scene->scene_elements)
             {
-                if (dynamic_cast<TextInput *>(element))
-                {
-                    TextInput *textInput = dynamic_cast<TextInput *>(element);
-                    textInput->callback(textInput, codepoint);
-                }
+                element->reactOnInput(codepoint);
             }
         }
     }
@@ -59,11 +55,7 @@ namespace SEngine
             {
                 for (Element *element : *scene->scene_elements)
                 {
-                    if (dynamic_cast<TextInput *>(element))
-                    {
-                        TextInput *textInput = dynamic_cast<TextInput *>(element);
-                        textInput->callback(textInput, key);
-                    }
+                    element->reactOnInput(key);
                 }
             }
         }

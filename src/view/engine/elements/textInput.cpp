@@ -25,6 +25,7 @@ namespace SEngine
     void TextInput::click(IEngineCallback *callback)
     {
         this->callback(callback, GLFW_MOUSE_BUTTON_1);
+        focussed = true;
     }
     RenderData *TextInput::createRenderData()
     {
@@ -41,10 +42,6 @@ namespace SEngine
     }
     void TextInput::reactOnInput(int input)
     {
-        if (input == GLFW_MOUSE_BUTTON_1)
-        {
-            focussed = true;
-        }
         if (input == GLFW_KEY_ESCAPE)
         {
             focussed = false;

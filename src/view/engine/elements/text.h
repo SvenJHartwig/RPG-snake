@@ -14,6 +14,8 @@ namespace SEngine
              int pos_y_bottom_right);
         ~Text();
         void click(IEngineCallback *callback) override;
+        void reactOnInput(int input) override;
+        void setWindowClosed(bool closed) override;
         RenderData *createRenderData() override;
     };
 }

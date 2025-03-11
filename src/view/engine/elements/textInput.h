@@ -5,7 +5,7 @@
 
 namespace SEngine
 {
-    class TextInput : public Element, public IEngineCallback
+    class TextInput : public Element
     {
     private:
         bool focussed;

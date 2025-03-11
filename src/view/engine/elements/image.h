@@ -28,5 +28,7 @@ namespace SEngine
         RenderData *createRenderData() override;
         float computeTextureFraction(int sizeFile, int sizeImage);
         void click(IEngineCallback *callback) override;
+        void reactOnInput(int input) override;
+        void setWindowClosed(bool closed) override;
     };
 }

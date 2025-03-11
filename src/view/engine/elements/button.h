@@ -20,5 +20,7 @@ namespace SEngine
         ~Button();
         void click(IEngineCallback *callback) override;
         RenderData *createRenderData() override;
+        void reactOnInput(int input) override;
+        void setWindowClosed(bool closed) override;
     };
 }

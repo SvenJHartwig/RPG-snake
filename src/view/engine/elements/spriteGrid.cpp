@@ -57,6 +57,8 @@ namespace SEngine
                    spriteFraction);
     }
     void SpriteGrid::click(IEngineCallback *callback) { this->callback(callback, GLFW_MOUSE_BUTTON_1); }
+    void SpriteGrid::reactOnInput(int input) {}
+    void SpriteGrid::setWindowClosed(bool closed) {}
 
     RenderData *SpriteGrid::createRenderData()
     {

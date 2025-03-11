@@ -100,11 +100,16 @@ void EditorController::reactOnInput(int key)
         {
             exit = true;
         }
-        else
+        else if (state == 1)
         {
             path = RESOURCE_DIR;
             state = 0;
-            view->setState(0);
+            view->setState(state);
+        }
+        else if (state == 2)
+        {
+            state = 1;
+            view->setState(state);
         }
     }
     else if (key == GLFW_KEY_ENTER)
@@ -116,6 +121,14 @@ void EditorController::reactOnInput(int key)
         state = 1;
         view->setGrid(getSpriteVector());
         view->setState(state);
+    }
+    if (state == 1)
+    {
+        if (key == 'a')
+        {
+            state = 2;
+            view->setState(state);
+        }
     }
 }
 void EditorController::setWindowClosed(bool closed)

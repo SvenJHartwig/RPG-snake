@@ -2,7 +2,6 @@
 #include <iostream>
 #include "../../view/engine/renderEngine.h"
 #include "../../view/engine/iEngineCallback.h"
-#include "../../view/engine/elements/button.h"
 #include "../../view/engine/elements/textInput.h"
 #include "../../view/engine/elements/image.h"
 #include <thread>
@@ -46,6 +45,16 @@ void inputEscape(SEngine::IEngineCallback *gc, int key)
     gc->reactOnInput(GLFW_KEY_F25);
 }
 
+void inputAdd(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput('a');
+}
+
+void inputW(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput('w');
+}
+
 void EditorView::initLoadingScene()
 {
     int windowWidth, windowHeight;
@@ -73,13 +82,22 @@ void EditorView::initEditorScene()
     editorScene = new SEngine::Scene();
     SEngine::Image *background = new SEngine::Image(windowWidth / 2 - 320, 80, windowWidth / 2 + 320, 720, ((std::string)RESOURCE_DIR).append("/textures/background.png").c_str(), SEngine::StretchMode::ORIGINAL);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
-    SEngine::SpriteGrid *grid = new SEngine::SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.25f);
+    grid = new SEngine::SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.25f);
     grid->setGrid(new std::vector<std::vector<SEngine::Sprite> *>());
-    SEngine::Button *backButton = new SEngine::Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
+    SEngine::Button *backButton = new SEngine::Button(windowWidth - 160, windowHeight / 2 + 200, windowWidth - 20, windowHeight / 2 + 230);
     backButton->text = "Back";
     backButton->callback = &inputEscape;
+    SEngine::Button *addButton = new SEngine::Button(windowWidth - 160, 160, windowWidth - 20, 190);
+    addButton->text = "Add Element";
+    addButton->callback = &inputAdd;
+    wallButton = new SEngine::Button(windowWidth - 160, 200, windowWidth - 20, 230);
+    wallButton->text = "Wall";
+    wallButton->callback = &inputW;
+    wallButton->setVisible(false);
     editorScene->scene_elements = new std::vector<SEngine::Element *>(1, background);
     editorScene->scene_elements->push_back(grid);
+    editorScene->scene_elements->push_back(addButton);
+    editorScene->scene_elements->push_back(wallButton);
     editorScene->scene_elements->push_back(backButton);
 }
 
@@ -106,10 +124,15 @@ void EditorView::setState(int state)
     {
         engine->getScenes()->clear();
         engine->addScene(editorScene);
+        wallButton->setVisible(false);
+    }
+    else if (state == 2)
+    {
+        wallButton->setVisible(true);
     }
 }
 
 void EditorView::setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid)
 {
-    static_cast<SEngine::SpriteGrid *>(editorScene->scene_elements->at(1))->setGrid(grid);
+    this->grid->setGrid(grid);
 }

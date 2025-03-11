@@ -4,6 +4,7 @@
 #include "../../view/engine/elements/scene.h"
 #include "../../view/engine/iEngineCallback.h"
 #include "../../view/engine/elements/spriteGrid.h"
+#include "../../view/engine/elements/button.h"
 
 class IEditorView
 {
@@ -24,9 +25,15 @@ private:
     SEngine::Scene *loadingScene = NULL;
     SEngine::Scene *editorScene = NULL;
     SEngine::IEngineCallback *callback = NULL;
+    SEngine::SpriteGrid *grid;
+    SEngine::Button *wallButton;
 
 public:
-    bool isInitialized() { return initialized; }
+    bool
+    isInitialized()
+    {
+        return initialized;
+    }
     void setInitialized(bool initialized) { this->initialized = initialized; }
     std::string showOutput(std::string out);
     EditorView();

@@ -56,7 +56,12 @@ namespace SEngine
                    textureMapPath,
                    spriteFraction);
     }
-    void SpriteGrid::click(IEngineCallback *callback) { this->callback(callback, GLFW_MOUSE_BUTTON_1); }
+    void SpriteGrid::click(IEngineCallback *callback, int x, int y)
+    {
+        focussedSpriteX = x / 32;
+        focussedSpriteY = y / 32;
+        this->callback(callback, GLFW_MOUSE_BUTTON_1);
+    }
     void SpriteGrid::reactOnInput(int input) {}
     void SpriteGrid::setWindowClosed(bool closed) {}
 
@@ -104,4 +109,6 @@ namespace SEngine
     }
     void SpriteGrid::setGrid(std::vector<std::vector<Sprite> *> *grid) { this->grid = grid; }
     std::vector<std::vector<Sprite> *> *SpriteGrid::getGrid() { return grid; }
+    int SpriteGrid::getFocussedSpriteX() { return focussedSpriteX; }
+    int SpriteGrid::getFocussedSpriteY() { return focussedSpriteY; }
 }

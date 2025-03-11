@@ -18,7 +18,7 @@ namespace SEngine
                int pos_x_bottom_right,
                int pos_y_bottom_right);
         ~Button();
-        void click(IEngineCallback *callback) override;
+        void click(IEngineCallback *callback, int x, int y) override;
         RenderData *createRenderData() override;
         void reactOnInput(int input) override;
         void setWindowClosed(bool closed) override;

@@ -77,7 +77,7 @@ namespace SEngine
                 Element *currentSceneElement = scene->scene_elements->at(i);
                 if (sceneElementInCoords(currentSceneElement, xpos, ypos))
                 {
-                    currentSceneElement->click(engine->getEngineCallback());
+                    currentSceneElement->click(engine->getEngineCallback(), xpos, ypos);
                     currentSceneElement->setIsHovered(false);
                 }
             }

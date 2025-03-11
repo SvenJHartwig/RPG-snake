@@ -60,6 +60,15 @@ TEST_CASE("Sprite grid tests")
     data = spriteGrid2->createRenderData();
     REQUIRE(data->getVertices().size() == 11200);
     REQUIRE(data->getIndices().size() == 2400);
+    spriteGrid2->click(NULL, 0, 0);
+    REQUIRE(spriteGrid2->getFocussedSpriteX() == 0);
+    REQUIRE(spriteGrid2->getFocussedSpriteY() == 0);
+    spriteGrid2->click(NULL, 40, 0);
+    REQUIRE(spriteGrid2->getFocussedSpriteX() == 1);
+    REQUIRE(spriteGrid2->getFocussedSpriteY() == 0);
+    spriteGrid2->click(NULL, 40, 200);
+    REQUIRE(spriteGrid2->getFocussedSpriteX() == 1);
+    REQUIRE(spriteGrid2->getFocussedSpriteY() == 6);
 }
 
 TEST_CASE("Image compute texture fractions")
@@ -75,7 +84,7 @@ TEST_CASE("Image compute texture fractions")
 TEST_CASE("TextInput element")
 {
     TextInput *input = new TextInput(0, 0, 20, 20);
-    input->callback(input, GLFW_MOUSE_BUTTON_1);
+    input->click(input, 0, 0);
     input->callback(input, GLFW_KEY_BACKSPACE);
     input->callback(input, GLFW_KEY_BACKSPACE);
     input->callback(input, 'a');

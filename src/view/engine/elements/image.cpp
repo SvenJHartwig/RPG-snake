@@ -23,7 +23,7 @@ namespace SEngine
         this->stretchMode = stretchMode;
         stbi_load(path.c_str(), &width, &height, &height, 0);
     }
-    void Image::click(IEngineCallback *callback) { this->callback(callback, GLFW_MOUSE_BUTTON_1); }
+    void Image::click(IEngineCallback *callback, int x, int y) { this->callback(callback, GLFW_MOUSE_BUTTON_1); }
     void Image::reactOnInput(int input) {}
     void Image::setWindowClosed(bool closed) {}
 

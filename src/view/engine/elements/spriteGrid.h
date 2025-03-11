@@ -29,6 +29,8 @@ namespace SEngine
                         int pos_y_bottom_right,
                         const std::string &textureMapPath,
                         float spriteFraction);
+        int focussedSpriteX;
+        int focussedSpriteY;
 
     public:
         SpriteGrid(int pos_x_top_left,
@@ -41,7 +43,9 @@ namespace SEngine
                    int pos_y_bottom_right,
                    const std::string &textureMapPath,
                    float spriteFraction);
-        void click(IEngineCallback *callback) override;
+        int getFocussedSpriteX();
+        int getFocussedSpriteY();
+        void click(IEngineCallback *callback, int x, int y) override;
         void reactOnInput(int input) override;
         void setWindowClosed(bool closed) override;
         RenderData *createRenderData() override;

@@ -22,7 +22,7 @@ namespace SEngine
         this->callback = &inputKey;
     }
     TextInput::~TextInput() {}
-    void TextInput::click(IEngineCallback *callback)
+    void TextInput::click(IEngineCallback *callback, int x, int y)
     {
         this->callback(callback, GLFW_MOUSE_BUTTON_1);
         focussed = true;

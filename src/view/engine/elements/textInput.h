@@ -18,7 +18,7 @@ namespace SEngine
                   int pos_y_bottom_right);
         ~TextInput();
         RenderData *createRenderData() override;
-        void click(IEngineCallback *callback) override;
+        void click(IEngineCallback *callback, int x, int y) override;
         void reactOnInput(int input) override;
         void setWindowClosed(bool closed) override;
     };

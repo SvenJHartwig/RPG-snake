@@ -30,6 +30,7 @@ public:
     void mainLoop();
     void mainLoopIteration();
     void reactOnInput(int input);
+    void eraseMobAt(int focussedX, int focussedY);
     void setWindowClosed(bool closed);
     std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
 };

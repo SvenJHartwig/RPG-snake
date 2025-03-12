@@ -136,15 +136,31 @@ void EditorController::reactOnInput(int key)
     }
     if (state == 2)
     {
+        int focussedX = view->getFocussedSpriteX();
+        int focussedY = view->getFocussedSpriteY();
         if (key == 'w')
         {
-            grid->getLevel()->at(view->getFocussedSpriteY())->at(view->getFocussedSpriteX()) = new Wall(0, 0);
+            eraseMobAt(focussedX, focussedY);
+            grid->getLevel()->at(focussedY)->at(focussedX) = new Wall(0, 0);
             view->setGrid(getSpriteVector());
         }
         else if (key == 'g')
         {
-            grid->getLevel()->at(view->getFocussedSpriteY())->at(view->getFocussedSpriteX()) = new Ground(0, 0);
+            eraseMobAt(focussedX, focussedY);
+            grid->getLevel()->at(focussedY)->at(focussedX) = new Ground(0, 0);
             view->setGrid(getSpriteVector());
+        }
+    }
+}
+void EditorController::eraseMobAt(int focussedX, int focussedY)
+{
+
+    std::vector<Mob *> *mobs = grid->getMobs();
+    for (int i = 0; i < mobs->size(); i++)
+    {
+        if (mobs->at(i)->getPosX() == focussedX && mobs->at(i)->getPosY() == focussedY)
+        {
+            mobs->erase(mobs->begin() + i);
         }
     }
 }

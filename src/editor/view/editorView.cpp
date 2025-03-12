@@ -55,6 +55,16 @@ void inputW(SEngine::IEngineCallback *gc, int key)
     gc->reactOnInput('w');
 }
 
+void inputG(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput('g');
+}
+
+void inputS(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput('s');
+}
+
 void EditorView::initLoadingScene()
 {
     int windowWidth, windowHeight;
@@ -95,10 +105,21 @@ void EditorView::initEditorScene()
     wallButton->text = "Wall";
     wallButton->callback = &inputW;
     wallButton->setVisible(false);
+    groundButton = new SEngine::Button(windowWidth - 160, 240, windowWidth - 20, 270);
+    groundButton->text = "Ground";
+    groundButton->callback = &inputG;
+    groundButton->setVisible(false);
+
+    saveButton = new SEngine::Button(windowWidth - 160, 200, windowWidth - 20, 230);
+    saveButton->text = "Save map";
+    saveButton->callback = &inputS;
+
     editorScene->scene_elements = new std::vector<SEngine::Element *>(1, background);
     editorScene->scene_elements->push_back(grid);
     editorScene->scene_elements->push_back(addButton);
     editorScene->scene_elements->push_back(wallButton);
+    editorScene->scene_elements->push_back(groundButton);
+    editorScene->scene_elements->push_back(saveButton);
     editorScene->scene_elements->push_back(backButton);
 }
 
@@ -126,10 +147,14 @@ void EditorView::setState(int state)
         engine->getScenes()->clear();
         engine->addScene(editorScene);
         wallButton->setVisible(false);
+        groundButton->setVisible(false);
+        saveButton->setVisible(true);
     }
     else if (state == 2)
     {
         wallButton->setVisible(true);
+        groundButton->setVisible(true);
+        saveButton->setVisible(false);
     }
 }
 

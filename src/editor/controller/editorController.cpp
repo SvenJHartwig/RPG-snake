@@ -129,12 +129,21 @@ void EditorController::reactOnInput(int key)
             state = 2;
             view->setState(state);
         }
+        else if (key == 's')
+        {
+            saveGridAsBinaryFile(path, grid);
+        }
     }
     if (state == 2)
     {
         if (key == 'w')
         {
             grid->getLevel()->at(view->getFocussedSpriteY())->at(view->getFocussedSpriteX()) = new Wall(0, 0);
+            view->setGrid(getSpriteVector());
+        }
+        else if (key == 'g')
+        {
+            grid->getLevel()->at(view->getFocussedSpriteY())->at(view->getFocussedSpriteX()) = new Ground(0, 0);
             view->setGrid(getSpriteVector());
         }
     }

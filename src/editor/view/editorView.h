@@ -28,7 +28,9 @@ private:
     SEngine::Scene *editorScene = NULL;
     SEngine::IEngineCallback *callback = NULL;
     SEngine::SpriteGrid *grid;
+    SEngine::Button *saveButton;
     SEngine::Button *wallButton;
+    SEngine::Button *groundButton;
 
 public:
     bool

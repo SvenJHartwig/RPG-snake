@@ -141,6 +141,9 @@ void EditorView::initEditorScene()
     editorScene->scene_elements->push_back(groundButton);
     editorScene->scene_elements->push_back(enemyButton);
     editorScene->scene_elements->push_back(tpButton);
+    editorScene->scene_elements->push_back(input1);
+    editorScene->scene_elements->push_back(input2);
+    editorScene->scene_elements->push_back(input3);
     editorScene->scene_elements->push_back(saveButton);
     editorScene->scene_elements->push_back(backButton);
 }

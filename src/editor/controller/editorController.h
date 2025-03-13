@@ -29,8 +29,11 @@ public:
     EditorController(IEditorView *view);
     ~EditorController();
     void mainLoop();
-    void mainLoopIteration();
     void reactOnInput(int input);
+    void handleInputForState0(int key);
+    void handleInputForState1(int key);
+    void handleInputForState2(int key);
+    void handleInputForState3(int key);
     void eraseMobAt(int focussedX, int focussedY);
     void setWindowClosed(bool closed);
     std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();

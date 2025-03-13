@@ -154,7 +154,7 @@ void EditorController::reactOnInput(int key)
         else if (key == 'e')
         {
             eraseMobAt(focussedX, focussedY);
-            grid->getLevel()->at(focussedY)->at(focussedX) = new Ground(focussedX, focussedY);
+            grid->getLevel()->at(focussedY)->at(focussedX) = new Enemy(focussedX, focussedY);
             grid->getMobs()->push_back(new Enemy(focussedX, focussedY));
             view->setGrid(getSpriteVector());
         }

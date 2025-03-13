@@ -38,9 +38,10 @@ find_package(Catch2 3 REQUIRED)
 # These tests can use the Catch2-provided main
 add_executable(tests tests/test.cpp src/model/grid.cpp src/model/snake.cpp src/controller/gridController.cpp src/controller/gameController.cpp 
     src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp src/model/mob.cpp src/model/gridElement.cpp src/model/quest.cpp
-    src/model/teleporter.cpp src/view/engine/renderData.cpp  src/view/engine/elements/textInput.cpp)
+    src/model/teleporter.cpp src/view/engine/renderData.cpp src/view/engine/elements/textInput.cpp src/view/engine/iRenderEngine.cpp)
 target_link_directories(tests PRIVATE /usr/local/lib /usr/lib64)
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(tests PRIVATE glfw3 rt m dl GLEW GLU OpenGL freetype)
 target_compile_options(tests PRIVATE -coverage)
 target_link_options(tests PRIVATE -coverage)
 target_compile_definitions(tests PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/src/resources")

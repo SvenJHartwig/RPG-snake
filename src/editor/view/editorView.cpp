@@ -49,20 +49,25 @@ void inputAdd(SEngine::IEngineCallback *gc, int key)
 {
     gc->reactOnInput('a');
 }
-
 void inputW(SEngine::IEngineCallback *gc, int key)
 {
     gc->reactOnInput('w');
 }
-
 void inputG(SEngine::IEngineCallback *gc, int key)
 {
     gc->reactOnInput('g');
 }
-
 void inputS(SEngine::IEngineCallback *gc, int key)
 {
     gc->reactOnInput('s');
+}
+void inputE(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput('e');
+}
+void inputT(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput('t');
 }
 
 void EditorView::initLoadingScene()
@@ -74,7 +79,7 @@ void EditorView::initLoadingScene()
     SEngine::Button *first = new SEngine::Button(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
     first->text = "Load map";
     first->callback = &inputEnter;
-    SEngine::TextInput *second = new SEngine::TextInput(windowWidth / 2 - 80, windowHeight / 2 + 30, windowWidth / 2 + 80, windowHeight / 2 + 60);
+    SEngine::TextInput *second = new SEngine::TextInput(windowWidth / 2 - 130, windowHeight / 2 + 30, windowWidth / 2 + 130, windowHeight / 2 + 60);
     second->text = "/tests/level/level1";
     SEngine::Button *third = new SEngine::Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
     third->text = "Exit";
@@ -109,6 +114,14 @@ void EditorView::initEditorScene()
     groundButton->text = "Ground";
     groundButton->callback = &inputG;
     groundButton->setVisible(false);
+    enemyButton = new SEngine::Button(windowWidth - 160, 280, windowWidth - 20, 310);
+    enemyButton->text = "Enemy";
+    enemyButton->callback = &inputE;
+    enemyButton->setVisible(false);
+    tpButton = new SEngine::Button(windowWidth - 160, 320, windowWidth - 20, 350);
+    tpButton->text = "Teleporter";
+    tpButton->callback = &inputE;
+    tpButton->setVisible(false);
 
     saveButton = new SEngine::Button(windowWidth - 160, 200, windowWidth - 20, 230);
     saveButton->text = "Save map";
@@ -119,6 +132,8 @@ void EditorView::initEditorScene()
     editorScene->scene_elements->push_back(addButton);
     editorScene->scene_elements->push_back(wallButton);
     editorScene->scene_elements->push_back(groundButton);
+    editorScene->scene_elements->push_back(enemyButton);
+    editorScene->scene_elements->push_back(tpButton);
     editorScene->scene_elements->push_back(saveButton);
     editorScene->scene_elements->push_back(backButton);
 }
@@ -148,12 +163,14 @@ void EditorView::setState(int state)
         engine->addScene(editorScene);
         wallButton->setVisible(false);
         groundButton->setVisible(false);
+        enemyButton->setVisible(false);
         saveButton->setVisible(true);
     }
     else if (state == 2)
     {
         wallButton->setVisible(true);
         groundButton->setVisible(true);
+        enemyButton->setVisible(true);
         saveButton->setVisible(false);
     }
 }

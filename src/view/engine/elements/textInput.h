@@ -9,6 +9,8 @@ namespace SEngine
     {
     private:
         bool focussed;
+        unsigned int textureNotHovered;
+        unsigned int textureHovered;
 
     public:
         std::string text;

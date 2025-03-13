@@ -31,6 +31,8 @@ private:
     SEngine::Button *saveButton;
     SEngine::Button *wallButton;
     SEngine::Button *groundButton;
+    SEngine::Button *enemyButton;
+    SEngine::Button *tpButton;
 
 public:
     bool

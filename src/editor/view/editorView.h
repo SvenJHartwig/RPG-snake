@@ -5,6 +5,7 @@
 #include "../../view/engine/iEngineCallback.h"
 #include "../../view/engine/elements/spriteGrid.h"
 #include "../../view/engine/elements/button.h"
+#include "../../view/engine/elements/textInput.h"
 
 class IEditorView
 {
@@ -33,6 +34,9 @@ private:
     SEngine::Button *groundButton;
     SEngine::Button *enemyButton;
     SEngine::Button *tpButton;
+    SEngine::TextInput *input1;
+    SEngine::TextInput *input2;
+    SEngine::TextInput *input3;
 
 public:
     bool

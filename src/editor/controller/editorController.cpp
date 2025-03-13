@@ -94,37 +94,33 @@ void EditorController::mainLoopIteration()
 
 void EditorController::reactOnInput(int key)
 {
-    if (key == GLFW_KEY_F25)
+
+    if (state == 0)
     {
-        if (state == 0)
+        if (key == GLFW_KEY_F25)
         {
             exit = true;
         }
-        else if (state == 1)
+        else if (key == GLFW_KEY_ENTER)
+        {
+            input = view->getText();
+            path.append(input);
+            grid = new Grid();
+            loadLevelFromBinaryFile(path.c_str(), grid);
+            state = 1;
+            view->setGrid(getSpriteVector());
+            view->setState(state);
+        }
+    }
+    else if (state == 1)
+    {
+        if (key == GLFW_KEY_F25)
         {
             path = RESOURCE_DIR;
             state = 0;
             view->setState(state);
         }
-        else if (state == 2)
-        {
-            state = 1;
-            view->setState(state);
-        }
-    }
-    else if (key == GLFW_KEY_ENTER)
-    {
-        input = view->getText();
-        path.append(input);
-        grid = new Grid();
-        loadLevelFromBinaryFile(path.c_str(), grid);
-        state = 1;
-        view->setGrid(getSpriteVector());
-        view->setState(state);
-    }
-    if (state == 1)
-    {
-        if (key == 'a')
+        else if (key == 'a')
         {
             state = 2;
             view->setState(state);
@@ -134,21 +130,38 @@ void EditorController::reactOnInput(int key)
             saveGridAsBinaryFile(path, grid);
         }
     }
-    if (state == 2)
+    else if (state == 2)
     {
+        if (key == GLFW_KEY_F25)
+        {
+            state = 1;
+            view->setState(state);
+        }
         int focussedX = view->getFocussedSpriteX();
         int focussedY = view->getFocussedSpriteY();
         if (key == 'w')
         {
             eraseMobAt(focussedX, focussedY);
-            grid->getLevel()->at(focussedY)->at(focussedX) = new Wall(0, 0);
+            grid->getLevel()->at(focussedY)->at(focussedX) = new Wall(focussedX, focussedY);
             view->setGrid(getSpriteVector());
         }
         else if (key == 'g')
         {
             eraseMobAt(focussedX, focussedY);
-            grid->getLevel()->at(focussedY)->at(focussedX) = new Ground(0, 0);
+            grid->getLevel()->at(focussedY)->at(focussedX) = new Ground(focussedX, focussedY);
             view->setGrid(getSpriteVector());
+        }
+        else if (key == 'e')
+        {
+            eraseMobAt(focussedX, focussedY);
+            grid->getLevel()->at(focussedY)->at(focussedX) = new Ground(focussedX, focussedY);
+            grid->getMobs()->push_back(new Enemy(focussedX, focussedY));
+            view->setGrid(getSpriteVector());
+        }
+        else if (key == 't')
+        {
+            state = 3;
+            view->setState(state);
         }
     }
 }

@@ -120,8 +120,15 @@ void EditorView::initEditorScene()
     enemyButton->setVisible(false);
     tpButton = new SEngine::Button(windowWidth - 160, 320, windowWidth - 20, 350);
     tpButton->text = "Teleporter";
-    tpButton->callback = &inputE;
+    tpButton->callback = &inputT;
     tpButton->setVisible(false);
+
+    input1 = new SEngine::TextInput(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
+    input1->setVisible(false);
+    input2 = new SEngine::TextInput(windowWidth / 2 - 80, windowHeight / 2 + 10, windowWidth / 2 + 80, windowHeight / 2 + 40);
+    input2->setVisible(false);
+    input3 = new SEngine::TextInput(windowWidth / 2 - 80, windowHeight / 2 + 50, windowWidth / 2 + 80, windowHeight / 2 + 80);
+    input3->setVisible(false);
 
     saveButton = new SEngine::Button(windowWidth - 160, 200, windowWidth - 20, 230);
     saveButton->text = "Save map";
@@ -164,6 +171,7 @@ void EditorView::setState(int state)
         wallButton->setVisible(false);
         groundButton->setVisible(false);
         enemyButton->setVisible(false);
+        tpButton->setVisible(false);
         saveButton->setVisible(true);
     }
     else if (state == 2)
@@ -171,7 +179,17 @@ void EditorView::setState(int state)
         wallButton->setVisible(true);
         groundButton->setVisible(true);
         enemyButton->setVisible(true);
+        tpButton->setVisible(true);
         saveButton->setVisible(false);
+        input1->setVisible(false);
+        input2->setVisible(false);
+        input3->setVisible(false);
+    }
+    else if (state == 3)
+    {
+        input1->setVisible(true);
+        input2->setVisible(true);
+        input3->setVisible(true);
     }
 }
 

@@ -111,11 +111,15 @@ void EditorController::handleInputForState3(int key)
         state = 2;
         view->setState(state);
     }
-    int focussedX = view->getFocussedSpriteX();
-    int focussedY = view->getFocussedSpriteY();
     if (key == GLFW_KEY_ENTER)
     {
-        grid->getLevel()->at(focussedY)->at(focussedX) = new Enemy(focussedX, focussedY);
+        int focussedX = view->getFocussedSpriteX();
+        int focussedY = view->getFocussedSpriteY();
+        std::string targetPath = static_cast<std::string>(RESOURCE_DIR).append(view->getTargetPath());
+        int targetX = view->getTargetSpriteX();
+        int targetY = view->getTargetSpriteY();
+        grid->getLevel()->at(focussedY)->at(focussedX) = new Teleporter(focussedX, focussedY, targetPath, targetX, targetY);
+        view->setGrid(getSpriteVector());
         state = 2;
         view->setState(state);
     }

@@ -202,3 +202,16 @@ void EditorView::setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid)
 }
 int EditorView::getFocussedSpriteX() { return grid->getFocussedSpriteX(); }
 int EditorView::getFocussedSpriteY() { return grid->getFocussedSpriteY(); }
+std::string EditorView::getTargetPath() { return input1->text; }
+int EditorView::getTargetSpriteX()
+{
+    if (input2->text == "")
+        return 0;
+    return std::stoi(input2->text);
+}
+int EditorView::getTargetSpriteY()
+{
+    if (input3->text == "")
+        return 0;
+    return std::stoi(input3->text);
+}

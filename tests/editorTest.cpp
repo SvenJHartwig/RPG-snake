@@ -29,6 +29,9 @@ public:
     void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) {}
     int getFocussedSpriteX() { return 0; }
     int getFocussedSpriteY() { return 0; }
+    std::string getTargetPath() { return ""; }
+    int getTargetSpriteX() { return 0; }
+    int getTargetSpriteY() { return 0; }
 };
 
 TEST_CASE("Import text file time")

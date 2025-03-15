@@ -34,6 +34,10 @@ void EditorController::reactOnInput(int key)
     {
         handleInputForState3(key);
     }
+    else if (state == 4)
+    {
+        handleInputForState4(key);
+    }
 }
 void EditorController::handleInputForState0(int key)
 {
@@ -68,6 +72,11 @@ void EditorController::handleInputForState1(int key)
     else if (key == 's')
     {
         saveGridAsBinaryFile(path, grid);
+    }
+    else if (key == 'd')
+    {
+        state = 4;
+        view->setState(state);
     }
 }
 void EditorController::handleInputForState2(int key)
@@ -121,6 +130,21 @@ void EditorController::handleInputForState3(int key)
         grid->getLevel()->at(focussedY)->at(focussedX) = new Teleporter(focussedX, focussedY, targetPath, targetX, targetY);
         view->setGrid(getSpriteVector());
         state = 2;
+        view->setState(state);
+    }
+}
+void EditorController::handleInputForState4(int key)
+{
+    if (key == GLFW_KEY_F25)
+    {
+        state = 1;
+        view->setState(state);
+    }
+    if (key == GLFW_KEY_ENTER)
+    {
+        std::string targetPath = static_cast<std::string>(RESOURCE_DIR).append(view->getTargetPath());
+        saveGridAsBinaryFile(targetPath, grid);
+        state = 1;
         view->setState(state);
     }
 }

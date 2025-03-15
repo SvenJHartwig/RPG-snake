@@ -1,6 +1,5 @@
 - Switch level files to binary format, this allows to:
     - Add NPCs that give quests
-- Enemies
 - Power Ups
 - Move on own volition in RPG mode
 - Savestates
@@ -9,3 +8,7 @@
 - Fix crash on loading a file with not the correct format
 - Fix sometimes rng gives a pair that is not allowed
 - Rework getSpriteVector
+
+Engine:
+- Dialogs
+- Layouts

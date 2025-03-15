@@ -61,6 +61,10 @@ void inputS(SEngine::IEngineCallback *gc, int key)
 {
     gc->reactOnInput('s');
 }
+void inputD(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput('d');
+}
 void inputE(SEngine::IEngineCallback *gc, int key)
 {
     gc->reactOnInput('e');
@@ -134,6 +138,10 @@ void EditorView::initEditorScene()
     saveButton->text = "Save map";
     saveButton->callback = &inputS;
 
+    saveAsButton = new SEngine::Button(windowWidth - 160, 240, windowWidth - 20, 270);
+    saveAsButton->text = "Save map as";
+    saveAsButton->callback = &inputD;
+
     editorScene->scene_elements = new std::vector<SEngine::Element *>(1, background);
     editorScene->scene_elements->push_back(grid);
     editorScene->scene_elements->push_back(addButton);
@@ -145,6 +153,7 @@ void EditorView::initEditorScene()
     editorScene->scene_elements->push_back(input2);
     editorScene->scene_elements->push_back(input3);
     editorScene->scene_elements->push_back(saveButton);
+    editorScene->scene_elements->push_back(saveAsButton);
     editorScene->scene_elements->push_back(backButton);
 }
 
@@ -176,6 +185,10 @@ void EditorView::setState(int state)
         enemyButton->setVisible(false);
         tpButton->setVisible(false);
         saveButton->setVisible(true);
+        saveAsButton->setVisible(true);
+        input1->setVisible(false);
+        input2->setVisible(false);
+        input3->setVisible(false);
     }
     else if (state == 2)
     {
@@ -184,6 +197,7 @@ void EditorView::setState(int state)
         enemyButton->setVisible(true);
         tpButton->setVisible(true);
         saveButton->setVisible(false);
+        saveAsButton->setVisible(false);
         input1->setVisible(false);
         input2->setVisible(false);
         input3->setVisible(false);
@@ -193,6 +207,10 @@ void EditorView::setState(int state)
         input1->setVisible(true);
         input2->setVisible(true);
         input3->setVisible(true);
+    }
+    else if (state == 4)
+    {
+        input1->setVisible(true);
     }
 }
 

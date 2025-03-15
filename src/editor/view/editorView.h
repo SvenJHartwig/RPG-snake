@@ -33,6 +33,7 @@ private:
     SEngine::IEngineCallback *callback = NULL;
     SEngine::SpriteGrid *grid;
     SEngine::Button *saveButton;
+    SEngine::Button *saveAsButton;
     SEngine::Button *wallButton;
     SEngine::Button *groundButton;
     SEngine::Button *enemyButton;

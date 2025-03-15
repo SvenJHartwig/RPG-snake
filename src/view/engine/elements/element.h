@@ -12,6 +12,7 @@ namespace SEngine
     protected:
         bool isHovered = false;
         bool visible = true;
+        bool focussed = false;
         int pos_x_top_left;
         int pos_y_top_left;
         int pos_x_bottom_right;
@@ -20,6 +21,7 @@ namespace SEngine
     public:
         void (*callback)(IEngineCallback *, int) = &empty;
         void setIsHovered(bool isHovered);
+        void setFocussed(bool focussed);
         void setVisible(bool visible);
         bool getVisible();
         int getPosXTopLeft();

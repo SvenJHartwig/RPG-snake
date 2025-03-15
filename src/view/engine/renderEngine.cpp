@@ -75,6 +75,7 @@ namespace SEngine
             for (int i = 0; i < scene->scene_elements->size(); i++)
             {
                 Element *currentSceneElement = scene->scene_elements->at(i);
+                currentSceneElement->setFocussed(false);
                 if (sceneElementInCoords(currentSceneElement, xpos, ypos))
                 {
                     currentSceneElement->click(engine->getEngineCallback(), xpos, ypos);

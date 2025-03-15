@@ -3,6 +3,7 @@
 namespace SEngine
 {
     void Element::setIsHovered(bool isHovered) { this->isHovered = isHovered; }
+    void Element::setFocussed(bool focussed) { this->focussed = focussed; }
     void Element::setVisible(bool visible) { this->visible = visible; }
     bool Element::getVisible() { return visible; }
     int Element::getPosXTopLeft() { return pos_x_top_left; }

@@ -8,7 +8,6 @@ namespace SEngine
     class TextInput : public Element
     {
     private:
-        bool focussed;
         unsigned int textureNotHovered;
         unsigned int textureHovered;
 

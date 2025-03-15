@@ -89,4 +89,16 @@ TEST_CASE("TextInput element")
     input->callback(input, GLFW_KEY_BACKSPACE);
     input->callback(input, 'a');
     REQUIRE(input->text.compare("a") == 0);
+    SEngine::RenderData *data = input->createRenderData();
+    REQUIRE(data->getVertices().size() == 84);
+    REQUIRE(data->getIndices().size() == 18);
+    input->setFocussed(false);
+    SEngine::RenderData *data2 = input->createRenderData();
+    REQUIRE(data2->getVertices().size() == 84);
+    REQUIRE(data2->getIndices().size() == 18);
+    REQUIRE(data->getTexture() != data2->getTexture());
+    input->setFocussed(true);
+    input->reactOnInput(GLFW_KEY_ESCAPE);
+    SEngine::RenderData *data3 = input->createRenderData();
+    REQUIRE(data3->getTexture() == data2->getTexture());
 }

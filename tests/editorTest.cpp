@@ -27,8 +27,8 @@ public:
     std::string getText() override { return nextOutput1; }
     void setState(int state) { this->state = state; }
     void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) {}
-    int getFocussedSpriteX() { return 0; }
-    int getFocussedSpriteY() { return 0; }
+    int getFocussedSpriteX() { return 2; }
+    int getFocussedSpriteY() { return 2; }
     std::string getTargetPath() { return ""; }
     int getTargetSpriteX() { return 0; }
     int getTargetSpriteY() { return 0; }
@@ -150,4 +150,38 @@ TEST_CASE("Get Sprite vector")
     std::vector<std::vector<SEngine::Sprite> *> *spriteVector = controller->getSpriteVector();
     REQUIRE(spriteVector->size() == 20);
     REQUIRE(spriteVector->at(1)->size() == 20);
+}
+TEST_CASE("Editor controller states")
+{
+    TestEditorView *view = new TestEditorView();
+    EditorController *controller = new EditorController(view);
+    view->nextOutput1 = "/test/level/level1";
+    controller->reactOnInput(GLFW_KEY_ENTER);
+    REQUIRE(controller->state == 1);
+    REQUIRE(controller->grid->getGridSizeX() == 20);
+    REQUIRE(view->state == 1);
+    controller->reactOnInput('d');
+    REQUIRE(view->state == 4);
+    controller->reactOnInput(GLFW_KEY_F25);
+    REQUIRE(view->state == 1);
+    controller->reactOnInput('a');
+    REQUIRE(view->state == 2);
+    controller->reactOnInput('w');
+    REQUIRE(view->state == 2);
+    REQUIRE(dynamic_cast<Wall *>(controller->grid->getLevel()->at(2)->at(2)));
+    controller->reactOnInput('g');
+    REQUIRE(view->state == 2);
+    REQUIRE(dynamic_cast<Ground *>(controller->grid->getLevel()->at(2)->at(2)));
+    controller->reactOnInput('e');
+    REQUIRE(view->state == 2);
+    REQUIRE(dynamic_cast<Enemy *>(controller->grid->getLevel()->at(2)->at(2)));
+    REQUIRE(controller->grid->getMobs()->size() == 1);
+    controller->reactOnInput('t');
+    REQUIRE(view->state == 3);
+    controller->reactOnInput(GLFW_KEY_ENTER);
+    REQUIRE(view->state == 2);
+    REQUIRE(dynamic_cast<Teleporter *>(controller->grid->getLevel()->at(2)->at(2)));
+    controller->reactOnInput('t');
+    controller->reactOnInput(GLFW_KEY_F25);
+    REQUIRE(view->state == 2);
 }

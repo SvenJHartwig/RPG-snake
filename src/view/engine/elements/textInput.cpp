@@ -22,7 +22,7 @@ namespace SEngine
         focussed = false;
         this->callback = &inputKey;
 
-        // ToDo: Create texture for texytinput
+        // ToDo: Create texture for textinput
         textureNotHovered = IRenderEngine::createTexture(((std::string)RESOURCE_DIR).append("/textures/button.png"));
         textureHovered = IRenderEngine::createTexture(((std::string)RESOURCE_DIR).append("/textures/button-pressed.png"));
     }

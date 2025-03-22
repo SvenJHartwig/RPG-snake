@@ -10,6 +10,7 @@ namespace SEngine
     {
     public:
         virtual void reactOnInput(int input) = 0;
+        virtual void reactOnKeyReleased(int input) = 0;
         virtual void setWindowClosed(bool closed) = 0;
     };
 }

@@ -30,7 +30,8 @@ public:
     EditorController(IEditorView *view);
     ~EditorController();
     void mainLoop();
-    void reactOnInput(int input);
+    void reactOnInput(int input) override;
+    void reactOnKeyReleased(int input) override;
     void handleInputForState0(int key);
     void handleInputForState1(int key);
     void handleInputForState2(int key);

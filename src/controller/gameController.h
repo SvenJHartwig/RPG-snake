@@ -29,6 +29,7 @@ public:
     GameController();
     ~GameController();
     void reactOnInput(int input) override;
+    void reactOnKeyReleased(int input) override;
     void setWindowClosed(bool closed) override;
     void setView(IGameView *view);
     void setSoundController(ISoundController *soundController);

@@ -8,7 +8,9 @@
 - Fix crash on loading a file with not the correct format
 - Fix sometimes rng gives a pair that is not allowed
 - Rework getSpriteVector
+- cmakeLists
 
 Engine:
 - Dialogs
 - Layouts
+- Sound controller

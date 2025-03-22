@@ -14,6 +14,7 @@ void EditorController::mainLoop()
         usleep(100000);
     }
 }
+void EditorController::reactOnKeyReleased(int input) {}
 
 void EditorController::reactOnInput(int key)
 {

@@ -109,6 +109,9 @@ void GameController::reactOnInput(int input)
         break;
     }
 }
+void GameController::reactOnKeyReleased(int input)
+{
+}
 
 void GameController::mainLoop()
 {

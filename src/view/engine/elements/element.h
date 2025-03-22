@@ -24,6 +24,7 @@ namespace SEngine
         void setFocussed(bool focussed);
         void setVisible(bool visible);
         bool getVisible();
+        void reactOnKeyReleased(int input) override;
         int getPosXTopLeft();
         int getPosYTopLeft();
         int getPosXBottomRight();

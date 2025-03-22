@@ -35,12 +35,12 @@ int EditorView::init()
     return 0;
 }
 
-void inputEnter(SEngine::IEngineCallback *gc, int key)
+void inputEnterEditor(SEngine::IEngineCallback *gc, int key)
 {
     gc->reactOnInput(GLFW_KEY_ENTER);
 }
 
-void inputEscape(SEngine::IEngineCallback *gc, int key)
+void inputEscapeEditor(SEngine::IEngineCallback *gc, int key)
 {
     gc->reactOnInput(GLFW_KEY_F25);
 }
@@ -82,12 +82,12 @@ void EditorView::initLoadingScene()
     loadingScene = new SEngine::Scene();
     SEngine::Button *first = new SEngine::Button(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
     first->text = "Load map";
-    first->callback = &inputEnter;
+    first->callback = &inputEnterEditor;
     SEngine::TextInput *second = new SEngine::TextInput(windowWidth / 2 - 130, windowHeight / 2 + 30, windowWidth / 2 + 130, windowHeight / 2 + 60);
     second->text = "/tests/level/level1";
     SEngine::Button *third = new SEngine::Button(windowWidth / 2 - 40, windowHeight / 2 + 200, windowWidth / 2 + 40, windowHeight / 2 + 230);
     third->text = "Exit";
-    third->callback = &inputEscape;
+    third->callback = &inputEscapeEditor;
     loadingScene->scene_elements = new std::vector<SEngine::Element *>(1, first);
     loadingScene->scene_elements->push_back(second);
     loadingScene->scene_elements->push_back(third);
@@ -106,7 +106,7 @@ void EditorView::initEditorScene()
     grid->setHighlightFocussedSprite(true);
     SEngine::Button *backButton = new SEngine::Button(windowWidth - 160, windowHeight / 2 + 200, windowWidth - 20, windowHeight / 2 + 230);
     backButton->text = "Back";
-    backButton->callback = &inputEscape;
+    backButton->callback = &inputEscapeEditor;
     SEngine::Button *addButton = new SEngine::Button(windowWidth - 160, 160, windowWidth - 20, 190);
     addButton->text = "Add Element";
     addButton->callback = &inputAdd;

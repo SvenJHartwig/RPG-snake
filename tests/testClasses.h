@@ -71,6 +71,7 @@ public:
         if (input == GLFW_KEY_ENTER)
             calledP = true;
     }
+    void reactOnKeyReleased(int input) override {}
     void setWindowClosed(bool closed) override {}
     long getSteps() override { return 0; }
 };

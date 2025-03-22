@@ -15,6 +15,7 @@ private:
     ISoundController *soundController;
     bool windowClosed = false;
     char lastInput;
+    bool released = false;
     SpeedSetting speed = l1;
     int eatCount = 0;
     int score = 0;

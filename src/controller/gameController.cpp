@@ -111,6 +111,13 @@ void GameController::reactOnInput(int input)
 }
 void GameController::reactOnKeyReleased(int input)
 {
+    if (input == GLFW_KEY_RIGHT && lastInput == 'd' ||
+        input == GLFW_KEY_DOWN && lastInput == 's' ||
+        input == GLFW_KEY_LEFT && lastInput == 'a' ||
+        input == GLFW_KEY_UP && lastInput == 'w')
+    {
+        released = true;
+    }
 }
 
 void GameController::mainLoop()
@@ -161,6 +168,11 @@ void GameController::mainLoopIteration()
         default:
             break;
         }
+        if (dynamic_cast<RPGGameMode *>(gameMode) && released)
+        {
+            lastInput = ' ';
+            released = false;
+        }
     }
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
@@ -168,12 +180,6 @@ void GameController::mainLoopIteration()
     {
         view->setHealth(gridController->getSnake()->getHealth());
     }
-    /* if (gameMode->checkWinCondition())
-     {
-         level++;
-         gameState = WIN;
-         view->gameStateChanged(gameState);
-     }*/
     if (gridController->isGameOver())
     {
         gameState = GAME_OVER;

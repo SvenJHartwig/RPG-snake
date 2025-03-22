@@ -43,11 +43,15 @@ namespace SEngine
 
     void engine_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
     {
+        RenderEngine *engine = static_cast<RenderEngine *>(glfwGetWindowUserPointer(window));
+        if (action == GLFW_RELEASE)
+        {
+            engine->getEngineCallback()->reactOnKeyReleased(key);
+        }
         if (action != GLFW_PRESS)
         {
             return;
         }
-        RenderEngine *engine = static_cast<RenderEngine *>(glfwGetWindowUserPointer(window));
         engine->getEngineCallback()->reactOnInput(key);
         if (key == GLFW_KEY_BACKSPACE || key == GLFW_KEY_ESCAPE)
         {

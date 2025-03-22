@@ -73,6 +73,10 @@ void inputT(SEngine::IEngineCallback *gc, int key)
 {
     gc->reactOnInput('t');
 }
+void inputN(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput('n');
+}
 
 void EditorView::initLoadingScene()
 {
@@ -126,6 +130,10 @@ void EditorView::initEditorScene()
     tpButton->text = "Teleporter";
     tpButton->callback = &inputT;
     tpButton->setVisible(false);
+    npcButton = new SEngine::Button(windowWidth - 160, 360, windowWidth - 20, 390);
+    npcButton->text = "NPC";
+    npcButton->callback = &inputN;
+    npcButton->setVisible(false);
 
     input1 = new SEngine::TextInput(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
     input1->setVisible(false);
@@ -149,6 +157,7 @@ void EditorView::initEditorScene()
     editorScene->scene_elements->push_back(groundButton);
     editorScene->scene_elements->push_back(enemyButton);
     editorScene->scene_elements->push_back(tpButton);
+    editorScene->scene_elements->push_back(npcButton);
     editorScene->scene_elements->push_back(input1);
     editorScene->scene_elements->push_back(input2);
     editorScene->scene_elements->push_back(input3);
@@ -184,6 +193,7 @@ void EditorView::setState(int state)
         groundButton->setVisible(false);
         enemyButton->setVisible(false);
         tpButton->setVisible(false);
+        npcButton->setVisible(false);
         saveButton->setVisible(true);
         saveAsButton->setVisible(true);
         input1->setVisible(false);
@@ -196,6 +206,7 @@ void EditorView::setState(int state)
         groundButton->setVisible(true);
         enemyButton->setVisible(true);
         tpButton->setVisible(true);
+        npcButton->setVisible(true);
         saveButton->setVisible(false);
         saveAsButton->setVisible(false);
         input1->setVisible(false);

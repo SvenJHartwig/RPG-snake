@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "../src/editor/controller/editorController.h"
 #include "../src/editor/view/editorView.h"
+#include "../src/model/npc.h"
 
 class TestEditorView : public IEditorView
 {
@@ -77,56 +78,7 @@ TEST_CASE("Import File with teleporter and Mob")
     REQUIRE(dynamic_cast<Teleporter *>(grid->getLevel()->at(3)->at(3)));
     REQUIRE(dynamic_cast<Mob *>(grid->getLevel()->at(10)->at(10)));
 }
-TEST_CASE("Editor controller")
-{
-    /*  TestEditorView *view = new TestEditorView();
-      EditorController *controller = new EditorController(view);
-      view->out1 = true;
-      view->nextOutput1 = "0";
-      controller->mainLoopIteration();
-      REQUIRE(controller->state == 0);
-      view->out1 = true;
-      view->nextOutput1 = "1";
-      view->nextOutput2 = "/test/level/level1";
-      controller->mainLoopIteration();
-      REQUIRE(controller->state == 1);
-      view->out1 = true;
-      view->nextOutput1 = "4";
-      controller->mainLoopIteration();
-      REQUIRE(controller->state == 0);
-      view->out1 = true;
-      view->nextOutput1 = "2";
-      controller->mainLoopIteration();
-      REQUIRE(controller->exit);
-      controller->exit = false;
-      view->out1 = true;
-      view->nextOutput1 = "1";
-      view->nextOutput2 = "/test/level/level1";
-      controller->mainLoopIteration();
-      REQUIRE(controller->state == 1);
-      view->out1 = true;
-      view->nextOutput1 = "3";
-      view->nextOutput2 = "3";
-      controller->mainLoopIteration();
-      REQUIRE(controller->state == 2);
-      view->out1 = true;
-      view->nextOutput1 = "1";
-      controller->mainLoopIteration();
-      REQUIRE(controller->state == 2);
-      view->out1 = true;
-      view->nextOutput1 = "2";
-      controller->mainLoopIteration();
-      REQUIRE(controller->state == 2);
-      view->out1 = true;
-      view->nextOutput1 = "3";
-      controller->mainLoopIteration();
-      REQUIRE(controller->state == 2);
-      view->out1 = true;
-      view->nextOutput1 = "5";
-      controller->mainLoopIteration();
-      REQUIRE(controller->state == 1);*/
-}
-TEST_CASE("Editor controller new")
+TEST_CASE("Editor controller base")
 {
     TestEditorView *view = new TestEditorView();
     EditorController *controller = new EditorController(view);
@@ -175,6 +127,10 @@ TEST_CASE("Editor controller states")
     controller->reactOnInput('e');
     REQUIRE(view->state == 2);
     REQUIRE(dynamic_cast<Enemy *>(controller->grid->getLevel()->at(2)->at(2)));
+    REQUIRE(controller->grid->getMobs()->size() == 1);
+    controller->reactOnInput('n');
+    REQUIRE(view->state == 2);
+    REQUIRE(dynamic_cast<NPC *>(controller->grid->getLevel()->at(2)->at(2)));
     REQUIRE(controller->grid->getMobs()->size() == 1);
     controller->reactOnInput('t');
     REQUIRE(view->state == 3);

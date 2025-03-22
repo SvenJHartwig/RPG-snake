@@ -37,6 +37,7 @@ private:
     SEngine::Button *wallButton;
     SEngine::Button *groundButton;
     SEngine::Button *enemyButton;
+    SEngine::Button *npcButton;
     SEngine::Button *tpButton;
     SEngine::TextInput *input1;
     SEngine::TextInput *input2;

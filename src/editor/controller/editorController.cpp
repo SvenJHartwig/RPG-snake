@@ -1,4 +1,5 @@
 #include "editorController.h"
+#include "../../model/npc.h"
 
 EditorController::EditorController(IEditorView *view)
 {
@@ -106,6 +107,13 @@ void EditorController::handleInputForState2(int key)
         eraseMobAt(focussedX, focussedY);
         grid->getLevel()->at(focussedY)->at(focussedX) = new Enemy(focussedX, focussedY);
         grid->getMobs()->push_back(new Enemy(focussedX, focussedY));
+        view->setGrid(getSpriteVector());
+    }
+    else if (key == 'n')
+    {
+        eraseMobAt(focussedX, focussedY);
+        grid->getLevel()->at(focussedY)->at(focussedX) = new NPC(focussedX, focussedY);
+        grid->getMobs()->push_back(new NPC(focussedX, focussedY));
         view->setGrid(getSpriteVector());
     }
     else if (key == 't')

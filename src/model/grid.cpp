@@ -1,4 +1,5 @@
 #include "grid.h"
+#include "npc.h"
 
 using std::vector, std::string;
 
@@ -122,6 +123,11 @@ void Grid::loadFromFile(const std::string &filename)
                 {
                     level->at(i)->at(j) = new Enemy(x, y);
                     mobs->push_back(new Enemy(x, y));
+                }
+                if (gridElementType == 'N')
+                {
+                    level->at(i)->at(j) = new NPC(x, y);
+                    mobs->push_back(new NPC(x, y));
                 }
                 if (gridElementType == 'T')
                 {

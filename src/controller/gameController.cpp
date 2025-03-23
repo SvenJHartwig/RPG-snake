@@ -111,12 +111,12 @@ void GameController::reactOnInput(int input)
 }
 void GameController::reactOnKeyReleased(int input)
 {
-    if (input == GLFW_KEY_RIGHT && lastInput == 'd' ||
-        input == GLFW_KEY_DOWN && lastInput == 's' ||
-        input == GLFW_KEY_LEFT && lastInput == 'a' ||
-        input == GLFW_KEY_UP && lastInput == 'w')
+    if (dynamic_cast<RPGGameMode *>(gameMode) && (input == GLFW_KEY_RIGHT && lastInput == 'd' ||
+                                                  input == GLFW_KEY_DOWN && lastInput == 's' ||
+                                                  input == GLFW_KEY_LEFT && lastInput == 'a' ||
+                                                  input == GLFW_KEY_UP && lastInput == 'w'))
     {
-        released = true;
+        lastInput = ' ';
     }
 }
 
@@ -167,11 +167,6 @@ void GameController::mainLoopIteration()
             break;
         default:
             break;
-        }
-        if (dynamic_cast<RPGGameMode *>(gameMode) && released)
-        {
-            lastInput = ' ';
-            released = false;
         }
     }
     gridController->updateGrid();

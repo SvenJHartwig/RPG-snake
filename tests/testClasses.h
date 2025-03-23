@@ -58,6 +58,8 @@ class TestView : public IGameView
     void setHealth(int count) override {}
     void setGrid(vector<vector<Sprite> *> *grid) override {}
     void setQuests(string questNames) override {}
+    void showDialog(std::string text) override {}
+    void closeDialog() override {}
 };
 
 class TestGameController : public IGameController

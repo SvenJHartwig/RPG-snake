@@ -16,4 +16,6 @@ public:
     virtual void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) = 0;
     virtual ~IGameView() {};
     virtual void setQuests(std::string questNames) = 0;
+    virtual void showDialog(std::string text) = 0;
+    virtual void closeDialog() = 0;
 };

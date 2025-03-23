@@ -6,6 +6,7 @@
 #include "../controller/gameController.h"
 #include "engine/elements/scene.h"
 #include "engine/iRenderEngine.h"
+#include "dialog.h"
 
 class GlView : public IGameView
 {
@@ -17,6 +18,7 @@ private:
     SEngine::Scene *gameOver = NULL;
     SEngine::Scene *win = NULL;
     bool initialized = false;
+    Dialog *dialog = NULL;
 
 public:
     GlView();
@@ -39,4 +41,6 @@ public:
     void setHealth(int count) override;
     void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) override;
     void setQuests(std::string questNames) override;
+    void showDialog(std::string text) override;
+    void closeDialog() override;
 };

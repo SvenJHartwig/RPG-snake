@@ -141,6 +141,15 @@ void GlView::gameStateChanged(GameState game_state)
         engine->addScene(win);
     }
 }
+void GlView::showDialog(std::string text)
+{
+    dialog->setText(text);
+    dialog->show();
+}
+void GlView::closeDialog()
+{
+    dialog->close();
+}
 
 void GlView::setScore(int count)
 {

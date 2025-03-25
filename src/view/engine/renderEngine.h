@@ -33,7 +33,9 @@ namespace SEngine
         // Set the engine callback object. That objects reactOnInput method is called every time the user presses a button on the OpenGL window.
         void setEngineCallback(IEngineCallback *callback) override { this->callback = callback; }
         // Set the Scene to render in the RenderEngine.
-        void addScene(Scene *currentScene) override { this->currentScenes->push_back(currentScene); }
+        void addScene(Scene *currentScene) override;
+        // Remove the specified scene from rendering
+        void removeScene(Scene *currentScene) override;
         // Return the scene that is currently rendered by this RenderEngine.
         std::vector<Scene *> *getScenes() override { return currentScenes; }
         // Return the GLFWwindow.

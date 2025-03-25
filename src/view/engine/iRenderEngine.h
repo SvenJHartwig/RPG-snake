@@ -13,6 +13,7 @@ namespace SEngine
         virtual IEngineCallback *getEngineCallback() = 0;
         virtual void setEngineCallback(IEngineCallback *callback) = 0;
         virtual void addScene(Scene *currentScene) = 0;
+        virtual void removeScene(Scene *currentScene) = 0;
         virtual std::vector<Scene *> *getScenes() = 0;
         virtual GLFWwindow *getWindow() = 0;
         virtual void renderingLoop() = 0;

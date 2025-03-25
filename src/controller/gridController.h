@@ -37,6 +37,7 @@ private:
     RandomGenerator *rng;
     Grid *grid;
     IEatListener *eatListener;
+    std::string currentText = "";
 
     void updateMobs();
     void updateCollisionMap();
@@ -62,6 +63,8 @@ public:
     void generateNewSpecialFood(int i, int j);
     void reset();
     void loadLevel(std::string path) override;
+    void showText(std::string text) override;
+    std::string getText();
     IGrid *getGrid();
     std::vector<Food *> *getFood();
     ISnake *getSnake();

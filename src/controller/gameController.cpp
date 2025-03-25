@@ -142,26 +142,29 @@ void GameController::mainLoopIteration()
 {
     if (ticksSinceMovement >= speed)
     {
-        ticksSinceMovement = 0;
         switch (lastInput)
         {
         case 'd':
             lastDirection = 'd';
+            ticksSinceMovement = 0;
             gridController->moveSnakeRight();
             steps++;
             break;
         case 'w':
             lastDirection = 'w';
+            ticksSinceMovement = 0;
             gridController->moveSnakeUp();
             steps++;
             break;
         case 'a':
             lastDirection = 'a';
+            ticksSinceMovement = 0;
             gridController->moveSnakeLeft();
             steps++;
             break;
         case 's':
             lastDirection = 's';
+            ticksSinceMovement = 0;
             gridController->moveSnakeDown();
             steps++;
             break;
@@ -171,6 +174,10 @@ void GameController::mainLoopIteration()
     }
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
+    if (gridController->getText() != "")
+    {
+        view->showDialog(gridController->getText());
+    }
     if (gameMode->hasHealth())
     {
         view->setHealth(gridController->getSnake()->getHealth());

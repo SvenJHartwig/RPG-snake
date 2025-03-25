@@ -2,6 +2,7 @@
 
 void NPC::snakeOnElement(IGridController *controller)
 {
+    controller->showText("Sample");
 }
 void NPC::serialize(std::ofstream *outFile)
 {

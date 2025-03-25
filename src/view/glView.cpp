@@ -88,6 +88,8 @@ void GlView::initGameScene()
     Text *healthText = new Text(0, 40, 100, 60);
     healthText->text = "";
     inGame->scene_elements->push_back(healthText);
+
+    dialog = new Dialog(engine, "");
 }
 
 void GlView::initGameOverScene()

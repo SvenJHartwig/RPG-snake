@@ -536,6 +536,14 @@ void GridController::loadLevel(const string path)
 {
     grid->loadFromFile(path);
 }
+void GridController::showText(std::string text)
+{
+    this->currentText = text;
+}
+std::string GridController::getText()
+{
+    return currentText;
+}
 
 void GridController::addMob(Mob *mob)
 {

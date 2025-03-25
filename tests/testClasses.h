@@ -90,6 +90,7 @@ public:
         return glfwCreateWindow(1024, 768, "Snake", NULL, NULL);
     }
     void addScene(Scene *currentScene) {}
+    void removeScene(Scene *currentScene) {}
     void renderingLoop() {}
     int init() { return 0; }
 };

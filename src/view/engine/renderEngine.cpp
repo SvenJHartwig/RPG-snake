@@ -259,4 +259,29 @@ namespace SEngine
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(5 * sizeof(float)));
         glEnableVertexAttribArray(2);
     }
+    void RenderEngine::addScene(Scene *currentScene)
+    {
+        bool foundCurrentScene = false;
+        for (int sceneIndex = 0; sceneIndex < currentScenes->size(); sceneIndex++)
+        {
+            if (currentScenes->at(sceneIndex)->getId() == currentScene->getId())
+            {
+                foundCurrentScene = true;
+            }
+        }
+        if (!foundCurrentScene)
+        {
+            this->currentScenes->push_back(currentScene);
+        }
+    }
+    void RenderEngine::removeScene(Scene *currentScene)
+    {
+        for (int sceneIndex = 0; sceneIndex < currentScenes->size(); sceneIndex++)
+        {
+            if (currentScenes->at(sceneIndex)->getId() == currentScene->getId())
+            {
+                currentScenes->erase(currentScenes->begin() + sceneIndex);
+            }
+        }
+    }
 }

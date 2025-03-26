@@ -37,6 +37,7 @@ private:
     RandomGenerator *rng;
     Grid *grid;
     IEatListener *eatListener;
+    bool movedSinceLastDialog = true;
 
     void updateMobs();
     void updateCollisionMap();

@@ -57,12 +57,13 @@ void GameController::reactOnInput(int input)
             view->gameStateChanged(gameState);
         }
     case IN_GAME:
-        if (eatCount > 0 &&
-                (lastDirection == 'a' && input == GLFW_KEY_RIGHT ||
-                 lastDirection == 'w' && input == GLFW_KEY_DOWN ||
-                 lastDirection == 'd' && input == GLFW_KEY_LEFT ||
-                 lastDirection == 's' && input == GLFW_KEY_UP) ||
-            input != GLFW_KEY_RIGHT && input != GLFW_KEY_DOWN && input != GLFW_KEY_LEFT && input != GLFW_KEY_UP)
+        if ((eatCount > 0 &&
+                 (lastDirection == 'a' && input == GLFW_KEY_RIGHT ||
+                  lastDirection == 'w' && input == GLFW_KEY_DOWN ||
+                  lastDirection == 'd' && input == GLFW_KEY_LEFT ||
+                  lastDirection == 's' && input == GLFW_KEY_UP) ||
+             input != GLFW_KEY_RIGHT && input != GLFW_KEY_DOWN && input != GLFW_KEY_LEFT && input != GLFW_KEY_UP) &&
+            input != GLFW_KEY_ENTER && !showingText)
         {
             return;
         }
@@ -81,6 +82,11 @@ void GameController::reactOnInput(int input)
         else if (input == GLFW_KEY_UP)
         {
             lastInput = 'w';
+        }
+        else if (input == GLFW_KEY_ENTER && showingText)
+        {
+            showingText = false;
+            view->closeDialog();
         }
         break;
     case GAME_OVER:

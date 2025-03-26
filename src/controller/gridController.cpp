@@ -339,6 +339,7 @@ void GridController::moveSnakeRight()
     {
         return;
     }
+    movedSinceLastDialog = true;
     BodyPartFacing facing = HORIZONTAL;
     if (snake->getBody()->size() > 0)
     {
@@ -371,6 +372,7 @@ void GridController::moveSnakeLeft()
     {
         return;
     }
+    movedSinceLastDialog = true;
     BodyPartFacing facing = HORIZONTAL;
     if (snake->getBody()->size() > 0)
     {
@@ -403,6 +405,7 @@ void GridController::moveSnakeUp()
     {
         return;
     }
+    movedSinceLastDialog = true;
     BodyPartFacing facing = VERTICAL;
     if (snake->getBody()->size() > 0)
     {
@@ -435,6 +438,7 @@ void GridController::moveSnakeDown()
     {
         return;
     }
+    movedSinceLastDialog = true;
     BodyPartFacing facing = VERTICAL;
     if (snake->getBody()->size() > 0)
     {
@@ -538,7 +542,11 @@ void GridController::loadLevel(const string path)
 }
 void GridController::showText(std::string text)
 {
-    eatListener->setText(text);
+    if (movedSinceLastDialog)
+    {
+        movedSinceLastDialog = false;
+        eatListener->setText(text);
+    }
 }
 void GridController::addMob(Mob *mob)
 {

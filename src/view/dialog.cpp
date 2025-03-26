@@ -9,7 +9,10 @@ void Dialog::close()
 {
     engine->removeScene(dialogScene);
 }
-void Dialog::setText(std::string text) {}
+void Dialog::setText(std::string text)
+{
+    textElement->text = text;
+}
 Dialog::Dialog(SEngine::IRenderEngine *engine, std::string text)
 {
     int windowWidth, windowHeight;
@@ -17,6 +20,9 @@ Dialog::Dialog(SEngine::IRenderEngine *engine, std::string text)
     dialogScene = new SEngine::Scene();
     SEngine::Image *backgroundImage = new SEngine::Image(windowWidth / 2 - 480, 600, windowWidth / 2 + 480, 720, ((std::string)RESOURCE_DIR).append("/textures/background.png").c_str(), SEngine::StretchMode::ORIGINAL);
     dialogScene->scene_elements->push_back(backgroundImage);
+    textElement = new SEngine::Text(windowWidth / 2 - 480, 600, windowWidth / 2 + 480, 720);
+    textElement->text = text;
+    dialogScene->scene_elements->push_back(textElement);
     this->engine = engine;
 }
 Dialog::~Dialog() {}

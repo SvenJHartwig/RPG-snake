@@ -538,13 +538,8 @@ void GridController::loadLevel(const string path)
 }
 void GridController::showText(std::string text)
 {
-    this->currentText = text;
+    eatListener->setText(text);
 }
-std::string GridController::getText()
-{
-    return currentText;
-}
-
 void GridController::addMob(Mob *mob)
 {
     grid->getMobs()->push_back(mob);

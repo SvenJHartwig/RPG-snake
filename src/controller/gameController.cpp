@@ -140,7 +140,7 @@ void GameController::mainLoop()
 
 void GameController::mainLoopIteration()
 {
-    if (ticksSinceMovement >= speed)
+    if (ticksSinceMovement >= speed && !showingText)
     {
         switch (lastInput)
         {
@@ -174,10 +174,6 @@ void GameController::mainLoopIteration()
     }
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
-    if (gridController->getText() != "")
-    {
-        view->showDialog(gridController->getText());
-    }
     if (gameMode->hasHealth())
     {
         view->setHealth(gridController->getSnake()->getHealth());
@@ -233,6 +229,11 @@ void GameController::eat(bool isSpecial)
         speed = l6;
     }
     view->setScore(score);
+}
+void GameController::setText(std::string text)
+{
+    showingText = true;
+    view->showDialog(text);
 }
 
 char GameController::getLastDirection()

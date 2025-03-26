@@ -47,6 +47,7 @@ class TestEatListener : public IEatListener
 {
 public:
     void eat(bool isSpecial) override {}
+    void setText(std::string text) override {}
 };
 
 class TestView : public IGameView
@@ -76,6 +77,7 @@ public:
     void reactOnKeyReleased(int input) override {}
     void setWindowClosed(bool closed) override {}
     long getSteps() override { return 0; }
+    void setText(std::string text) {}
 };
 
 class TestRenderEngine : public IRenderEngine

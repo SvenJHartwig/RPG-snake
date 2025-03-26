@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./engine/elements/scene.h"
+#include "./engine/elements/text.h"
 #include "./engine/iRenderEngine.h"
 
 class Dialog
@@ -8,6 +9,7 @@ class Dialog
 private:
     SEngine::IRenderEngine *engine;
     SEngine::Scene *dialogScene;
+    SEngine::Text *textElement;
 
 public:
     void show();

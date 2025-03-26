@@ -24,6 +24,7 @@ private:
     GameState gameState = MAIN_MENU;
     int level = 1;
     IGameMode *gameMode;
+    bool showingText = false;
 
 public:
     GameController();
@@ -38,6 +39,7 @@ public:
     GridController *getGridController();
     SpeedSetting getSpeed();
     void eat(bool isSpecial) override;
+    void setText(std::string text) override;
     char getLastDirection();
     char getLastInput() { return lastInput; }
     int getScore() override;

@@ -1,6 +1,6 @@
 #include "quest.h"
 
-bool Quest::checkWinCondition(WinCondition condition)
+bool Quest::checkWinCondition(WinCondition condition, IGameController *controller)
 {
     if (condition.getType() == SCORE)
     {
@@ -18,19 +18,18 @@ bool Quest::checkWinCondition(WinCondition condition)
     }
     return false;
 }
-bool Quest::checkWinCondition()
+bool Quest::checkWinCondition(IGameController *controller)
 {
-    return checkWinCondition(*winCondition);
+    return checkWinCondition(*winCondition, controller);
 }
 
 std::string Quest::getName()
 {
     return name;
 }
-Quest::Quest(std::string name, IGameController *controller, WinCondition *winCon)
+Quest::Quest(std::string name, WinCondition *winCon)
 {
     this->name = name;
-    this->controller = controller;
     winCondition = winCon;
 }
 

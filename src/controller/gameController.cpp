@@ -241,6 +241,11 @@ void GameController::setText(std::string text)
     showingText = true;
     view->showDialog(text);
 }
+void GameController::addQuest(Quest *quest)
+{
+    gameMode->addQuest(quest);
+    view->setQuests(gridController->getGrid()->getWinCondition().toString() + quest->getName());
+}
 
 char GameController::getLastDirection()
 {

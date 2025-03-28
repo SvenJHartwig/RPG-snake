@@ -9,11 +9,11 @@ private:
     std::string name;
     IGameController *controller;
     WinCondition *winCondition;
-    bool checkWinCondition(WinCondition condition);
+    bool checkWinCondition(WinCondition condition, IGameController *controller);
 
 public:
-    bool checkWinCondition();
+    bool checkWinCondition(IGameController *controller);
     std::string getName();
-    Quest(std::string name, IGameController *controller, WinCondition *winCon);
+    Quest(std::string name, WinCondition *winCon);
     ~Quest();
 };

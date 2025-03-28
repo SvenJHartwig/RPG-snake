@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../model/grid.h"
 #include "../view/engine/iEngineCallback.h"
 
 enum SpeedSetting

@@ -1,4 +1,5 @@
 #include "gameMode.h"
+#include "string.h"
 
 IGameMode *GameModeFactory::createGameMode(GameModeEnum mode, IGameController *controller)
 {
@@ -19,6 +20,7 @@ InfiniteGameMode::InfiniteGameMode(IGameController *controller)
 
 void InfiniteGameMode::clearQuests() {}
 void InfiniteGameMode::addQuest(std::string name, WinCondition *condition) {}
+void InfiniteGameMode::addQuest(Quest *quest) {}
 
 std::vector<Quest *> *InfiniteGameMode::getQuests()
 {
@@ -46,7 +48,22 @@ void RPGGameMode::clearQuests()
 }
 void RPGGameMode::addQuest(std::string name, WinCondition *condition)
 {
-    quests->push_back(new Quest(name, controller, condition));
+    quests->push_back(new Quest(name, condition));
+}
+void RPGGameMode::addQuest(Quest *quest)
+{
+    bool questAlreadyTaken = false;
+    for (int questIndex = 0; questIndex < quests->size(); questIndex++)
+    {
+        if (quests->at(questIndex)->getName().compare(quest->getName()) == 0)
+        {
+            questAlreadyTaken = true;
+        }
+    }
+    if (!questAlreadyTaken)
+    {
+        quests->push_back(quest);
+    }
 }
 std::vector<Quest *> *RPGGameMode::getQuests()
 {

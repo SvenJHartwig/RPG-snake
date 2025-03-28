@@ -548,6 +548,10 @@ void GridController::showText(std::string text)
         eatListener->setText(text);
     }
 }
+void GridController::addQuest(Quest *quest)
+{
+    eatListener->addQuest(quest);
+}
 void GridController::addMob(Mob *mob)
 {
     grid->getMobs()->push_back(mob);

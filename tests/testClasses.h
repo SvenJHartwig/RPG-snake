@@ -48,6 +48,7 @@ class TestEatListener : public IEatListener
 public:
     void eat(bool isSpecial) override {}
     void setText(std::string text) override {}
+    void addQuest(Quest *quest) override {}
 };
 
 class TestView : public IGameView

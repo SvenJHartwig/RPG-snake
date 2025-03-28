@@ -3,6 +3,7 @@
 void NPC::snakeOnElement(IGridController *controller)
 {
     controller->showText("Sample");
+    controller->addQuest(new Quest("NPC Quest", new WinCondition(WinConType::SCORE, 10)));
 }
 void NPC::serialize(std::ofstream *outFile)
 {

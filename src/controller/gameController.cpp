@@ -283,3 +283,14 @@ void GameController::resetGame()
     gameMode = GameModeFactory::createGameMode(INFINITE, this);
     softReset();
 }
+
+void GameController::save(std::string path)
+{
+    std::ofstream outFile(path, std::ios::binary);
+    if (!outFile)
+    {
+        throw std::ios_base::failure("Failed to open file for writing.");
+    }
+
+    outFile.close();
+}

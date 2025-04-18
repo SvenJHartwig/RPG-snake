@@ -1,6 +1,6 @@
-- Switch level files to binary format, this allows to:
-    - Add NPCs that give quests
 - Power Ups
+- Quests improvements
+- Stats
 - Savestates
 - Create design documents
 - Fix different grid sizes
@@ -8,6 +8,7 @@
 - Fix sometimes rng gives a pair that is not allowed
 - Rework getSpriteVector
 - cmakeLists
+- Remove scenes when they are not used
 
 Engine:
 - Dialogs

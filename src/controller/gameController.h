@@ -53,4 +53,5 @@ public:
     void setTicksSinceLastMovement(int ticksSinceMovement) { this->ticksSinceMovement = ticksSinceMovement; }
     void setGameMode(GameModeEnum mode) { gameMode = GameModeFactory::createGameMode(mode, this); }
     IGameMode *getGameMode() { return gameMode; }
+    void save(std::string path);
 };

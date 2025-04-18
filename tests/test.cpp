@@ -1,5 +1,6 @@
 #include "testClasses.h"
 #include "../src/view/engine/elements/scene.h"
+#include <cstdio>
 
 void printGridComparison(vector<string> *chars, vector<string> *expectedGrid, int gridSize)
 {
@@ -751,4 +752,16 @@ TEST_CASE("Kill enemy")
   gridController->getSnake()->setPosY(2);
   gridController->updateGrid();
   REQUIRE(gridController->getMobs()->size() == 0);
+}
+
+TEST_CASE("Savestate")
+{
+  GameController *gameController = new GameController();
+  string path = RESOURCE_DIR;
+  path.append("/tests/savestates/testSave");
+  std::remove(path.c_str());
+  gameController->setView(new TestView());
+  gameController->setSoundController(new TestSoundController());
+  gameController->save(path);
+  REQUIRE(std::filesystem::exists(path));
 }

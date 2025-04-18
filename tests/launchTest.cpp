@@ -79,13 +79,13 @@ TEST_CASE("Game scene is initialized correctly")
     Quest *scoreQuest = new Quest("score", new WinCondition(SCORE, 20));
     view->setQuests(new vector<Quest *>(1, scoreQuest));
     std::cout << static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text;
-    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: 20 points") == 0);
+    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: score") == 0);
     Quest *timeQuest = new Quest("time", new WinCondition(TIME, 20));
     view->setQuests(new vector<Quest *>(1, timeQuest));
-    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: 20 steps") == 0);
-    Quest *noneQuest = new Quest("time", new WinCondition(NONE, 20));
+    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: time") == 0);
+    Quest *noneQuest = new Quest("none", new WinCondition(NONE, 20));
     view->setQuests(new vector<Quest *>(1, noneQuest));
-    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: None") == 0);
+    REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(3))->text.compare("Quests: none") == 0);
     view->setHealth(3);
     REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(4))->text.compare("Health: 3") == 0);
     glfwTerminate();

@@ -71,10 +71,10 @@ public:
     Facing facing = RIGHT;
     Snake();
     ~Snake();
-    void eat();
+    void eat() override;
     std::vector<SnakeBodyPart> *getBody();
     void loseHealth(int health);
-    int getHealth();
+    int getHealth() override;
     int getPosX() override;
     int getPosY() override;
     void setPosX(int pos) override;

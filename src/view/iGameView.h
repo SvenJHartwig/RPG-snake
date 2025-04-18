@@ -4,6 +4,7 @@
 #include "engine/elements/scene.h"
 #include "engine/elements/spriteGrid.h"
 #include "../model/winCondition.h"
+#include "../model/quest.h"
 
 class IGameView
 {
@@ -15,7 +16,7 @@ public:
     virtual void setHealth(int count) = 0;
     virtual void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) = 0;
     virtual ~IGameView() {};
-    virtual void setQuests(std::string questNames) = 0;
+    virtual void setQuests(std::vector<Quest *> *quests) = 0;
     virtual void showDialog(std::string text) = 0;
     virtual void closeDialog() = 0;
 };

@@ -50,20 +50,20 @@ public:
         return initialized;
     }
     void setInitialized(bool initialized) { this->initialized = initialized; }
-    std::string showOutput(std::string out);
+    std::string showOutput(std::string out) override;
     EditorView();
     int init() override;
     void initLoadingScene();
     void initEditorScene();
     SEngine::Scene *getLoadingScene() { return loadingScene; }
-    void setCallback(SEngine::IEngineCallback *callback);
+    void setCallback(SEngine::IEngineCallback *callback) override;
     SEngine::IEngineCallback *getCallback();
-    int getFocussedSpriteX();
-    int getFocussedSpriteY();
-    std::string getTargetPath();
-    int getTargetSpriteX();
-    int getTargetSpriteY();
-    std::string getText();
-    void setState(int state);
-    void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid);
+    int getFocussedSpriteX() override;
+    int getFocussedSpriteY() override;
+    std::string getTargetPath() override;
+    int getTargetSpriteX() override;
+    int getTargetSpriteY() override;
+    std::string getText() override;
+    void setState(int state) override;
+    void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) override;
 };

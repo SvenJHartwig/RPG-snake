@@ -2,7 +2,6 @@
 #include <unistd.h>
 #include <iostream>
 #include <thread>
-#include "../view/cliView.h"
 #include "../model/mob.h"
 
 using std::string, std::vector;
@@ -33,7 +32,7 @@ void GameController::reactOnInput(int input)
         {
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
-            view->setQuests(gridController->getGrid()->getWinCondition().toString());
+            view->setQuests(new vector<Quest *>());
             soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/background.mp3"));
         }
         else if (input == GLFW_KEY_O)
@@ -48,7 +47,7 @@ void GameController::reactOnInput(int input)
             WinCondition winCon = gridController->getGrid()->getWinCondition();
             gameMode->addQuest("First quest", &winCon);
             view->gameStateChanged(gameState);
-            view->setQuests(gameMode->getQuests()->at(0)->getName());
+            view->setQuests(gameMode->getQuests());
             soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/background.mp3"));
         }
         else if (input == GLFW_KEY_ESCAPE)
@@ -108,7 +107,7 @@ void GameController::reactOnInput(int input)
             gridController->updateGrid();
             gameState = IN_GAME;
             view->gameStateChanged(gameState);
-            view->setQuests(gridController->getGrid()->getWinCondition().toString());
+            view->setQuests(new vector<Quest *>());
         }
         break;
     default:
@@ -244,7 +243,7 @@ void GameController::setText(std::string text)
 void GameController::addQuest(Quest *quest)
 {
     gameMode->addQuest(quest);
-    view->setQuests(gridController->getGrid()->getWinCondition().toString() + quest->getName());
+    view->setQuests(gameMode->getQuests());
 }
 
 char GameController::getLastDirection()
@@ -273,7 +272,7 @@ void GameController::softReset()
     gridController->reset();
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
-    view->setQuests(gridController->getGrid()->getWinCondition().toString());
+    view->setQuests(new vector<Quest *>());
 }
 
 void GameController::resetGame()

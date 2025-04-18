@@ -40,7 +40,7 @@ public:
     void setScore(int count) override;
     void setHealth(int count) override;
     void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) override;
-    void setQuests(std::string questNames) override;
+    void setQuests(std::vector<Quest *> *quests) override;
     void showDialog(std::string text) override;
     void closeDialog() override;
 };

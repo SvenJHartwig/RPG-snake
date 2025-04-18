@@ -29,10 +29,10 @@ private:
 
 public:
     static int currentId;
-    void snakeOnElement(IGridController *controller);
+    void snakeOnElement(IGridController *controller) override;
     void setTicksSinceLastMovement(int ticksSinceLastMovement);
     void serialize(std::ofstream *outFile) override;
-    void tick();
+    void tick() override;
     Enemy(int pos_x, int pos_y);
     ~Enemy();
 };

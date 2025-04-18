@@ -158,9 +158,18 @@ void GlView::setScore(int count)
     static_cast<Text *>(inGame->scene_elements->at(0))->text = "Score: " + std::to_string(count);
 }
 
-void GlView::setQuests(string questNames)
+void GlView::setQuests(vector<Quest *> *quests)
 {
-    static_cast<Text *>(inGame->scene_elements->at(3))->text = "Quests: " + questNames;
+    string questNames = "";
+    if (quests->size() > 0)
+    {
+        questNames = "Quests: ";
+    }
+    for (Quest *quest : *quests)
+    {
+        questNames += quest->getName();
+    }
+    static_cast<Text *>(inGame->scene_elements->at(3))->text = questNames;
 }
 
 void GlView::setHealth(int count)

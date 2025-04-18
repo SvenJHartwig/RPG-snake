@@ -79,7 +79,7 @@ void GlView::initGameScene()
     Image *background = new Image(windowWidth / 2 - 320, 80, windowWidth / 2 + 320, 720, ((std::string)RESOURCE_DIR).append("/textures/background.png").c_str(), SEngine::StretchMode::ORIGINAL);
     inGame->scene_elements->push_back(background);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
-    SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.25f);
+    SpriteGrid *spriteGrid = new SpriteGrid(windowWidth / 2 - 320, 80, 200, 100, texturePath, 0.125f);
     spriteGrid->setGrid(new vector<vector<SEngine::Sprite> *>());
     inGame->scene_elements->push_back(spriteGrid);
     Text *winConText = new Text(0, 20, 100, 40);

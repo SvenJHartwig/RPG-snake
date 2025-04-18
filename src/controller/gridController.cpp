@@ -76,12 +76,12 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
             }
             else if (dynamic_cast<Teleporter *>(grid->getLevel()->at(yCoord)->at(xCoord)))
             {
-                tempSprite.texBaseX = 0.75f;
-                tempSprite.texBaseY = 0.75f;
+                tempSprite.texBaseX = 0.375f;
+                tempSprite.texBaseY = 0.375f;
             }
             else
             {
-                tempSprite.texBaseX = 0.25f;
+                tempSprite.texBaseX = 0.125f;
                 tempSprite.texBaseY = 0.0f;
             }
             result->at(yCoord)->at(xCoord) = tempSprite;
@@ -95,20 +95,28 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
         if (foodIndex == 0)
         {
             temp.texBaseX = 0.0f;
-            temp.texBaseY = 0.25f;
+            temp.texBaseY = 0.125f;
         }
         else
         {
-            temp.texBaseX = 0.25f;
-            temp.texBaseY = 0.25f;
+            temp.texBaseX = 0.125f;
+            temp.texBaseY = 0.125f;
         }
         result->at(f->getPosY())->at(f->getPosX()) = temp;
     }
     for (Mob *mob : *grid->getMobs())
     {
         Sprite temp = result->at(mob->getPosY())->at(mob->getPosX());
-        temp.texBaseX = 0.5f;
-        temp.texBaseY = 0.75f;
+        if (dynamic_cast<Enemy *>(mob))
+        {
+            temp.texBaseX = 0.25f;
+            temp.texBaseY = 0.375f;
+        }
+        else
+        {
+            temp.texBaseX = 0.5f;
+            temp.texBaseY = 0.0f;
+        }
         result->at(mob->getPosY())->at(mob->getPosX()) = temp;
     }
     for (int snakeBodyIndex = 0; snakeBodyIndex < snake->getBody()->size(); snakeBodyIndex++)
@@ -118,28 +126,28 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
         switch (bodyPart.facing)
         {
         case HORIZONTAL:
-            temp.texBaseX = 0.5f;
+            temp.texBaseX = 0.25f;
             temp.texBaseY = 0.0f;
             break;
         case VERTICAL:
-            temp.texBaseX = 0.75f;
+            temp.texBaseX = 0.375f;
             temp.texBaseY = 0.0f;
             break;
         case LEFT_TO_DOWN:
             temp.texBaseX = 0.0f;
-            temp.texBaseY = 0.5f;
+            temp.texBaseY = 0.25f;
             break;
         case RIGHT_TO_DOWN:
-            temp.texBaseX = 0.25f;
-            temp.texBaseY = 0.75f;
+            temp.texBaseX = 0.125f;
+            temp.texBaseY = 0.375f;
             break;
         case LEFT_TO_UP:
             temp.texBaseX = 0.0f;
-            temp.texBaseY = 0.75f;
+            temp.texBaseY = 0.375f;
             break;
         case RIGHT_TO_UP:
-            temp.texBaseX = 0.25f;
-            temp.texBaseY = 0.5f;
+            temp.texBaseX = 0.125f;
+            temp.texBaseY = 0.25f;
             break;
         }
         result->at(bodyPart.getPosY())->at(bodyPart.getPosX()) = temp;
@@ -148,20 +156,20 @@ vector<vector<SEngine::Sprite> *> *GridController::getSpriteVector()
     switch (snake->facing)
     {
     case RIGHT:
-        temp.texBaseX = 0.75f;
-        temp.texBaseY = 0.25f;
+        temp.texBaseX = 0.375f;
+        temp.texBaseY = 0.125f;
         break;
     case LEFT:
-        temp.texBaseX = 0.5f;
-        temp.texBaseY = 0.25f;
+        temp.texBaseX = 0.25f;
+        temp.texBaseY = 0.125f;
         break;
     case DOWN:
-        temp.texBaseX = 0.5f;
-        temp.texBaseY = 0.5f;
+        temp.texBaseX = 0.25f;
+        temp.texBaseY = 0.25f;
         break;
     case UP:
-        temp.texBaseX = 0.75f;
-        temp.texBaseY = 0.5f;
+        temp.texBaseX = 0.375f;
+        temp.texBaseY = 0.25f;
         break;
     }
     result->at(snake->getPosY())->at(snake->getPosX()) = temp;

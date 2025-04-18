@@ -105,7 +105,7 @@ void EditorView::initEditorScene()
     editorScene = new SEngine::Scene();
     SEngine::Image *background = new SEngine::Image(windowWidth / 2 - 320, 80, windowWidth / 2 + 320, 720, ((std::string)RESOURCE_DIR).append("/textures/background.png").c_str(), SEngine::StretchMode::ORIGINAL);
     std::string texturePath = ((std::string)RESOURCE_DIR).append("/textures/grid.png");
-    grid = new SEngine::SpriteGrid(windowWidth / 2 - 320, 80, windowWidth / 2 + 320, 720, texturePath, 0.25f);
+    grid = new SEngine::SpriteGrid(windowWidth / 2 - 320, 80, windowWidth / 2 + 320, 720, texturePath, 0.125f);
     grid->setGrid(new std::vector<std::vector<SEngine::Sprite> *>());
     grid->setHighlightFocussedSprite(true);
     SEngine::Button *backButton = new SEngine::Button(windowWidth - 160, windowHeight / 2 + 200, windowWidth - 20, windowHeight / 2 + 230);

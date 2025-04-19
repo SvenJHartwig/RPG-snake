@@ -1,5 +1,5 @@
 - Power Ups
-- Quests improvements
+- Quests improvements, make quests finishable
 - Stats
 - Savestates
 - Create design documents

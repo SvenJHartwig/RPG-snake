@@ -1,7 +1,6 @@
 #pragma once
 
 #include "winCondition.h"
-#include "../controller/iGameController.h"
 #include <vector>
 #include "quest.h"
 
@@ -28,13 +27,13 @@ private:
     GameModeFactory() {}
 
 public:
-    static IGameMode *createGameMode(GameModeEnum mode, IGameController *controller);
+    static IGameMode *createGameMode(GameModeEnum mode);
 };
 
 class InfiniteGameMode : public IGameMode
 {
 public:
-    InfiniteGameMode(IGameController *controller);
+    InfiniteGameMode();
     void clearQuests() override;
     void addQuest(std::string name, WinCondition *condition) override;
     void addQuest(Quest *quest) override;
@@ -46,11 +45,10 @@ public:
 class RPGGameMode : public IGameMode
 {
 private:
-    IGameController *controller;
     std::vector<Quest *> *quests = new std::vector<Quest *>();
 
 public:
-    RPGGameMode(IGameController *controller);
+    RPGGameMode();
     void clearQuests() override;
     void addQuest(std::string name, WinCondition *condition) override;
     void addQuest(Quest *quest) override;

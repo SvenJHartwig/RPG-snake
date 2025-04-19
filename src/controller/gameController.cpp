@@ -9,7 +9,7 @@ using std::string, std::vector;
 GameController::GameController()
 {
     gridController = new GridController(this);
-    gameMode = GameModeFactory::createGameMode(INFINITE, this);
+    gameMode = GameModeFactory::createGameMode(INFINITE);
 }
 
 GameController::~GameController() {}
@@ -42,7 +42,7 @@ void GameController::reactOnInput(int input)
             gridController->loadLevel(path);
             gridController->updateGrid();
             gameState = IN_GAME;
-            gameMode = GameModeFactory::createGameMode(RPG, this);
+            gameMode = GameModeFactory::createGameMode(RPG);
 
             WinCondition winCon = gridController->getGrid()->getWinCondition();
             gameMode->addQuest("First quest", &winCon);
@@ -151,6 +151,7 @@ void GameController::mainLoopIteration()
         {
         case 'd':
             lastDirection = 'd';
+
             ticksSinceMovement = 0;
             gridController->moveSnakeRight();
             steps++;
@@ -279,7 +280,7 @@ void GameController::resetGame()
 {
     view->setScore(0);
     level = 1;
-    gameMode = GameModeFactory::createGameMode(INFINITE, this);
+    gameMode = GameModeFactory::createGameMode(INFINITE);
     softReset();
 }
 

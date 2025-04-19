@@ -1,22 +1,20 @@
 #include "gameMode.h"
 #include "string.h"
 
-IGameMode *GameModeFactory::createGameMode(GameModeEnum mode, IGameController *controller)
+IGameMode *GameModeFactory::createGameMode(GameModeEnum mode)
 {
     switch (mode)
     {
     case INFINITE:
-        return new InfiniteGameMode(controller);
+        return new InfiniteGameMode();
     case RPG:
-        return new RPGGameMode(controller);
+        return new RPGGameMode();
     default:
-        return new InfiniteGameMode(controller);
+        return new InfiniteGameMode();
     }
 }
 
-InfiniteGameMode::InfiniteGameMode(IGameController *controller)
-{
-}
+InfiniteGameMode::InfiniteGameMode(){}
 
 void InfiniteGameMode::clearQuests() {}
 void InfiniteGameMode::addQuest(std::string name, WinCondition *condition) {}
@@ -37,10 +35,7 @@ bool InfiniteGameMode::hasHealth()
     return false;
 }
 
-RPGGameMode::RPGGameMode(IGameController *controller)
-{
-    this->controller = controller;
-}
+RPGGameMode::RPGGameMode(){}
 
 void RPGGameMode::clearQuests()
 {

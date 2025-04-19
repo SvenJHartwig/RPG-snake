@@ -51,7 +51,7 @@ public:
     void resetGame();
     int getLevel() { return level; }
     void setTicksSinceLastMovement(int ticksSinceMovement) { this->ticksSinceMovement = ticksSinceMovement; }
-    void setGameMode(GameModeEnum mode) { gameMode = GameModeFactory::createGameMode(mode, this); }
+    void setGameMode(GameModeEnum mode) { gameMode = GameModeFactory::createGameMode(mode); }
     IGameMode *getGameMode() { return gameMode; }
     void save(std::string path);
 };

@@ -141,3 +141,16 @@ TEST_CASE("Editor controller states")
     controller->reactOnInput(GLFW_KEY_F25);
     REQUIRE(view->state == 2);
 }
+
+TEST_CASE("Write File with npc")
+{
+    string path = RESOURCE_DIR;
+    path.append("/tests/level/levelWithNPC");
+    Grid *grid = new Grid();
+    grid->reset();
+    grid->getLevel()->at(3)->at(3) = new NPC(3, 3);
+    grid->getMobs()->push_back(new NPC(3, 3));
+    saveGridAsBinaryFile(path, grid);
+    loadLevelFromBinaryFile(path, grid);
+    REQUIRE(dynamic_cast<NPC *>(grid->getLevel()->at(3)->at(3)));
+}

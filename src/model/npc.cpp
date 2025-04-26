@@ -7,6 +7,7 @@ void NPC::snakeOnElement(IGridController *controller)
     {
         controller->showText("Please get 10 points");
         GameModeService::get()->addQuest(quest);
+        dialogState++;
     }
 }
 void NPC::serialize(std::ofstream *outFile)

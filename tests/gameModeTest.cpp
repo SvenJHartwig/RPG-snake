@@ -35,3 +35,7 @@ TEST_CASE("Movement in RPG mode")
     gameController->reactOnKeyReleased(GLFW_KEY_RIGHT);
     REQUIRE(gameController->getLastInput() == 'd');
 }
+
+TEST_CASE("NPC interaction")
+{
+}

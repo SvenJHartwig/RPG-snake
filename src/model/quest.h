@@ -5,15 +5,15 @@
 
 class Quest
 {
+public:
+    bool checkWinCondition();
+    std::string getName();
+    Quest(std::string name, WinCondition *winCon);
+    ~Quest();
+
 private:
     std::string name;
     IGameController *controller;
     WinCondition *winCondition;
-    bool checkWinCondition(WinCondition condition, IGameController *controller);
-
-public:
-    bool checkWinCondition(IGameController *controller);
-    std::string getName();
-    Quest(std::string name, WinCondition *winCon);
-    ~Quest();
+    bool checkWinCondition(WinCondition condition);
 };

@@ -1,6 +1,8 @@
 #include "testClasses.h"
 #include "../src/services/gameModeService.h"
+#include "../src/services/gameControllerService.h"
 #include "../src/model/gameMode.h"
+#include "../src/model/npc.h"
 
 TEST_CASE("Switch game modes")
 {
@@ -38,4 +40,21 @@ TEST_CASE("Movement in RPG mode")
 
 TEST_CASE("NPC interaction")
 {
+    GameModeService::setInstance(std::make_shared<RPGGameMode>());
+    GameControllerService::setInstance(std::make_shared<GameController>());
+    GameController *gameController = GameControllerService::get().get();
+    gameController->setView(new TestView());
+    gameController->setSoundController(new TestSoundController());
+    GridController *gridController = new GridController(gameController);
+    NPC *npc = new NPC(0, 0);
+    npc->snakeOnElement(gridController);
+    REQUIRE(GameModeService::get()->getQuests()->size() == 1);
+    gameController->eat(true);
+    gameController->eat(true);
+    gameController->eat(true);
+    gameController->eat(true);
+    gameController->eat(true);
+    gameController->eat(true);
+    npc->snakeOnElement(gridController);
+    REQUIRE(GameModeService::get()->getQuests()->size() == 0);
 }

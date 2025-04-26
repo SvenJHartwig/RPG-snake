@@ -3,6 +3,16 @@
 
 void NPC::snakeOnElement(IGridController *controller)
 {
+    if (dialogState == 1 && quest->checkWinCondition())
+    {
+        controller->showText("Thanks");
+        GameModeService::get()->clearQuests();
+        dialogState = 2;
+    }
+    else if (dialogState == 1)
+    {
+        controller->showText("You have a quest");
+    }
     if (dialogState == 0)
     {
         controller->showText("Please get 10 points");

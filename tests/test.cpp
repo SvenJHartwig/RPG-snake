@@ -672,7 +672,7 @@ TEST_CASE("Win game with win condition: time")
     gameController->setTicksSinceLastMovement(1000);
   }
   // After 20 steps, the win condition is fulfilled
-  REQUIRE(GameModeService::get()->getQuests()->at(0)->checkWinCondition(gameController));
+  REQUIRE(GameModeService::get()->getQuests()->at(0)->checkWinCondition());
 }
 
 TEST_CASE("Mobs moving around")

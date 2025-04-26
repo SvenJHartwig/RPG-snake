@@ -1,7 +1,9 @@
 #include "quest.h"
+#include "../services/gameControllerService.h"
 
-bool Quest::checkWinCondition(WinCondition condition, IGameController *controller)
+bool Quest::checkWinCondition(WinCondition condition)
 {
+    std::shared_ptr<GameController> controller = GameControllerService::get();
     if (condition.getType() == SCORE)
     {
         if (controller->getScore() >= condition.getAmount())
@@ -18,9 +20,9 @@ bool Quest::checkWinCondition(WinCondition condition, IGameController *controlle
     }
     return false;
 }
-bool Quest::checkWinCondition(IGameController *controller)
+bool Quest::checkWinCondition()
 {
-    return checkWinCondition(*winCondition, controller);
+    return checkWinCondition(*winCondition);
 }
 
 std::string Quest::getName()

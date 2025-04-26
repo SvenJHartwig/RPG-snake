@@ -1,6 +1,7 @@
 #include "testClasses.h"
 #include "../src/view/engine/elements/scene.h"
 #include <cstdio>
+#include "../src/services/gameModeService.h"
 
 void printGridComparison(vector<string> *chars, vector<string> *expectedGrid, int gridSize)
 {
@@ -645,9 +646,9 @@ TEST_CASE("Win game with win condition: time")
   string path = RESOURCE_DIR;
   path.append("/tests/level/levelWithWincon2Binary");
   gameController->getGridController()->loadLevel(path.c_str());
-  gameController->getGameMode()->clearQuests();
+  GameModeService::get()->clearQuests();
   WinCondition winCon = gameController->getGridController()->getGrid()->getWinCondition();
-  gameController->getGameMode()->addQuest("Test", &winCon);
+  GameModeService::get()->addQuest("Test", &winCon);
   REQUIRE(gameController->getGameState() == IN_GAME);
   // 8 Steps to the right
   gameController->reactOnInput(GLFW_KEY_RIGHT);
@@ -671,7 +672,7 @@ TEST_CASE("Win game with win condition: time")
     gameController->setTicksSinceLastMovement(1000);
   }
   // After 20 steps, the win condition is fulfilled
-  REQUIRE(gameController->getGameMode()->getQuests()->at(0)->checkWinCondition(gameController));
+  REQUIRE(GameModeService::get()->getQuests()->at(0)->checkWinCondition(gameController));
 }
 
 TEST_CASE("Mobs moving around")

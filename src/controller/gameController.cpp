@@ -3,13 +3,14 @@
 #include <iostream>
 #include <thread>
 #include "../model/mob.h"
+#include "../services/gameModeService.h"
 
 using std::string, std::vector;
 
 GameController::GameController()
 {
     gridController = new GridController(this);
-    gameMode = GameModeFactory::createGameMode(INFINITE);
+    GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
 }
 
 GameController::~GameController() {}
@@ -41,13 +42,13 @@ void GameController::reactOnInput(int input)
             path.append("/level/level1");
             gridController->loadLevel(path);
             gridController->updateGrid();
+            GameModeService::setInstance(std::make_shared<RPGGameMode>());
             gameState = IN_GAME;
-            gameMode = GameModeFactory::createGameMode(RPG);
 
             WinCondition winCon = gridController->getGrid()->getWinCondition();
-            gameMode->addQuest("First quest", &winCon);
+            GameModeService::get()->addQuest("First quest", &winCon);
             view->gameStateChanged(gameState);
-            view->setQuests(gameMode->getQuests());
+            view->setQuests(GameModeService::get()->getQuests());
             soundController->playBackgroundMusic(static_cast<std::string>(RESOURCE_DIR).append("/music/background.mp3"));
         }
         else if (input == GLFW_KEY_ESCAPE)
@@ -116,10 +117,10 @@ void GameController::reactOnInput(int input)
 }
 void GameController::reactOnKeyReleased(int input)
 {
-    if (dynamic_cast<RPGGameMode *>(gameMode) && (input == GLFW_KEY_RIGHT && lastInput == 'd' ||
-                                                  input == GLFW_KEY_DOWN && lastInput == 's' ||
-                                                  input == GLFW_KEY_LEFT && lastInput == 'a' ||
-                                                  input == GLFW_KEY_UP && lastInput == 'w'))
+    if (GameModeService::get()->hasHealth() && (input == GLFW_KEY_RIGHT && lastInput == 'd' ||
+                                                input == GLFW_KEY_DOWN && lastInput == 's' ||
+                                                input == GLFW_KEY_LEFT && lastInput == 'a' ||
+                                                input == GLFW_KEY_UP && lastInput == 'w'))
     {
         lastInput = ' ';
     }
@@ -180,7 +181,7 @@ void GameController::mainLoopIteration()
     }
     gridController->updateGrid();
     view->setGrid(gridController->getSpriteVector());
-    if (gameMode->hasHealth())
+    if (GameModeService::get()->hasHealth())
     {
         view->setHealth(gridController->getSnake()->getHealth());
     }
@@ -243,8 +244,8 @@ void GameController::setText(std::string text)
 }
 void GameController::addQuest(Quest *quest)
 {
-    gameMode->addQuest(quest);
-    view->setQuests(gameMode->getQuests());
+    GameModeService::get()->addQuest(quest);
+    view->setQuests(GameModeService::get()->getQuests());
 }
 
 char GameController::getLastDirection()
@@ -280,7 +281,7 @@ void GameController::resetGame()
 {
     view->setScore(0);
     level = 1;
-    gameMode = GameModeFactory::createGameMode(INFINITE);
+    GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
     softReset();
 }
 

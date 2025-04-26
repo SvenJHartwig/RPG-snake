@@ -7,7 +7,7 @@ add_executable(main src/main.cpp src/model/grid.cpp src/model/snake.cpp src/cont
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
     src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/controller/soundController.cpp
     src/model/quest.cpp src/model/teleporter.cpp src/view/engine/elements/textInput.cpp src/editor/controller/editorController.cpp src/editor/view/editorView.cpp 
-    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp)
+    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp src/services/gameModeService.cpp)
 target_link_directories(main PRIVATE /usr/local/lib /usr/lib64 /usr/include)
 include_directories (/usr/include/freetype2 includes)
 target_link_libraries(main PRIVATE glfw3 rt m dl GLEW GLU OpenGL freetype)
@@ -21,7 +21,7 @@ add_executable(editor src/editor.cpp src/model/grid.cpp src/model/snake.cpp src/
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
     src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/controller/soundController.cpp
     src/model/quest.cpp src/model/teleporter.cpp src/view/engine/elements/textInput.cpp src/editor/controller/editorController.cpp src/editor/view/editorView.cpp 
-    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp)
+    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp src/services/gameModeService.cpp)
 target_compile_definitions(editor PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/src/resources")
 target_link_directories(editor PRIVATE /usr/local/lib /usr/lib64 /usr/include)
 target_link_libraries(editor PRIVATE glfw3 rt m dl GLEW GLU OpenGL freetype)
@@ -45,7 +45,7 @@ add_executable(tests tests/test.cpp src/model/grid.cpp src/model/snake.cpp src/c
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
     src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/controller/soundController.cpp
     src/model/quest.cpp src/model/teleporter.cpp src/view/engine/elements/textInput.cpp src/editor/controller/editorController.cpp src/editor/view/editorView.cpp 
-    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp)
+    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp src/services/gameModeService.cpp)
 target_link_directories(tests PRIVATE /usr/local/lib /usr/lib64)
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(tests PRIVATE glfw3 rt m dl GLEW GLU OpenGL freetype)
@@ -63,7 +63,7 @@ add_executable(launchTests tests/launchTest.cpp src/model/grid.cpp src/model/sna
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
     src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/controller/soundController.cpp
     src/model/quest.cpp src/model/teleporter.cpp src/view/engine/elements/textInput.cpp src/editor/controller/editorController.cpp src/editor/view/editorView.cpp 
-    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp)
+    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp src/services/gameModeService.cpp)
 target_link_libraries(launchTests PRIVATE Catch2::Catch2WithMain)
 target_compile_options(launchTests PRIVATE -coverage)
 target_link_libraries(launchTests PRIVATE glfw3 rt m dl GLEW GLU OpenGL freetype)
@@ -79,7 +79,7 @@ add_executable(engineTests tests/engineTest.cpp src/model/grid.cpp src/model/sna
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
     src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/controller/soundController.cpp
     src/model/quest.cpp src/model/teleporter.cpp src/view/engine/elements/textInput.cpp src/editor/controller/editorController.cpp src/editor/view/editorView.cpp 
-    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp)
+    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp src/services/gameModeService.cpp)
 target_link_directories(engineTests PRIVATE /usr/local/lib /usr/lib64 /usr/include)
 target_link_libraries(engineTests PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(engineTests PRIVATE SFML::Audio)
@@ -96,7 +96,7 @@ add_executable(gameModeTests tests/gameModeTest.cpp src/model/grid.cpp src/model
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
     src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/controller/soundController.cpp
     src/model/quest.cpp src/model/teleporter.cpp src/view/engine/elements/textInput.cpp src/editor/controller/editorController.cpp src/editor/view/editorView.cpp 
-    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp)
+    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp src/services/gameModeService.cpp)
 target_link_directories(gameModeTests PRIVATE /usr/local/lib /usr/lib64 /usr/include)
 target_link_libraries(gameModeTests PRIVATE Catch2::Catch2WithMain)
 target_compile_options(gameModeTests PRIVATE -coverage)
@@ -113,7 +113,7 @@ add_executable(editorTests tests/editorTest.cpp src/model/grid.cpp src/model/sna
     src/view/engine/shaders/shader.cpp src/view/engine/iRenderEngine.cpp src/model/winCondition.cpp src/model/gameMode.cpp src/commonFunctions.cpp
     src/view/engine/elements/image.cpp src/view/engine/renderData.cpp src/model/mob.cpp src/model/gridElement.cpp src/controller/soundController.cpp
     src/model/quest.cpp src/model/teleporter.cpp src/view/engine/elements/textInput.cpp src/editor/controller/editorController.cpp src/editor/view/editorView.cpp 
-    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp)
+    src/editor/loadTextFile.cpp src/model/npc.cpp src/view/dialog.cpp src/services/gameModeService.cpp)
 target_link_directories(editorTests PRIVATE /usr/local/lib /usr/lib64)
 target_link_libraries(editorTests PRIVATE Catch2::Catch2WithMain)
 target_compile_definitions(editorTests PRIVATE RESOURCE_DIR="${CMAKE_SOURCE_DIR}/src/resources")

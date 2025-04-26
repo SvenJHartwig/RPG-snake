@@ -4,12 +4,6 @@
 #include <vector>
 #include "quest.h"
 
-enum GameModeEnum
-{
-    INFINITE,
-    RPG
-};
-
 class IGameMode
 {
 public:
@@ -19,15 +13,6 @@ public:
     virtual std::vector<Quest *> *getQuests() = 0;
     virtual bool operator==(IGameMode const &other) const = 0;
     virtual bool hasHealth() = 0;
-};
-
-class GameModeFactory
-{
-private:
-    GameModeFactory() {}
-
-public:
-    static IGameMode *createGameMode(GameModeEnum mode);
 };
 
 class InfiniteGameMode : public IGameMode

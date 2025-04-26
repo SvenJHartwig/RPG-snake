@@ -23,7 +23,6 @@ private:
     char lastDirection = ' ';
     GameState gameState = MAIN_MENU;
     int level = 1;
-    IGameMode *gameMode;
     bool showingText = false;
 
 public:
@@ -51,7 +50,5 @@ public:
     void resetGame();
     int getLevel() { return level; }
     void setTicksSinceLastMovement(int ticksSinceMovement) { this->ticksSinceMovement = ticksSinceMovement; }
-    void setGameMode(GameModeEnum mode) { gameMode = GameModeFactory::createGameMode(mode); }
-    IGameMode *getGameMode() { return gameMode; }
     void save(std::string path);
 };

@@ -1,19 +1,6 @@
 #include "gameMode.h"
 #include "string.h"
 
-IGameMode *GameModeFactory::createGameMode(GameModeEnum mode)
-{
-    switch (mode)
-    {
-    case INFINITE:
-        return new InfiniteGameMode();
-    case RPG:
-        return new RPGGameMode();
-    default:
-        return new InfiniteGameMode();
-    }
-}
-
 InfiniteGameMode::InfiniteGameMode(){}
 
 void InfiniteGameMode::clearQuests() {}

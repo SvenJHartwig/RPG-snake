@@ -1,12 +1,14 @@
 #include "testClasses.h"
+#include "../src/services/gameModeService.h"
+#include "../src/model/gameMode.h"
 
 TEST_CASE("Switch game modes")
 {
     GameController *gameController = new GameController();
-    gameController->setGameMode(INFINITE);
-    REQUIRE(*(gameController->getGameMode()) == InfiniteGameMode());
-    gameController->setGameMode(RPG);
-    REQUIRE(*(gameController->getGameMode()) == RPGGameMode());
+    GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
+    REQUIRE(*(GameModeService::get()) == InfiniteGameMode());
+    GameModeService::setInstance(std::make_shared<RPGGameMode>());
+    REQUIRE(*(GameModeService::get()) == RPGGameMode());
 }
 
 TEST_CASE("Create WinConditions")
@@ -22,12 +24,12 @@ TEST_CASE("Create WinConditions")
 TEST_CASE("Movement in RPG mode")
 {
     GameController *gameController = new GameController();
-    gameController->setGameMode(RPG);
+    GameModeService::setInstance(std::make_shared<RPGGameMode>());
     gameController->reactOnInput(GLFW_KEY_RIGHT);
     REQUIRE(gameController->getLastInput() == 'd');
     gameController->reactOnKeyReleased(GLFW_KEY_RIGHT);
     REQUIRE(gameController->getLastInput() == ' ');
-    gameController->setGameMode(INFINITE);
+    GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
     gameController->reactOnInput(GLFW_KEY_RIGHT);
     REQUIRE(gameController->getLastInput() == 'd');
     gameController->reactOnKeyReleased(GLFW_KEY_RIGHT);

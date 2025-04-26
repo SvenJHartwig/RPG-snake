@@ -10,4 +10,7 @@ public:
     void tick() override;
     NPC(int pos_x, int pos_y);
     ~NPC();
+private:
+    int dialogState;
+    Quest *quest;
 };

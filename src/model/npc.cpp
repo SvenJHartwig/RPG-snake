@@ -1,9 +1,12 @@
 #include "npc.h"
+#include "../services/gameModeService.h"
 
 void NPC::snakeOnElement(IGridController *controller)
 {
-    controller->showText("Sample");
-    controller->addQuest(new Quest("NPC Quest", new WinCondition(WinConType::SCORE, 10)));
+    if(dialogState == 0){
+        controller->showText("Please get 10 points");
+        GameModeService::get()->addQuest(quest);
+    }
 }
 void NPC::serialize(std::ofstream *outFile)
 {
@@ -17,4 +20,7 @@ NPC::NPC(int pos_x, int pos_y)
     this->pos_x = pos_x;
     this->pos_y = pos_y;
 }
-NPC::~NPC() {}
+NPC::~NPC() {
+    dialogState = 0;
+    quest = new Quest("NPC Quest", new WinCondition(WinConType::SCORE, 10));
+}

@@ -2,6 +2,7 @@
 #include "../src/view/engine/elements/scene.h"
 #include <cstdio>
 #include "../src/services/gameModeService.h"
+#include "../src/services/gameControllerService.h"
 
 void printGridComparison(vector<string> *chars, vector<string> *expectedGrid, int gridSize)
 {
@@ -638,7 +639,8 @@ TEST_CASE("Load level with win condition from disk")
 
 TEST_CASE("Win game with win condition: time")
 {
-  GameController *gameController = new GameController();
+  GameControllerService::setInstance(std::make_shared<GameController>());
+  GameController *gameController = GameControllerService::get().get();
   gameController->setTicksSinceLastMovement(1000);
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());

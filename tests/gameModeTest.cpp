@@ -40,8 +40,8 @@ TEST_CASE("Movement in RPG mode")
 
 TEST_CASE("NPC interaction")
 {
-    GameModeService::setInstance(std::make_shared<RPGGameMode>());
     GameControllerService::setInstance(std::make_shared<GameController>());
+    GameModeService::setInstance(std::make_shared<RPGGameMode>());
     GameController *gameController = GameControllerService::get().get();
     gameController->setView(new TestView());
     gameController->setSoundController(new TestSoundController());

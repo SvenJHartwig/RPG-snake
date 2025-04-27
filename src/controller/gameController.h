@@ -44,7 +44,7 @@ public:
     int getScore() override;
     long getSteps() override { return steps; }
     GameState getGameState() override;
-    void addQuest(Quest *quest) override;
+    void showQuests() override;
     void setGameState(GameState state) { this->gameState = state; }
     void softReset();
     void resetGame();

@@ -212,6 +212,7 @@ TEST_CASE("Test snake")
 TEST_CASE("Movement in opposite direction of last direction is not possible if snake is longer than 1")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   // Set gamestate to INGAME
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
@@ -274,6 +275,7 @@ TEST_CASE("Movement in opposite direction of last direction is not possible if s
 TEST_CASE("Movement in opposite direction of last direction is possible if snake is exactly 1 long")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   gameController->setTicksSinceLastMovement(1000);
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
@@ -314,6 +316,7 @@ TEST_CASE("Movement in opposite direction of last direction is possible if snake
 TEST_CASE("Speed setting increases")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
   GridController *gridController = gameController->getGridController();
@@ -350,6 +353,7 @@ TEST_CASE("Speed setting increases")
 TEST_CASE("sometimes one additional food is generated")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
   GridController *gridController = gameController->getGridController();
@@ -370,6 +374,7 @@ TEST_CASE("sometimes one additional food is generated")
 TEST_CASE("Pressing enter starts game")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   gameController->setView(new TestView());
   TestSoundController *soundController = new TestSoundController();
   gameController->setSoundController(soundController);
@@ -382,6 +387,7 @@ TEST_CASE("Pressing enter starts game")
 TEST_CASE("After Game Over pause before going to main menu")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
   gameController->getGridController()->moveSnakeUp();
@@ -410,6 +416,7 @@ TEST_CASE("After Game Over pause before going to main menu")
 TEST_CASE("Game Over on eating own tail")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
   gameController->getGridController()->getSnake()->eat();
@@ -430,6 +437,7 @@ TEST_CASE("Game Over on eating own tail")
 TEST_CASE("Special food has a time out")
 {
   SpecialFood *spFood = new SpecialFood();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   REQUIRE(spFood->remainingTime() == 20);
   GameController *gameController = new GameController();
   gameController->setView(new TestView());
@@ -454,6 +462,7 @@ TEST_CASE("Special food has a time out")
 TEST_CASE("Load level from disk")
 {
   GridController *gridController = new GridController(new TestEatListener());
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   Grid *grid = static_cast<Grid *>(gridController->getGrid());
   int grid_size_x = grid->getGridSizeX();
   int grid_size_y = grid->getGridSizeY();
@@ -522,6 +531,7 @@ TEST_CASE("Load level from disk")
 TEST_CASE("If snake goes out of bounds, wrap around")
 {
   GridController *gridController = new GridController(new TestEatListener());
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   Grid *grid = static_cast<Grid *>(gridController->getGrid());
   int grid_size_y = grid->getGridSizeY();
   string path = RESOURCE_DIR;
@@ -542,6 +552,7 @@ TEST_CASE("If snake goes out of bounds, wrap around")
 TEST_CASE("Only appropriate input works while in game")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_O);
@@ -554,6 +565,7 @@ TEST_CASE("Only appropriate input works while in game")
 TEST_CASE("Exit game")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_ESCAPE);
@@ -563,6 +575,7 @@ TEST_CASE("Exit game")
 TEST_CASE("Win game")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_O);
@@ -599,6 +612,7 @@ TEST_CASE("Win game")
 TEST_CASE("Infinite game")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   gameController->setView(new TestView());
   gameController->setSoundController(new TestSoundController());
   gameController->reactOnInput(GLFW_KEY_ENTER);
@@ -640,6 +654,7 @@ TEST_CASE("Load level with win condition from disk")
 TEST_CASE("Win game with win condition: time")
 {
   GameControllerService::setInstance(std::make_shared<GameController>());
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   GameController *gameController = GameControllerService::get().get();
   gameController->setTicksSinceLastMovement(1000);
   gameController->setView(new TestView());
@@ -760,6 +775,7 @@ TEST_CASE("Kill enemy")
 TEST_CASE("Savestate")
 {
   GameController *gameController = new GameController();
+  GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
   string path = RESOURCE_DIR;
   path.append("/tests/savestates/testSave");
   std::remove(path.c_str());

@@ -30,6 +30,28 @@ public:
 
 class GridController : public IGridController
 {
+public:
+    GridController(IEatListener *eatListener);
+    ~GridController();
+    void updateGrid();
+    void moveSnakeRight();
+    void moveSnakeLeft();
+    void moveSnakeUp();
+    void moveSnakeDown();
+    bool isGameOver();
+    void setRNG(RandomGenerator *rng);
+    void generateNewFood(int i, int j);
+    void generateNewSpecialFood(int i, int j);
+    void reset();
+    void loadLevel(std::string path) override;
+    void showText(std::string text) override;
+    IGrid *getGrid() override;
+    ISnake *getSnake() override;
+    std::vector<Food *> *getFood();
+    std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
+    void addMob(Mob *mob);
+    std::vector<Mob *> *getMobs();
+
 private:
     Snake *snake;
     std::vector<Food *> *food;
@@ -48,27 +70,4 @@ private:
     bool anyMovedBodypartOnThisField(int i, int j);
     void moveSnakeBody(BodyPartFacing facing);
     bool collisionOnPosition(int x, int y);
-
-public:
-    GridController(IEatListener *eatListener);
-    ~GridController();
-    void updateGrid();
-    void moveSnakeRight();
-    void moveSnakeLeft();
-    void moveSnakeUp();
-    void moveSnakeDown();
-    bool isGameOver();
-    void setRNG(RandomGenerator *rng);
-    void generateNewFood(int i, int j);
-    void generateNewSpecialFood(int i, int j);
-    void reset();
-    void loadLevel(std::string path) override;
-    void showText(std::string text) override;
-    void addQuest(Quest *quest) override;
-    IGrid *getGrid() override;
-    ISnake *getSnake() override;
-    std::vector<Food *> *getFood();
-    std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
-    void addMob(Mob *mob);
-    std::vector<Mob *> *getMobs();
 };

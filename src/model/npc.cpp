@@ -1,5 +1,6 @@
 #include "npc.h"
 #include "../services/gameModeService.h"
+#include "../services/gameControllerService.h"
 
 void NPC::snakeOnElement(IGridController *controller)
 {
@@ -17,6 +18,7 @@ void NPC::snakeOnElement(IGridController *controller)
     {
         controller->showText("Please get 10 points");
         GameModeService::get()->addQuest(quest);
+        GameControllerService::get()->showQuests();
         dialogState++;
     }
 }

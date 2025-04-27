@@ -12,5 +12,4 @@ public:
     virtual ISnake *getSnake() = 0;
     virtual IGrid *getGrid() = 0;
     virtual void showText(std::string text) = 0;
-    virtual void addQuest(Quest *quest) = 0;
 };

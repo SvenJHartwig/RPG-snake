@@ -10,7 +10,6 @@ using std::string, std::vector;
 GameController::GameController()
 {
     gridController = new GridController(this);
-    GameModeService::setInstance(std::make_shared<InfiniteGameMode>());
 }
 
 GameController::~GameController() {}
@@ -242,9 +241,8 @@ void GameController::setText(std::string text)
     showingText = true;
     view->showDialog(text);
 }
-void GameController::addQuest(Quest *quest)
+void GameController::showQuests()
 {
-    GameModeService::get()->addQuest(quest);
     view->setQuests(GameModeService::get()->getQuests());
 }
 

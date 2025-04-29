@@ -12,20 +12,11 @@ namespace SEngine
     void engine_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
     void engine_mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
     void cursor_position_callback(GLFWwindow *window, double xpos, double ypos);
+    std::vector<std::string> split(const std::string str, const std::string regex_str);
 
     // Main class of the rendering engine. To use, create an instance of this class and then call the init method on that object.
     class RenderEngine : public IRenderEngine
     {
-    private:
-        GLFWwindow *window;
-        std::vector<Scene *> *currentScenes;
-        IEngineCallback *callback;
-        unsigned int VBO, VAO, EBO;
-        TextRenderer *textRenderer;
-        Shader *textureShader;
-        Shader *colorShader;
-        void initShader(Shader *shader, glm::mat4 projection);
-
     public:
         RenderEngine() {}
         ~RenderEngine() {}
@@ -44,5 +35,16 @@ namespace SEngine
         void renderingLoop() override;
         // Initialize the RenderEngine. Call once in the beginning.
         int init() override;
+
+    private:
+        GLFWwindow *window;
+        std::vector<Scene *> *currentScenes;
+        IEngineCallback *callback;
+        unsigned int VBO, VAO, EBO;
+        TextRenderer *textRenderer;
+        Shader *textureShader;
+        Shader *colorShader;
+        void initShader(Shader *shader, glm::mat4 projection);
+        void writeRenderDataIntoBuffer();
     };
 }

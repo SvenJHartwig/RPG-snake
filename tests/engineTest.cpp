@@ -102,3 +102,9 @@ TEST_CASE("TextInput element")
     SEngine::RenderData *data3 = input->createRenderData();
     REQUIRE(data3->getTexture() == data2->getTexture());
 }
+
+TEST_CASE("Split string")
+{
+    REQUIRE(1 == SEngine::split("i+i", "1").size());
+    REQUIRE(2 == SEngine::split("i+i", "\\+").size());
+}

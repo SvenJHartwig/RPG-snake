@@ -4,10 +4,19 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "renderData.h"
 #include "elements/textInput.h"
+#include <regex>
 
 namespace SEngine
 {
     using std::string;
+
+    std::vector<std::string> split(const std::string str, const std::string regex_str)
+    {
+        std::regex regexz(regex_str);
+        std::vector<std::string> list(std::sregex_token_iterator(str.begin(), str.end(), regexz, -1),
+                                      std::sregex_token_iterator());
+        return list;
+    }
 
     bool sceneElementInCoords(Element *element, double xpos, double ypos)
     {
@@ -119,42 +128,7 @@ namespace SEngine
             glClear(GL_COLOR_BUFFER_BIT);
             glActiveTexture(GL_TEXTURE0);
 
-            for (Scene *scene : *currentScenes)
-            {
-                for (int i = 0; i < scene->scene_elements->size(); i++)
-                {
-                    if (scene->scene_elements->at(i)->getVisible())
-                    {
-                        RenderData *data = scene->scene_elements->at(i)->createRenderData();
-                        if (data->getHasTexture())
-                        {
-                            glBindTexture(GL_TEXTURE_2D, data->getTexture());
-                            textureShader->use();
-                        }
-                        else
-                        {
-                            glBindTexture(GL_TEXTURE_2D, 0);
-                            colorShader->use();
-                        }
-
-                        // Bind normal buffers That are unbound during text rendering
-                        glBindVertexArray(VAO);
-                        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-                        // Update buffers with new vertex data
-                        glBufferData(GL_ARRAY_BUFFER, data->getVertices().size() * sizeof(float), data->getVertices().data(), GL_DYNAMIC_DRAW);
-                        glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getIndices().size() * sizeof(float), data->getIndices().data(), GL_STATIC_DRAW);
-
-                        glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);
-                        glBindVertexArray(0);
-                        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-                        if (data->getText() != "")
-                        {
-                            textRenderer->RenderText(data->getText(), data->getTextPosX(), data->getTextPosY(), data->getTextWidth(), data->getTextMaxHeight(), data->getTextColor());
-                        }
-                    }
-                }
-            }
+            writeRenderDataIntoBuffer();
 
             // Swap buffers
             glfwSwapBuffers(window);
@@ -166,6 +140,50 @@ namespace SEngine
         glDeleteBuffers(1, &EBO);
         callback->setWindowClosed(true);
         glfwTerminate();
+    }
+
+    void RenderEngine::writeRenderDataIntoBuffer()
+    {
+        for (Scene *scene : *currentScenes)
+        {
+            for (int i = 0; i < scene->scene_elements->size(); i++)
+            {
+                if (scene->scene_elements->at(i)->getVisible())
+                {
+                    RenderData *data = scene->scene_elements->at(i)->createRenderData();
+                    if (data->getHasTexture())
+                    {
+                        glBindTexture(GL_TEXTURE_2D, data->getTexture());
+                        textureShader->use();
+                    }
+                    else
+                    {
+                        glBindTexture(GL_TEXTURE_2D, 0);
+                        colorShader->use();
+                    }
+
+                    // Bind normal buffers That are unbound during text rendering
+                    glBindVertexArray(VAO);
+                    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+                    // Update buffers with new vertex data
+                    glBufferData(GL_ARRAY_BUFFER, data->getVertices().size() * sizeof(float), data->getVertices().data(), GL_DYNAMIC_DRAW);
+                    glBufferData(GL_ELEMENT_ARRAY_BUFFER, data->getIndices().size() * sizeof(float), data->getIndices().data(), GL_STATIC_DRAW);
+
+                    glDrawElements(GL_TRIANGLES, data->getVertices().size(), GL_UNSIGNED_INT, 0);
+                    glBindVertexArray(0);
+                    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+                    if (data->getText() != "")
+                    {
+                        auto tokens = split(data->getText(), "\n");
+                        for (auto &item : tokens)
+                        {
+                            textRenderer->RenderText(item, data->getTextPosX(), data->getTextPosY(), data->getTextWidth(), data->getTextMaxHeight(), data->getTextColor());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     int RenderEngine::init()

@@ -10,6 +10,7 @@ using std::string, std::vector, SEngine::RenderData, SEngine::Button, SEngine::R
     SEngine::IEngineCallback, SEngine::Scene, SEngine::Text, SEngine::SpriteGrid, SEngine::Sprite, SEngine::Image;
 
 GlView::GlView() {}
+GlView::~GlView() {}
 
 void initView(IRenderEngine *engine, GlView *view)
 {
@@ -26,7 +27,6 @@ void initView(IRenderEngine *engine, GlView *view)
 
 int GlView::init()
 {
-    delete (engine);
     engine = new RenderEngine();
     const std::thread *initThread = new std::thread(initView, engine, this);
 
@@ -85,7 +85,7 @@ void GlView::initGameScene()
     Text *winConText = new Text(0, 20, 100, 40);
     winConText->text = "Win condition: ";
     inGame->scene_elements->push_back(winConText);
-    Text *healthText = new Text(0, 40, 100, 60);
+    Text *healthText = new Text(windowWidth / 2 - 50, 0, windowWidth / 2 + 50, 20);
     healthText->text = "";
     inGame->scene_elements->push_back(healthText);
 
@@ -167,7 +167,7 @@ void GlView::setQuests(vector<Quest *> *quests)
     }
     for (Quest *quest : *quests)
     {
-        questNames += quest->getName();
+        questNames += quest->getName() + "\n";
     }
     static_cast<Text *>(inGame->scene_elements->at(3))->text = questNames;
 }

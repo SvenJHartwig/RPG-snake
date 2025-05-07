@@ -176,9 +176,9 @@ namespace SEngine
                     if (data->getText() != "")
                     {
                         auto tokens = split(data->getText(), "\n");
-                        for (auto &item : tokens)
+                        for (int textIterator = 0; textIterator < tokens.size(); textIterator++)
                         {
-                            textRenderer->RenderText(item, data->getTextPosX(), data->getTextPosY(), data->getTextWidth(), data->getTextMaxHeight(), data->getTextColor());
+                            textRenderer->RenderText(tokens.at(textIterator), data->getTextPosX(), data->getTextPosY() + (textIterator * data->getTextMaxHeight()), data->getTextWidth(), data->getTextMaxHeight(), data->getTextColor());
                         }
                     }
                 }

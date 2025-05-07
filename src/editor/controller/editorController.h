@@ -38,6 +38,6 @@ public:
     void handleInputForState3(int key);
     void handleInputForState4(int key);
     void eraseMobAt(int focussedX, int focussedY);
-    void setWindowClosed(bool closed);
+    void setWindowClosed(bool closed) override;
     std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
 };

@@ -9,6 +9,7 @@
 - Rework getSpriteVector
 - cmakeLists
 - Remove scenes when they are not used
+- Make scenes json
 
 Engine:
 - Dialogs

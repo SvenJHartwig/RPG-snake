@@ -22,6 +22,7 @@ private:
 
 public:
     GlView();
+    ~GlView();
     int init() override;
     void gameStateChanged(GameState game_state) override;
     SEngine::Scene *getMainMenu() { return mainMenu; }

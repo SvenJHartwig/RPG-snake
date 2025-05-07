@@ -19,5 +19,6 @@ namespace SEngine
         virtual void renderingLoop() = 0;
         virtual int init() = 0;
         static unsigned int createTexture(std::string path);
+        ~IRenderEngine() {}
     };
 }

@@ -8,6 +8,7 @@ void NPC::snakeOnElement(IGridController *controller)
     {
         controller->showText("Thanks");
         GameModeService::get()->clearQuests();
+        GameControllerService::get()->showQuests();
         dialogState = 2;
     }
     else if (dialogState == 1)

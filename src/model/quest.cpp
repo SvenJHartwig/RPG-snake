@@ -1,38 +1,41 @@
 #include "quest.h"
 #include "../services/gameControllerService.h"
 
-bool Quest::checkWinCondition(WinCondition condition)
+bool Quest::checkWinCondition()
 {
     std::shared_ptr<GameController> controller = GameControllerService::get();
-    if (condition.getType() == SCORE)
+    if (winCondition->getType() == SCORE)
     {
-        if (controller->getScore() >= condition.getAmount())
+        if (controller->getScore() >= winCondition->getAmount())
         {
+            isFinished = true;
             return true;
         }
     }
-    if (condition.getType() == TIME)
+    if (winCondition->getType() == TIME)
     {
-        if (controller->getSteps() >= condition.getAmount())
+        if (controller->getSteps() >= winCondition->getAmount())
         {
+            isFinished = true;
             return true;
         }
     }
     return false;
-}
-bool Quest::checkWinCondition()
-{
-    return checkWinCondition(*winCondition);
 }
 
 std::string Quest::getName()
 {
     return name;
 }
+bool Quest::getIsFinished()
+{
+    return isFinished;
+}
 Quest::Quest(std::string name, WinCondition *winCon)
 {
     this->name = name;
     winCondition = winCon;
+    isFinished = false;
 }
 
 Quest::~Quest() {}

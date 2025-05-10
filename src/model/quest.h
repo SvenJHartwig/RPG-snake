@@ -8,12 +8,13 @@ class Quest
 public:
     bool checkWinCondition();
     std::string getName();
+    bool getIsFinished();
     Quest(std::string name, WinCondition *winCon);
     ~Quest();
 
 private:
     std::string name;
+    bool isFinished;
     IGameController *controller;
     WinCondition *winCondition;
-    bool checkWinCondition(WinCondition condition);
 };

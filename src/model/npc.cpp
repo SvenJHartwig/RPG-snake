@@ -7,7 +7,6 @@ void NPC::snakeOnElement(IGridController *controller)
     if (dialogState == 1 && quest->checkWinCondition())
     {
         controller->showText("Thanks");
-        GameModeService::get()->clearQuests();
         GameControllerService::get()->showQuests();
         dialogState = 2;
     }

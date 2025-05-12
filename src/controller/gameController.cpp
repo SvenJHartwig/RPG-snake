@@ -243,7 +243,15 @@ void GameController::setText(std::string text)
 }
 void GameController::showQuests()
 {
-    view->setQuests(GameModeService::get()->getQuests());
+    std::vector<Quest *> *unfishedQuests = new std::vector<Quest *>();
+    for (Quest *quest : *GameModeService::get()->getQuests())
+    {
+        if (!quest->getIsFinished())
+        {
+            unfishedQuests->push_back(quest);
+        }
+    }
+    view->setQuests(unfishedQuests);
 }
 
 char GameController::getLastDirection()

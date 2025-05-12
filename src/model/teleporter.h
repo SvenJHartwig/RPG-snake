@@ -12,5 +12,6 @@ private:
 public:
     Teleporter(int pos_x, int pos_y, std::string path, int targetPosX, int targetPosY);
     void snakeOnElement(IGridController *controller) override;
+    void snakeMovedAway(IGridController *controller) override;
     void serialize(std::ofstream *outFile) override;
 };

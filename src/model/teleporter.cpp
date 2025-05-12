@@ -23,6 +23,7 @@ void Teleporter::snakeOnElement(IGridController *controller)
         bodyPart->setHasMoved(false);
     }
 }
+void Teleporter::snakeMovedAway(IGridController *controller) {}
 void Teleporter::serialize(std::ofstream *outFile)
 {
     outFile->write(reinterpret_cast<const char *>(&"T"), sizeof(char));

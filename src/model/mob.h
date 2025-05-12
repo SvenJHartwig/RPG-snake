@@ -30,6 +30,7 @@ private:
 public:
     static int currentId;
     void snakeOnElement(IGridController *controller) override;
+    void snakeMovedAway(IGridController *controller) override;
     void setTicksSinceLastMovement(int ticksSinceLastMovement);
     void serialize(std::ofstream *outFile) override;
     void tick() override;

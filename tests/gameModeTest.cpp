@@ -56,5 +56,9 @@ TEST_CASE("NPC interaction")
     gameController->eat(true);
     gameController->eat(true);
     npc->snakeOnElement(gridController);
+    REQUIRE(!GameModeService::get()->getQuests()->at(0)->getIsFinished());
+    npc->snakeMovedAway(gridController);
+    REQUIRE(!GameModeService::get()->getQuests()->at(0)->getIsFinished());
+    npc->snakeOnElement(gridController);
     REQUIRE(GameModeService::get()->getQuests()->at(0)->getIsFinished());
 }

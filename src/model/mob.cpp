@@ -23,6 +23,7 @@ void Enemy::snakeOnElement(IGridController *controller)
         }
     }
 }
+void Enemy::snakeMovedAway(IGridController *controller) {}
 void Enemy::setTicksSinceLastMovement(int ticksSinceLastMovement)
 {
     this->ticksSinceLastMovement = ticksSinceLastMovement;

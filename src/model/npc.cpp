@@ -4,6 +4,11 @@
 
 void NPC::snakeOnElement(IGridController *controller)
 {
+    if (stillOnElement)
+    {
+        return;
+    }
+    stillOnElement = true;
     if (dialogState == 1 && quest->checkWinCondition())
     {
         controller->showText("Thanks");
@@ -22,6 +27,10 @@ void NPC::snakeOnElement(IGridController *controller)
         dialogState++;
     }
 }
+void NPC::snakeMovedAway(IGridController *controller)
+{
+    stillOnElement = false;
+}
 void NPC::serialize(std::ofstream *outFile)
 {
     outFile->write(reinterpret_cast<const char *>(&"N"), sizeof(char));
@@ -32,6 +41,7 @@ void NPC::tick() {}
 NPC::NPC(int pos_x, int pos_y)
 {
     dialogState = 0;
+    stillOnElement = false;
     quest = new Quest("NPC Quest", new WinCondition(WinConType::SCORE, 10));
     this->pos_x = pos_x;
     this->pos_y = pos_y;

@@ -347,6 +347,7 @@ void GridController::moveSnakeRight()
     {
         return;
     }
+    grid->getLevel()->at(snake->getPosY())->at(snake->getPosX())->snakeMovedAway(this);
     movedSinceLastDialog = true;
     BodyPartFacing facing = HORIZONTAL;
     if (snake->getBody()->size() > 0)
@@ -380,6 +381,7 @@ void GridController::moveSnakeLeft()
     {
         return;
     }
+    grid->getLevel()->at(snake->getPosY())->at(snake->getPosX())->snakeMovedAway(this);
     movedSinceLastDialog = true;
     BodyPartFacing facing = HORIZONTAL;
     if (snake->getBody()->size() > 0)
@@ -413,6 +415,7 @@ void GridController::moveSnakeUp()
     {
         return;
     }
+    grid->getLevel()->at(snake->getPosY())->at(snake->getPosX())->snakeMovedAway(this);
     movedSinceLastDialog = true;
     BodyPartFacing facing = VERTICAL;
     if (snake->getBody()->size() > 0)
@@ -446,6 +449,7 @@ void GridController::moveSnakeDown()
     {
         return;
     }
+    grid->getLevel()->at(snake->getPosY())->at(snake->getPosX())->snakeMovedAway(this);
     movedSinceLastDialog = true;
     BodyPartFacing facing = VERTICAL;
     if (snake->getBody()->size() > 0)

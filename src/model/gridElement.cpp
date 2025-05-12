@@ -25,6 +25,7 @@ Ground::Ground(int pos_x, int pos_y)
     this->pos_y = pos_y;
 }
 void Ground::snakeOnElement(IGridController *controller) {}
+void Ground::snakeMovedAway(IGridController *controller) {}
 void Ground::serialize(std::ofstream *outFile)
 {
     outFile->write(reinterpret_cast<const char *>(&"x"), sizeof(char));
@@ -38,6 +39,7 @@ Wall::Wall(int pos_x, int pos_y)
     this->pos_y = pos_y;
 }
 void Wall::snakeOnElement(IGridController *controller) {}
+void Wall::snakeMovedAway(IGridController *controller) {}
 void Wall::serialize(std::ofstream *outFile)
 {
     outFile->write(reinterpret_cast<const char *>(&"W"), sizeof(char));

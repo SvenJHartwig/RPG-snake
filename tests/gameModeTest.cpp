@@ -62,3 +62,11 @@ TEST_CASE("NPC interaction")
     npc->snakeOnElement(gridController);
     REQUIRE(GameModeService::get()->getQuests()->at(0)->getIsFinished());
 }
+
+TEST_CASE("Quests only start counting when they're active")
+{
+    GameControllerService::setInstance(std::make_shared<GameController>());
+    GameModeService::setInstance(std::make_shared<RPGGameMode>());
+    GameController *gameController = GameControllerService::get().get();
+    gameController->eat(true);
+}

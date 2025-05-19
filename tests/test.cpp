@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "../src/services/gameModeService.h"
 #include "../src/services/gameControllerService.h"
+#include "../src/controller/spriteController.h"
 
 void printGridComparison(vector<string> *chars, vector<string> *expectedGrid, int gridSize)
 {
@@ -783,4 +784,9 @@ TEST_CASE("Savestate")
   gameController->setSoundController(new TestSoundController());
   gameController->save(path);
   REQUIRE(std::filesystem::exists(path));
+}
+
+TEST_CASE("Sprite controller")
+{
+  std::vector<std::vector<SEngine::Sprite> *> *spriteGrid = SpriteController::getSpriteVector(new Grid(), new Snake(), new std::vector<Food *>());
 }

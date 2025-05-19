@@ -2,6 +2,7 @@
 #include "../src/view/glView.h"
 #include "../src/view/engine/elements/text.h"
 #include "../src/view/engine/elements/spriteGrid.h"
+#include "../src/controller/spriteController.h"
 #include <chrono>
 #include <thread>
 #include "testClasses.h"
@@ -37,7 +38,7 @@ TEST_CASE("Initialize OpenGL (View)")
     view->setScore(2);
     REQUIRE(static_cast<Text *>(view->getInGameScene()->scene_elements->at(0))->text.compare("Score: 2") == 0);
     const std::vector<std::string> *grid = new std::vector<std::string>();
-    std::vector<std::vector<Sprite> *> *spriteGrid = GridController(new TestEatListener()).getSpriteVector();
+    std::vector<std::vector<Sprite> *> *spriteGrid = SpriteController::getSpriteVector(new Grid(), new Snake(), new std::vector<Food *>());
     view->setGrid(spriteGrid);
     REQUIRE(static_cast<SpriteGrid *>(view->getInGameScene()->scene_elements->at(2))->getGrid() == spriteGrid);
     view->gameStateChanged(WIN);

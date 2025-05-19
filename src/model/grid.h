@@ -15,13 +15,6 @@
 // structure in the future.
 class Grid : public IGrid
 {
-private:
-    int grid_size_x;
-    int grid_size_y;
-    std::vector<std::vector<GridElement *> *> *level;
-    WinCondition winCon = WinCondition(NONE, 0);
-    std::vector<Mob *> *mobs;
-
 public:
     std::set<std::pair<int, int>> *occupiedSpacesWall;
     std::set<std::pair<int, int>> *occupiedSpacesSnake;
@@ -30,14 +23,21 @@ public:
     ~Grid();
     void setLevel(std::vector<std::vector<GridElement *> *> *level) { this->level = level; }
     std::vector<std::vector<GridElement *> *> *getLevel() { return level; }
-    void setGridSizeX(int grid_size_x) { this->grid_size_x = grid_size_x; }
-    void setGridSizeY(int grid_size_y) { this->grid_size_y = grid_size_y; }
-    int getGridSizeX();
-    int getGridSizeY();
-    void reset();
-    void setWinCondition(WinCondition winCondition) { this->winCon = winCondition; }
-    WinCondition getWinCondition() { return winCon; }
-    void saveToFile(const std::string &filename);
-    void loadFromFile(const std::string &filename);
+    void setGridSizeX(int grid_size_x) override { this->grid_size_x = grid_size_x; }
+    void setGridSizeY(int grid_size_y) override { this->grid_size_y = grid_size_y; }
+    int getGridSizeX() override;
+    int getGridSizeY() override;
+    void reset() override;
+    void setWinCondition(WinCondition winCondition) override { this->winCon = winCondition; }
+    WinCondition getWinCondition() override { return winCon; }
+    void saveToFile(const std::string &filename) override;
+    void loadFromFile(const std::string &filename) override;
     std::vector<Mob *> *getMobs();
+
+private:
+    int grid_size_x;
+    int grid_size_y;
+    std::vector<std::vector<GridElement *> *> *level;
+    WinCondition winCon = WinCondition(NONE, 0);
+    std::vector<Mob *> *mobs;
 };

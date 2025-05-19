@@ -68,5 +68,7 @@ TEST_CASE("Quests only start counting when they're active")
     GameControllerService::setInstance(std::make_shared<GameController>());
     GameModeService::setInstance(std::make_shared<RPGGameMode>());
     GameController *gameController = GameControllerService::get().get();
+    gameController->setSoundController(new TestSoundController());
+    gameController->setView(new TestView());
     gameController->eat(true);
 }

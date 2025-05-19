@@ -15,9 +15,6 @@ public:
 
 class SpecialFood : public Food
 {
-private:
-    int remainingMoves = 0;
-
 public:
     void snakeOnElement(IGridController *controller) override;
     void snakeMovedAway(IGridController *controller) override;
@@ -25,6 +22,9 @@ public:
     SpecialFood() { remainingMoves = 20; }
     int remainingTime() { return remainingMoves; }
     void decreaseTime() { remainingMoves--; }
+
+private:
+    int remainingMoves = 0;
 };
 
 enum BodyPartFacing
@@ -39,9 +39,6 @@ enum BodyPartFacing
 
 class SnakeBodyPart : public GridElement
 {
-private:
-    bool has_moved = false;
-
 public:
     void snakeOnElement(IGridController *controller) override;
     void snakeMovedAway(IGridController *controller) override;
@@ -51,6 +48,9 @@ public:
     ~SnakeBodyPart();
     bool getHasMoved();
     void setHasMoved(bool val);
+
+private:
+    bool has_moved = false;
 };
 
 enum Facing
@@ -63,11 +63,6 @@ enum Facing
 
 class Snake : public GridElement, public ISnake
 {
-private:
-    int maxHealth = 3;
-    int health = 3;
-    std::vector<SnakeBodyPart> body;
-
 public:
     void snakeOnElement(IGridController *controller) override;
     void snakeMovedAway(IGridController *controller) override;
@@ -83,4 +78,9 @@ public:
     int getPosY() override;
     void setPosX(int pos) override;
     void setPosY(int pos) override;
+
+private:
+    int maxHealth = 3;
+    int health = 3;
+    std::vector<SnakeBodyPart> body;
 };

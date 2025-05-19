@@ -1,6 +1,7 @@
 #include "testClasses.h"
 #include "../src/view/engine/elements/image.h"
 #include "../src/view/engine/elements/textInput.h"
+#include "../src/controller/spriteController.h"
 
 using SEngine::Image, SEngine::StretchMode, SEngine::TextInput;
 
@@ -45,7 +46,10 @@ TEST_CASE("Sprite grid tests")
     gridController->setRNG(new TestGenerator());
     gridController->updateGrid();
     gridController->addMob(new Enemy(10, 10));
-    spriteGrid->setGrid(gridController->getSpriteVector());
+    spriteGrid->setGrid(SpriteController::getSpriteVector(
+        static_cast<Grid *>(gridController->getGrid()),
+        static_cast<Snake *>(gridController->getSnake()),
+        gridController->getFood()));
     data = spriteGrid->createRenderData();
     REQUIRE(data->getVertices().size() == 11200);
     REQUIRE(data->getIndices().size() == 2400);
@@ -56,7 +60,10 @@ TEST_CASE("Sprite grid tests")
     REQUIRE(data->getVertices().size() == 0);
     REQUIRE(data->getIndices().size() == 0);
     // With texture map and grid
-    spriteGrid2->setGrid(gridController->getSpriteVector());
+    spriteGrid2->setGrid(SpriteController::getSpriteVector(
+        static_cast<Grid *>(gridController->getGrid()),
+        static_cast<Snake *>(gridController->getSnake()),
+        gridController->getFood()));
     data = spriteGrid2->createRenderData();
     REQUIRE(data->getVertices().size() == 11200);
     REQUIRE(data->getIndices().size() == 2400);

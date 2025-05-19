@@ -4,6 +4,7 @@
 #include <thread>
 #include "../model/mob.h"
 #include "../services/gameModeService.h"
+#include "spriteController.h"
 
 using std::string, std::vector;
 
@@ -179,7 +180,10 @@ void GameController::mainLoopIteration()
         }
     }
     gridController->updateGrid();
-    view->setGrid(gridController->getSpriteVector());
+    view->setGrid(SpriteController::getSpriteVector(
+        static_cast<Grid *>(gridController->getGrid()),
+        static_cast<Snake *>(gridController->getSnake()),
+        gridController->getFood()));
     if (GameModeService::get()->hasHealth())
     {
         view->setHealth(gridController->getSnake()->getHealth());
@@ -279,7 +283,10 @@ void GameController::softReset()
     steps = 0;
     gridController->reset();
     gridController->updateGrid();
-    view->setGrid(gridController->getSpriteVector());
+    view->setGrid(SpriteController::getSpriteVector(
+        static_cast<Grid *>(gridController->getGrid()),
+        static_cast<Snake *>(gridController->getSnake()),
+        gridController->getFood()));
     view->setQuests(new vector<Quest *>());
 }
 

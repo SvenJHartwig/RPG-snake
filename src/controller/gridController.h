@@ -48,7 +48,6 @@ public:
     IGrid *getGrid() override;
     ISnake *getSnake() override;
     std::vector<Food *> *getFood();
-    std::vector<std::vector<SEngine::Sprite> *> *getSpriteVector();
     void addMob(Mob *mob);
     std::vector<Mob *> *getMobs();
 

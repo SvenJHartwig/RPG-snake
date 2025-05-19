@@ -5,7 +5,7 @@
 - Fix different grid sizes
 - Fix crash on loading a file with not the correct format
 - Fix sometimes rng gives a pair that is not allowed
-- Rework getSpriteVector
+- NPCs dialog configurable
 - cmakeLists
 - Remove scenes when they are not used
 - Make scenes json

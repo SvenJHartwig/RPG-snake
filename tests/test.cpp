@@ -789,4 +789,6 @@ TEST_CASE("Savestate")
 TEST_CASE("Sprite controller")
 {
   std::vector<std::vector<SEngine::Sprite> *> *spriteGrid = SpriteController::getSpriteVector(new Grid(), new Snake(), new std::vector<Food *>());
+  REQUIRE(20 == spriteGrid->size());
+  REQUIRE(20 == spriteGrid->at(0)->size());
 }

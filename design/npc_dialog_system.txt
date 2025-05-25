@@ -1,0 +1,14 @@
+
+    foreach(condition in dialogstate->conditions){
+        if(condition){
+            condition->action()
+            return
+        }
+    }
+    dialogState->action
+
+    condition->action:
+    - show text
+    - change dialogState
+    - check quest finished
+    - add quest

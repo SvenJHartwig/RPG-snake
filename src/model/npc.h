@@ -2,6 +2,66 @@
 
 #include "mob.h"
 
+class IDialogCondition
+{
+public:
+    virtual bool evaluate() = 0;
+};
+
+class DialogConditionIsState
+{
+public:
+    bool evaluate();
+};
+
+class DialogConditionQuestFinished
+{
+public:
+    bool evaluate();
+};
+
+class IDialogAction
+{
+public:
+    virtual bool execute() = 0;
+};
+
+class DialogActionShowText
+{
+public:
+    bool execute();
+};
+
+class DialogActionChangeDialogState
+{
+public:
+    bool execute();
+};
+
+class DialogActionAddQuest
+{
+public:
+    bool execute();
+};
+
+class DialogState
+{
+public:
+    bool evaluate();
+    void execute();
+
+private:
+    std::vector<IDialogCondition> conditions;
+    std::vector<IDialogAction> actions;
+};
+
+class NPC_Dialog
+{
+public:
+private:
+    std::vector<DialogState> states;
+};
+
 class NPC : public Mob
 {
 public:

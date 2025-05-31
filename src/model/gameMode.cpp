@@ -1,7 +1,7 @@
 #include "gameMode.h"
 #include "string.h"
 
-InfiniteGameMode::InfiniteGameMode(){}
+InfiniteGameMode::InfiniteGameMode() {}
 
 void InfiniteGameMode::clearQuests() {}
 void InfiniteGameMode::addQuest(std::string name, WinCondition *condition) {}
@@ -10,6 +10,10 @@ void InfiniteGameMode::addQuest(Quest *quest) {}
 std::vector<Quest *> *InfiniteGameMode::getQuests()
 {
     return new std::vector<Quest *>();
+}
+std::tuple<bool, Quest *> InfiniteGameMode::getQuest(std::string questID)
+{
+    return std::make_tuple(false, new Quest("", new WinCondition(NONE, 0)));
 }
 bool InfiniteGameMode::operator==(IGameMode const &other) const
 {
@@ -22,7 +26,7 @@ bool InfiniteGameMode::hasHealth()
     return false;
 }
 
-RPGGameMode::RPGGameMode(){}
+RPGGameMode::RPGGameMode() {}
 
 void RPGGameMode::clearQuests()
 {
@@ -50,6 +54,17 @@ void RPGGameMode::addQuest(Quest *quest)
 std::vector<Quest *> *RPGGameMode::getQuests()
 {
     return quests;
+}
+std::tuple<bool, Quest *> RPGGameMode::getQuest(std::string questID)
+{
+    for (Quest *quest : *quests)
+    {
+        if (quest->getName().compare(questID) == 0)
+        {
+            return std::make_tuple(true, quest);
+        }
+    }
+    return std::make_tuple(false, new Quest("", new WinCondition(NONE, 0)));
 }
 
 bool RPGGameMode::operator==(IGameMode const &other) const

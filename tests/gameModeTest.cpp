@@ -71,4 +71,23 @@ TEST_CASE("Quests only start counting when they're active")
     gameController->setSoundController(new TestSoundController());
     gameController->setView(new TestView());
     gameController->eat(true);
+    // TODO EXPAND TEST
+}
+
+TEST_CASE("Dialog Test")
+{
+    DialogConditionIsState *condition1 = new DialogConditionIsState(2);
+    REQUIRE(!condition1->evaluate(1));
+    REQUIRE(condition1->evaluate(2));
+    REQUIRE(!condition1->evaluate(3));
+    DialogConditionQuestFinished *condition2 = new DialogConditionQuestFinished("Test");
+    REQUIRE(!condition2->evaluate(1));
+    GameModeService::setInstance(std::make_shared<RPGGameMode>());
+    GameModeService::get()->addQuest(new Quest("Test", new WinCondition(SCORE, 2)));
+    GameControllerService::setInstance(std::make_shared<GameController>());
+    GameController *gameController = GameControllerService::get().get();
+    gameController->setSoundController(new TestSoundController());
+    gameController->setView(new TestView());
+    gameController->eat(true);
+    REQUIRE(condition2->evaluate(1));
 }

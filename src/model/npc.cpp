@@ -2,6 +2,42 @@
 #include "../services/gameModeService.h"
 #include "../services/gameControllerService.h"
 
+bool DialogConditionIsState::evaluate(int dialogState)
+{
+    return dialogState == stateToReach;
+}
+
+DialogConditionIsState::DialogConditionIsState(int stateToReach)
+{
+    this->stateToReach = stateToReach;
+}
+
+bool DialogConditionQuestFinished::evaluate(int dialogState)
+{
+    bool exists;
+    Quest *quest;
+    std::tie(exists, quest) = GameModeService::get()->getQuest(questID);
+    if (exists)
+    {
+        return quest->checkWinCondition();
+    }
+    return false;
+}
+
+DialogConditionQuestFinished::DialogConditionQuestFinished(std::string questID)
+{
+    this->questID = questID;
+}
+
+void DialogActionShowText::execute() {}
+
+void DialogActionChangeDialogState::execute() {}
+
+void DialogActionAddQuest::execute() {}
+
+bool DialogState::evaluate() {}
+void DialogState::execute() {}
+
 void NPC::snakeOnElement(IGridController *controller)
 {
     if (stillOnElement)

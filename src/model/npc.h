@@ -5,19 +5,27 @@
 class IDialogCondition
 {
 public:
-    virtual bool evaluate() = 0;
+    virtual bool evaluate(int dialogState) = 0;
 };
 
 class DialogConditionIsState
 {
 public:
-    bool evaluate();
+    bool evaluate(int dialogState);
+    DialogConditionIsState(int stateToReach);
+
+private:
+    int stateToReach;
 };
 
 class DialogConditionQuestFinished
 {
 public:
-    bool evaluate();
+    bool evaluate(int dialogState);
+    DialogConditionQuestFinished(std::string questID);
+
+private:
+    std::string questID;
 };
 
 class IDialogAction
@@ -29,19 +37,19 @@ public:
 class DialogActionShowText
 {
 public:
-    bool execute();
+    void execute();
 };
 
 class DialogActionChangeDialogState
 {
 public:
-    bool execute();
+    void execute();
 };
 
 class DialogActionAddQuest
 {
 public:
-    bool execute();
+    void execute();
 };
 
 class DialogState
@@ -59,6 +67,7 @@ class NPC_Dialog
 {
 public:
 private:
+    int dialogState;
     std::vector<DialogState> states;
 };
 

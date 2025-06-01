@@ -48,7 +48,14 @@ DialogActionChangeDialogState::DialogActionChangeDialogState(int targetState, IS
     this->receiver = receiver;
 }
 
-void DialogActionAddQuest::execute() {}
+void DialogActionAddQuest::execute()
+{
+    GameModeService::get()->addQuest(quest);
+}
+DialogActionAddQuest::DialogActionAddQuest(Quest *quest)
+{
+    this->quest = quest;
+}
 
 bool DialogState::evaluate(int dialogState)
 {
@@ -89,6 +96,17 @@ NPC_Dialog::NPC_Dialog(std::vector<DialogState *> *states)
 {
     dialogState = 0;
     this->states = states;
+}
+void NPC_Dialog::invoke()
+{
+    for (DialogState *state : *states)
+    {
+        if (state->evaluate(dialogState))
+        {
+            state->execute();
+            return;
+        }
+    }
 }
 
 void NPC::snakeOnElement(IGridController *controller)

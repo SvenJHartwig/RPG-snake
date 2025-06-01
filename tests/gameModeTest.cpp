@@ -105,4 +105,10 @@ TEST_CASE("Dialog Test")
     DialogActionChangeDialogState *action2 = new DialogActionChangeDialogState(3, dialog);
     action2->execute();
     REQUIRE(dialog->getState() == 3);
+
+    Quest *quest = new Quest("Test2", new WinCondition(NONE, 0));
+    DialogActionAddQuest *action3 = new DialogActionAddQuest(quest);
+    REQUIRE(GameModeService::get()->getQuests()->size() == 1);
+    action3->execute();
+    REQUIRE(GameModeService::get()->getQuests()->size() == 2);
 }

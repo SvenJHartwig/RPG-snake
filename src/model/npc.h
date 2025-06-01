@@ -65,6 +65,10 @@ class DialogActionAddQuest : public IDialogAction
 {
 public:
     void execute() override;
+    DialogActionAddQuest(Quest *quest);
+
+private:
+    Quest *quest;
 };
 
 class DialogState
@@ -86,6 +90,7 @@ public:
     void changeState(int state);
     int getState();
     NPC_Dialog(std::vector<DialogState *> *states);
+    void invoke();
 
 private:
     int dialogState;

@@ -87,12 +87,22 @@ TEST_CASE("Dialog Test")
     GameControllerService::setInstance(std::make_shared<GameController>());
     GameController *gameController = GameControllerService::get().get();
     gameController->setSoundController(new TestSoundController());
-    gameController->setView(new TestView());
+    TestView *view = new TestView();
+    gameController->setView(view);
     gameController->eat(true);
     REQUIRE(condition2->evaluate(1));
 
     DialogState *state1 = new DialogState(new std::vector<IDialogCondition *>(1, condition1), new std::vector<IDialogAction *>());
     REQUIRE(state1->evaluate(2));
     REQUIRE(!state1->evaluate(1));
+
     DialogActionShowText *action1 = new DialogActionShowText("Test");
+    action1->execute();
+    REQUIRE(view->showDialogText.compare("Test") == 0);
+
+    NPC_Dialog *dialog = new NPC_Dialog(new std::vector<DialogState *>(1, state1));
+    REQUIRE(dialog->getState() == 0);
+    DialogActionChangeDialogState *action2 = new DialogActionChangeDialogState(3, dialog);
+    action2->execute();
+    REQUIRE(dialog->getState() == 3);
 }

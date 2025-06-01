@@ -38,7 +38,15 @@ DialogActionShowText::DialogActionShowText(std::string text)
     this->text = text;
 }
 
-void DialogActionChangeDialogState::execute() {}
+void DialogActionChangeDialogState::execute()
+{
+    receiver->changeState(targetState);
+}
+DialogActionChangeDialogState::DialogActionChangeDialogState(int targetState, IStateReceiver *receiver)
+{
+    this->targetState = targetState;
+    this->receiver = receiver;
+}
 
 void DialogActionAddQuest::execute() {}
 
@@ -66,6 +74,21 @@ DialogState::DialogState(std::vector<IDialogCondition *> *conditions,
 {
     this->conditions = conditions;
     this->actions = actions;
+}
+
+void NPC_Dialog::changeState(int state)
+{
+    dialogState = state;
+}
+
+int NPC_Dialog::getState()
+{
+    return dialogState;
+}
+NPC_Dialog::NPC_Dialog(std::vector<DialogState *> *states)
+{
+    dialogState = 0;
+    this->states = states;
 }
 
 void NPC::snakeOnElement(IGridController *controller)

@@ -53,6 +53,7 @@ public:
 
 class TestView : public IGameView
 {
+public:
     void setGameController(IGameController *gc) override {}
     int init() override { return 0; }
     void gameStateChanged(GameState game_state) override {}
@@ -60,8 +61,9 @@ class TestView : public IGameView
     void setHealth(int count) override {}
     void setGrid(vector<vector<Sprite> *> *grid) override {}
     void setQuests(vector<Quest *> *quests) override {}
-    void showDialog(std::string text) override {}
+    void showDialog(std::string text) override { showDialogText = text; }
     void closeDialog() override {}
+    std::string showDialogText;
 };
 
 class TestGameController : public IGameController

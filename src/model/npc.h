@@ -44,10 +44,21 @@ private:
     std::string text;
 };
 
+class IStateReceiver
+{
+public:
+    virtual void changeState(int state) = 0;
+};
+
 class DialogActionChangeDialogState : public IDialogAction
 {
 public:
     void execute() override;
+    DialogActionChangeDialogState(int targetState, IStateReceiver *receiver);
+
+private:
+    int targetState;
+    IStateReceiver *receiver;
 };
 
 class DialogActionAddQuest : public IDialogAction
@@ -69,12 +80,16 @@ private:
     std::vector<IDialogAction *> *actions;
 };
 
-class NPC_Dialog
+class NPC_Dialog : public IStateReceiver
 {
 public:
+    void changeState(int state);
+    int getState();
+    NPC_Dialog(std::vector<DialogState *> *states);
+
 private:
     int dialogState;
-    std::vector<DialogState *> states;
+    std::vector<DialogState *> *states;
 };
 
 class NPC : public Mob

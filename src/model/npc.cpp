@@ -29,14 +29,44 @@ DialogConditionQuestFinished::DialogConditionQuestFinished(std::string questID)
     this->questID = questID;
 }
 
-void DialogActionShowText::execute() {}
+void DialogActionShowText::execute()
+{
+    GameControllerService::get()->setText(text);
+}
+DialogActionShowText::DialogActionShowText(std::string text)
+{
+    this->text = text;
+}
 
 void DialogActionChangeDialogState::execute() {}
 
 void DialogActionAddQuest::execute() {}
 
-bool DialogState::evaluate() {}
-void DialogState::execute() {}
+bool DialogState::evaluate(int dialogState)
+{
+    for (IDialogCondition *condition : *conditions)
+    {
+        if (!condition->evaluate(dialogState))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+void DialogState::execute()
+{
+    for (IDialogAction *action : *actions)
+    {
+        action->execute();
+    }
+}
+
+DialogState::DialogState(std::vector<IDialogCondition *> *conditions,
+                         std::vector<IDialogAction *> *actions)
+{
+    this->conditions = conditions;
+    this->actions = actions;
+}
 
 void NPC::snakeOnElement(IGridController *controller)
 {

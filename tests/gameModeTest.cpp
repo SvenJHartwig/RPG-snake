@@ -90,4 +90,9 @@ TEST_CASE("Dialog Test")
     gameController->setView(new TestView());
     gameController->eat(true);
     REQUIRE(condition2->evaluate(1));
+
+    DialogState *state1 = new DialogState(new std::vector<IDialogCondition *>(1, condition1), new std::vector<IDialogAction *>());
+    REQUIRE(state1->evaluate(2));
+    REQUIRE(!state1->evaluate(1));
+    DialogActionShowText *action1 = new DialogActionShowText("Test");
 }

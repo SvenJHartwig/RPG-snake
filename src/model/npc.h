@@ -8,20 +8,20 @@ public:
     virtual bool evaluate(int dialogState) = 0;
 };
 
-class DialogConditionIsState
+class DialogConditionIsState : public IDialogCondition
 {
 public:
-    bool evaluate(int dialogState);
+    bool evaluate(int dialogState) override;
     DialogConditionIsState(int stateToReach);
 
 private:
     int stateToReach;
 };
 
-class DialogConditionQuestFinished
+class DialogConditionQuestFinished : public IDialogCondition
 {
 public:
-    bool evaluate(int dialogState);
+    bool evaluate(int dialogState) override;
     DialogConditionQuestFinished(std::string questID);
 
 private:
@@ -31,36 +31,42 @@ private:
 class IDialogAction
 {
 public:
-    virtual bool execute() = 0;
+    virtual void execute() = 0;
 };
 
-class DialogActionShowText
+class DialogActionShowText : public IDialogAction
 {
 public:
-    void execute();
+    void execute() override;
+    DialogActionShowText(std::string text);
+
+private:
+    std::string text;
 };
 
-class DialogActionChangeDialogState
+class DialogActionChangeDialogState : public IDialogAction
 {
 public:
-    void execute();
+    void execute() override;
 };
 
-class DialogActionAddQuest
+class DialogActionAddQuest : public IDialogAction
 {
 public:
-    void execute();
+    void execute() override;
 };
 
 class DialogState
 {
 public:
-    bool evaluate();
+    bool evaluate(int dialogState);
     void execute();
+    DialogState(std::vector<IDialogCondition *> *conditions,
+                std::vector<IDialogAction *> *actions);
 
 private:
-    std::vector<IDialogCondition> conditions;
-    std::vector<IDialogAction> actions;
+    std::vector<IDialogCondition *> *conditions;
+    std::vector<IDialogAction *> *actions;
 };
 
 class NPC_Dialog
@@ -68,7 +74,7 @@ class NPC_Dialog
 public:
 private:
     int dialogState;
-    std::vector<DialogState> states;
+    std::vector<DialogState *> states;
 };
 
 class NPC : public Mob

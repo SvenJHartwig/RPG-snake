@@ -74,7 +74,7 @@ TEST_CASE("Quests only start counting when they're active")
     // TODO EXPAND TEST
 }
 
-TEST_CASE("Dialog Test")
+TEST_CASE("Dialog parts test")
 {
     DialogConditionIsState *condition1 = new DialogConditionIsState(2);
     REQUIRE(!condition1->evaluate(1));
@@ -102,7 +102,8 @@ TEST_CASE("Dialog Test")
 
     NPC_Dialog *dialog = new NPC_Dialog(new std::vector<DialogState *>(1, state1));
     REQUIRE(dialog->getState() == 0);
-    DialogActionChangeDialogState *action2 = new DialogActionChangeDialogState(3, dialog);
+    DialogActionChangeDialogState *action2 = new DialogActionChangeDialogState(3);
+    action2->setReceiver(dialog);
     action2->execute();
     REQUIRE(dialog->getState() == 3);
 
@@ -111,4 +112,24 @@ TEST_CASE("Dialog Test")
     REQUIRE(GameModeService::get()->getQuests()->size() == 1);
     action3->execute();
     REQUIRE(GameModeService::get()->getQuests()->size() == 2);
+}
+
+TEST_CASE("Dialog full test")
+{
+    DialogConditionIsState *conditionState0 = new DialogConditionIsState(0);
+    DialogActionChangeDialogState *actionState0 = new DialogActionChangeDialogState(1);
+    DialogConditionIsState *conditionState1 = new DialogConditionIsState(1);
+    DialogActionChangeDialogState *actionState1 = new DialogActionChangeDialogState(2);
+    std::vector<DialogState *> *states = new std::vector<DialogState *>();
+    states->push_back(new DialogState(new std::vector<IDialogCondition *>(1, conditionState0), new std::vector<IDialogAction *>(1, actionState0)));
+    states->push_back(new DialogState(new std::vector<IDialogCondition *>(1, conditionState1), new std::vector<IDialogAction *>(1, actionState1)));
+    NPC_Dialog *dialog = new NPC_Dialog(states);
+
+    REQUIRE(dialog->getState() == 0);
+    dialog->invoke();
+    REQUIRE(dialog->getState() == 1);
+    dialog->invoke();
+    REQUIRE(dialog->getState() == 2);
+    dialog->invoke();
+    REQUIRE(dialog->getState() == 2);
 }

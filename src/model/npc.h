@@ -54,7 +54,8 @@ class DialogActionChangeDialogState : public IDialogAction
 {
 public:
     void execute() override;
-    DialogActionChangeDialogState(int targetState, IStateReceiver *receiver);
+    DialogActionChangeDialogState(int targetState);
+    void setReceiver(IStateReceiver *receiver);
 
 private:
     int targetState;
@@ -78,6 +79,7 @@ public:
     void execute();
     DialogState(std::vector<IDialogCondition *> *conditions,
                 std::vector<IDialogAction *> *actions);
+    std::vector<IDialogAction *> *getActions();
 
 private:
     std::vector<IDialogCondition *> *conditions;

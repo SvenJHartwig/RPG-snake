@@ -42,9 +42,12 @@ void DialogActionChangeDialogState::execute()
 {
     receiver->changeState(targetState);
 }
-DialogActionChangeDialogState::DialogActionChangeDialogState(int targetState, IStateReceiver *receiver)
+DialogActionChangeDialogState::DialogActionChangeDialogState(int targetState)
 {
     this->targetState = targetState;
+}
+void DialogActionChangeDialogState::setReceiver(IStateReceiver *receiver)
+{
     this->receiver = receiver;
 }
 
@@ -82,6 +85,10 @@ DialogState::DialogState(std::vector<IDialogCondition *> *conditions,
     this->conditions = conditions;
     this->actions = actions;
 }
+std::vector<IDialogAction *> *DialogState::getActions()
+{
+    return actions;
+}
 
 void NPC_Dialog::changeState(int state)
 {
@@ -95,6 +102,17 @@ int NPC_Dialog::getState()
 NPC_Dialog::NPC_Dialog(std::vector<DialogState *> *states)
 {
     dialogState = 0;
+    for (DialogState *state : *states)
+    {
+        for (IDialogAction *action : *state->getActions())
+        {
+            DialogActionChangeDialogState *changeStateAction = dynamic_cast<DialogActionChangeDialogState *>(action);
+            if (changeStateAction)
+            {
+                changeStateAction->setReceiver(this);
+            }
+        }
+    }
     this->states = states;
 }
 void NPC_Dialog::invoke()
@@ -153,6 +171,4 @@ NPC::NPC(int pos_x, int pos_y)
     this->pos_x = pos_x;
     this->pos_y = pos_y;
 }
-NPC::~NPC()
-{
-}
+NPC::~NPC() {}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mob.h"
+#include <memory>
 
 class IDialogCondition
 {
@@ -110,7 +111,7 @@ public:
     ~NPC();
 
 private:
+    std::shared_ptr<NPC_Dialog> dialog;
     bool stillOnElement;
-    int dialogState;
     Quest *quest;
 };

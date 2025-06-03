@@ -14,6 +14,7 @@ DialogConditionIsState::DialogConditionIsState(int stateToReach)
 
 bool DialogConditionQuestFinished::evaluate(int dialogState)
 {
+    GameControllerService::get()->showQuests();
     bool exists;
     Quest *quest;
     std::tie(exists, quest) = GameModeService::get()->getQuest(questID);
@@ -54,6 +55,7 @@ void DialogActionChangeDialogState::setReceiver(IStateReceiver *receiver)
 void DialogActionAddQuest::execute()
 {
     GameModeService::get()->addQuest(quest);
+    GameControllerService::get()->showQuests();
 }
 DialogActionAddQuest::DialogActionAddQuest(Quest *quest)
 {
@@ -134,23 +136,7 @@ void NPC::snakeOnElement(IGridController *controller)
         return;
     }
     stillOnElement = true;
-    if (dialogState == 1 && quest->checkWinCondition())
-    {
-        controller->showText("Thanks");
-        GameControllerService::get()->showQuests();
-        dialogState = 2;
-    }
-    else if (dialogState == 1)
-    {
-        controller->showText("You have a quest");
-    }
-    if (dialogState == 0)
-    {
-        controller->showText("Please get 10 points");
-        GameModeService::get()->addQuest(quest);
-        GameControllerService::get()->showQuests();
-        dialogState++;
-    }
+    dialog.get()->invoke();
 }
 void NPC::snakeMovedAway(IGridController *controller)
 {
@@ -165,10 +151,39 @@ void NPC::serialize(std::ofstream *outFile)
 void NPC::tick() {}
 NPC::NPC(int pos_x, int pos_y)
 {
-    dialogState = 0;
     stillOnElement = false;
     quest = new Quest("NPC Quest", new WinCondition(WinConType::SCORE, 10));
     this->pos_x = pos_x;
     this->pos_y = pos_y;
+
+    DialogConditionIsState *conditionState0 = new DialogConditionIsState(0);
+    DialogActionShowText *actionState0ShowText = new DialogActionShowText("Please get 10 points");
+    DialogActionAddQuest *actionState0AddQuest = new DialogActionAddQuest(quest);
+    DialogActionChangeDialogState *actionState0 = new DialogActionChangeDialogState(1);
+
+    DialogConditionIsState *conditionState1 = new DialogConditionIsState(1);
+    DialogActionShowText *actionState1ShowText = new DialogActionShowText("You have a quest");
+    DialogActionChangeDialogState *actionState1 = new DialogActionChangeDialogState(2);
+    DialogConditionQuestFinished *conditionQuestFinished = new DialogConditionQuestFinished(quest->getName());
+    DialogActionShowText *actionState1ShowTextQuestFinished = new DialogActionShowText("Thanks");
+    std::vector<DialogState *> *states = new std::vector<DialogState *>();
+
+    std::vector<IDialogCondition *> *conditionsState0 = new std::vector<IDialogCondition *>(1, conditionState0);
+    std::vector<IDialogAction *> *actionsState0 = new std::vector<IDialogAction *>(1, actionState0ShowText);
+    actionsState0->push_back(actionState0AddQuest);
+    actionsState0->push_back(actionState0);
+    states->push_back(new DialogState(conditionsState0, actionsState0));
+
+    std::vector<IDialogCondition *> *conditionsState1Quest = new std::vector<IDialogCondition *>(1, conditionState1);
+    conditionsState1Quest->push_back(conditionQuestFinished);
+    std::vector<IDialogAction *> *actionsState1Quest = new std::vector<IDialogAction *>(1, actionState1ShowTextQuestFinished);
+    actionsState0->push_back(actionState1);
+    states->push_back(new DialogState(conditionsState1Quest, actionsState1Quest));
+
+    std::vector<IDialogCondition *> *conditionsState1 = new std::vector<IDialogCondition *>(1, conditionState1);
+    std::vector<IDialogAction *> *actionsState1 = new std::vector<IDialogAction *>(1, actionState1ShowText);
+    states->push_back(new DialogState(conditionsState1, actionsState1));
+
+    dialog = std::make_shared<NPC_Dialog>(states);
 }
 NPC::~NPC() {}

@@ -1,6 +1,7 @@
 #include "npc.h"
 #include "../services/gameModeService.h"
 #include "../services/gameControllerService.h"
+#include <typeinfo>
 
 bool DialogConditionIsState::evaluate(int dialogState)
 {
@@ -51,6 +52,11 @@ void DialogActionChangeDialogState::setReceiver(IStateReceiver *receiver)
 {
     this->receiver = receiver;
 }
+void DialogActionChangeDialogState::serialize(std::ofstream *outFile)
+{
+    outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(typeid(this)));
+    outFile->write(reinterpret_cast<const char *>(&targetState), sizeof(int));
+}
 
 void DialogActionAddQuest::execute()
 {
@@ -60,6 +66,11 @@ void DialogActionAddQuest::execute()
 DialogActionAddQuest::DialogActionAddQuest(Quest *quest)
 {
     this->quest = quest;
+}
+void DialogActionAddQuest::serialize(std::ofstream *outFile)
+{
+    outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(typeid(this)));
+    outFile->write(reinterpret_cast<const char *>(&quest->getName()), sizeof(quest->getName()));
 }
 
 bool DialogState::evaluate(int dialogState)
@@ -90,6 +101,17 @@ DialogState::DialogState(std::vector<IDialogCondition *> *conditions,
 std::vector<IDialogAction *> *DialogState::getActions()
 {
     return actions;
+}
+void DialogState::serialize(std::ofstream *outFile)
+{
+    for (IDialogCondition *condition : *conditions)
+    {
+        condition->serialize(outFile);
+    }
+    for (IDialogAction *action : *actions)
+    {
+        action->serialize(outFile);
+    }
 }
 
 void NPC_Dialog::changeState(int state)
@@ -128,6 +150,13 @@ void NPC_Dialog::invoke()
         }
     }
 }
+void NPC_Dialog::serialize(std::ofstream *outFile)
+{
+    for (DialogState *state : *states)
+    {
+        state->serialize(outFile);
+    }
+}
 
 void NPC::snakeOnElement(IGridController *controller)
 {
@@ -147,6 +176,7 @@ void NPC::serialize(std::ofstream *outFile)
     outFile->write(reinterpret_cast<const char *>(&"N"), sizeof(char));
     outFile->write(reinterpret_cast<const char *>(&pos_x), sizeof(pos_x));
     outFile->write(reinterpret_cast<const char *>(&pos_y), sizeof(pos_y));
+    dialog->serialize(outFile);
 }
 void NPC::tick() {}
 NPC::NPC(int pos_x, int pos_y)
@@ -155,6 +185,13 @@ NPC::NPC(int pos_x, int pos_y)
     quest = new Quest("NPC Quest", new WinCondition(WinConType::SCORE, 10));
     this->pos_x = pos_x;
     this->pos_y = pos_y;
+
+    createSampleDialog();
+}
+NPC::~NPC() {}
+void NPC::createSampleDialog()
+{
+    Quest *quest = new Quest("NPC Quest", new WinCondition(WinConType::SCORE, 10));
 
     DialogConditionIsState *conditionState0 = new DialogConditionIsState(0);
     DialogActionShowText *actionState0ShowText = new DialogActionShowText("Please get 10 points");
@@ -186,4 +223,3 @@ NPC::NPC(int pos_x, int pos_y)
 
     dialog = std::make_shared<NPC_Dialog>(states);
 }
-NPC::~NPC() {}

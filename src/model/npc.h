@@ -7,6 +7,7 @@ class IDialogCondition
 {
 public:
     virtual bool evaluate(int dialogState) = 0;
+    virtual void serialize(std::ofstream *outFile) = 0;
 };
 
 class DialogConditionIsState : public IDialogCondition
@@ -14,6 +15,7 @@ class DialogConditionIsState : public IDialogCondition
 public:
     bool evaluate(int dialogState) override;
     DialogConditionIsState(int stateToReach);
+    void serialize(std::ofstream *outFile) override;
 
 private:
     int stateToReach;
@@ -24,6 +26,7 @@ class DialogConditionQuestFinished : public IDialogCondition
 public:
     bool evaluate(int dialogState) override;
     DialogConditionQuestFinished(std::string questID);
+    void serialize(std::ofstream *outFile) override;
 
 private:
     std::string questID;
@@ -33,6 +36,7 @@ class IDialogAction
 {
 public:
     virtual void execute() = 0;
+    virtual void serialize(std::ofstream *outFile) = 0;
 };
 
 class DialogActionShowText : public IDialogAction
@@ -40,6 +44,7 @@ class DialogActionShowText : public IDialogAction
 public:
     void execute() override;
     DialogActionShowText(std::string text);
+    void serialize(std::ofstream *outFile) override;
 
 private:
     std::string text;
@@ -57,6 +62,7 @@ public:
     void execute() override;
     DialogActionChangeDialogState(int targetState);
     void setReceiver(IStateReceiver *receiver);
+    void serialize(std::ofstream *outFile) override;
 
 private:
     int targetState;
@@ -68,6 +74,7 @@ class DialogActionAddQuest : public IDialogAction
 public:
     void execute() override;
     DialogActionAddQuest(Quest *quest);
+    void serialize(std::ofstream *outFile) override;
 
 private:
     Quest *quest;
@@ -81,6 +88,7 @@ public:
     DialogState(std::vector<IDialogCondition *> *conditions,
                 std::vector<IDialogAction *> *actions);
     std::vector<IDialogAction *> *getActions();
+    void serialize(std::ofstream *outFile);
 
 private:
     std::vector<IDialogCondition *> *conditions;
@@ -94,6 +102,7 @@ public:
     int getState();
     NPC_Dialog(std::vector<DialogState *> *states);
     void invoke();
+    void serialize(std::ofstream *outFile);
 
 private:
     int dialogState;
@@ -109,6 +118,7 @@ public:
     void tick() override;
     NPC(int pos_x, int pos_y);
     ~NPC();
+    void createSampleDialog();
 
 private:
     std::shared_ptr<NPC_Dialog> dialog;

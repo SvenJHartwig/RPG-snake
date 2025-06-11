@@ -9,6 +9,7 @@
 - cmakeLists
 - Remove scenes when they are not used
 - Make scenes json
+- Quests only start counting their condition when they start
 
 Engine:
 - Dialogs

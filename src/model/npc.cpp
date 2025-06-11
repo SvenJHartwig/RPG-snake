@@ -177,7 +177,7 @@ NPC::NPC(int pos_x, int pos_y)
     std::vector<IDialogCondition *> *conditionsState1Quest = new std::vector<IDialogCondition *>(1, conditionState1);
     conditionsState1Quest->push_back(conditionQuestFinished);
     std::vector<IDialogAction *> *actionsState1Quest = new std::vector<IDialogAction *>(1, actionState1ShowTextQuestFinished);
-    actionsState0->push_back(actionState1);
+    actionsState1Quest->push_back(actionState1);
     states->push_back(new DialogState(conditionsState1Quest, actionsState1Quest));
 
     std::vector<IDialogCondition *> *conditionsState1 = new std::vector<IDialogCondition *>(1, conditionState1);

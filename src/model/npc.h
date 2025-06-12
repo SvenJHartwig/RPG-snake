@@ -119,6 +119,7 @@ public:
     NPC(int pos_x, int pos_y);
     ~NPC();
     void createSampleDialog();
+    void loadDialogFromFile(std::ifstream inFile);
 
 private:
     std::shared_ptr<NPC_Dialog> dialog;

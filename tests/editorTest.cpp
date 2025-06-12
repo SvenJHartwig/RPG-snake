@@ -13,7 +13,7 @@ public:
     std::string nextOutput2 = "";
     int state = 0;
 
-    std::string showOutput(std::string out)
+    std::string showOutput(std::string out) override
     {
         if (out1)
         {
@@ -26,13 +26,13 @@ public:
     int init() override { return 0; }
     void setCallback(SEngine::IEngineCallback *callback) override {}
     std::string getText() override { return nextOutput1; }
-    void setState(int state) { this->state = state; }
-    void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) {}
-    int getFocussedSpriteX() { return 2; }
-    int getFocussedSpriteY() { return 2; }
-    std::string getTargetPath() { return ""; }
-    int getTargetSpriteX() { return 0; }
-    int getTargetSpriteY() { return 0; }
+    void setState(int state) override { this->state = state; }
+    void setGrid(std::vector<std::vector<SEngine::Sprite> *> *grid) override {}
+    int getFocussedSpriteX() override { return 2; }
+    int getFocussedSpriteY() override { return 2; }
+    std::string getTargetPath() override { return ""; }
+    int getTargetSpriteX() override { return 0; }
+    int getTargetSpriteY() override { return 0; }
 };
 
 TEST_CASE("Import text file time")

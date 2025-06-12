@@ -2,6 +2,7 @@
 #include "../services/gameModeService.h"
 #include "../services/gameControllerService.h"
 #include <typeinfo>
+#include "../commonFunctions.h"
 
 bool DialogConditionIsState::evaluate(int dialogState)
 {
@@ -15,7 +16,7 @@ DialogConditionIsState::DialogConditionIsState(int stateToReach)
 void DialogConditionIsState::serialize(std::ofstream *outFile)
 {
     outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(typeid(this)));
-    outFile->write(reinterpret_cast<const char *>(&stateToReach), sizeof(stateToReach));
+    outFile->write(reinterpret_cast<const char *>(&stateToReach), sizeof(int));
 }
 
 bool DialogConditionQuestFinished::evaluate(int dialogState)
@@ -38,7 +39,7 @@ DialogConditionQuestFinished::DialogConditionQuestFinished(std::string questID)
 void DialogConditionQuestFinished::serialize(std::ofstream *outFile)
 {
     outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(typeid(this)));
-    outFile->write(reinterpret_cast<const char *>(&questID), sizeof(questID));
+    serializeString(outFile, questID);
 }
 
 void DialogActionShowText::execute()
@@ -52,7 +53,7 @@ DialogActionShowText::DialogActionShowText(std::string text)
 void DialogActionShowText::serialize(std::ofstream *outFile)
 {
     outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(typeid(this)));
-    outFile->write(reinterpret_cast<const char *>(&text), sizeof(&text));
+    serializeString(outFile, text);
 }
 
 void DialogActionChangeDialogState::execute()
@@ -85,7 +86,7 @@ DialogActionAddQuest::DialogActionAddQuest(Quest *quest)
 void DialogActionAddQuest::serialize(std::ofstream *outFile)
 {
     outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(&typeid(this)));
-    outFile->write(reinterpret_cast<const char *>(&quest->getName()), sizeof(char) * quest->getName().size());
+    serializeString(outFile, quest->getName());
 }
 
 bool DialogState::evaluate(int dialogState)

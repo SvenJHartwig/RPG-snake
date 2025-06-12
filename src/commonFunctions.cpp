@@ -27,3 +27,10 @@ vector<string> readFileAsStringArray(const string &filepath)
     file.close();
     return lines;
 }
+
+void serializeString(std::ofstream *outFile, std::string text)
+{
+    size_t strLength = text.size();
+    outFile->write(reinterpret_cast<const char *>(&strLength), sizeof(strLength));
+    outFile->write(text.data(), strLength);
+}

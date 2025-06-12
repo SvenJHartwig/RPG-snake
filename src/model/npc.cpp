@@ -12,6 +12,11 @@ DialogConditionIsState::DialogConditionIsState(int stateToReach)
 {
     this->stateToReach = stateToReach;
 }
+void DialogConditionIsState::serialize(std::ofstream *outFile)
+{
+    outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(typeid(this)));
+    outFile->write(reinterpret_cast<const char *>(&stateToReach), sizeof(stateToReach));
+}
 
 bool DialogConditionQuestFinished::evaluate(int dialogState)
 {
@@ -30,6 +35,11 @@ DialogConditionQuestFinished::DialogConditionQuestFinished(std::string questID)
 {
     this->questID = questID;
 }
+void DialogConditionQuestFinished::serialize(std::ofstream *outFile)
+{
+    outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(typeid(this)));
+    outFile->write(reinterpret_cast<const char *>(&questID), sizeof(questID));
+}
 
 void DialogActionShowText::execute()
 {
@@ -38,6 +48,11 @@ void DialogActionShowText::execute()
 DialogActionShowText::DialogActionShowText(std::string text)
 {
     this->text = text;
+}
+void DialogActionShowText::serialize(std::ofstream *outFile)
+{
+    outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(typeid(this)));
+    outFile->write(reinterpret_cast<const char *>(&text), sizeof(&text));
 }
 
 void DialogActionChangeDialogState::execute()
@@ -54,7 +69,7 @@ void DialogActionChangeDialogState::setReceiver(IStateReceiver *receiver)
 }
 void DialogActionChangeDialogState::serialize(std::ofstream *outFile)
 {
-    outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(typeid(this)));
+    outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(&typeid(this)));
     outFile->write(reinterpret_cast<const char *>(&targetState), sizeof(int));
 }
 
@@ -69,8 +84,8 @@ DialogActionAddQuest::DialogActionAddQuest(Quest *quest)
 }
 void DialogActionAddQuest::serialize(std::ofstream *outFile)
 {
-    outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(typeid(this)));
-    outFile->write(reinterpret_cast<const char *>(&quest->getName()), sizeof(quest->getName()));
+    outFile->write(reinterpret_cast<const char *>(&typeid(this)), sizeof(&typeid(this)));
+    outFile->write(reinterpret_cast<const char *>(&quest->getName()), sizeof(char) * quest->getName().size());
 }
 
 bool DialogState::evaluate(int dialogState)

@@ -15,7 +15,7 @@ DialogConditionIsState::DialogConditionIsState(int stateToReach)
 }
 void DialogConditionIsState::serialize(std::ofstream *outFile)
 {
-    serializeString(outFile, typeid(this).name());
+    serializeString(outFile, "DialogConditionIsState");
     outFile->write(reinterpret_cast<const char *>(&stateToReach), sizeof(int));
 }
 
@@ -38,7 +38,7 @@ DialogConditionQuestFinished::DialogConditionQuestFinished(std::string questID)
 }
 void DialogConditionQuestFinished::serialize(std::ofstream *outFile)
 {
-    serializeString(outFile, typeid(this).name());
+    serializeString(outFile, "DialogConditionQuestFinished");
     serializeString(outFile, questID);
 }
 
@@ -52,7 +52,7 @@ DialogActionShowText::DialogActionShowText(std::string text)
 }
 void DialogActionShowText::serialize(std::ofstream *outFile)
 {
-    serializeString(outFile, typeid(this).name());
+    serializeString(outFile, "DialogActionShowText");
     serializeString(outFile, text);
 }
 
@@ -70,7 +70,7 @@ void DialogActionChangeDialogState::setReceiver(IStateReceiver *receiver)
 }
 void DialogActionChangeDialogState::serialize(std::ofstream *outFile)
 {
-    serializeString(outFile, typeid(this).name());
+    serializeString(outFile, "DialogActionChangeDialogState");
     outFile->write(reinterpret_cast<const char *>(&targetState), sizeof(int));
 }
 
@@ -85,7 +85,7 @@ DialogActionAddQuest::DialogActionAddQuest(Quest *quest)
 }
 void DialogActionAddQuest::serialize(std::ofstream *outFile)
 {
-    serializeString(outFile, typeid(this).name());
+    serializeString(outFile, "DialogActionAddQuest");
     serializeString(outFile, quest->getName());
 }
 
@@ -120,7 +120,7 @@ std::vector<IDialogAction *> *DialogState::getActions()
 }
 void DialogState::serialize(std::ofstream *outFile)
 {
-    serializeString(outFile, typeid(this).name());
+    serializeString(outFile, "DialogState");
     for (IDialogCondition *condition : *conditions)
     {
         condition->serialize(outFile);
@@ -240,15 +240,21 @@ void NPC::createSampleDialog()
 
     dialog = std::make_shared<NPC_Dialog>(states);
 }
-void NPC::loadDialogFromFile(std::ifstream inFile)
+void NPC::loadDialogFromFile(std::ifstream *inFile)
 {
     size_t strLength;
     std::string dialogType;
-    inFile.read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
-    inFile.read(reinterpret_cast<char *>(&dialogType), sizeof(char));
-    while (dialogType.compare(typeid(DialogState).name()) != 0)
+    inFile->read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
+    dialogType.resize(strLength);
+    inFile->read(&dialogType[0], strLength);
+    if (dialogType.compare("DialogState") != 0)
     {
-        inFile.read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
-        inFile.read(reinterpret_cast<char *>(&dialogType), sizeof(char));
+        return;
+    }
+    while (inFile->good())
+    {
+        inFile->read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
+        dialogType.resize(strLength);
+        inFile->read(reinterpret_cast<char *>(&dialogType), sizeof(char));
     }
 }

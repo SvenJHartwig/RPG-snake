@@ -4,6 +4,8 @@
 #include "../src/editor/controller/editorController.h"
 #include "../src/editor/view/editorView.h"
 #include "../src/model/npc.h"
+#include <iostream>
+#include <fstream>
 
 class TestEditorView : public IEditorView
 {
@@ -140,6 +142,41 @@ TEST_CASE("Editor controller states")
     controller->reactOnInput('t');
     controller->reactOnInput(GLFW_KEY_F25);
     REQUIRE(view->state == 2);
+}
+
+TEST_CASE("NPC Dialog serialization")
+{
+    string path = RESOURCE_DIR;
+    path.append("/tests/level/NPCDialog");
+    NPC *npc = new NPC(0, 0);
+    std::ofstream outFile(path, std::ios::binary);
+    if (!outFile)
+    {
+        throw std::ios_base::failure("Failed to open file for writing.");
+    }
+    npc->serialize(&outFile);
+    outFile.close();
+
+    std::ifstream inFile(path, std::ios::binary);
+    if (!inFile)
+    {
+        throw std::ios_base::failure("Failed to open file for reading.");
+    }
+    char gridElementType;
+    inFile.read(reinterpret_cast<char *>(&gridElementType), sizeof(char));
+    int x, y;
+    inFile.read(reinterpret_cast<char *>(&x), sizeof(x));
+    inFile.read(reinterpret_cast<char *>(&y), sizeof(y));
+    REQUIRE(gridElementType == 'N');
+    REQUIRE(x == 0);
+    REQUIRE(y == 0);
+    /*while (true)
+    {
+        inFile.read(reinterpret_cast<char *>(&gridElementType), sizeof(char));
+    }*/
+    NPC *npc2 = new NPC(0, 0);
+    npc2->loadDialogFromFile(&inFile);
+    inFile.close();
 }
 
 TEST_CASE("Write File with npc")

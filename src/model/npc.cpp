@@ -255,6 +255,9 @@ void NPC::loadDialogFromFile(std::ifstream *inFile)
     {
         inFile->read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
         dialogType.resize(strLength);
-        inFile->read(reinterpret_cast<char *>(&dialogType), sizeof(char));
+        inFile->read(&dialogType[0], strLength);
+        if (dialogType.compare("DialogConditionIsState") == 0)
+        {
+        }
     }
 }

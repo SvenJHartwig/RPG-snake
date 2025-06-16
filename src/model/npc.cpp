@@ -262,6 +262,8 @@ void NPC::loadDialogFromFile(std::ifstream *inFile)
         if (dialogType.compare("DialogState") == 0)
         {
             states->push_back(new DialogState(conditions, actions));
+            conditions = new std::vector<IDialogCondition *>();
+            actions = new std::vector<IDialogAction *>();
         }
         if (dialogType.compare("DialogConditionIsState") == 0)
         {
@@ -303,4 +305,5 @@ void NPC::loadDialogFromFile(std::ifstream *inFile)
             actions->push_back(actionQuest);
         }
     }
+    dialog = std::make_shared<NPC_Dialog>(states);
 }

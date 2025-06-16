@@ -251,13 +251,56 @@ void NPC::loadDialogFromFile(std::ifstream *inFile)
     {
         return;
     }
+    std::vector<DialogState *> *states = new std::vector<DialogState *>();
+    std::vector<IDialogCondition *> *conditions = new std::vector<IDialogCondition *>();
+    std::vector<IDialogAction *> *actions = new std::vector<IDialogAction *>();
     while (inFile->good())
     {
         inFile->read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
         dialogType.resize(strLength);
         inFile->read(&dialogType[0], strLength);
+        if (dialogType.compare("DialogState") == 0)
+        {
+            states->push_back(new DialogState(conditions, actions));
+        }
         if (dialogType.compare("DialogConditionIsState") == 0)
         {
+            int state = 0;
+            inFile->read(reinterpret_cast<char *>(&state), sizeof(state));
+            DialogConditionIsState *conditionState = new DialogConditionIsState(state);
+            conditions->push_back(conditionState);
+        }
+        if (dialogType.compare("DialogConditionQuestFinished") == 0)
+        {
+            inFile->read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
+            dialogType.resize(strLength);
+            inFile->read(&dialogType[0], strLength);
+            DialogConditionQuestFinished *conditionQuest = new DialogConditionQuestFinished(dialogType);
+            conditions->push_back(conditionQuest);
+        }
+        if (dialogType.compare("DialogActionShowText") == 0)
+        {
+            inFile->read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
+            dialogType.resize(strLength);
+            inFile->read(&dialogType[0], strLength);
+            DialogActionShowText *actionText = new DialogActionShowText(dialogType);
+            actions->push_back(actionText);
+        }
+        if (dialogType.compare("DialogActionChangeDialogState") == 0)
+        {
+            int state = 0;
+            inFile->read(reinterpret_cast<char *>(&state), sizeof(state));
+            DialogActionChangeDialogState *actionState = new DialogActionChangeDialogState(state);
+            actions->push_back(actionState);
+        }
+        if (dialogType.compare("DialogActionAddQuest") == 0)
+        {
+            Quest *quest = new Quest("NPC Quest", new WinCondition(WinConType::SCORE, 10));
+            inFile->read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
+            dialogType.resize(strLength);
+            inFile->read(&dialogType[0], strLength);
+            DialogActionAddQuest *actionQuest = new DialogActionAddQuest(quest);
+            actions->push_back(actionQuest);
         }
     }
 }

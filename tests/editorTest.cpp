@@ -170,10 +170,6 @@ TEST_CASE("NPC Dialog serialization")
     REQUIRE(gridElementType == 'N');
     REQUIRE(x == 0);
     REQUIRE(y == 0);
-    /*while (true)
-    {
-        inFile.read(reinterpret_cast<char *>(&gridElementType), sizeof(char));
-    }*/
     NPC *npc2 = new NPC(0, 0);
     npc2->loadDialogFromFile(&inFile);
     inFile.close();

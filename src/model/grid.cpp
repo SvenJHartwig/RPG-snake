@@ -126,8 +126,10 @@ void Grid::loadFromFile(const std::string &filename)
                 }
                 if (gridElementType == 'N')
                 {
-                    level->at(i)->at(j) = new NPC(x, y);
-                    mobs->push_back(new NPC(x, y));
+                    NPC *npc = new NPC(x, y);
+                    npc->loadDialogFromFile(&inFile);
+                    level->at(i)->at(j) = npc;
+                    mobs->push_back(npc);
                 }
                 if (gridElementType == 'T')
                 {

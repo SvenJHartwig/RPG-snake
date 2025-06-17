@@ -173,6 +173,7 @@ void NPC_Dialog::serialize(std::ofstream *outFile)
     {
         state->serialize(outFile);
     }
+    serializeString(outFile, "DialogFinish");
 }
 
 void NPC::snakeOnElement(IGridController *controller)
@@ -254,7 +255,7 @@ void NPC::loadDialogFromFile(std::ifstream *inFile)
     std::vector<DialogState *> *states = new std::vector<DialogState *>();
     std::vector<IDialogCondition *> *conditions = new std::vector<IDialogCondition *>();
     std::vector<IDialogAction *> *actions = new std::vector<IDialogAction *>();
-    while (inFile->good())
+    while (dialogType.compare("DialogFinish") != 0)
     {
         inFile->read(reinterpret_cast<char *>(&strLength), sizeof(strLength));
         dialogType.resize(strLength);

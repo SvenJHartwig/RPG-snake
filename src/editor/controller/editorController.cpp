@@ -1,5 +1,6 @@
 #include "editorController.h"
 #include "../../model/npc.h"
+#include "../../controller/spriteController.h"
 
 EditorController::EditorController(IEditorView *view)
 {
@@ -54,7 +55,7 @@ void EditorController::handleInputForState0(int key)
         grid = new Grid();
         loadLevelFromBinaryFile(path.c_str(), grid);
         state = 1;
-        view->setGrid(getSpriteVector());
+        view->setGrid(SpriteController::getSpriteVector(grid, nullptr, nullptr));
         view->setState(state);
     }
 }
@@ -94,27 +95,27 @@ void EditorController::handleInputForState2(int key)
     {
         eraseMobAt(focussedX, focussedY);
         grid->getLevel()->at(focussedY)->at(focussedX) = new Wall(focussedX, focussedY);
-        view->setGrid(getSpriteVector());
+        view->setGrid(SpriteController::getSpriteVector(grid, nullptr, nullptr));
     }
     else if (key == 'g')
     {
         eraseMobAt(focussedX, focussedY);
         grid->getLevel()->at(focussedY)->at(focussedX) = new Ground(focussedX, focussedY);
-        view->setGrid(getSpriteVector());
+        view->setGrid(SpriteController::getSpriteVector(grid, nullptr, nullptr));
     }
     else if (key == 'e')
     {
         eraseMobAt(focussedX, focussedY);
         grid->getLevel()->at(focussedY)->at(focussedX) = new Enemy(focussedX, focussedY);
         grid->getMobs()->push_back(new Enemy(focussedX, focussedY));
-        view->setGrid(getSpriteVector());
+        view->setGrid(SpriteController::getSpriteVector(grid, nullptr, nullptr));
     }
     else if (key == 'n')
     {
         eraseMobAt(focussedX, focussedY);
         grid->getLevel()->at(focussedY)->at(focussedX) = new NPC(focussedX, focussedY);
         grid->getMobs()->push_back(new NPC(focussedX, focussedY));
-        view->setGrid(getSpriteVector());
+        view->setGrid(SpriteController::getSpriteVector(grid, nullptr, nullptr));
     }
     else if (key == 't')
     {
@@ -137,7 +138,7 @@ void EditorController::handleInputForState3(int key)
         int targetX = view->getTargetSpriteX();
         int targetY = view->getTargetSpriteY();
         grid->getLevel()->at(focussedY)->at(focussedX) = new Teleporter(focussedX, focussedY, targetPath, targetX, targetY);
-        view->setGrid(getSpriteVector());
+        view->setGrid(SpriteController::getSpriteVector(grid, nullptr, nullptr));
         state = 2;
         view->setState(state);
     }
@@ -172,44 +173,4 @@ void EditorController::eraseMobAt(int focussedX, int focussedY)
 void EditorController::setWindowClosed(bool closed)
 {
     exit = closed;
-}
-std::vector<std::vector<SEngine::Sprite> *> *EditorController::getSpriteVector()
-{
-    // TODO: Unify with GridController::getSpriteVector into a new SpriteVectorProvider
-    using SEngine::Sprite;
-    std::vector<std::vector<Sprite> *> *result = new std::vector<std::vector<Sprite> *>();
-    // Level grid
-    for (int yCoord = 0; yCoord < grid->getLevel()->size(); yCoord++)
-    {
-        std::vector<Sprite> *inner = new std::vector<Sprite>(grid->getLevel()->at(yCoord)->size());
-        result->push_back(inner);
-        for (int xCoord = 0; xCoord < grid->getLevel()->at(yCoord)->size(); xCoord++)
-        {
-            Sprite tempSprite = Sprite();
-            if (dynamic_cast<Wall *>(grid->getLevel()->at(yCoord)->at(xCoord)))
-            {
-                tempSprite.texBaseX = 0.0f;
-                tempSprite.texBaseY = 0.0f;
-            }
-            else if (dynamic_cast<Teleporter *>(grid->getLevel()->at(yCoord)->at(xCoord)))
-            {
-                tempSprite.texBaseX = 0.75f;
-                tempSprite.texBaseY = 0.75f;
-            }
-            else
-            {
-                tempSprite.texBaseX = 0.25f;
-                tempSprite.texBaseY = 0.0f;
-            }
-            result->at(yCoord)->at(xCoord) = tempSprite;
-        }
-    }
-    for (Mob *mob : *grid->getMobs())
-    {
-        Sprite temp = result->at(mob->getPosY())->at(mob->getPosX());
-        temp.texBaseX = 0.5f;
-        temp.texBaseY = 0.75f;
-        result->at(mob->getPosY())->at(mob->getPosX()) = temp;
-    }
-    return result;
 }

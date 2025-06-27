@@ -32,22 +32,25 @@ std::vector<std::vector<SEngine::Sprite> *> *SpriteController::getSpriteVector(G
             result->at(yCoord)->at(xCoord) = tempSprite;
         }
     }
-    // Dynamic elements
-    for (int foodIndex = 0; foodIndex < food->size(); foodIndex++)
+    if (food)
     {
-        Food *f = food->at(foodIndex);
-        Sprite temp = result->at(f->getPosY())->at(f->getPosX());
-        if (foodIndex == 0)
+        // Dynamic elements
+        for (int foodIndex = 0; foodIndex < food->size(); foodIndex++)
         {
-            temp.texBaseX = 0.0f;
-            temp.texBaseY = 0.125f;
+            Food *f = food->at(foodIndex);
+            Sprite temp = result->at(f->getPosY())->at(f->getPosX());
+            if (foodIndex == 0)
+            {
+                temp.texBaseX = 0.0f;
+                temp.texBaseY = 0.125f;
+            }
+            else
+            {
+                temp.texBaseX = 0.125f;
+                temp.texBaseY = 0.125f;
+            }
+            result->at(f->getPosY())->at(f->getPosX()) = temp;
         }
-        else
-        {
-            temp.texBaseX = 0.125f;
-            temp.texBaseY = 0.125f;
-        }
-        result->at(f->getPosY())->at(f->getPosX()) = temp;
     }
     for (Mob *mob : *grid->getMobs())
     {
@@ -64,60 +67,64 @@ std::vector<std::vector<SEngine::Sprite> *> *SpriteController::getSpriteVector(G
         }
         result->at(mob->getPosY())->at(mob->getPosX()) = temp;
     }
-    for (int snakeBodyIndex = 0; snakeBodyIndex < snake->getBody()->size(); snakeBodyIndex++)
+    if (snake)
     {
-        SnakeBodyPart bodyPart = snake->getBody()->at(snakeBodyIndex);
-        Sprite temp = result->at(bodyPart.getPosY())->at(bodyPart.getPosX());
-        switch (bodyPart.facing)
+        for (int snakeBodyIndex = 0; snakeBodyIndex < snake->getBody()->size(); snakeBodyIndex++)
         {
-        case HORIZONTAL:
-            temp.texBaseX = 0.25f;
-            temp.texBaseY = 0.0f;
-            break;
-        case VERTICAL:
+            SnakeBodyPart bodyPart = snake->getBody()->at(snakeBodyIndex);
+            Sprite temp = result->at(bodyPart.getPosY())->at(bodyPart.getPosX());
+            switch (bodyPart.facing)
+            {
+            case HORIZONTAL:
+                temp.texBaseX = 0.25f;
+                temp.texBaseY = 0.0f;
+                break;
+            case VERTICAL:
+                temp.texBaseX = 0.375f;
+                temp.texBaseY = 0.0f;
+                break;
+            case LEFT_TO_DOWN:
+                temp.texBaseX = 0.0f;
+                temp.texBaseY = 0.25f;
+                break;
+            case RIGHT_TO_DOWN:
+                temp.texBaseX = 0.125f;
+                temp.texBaseY = 0.375f;
+                break;
+            case LEFT_TO_UP:
+                temp.texBaseX = 0.0f;
+                temp.texBaseY = 0.375f;
+                break;
+            case RIGHT_TO_UP:
+                temp.texBaseX = 0.125f;
+                temp.texBaseY = 0.25f;
+                break;
+            }
+            result->at(bodyPart.getPosY())->at(bodyPart.getPosX()) = temp;
+        }
+
+        Sprite temp = result->at(snake->getPosY())->at(snake->getPosX());
+        switch (snake->facing)
+        {
+        case RIGHT:
             temp.texBaseX = 0.375f;
-            temp.texBaseY = 0.0f;
+            temp.texBaseY = 0.125f;
             break;
-        case LEFT_TO_DOWN:
-            temp.texBaseX = 0.0f;
+        case LEFT:
+            temp.texBaseX = 0.25f;
+            temp.texBaseY = 0.125f;
+            break;
+        case DOWN:
+            temp.texBaseX = 0.25f;
             temp.texBaseY = 0.25f;
             break;
-        case RIGHT_TO_DOWN:
-            temp.texBaseX = 0.125f;
-            temp.texBaseY = 0.375f;
-            break;
-        case LEFT_TO_UP:
-            temp.texBaseX = 0.0f;
-            temp.texBaseY = 0.375f;
-            break;
-        case RIGHT_TO_UP:
-            temp.texBaseX = 0.125f;
+        case UP:
+            temp.texBaseX = 0.375f;
             temp.texBaseY = 0.25f;
             break;
         }
-        result->at(bodyPart.getPosY())->at(bodyPart.getPosX()) = temp;
+        result->at(snake->getPosY())->at(snake->getPosX()) = temp;
     }
-    Sprite temp = result->at(snake->getPosY())->at(snake->getPosX());
-    switch (snake->facing)
-    {
-    case RIGHT:
-        temp.texBaseX = 0.375f;
-        temp.texBaseY = 0.125f;
-        break;
-    case LEFT:
-        temp.texBaseX = 0.25f;
-        temp.texBaseY = 0.125f;
-        break;
-    case DOWN:
-        temp.texBaseX = 0.25f;
-        temp.texBaseY = 0.25f;
-        break;
-    case UP:
-        temp.texBaseX = 0.375f;
-        temp.texBaseY = 0.25f;
-        break;
-    }
-    result->at(snake->getPosY())->at(snake->getPosX()) = temp;
 
     return result;
 }

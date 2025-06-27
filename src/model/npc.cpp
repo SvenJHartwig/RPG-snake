@@ -203,8 +203,6 @@ NPC::NPC(int pos_x, int pos_y)
     quest = new Quest("NPC Quest", new WinCondition(WinConType::SCORE, 10));
     this->pos_x = pos_x;
     this->pos_y = pos_y;
-
-    createSampleDialog();
 }
 NPC::~NPC() {}
 void NPC::createSampleDialog()

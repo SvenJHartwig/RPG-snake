@@ -2,6 +2,7 @@
 #include "../src/editor/loadTextFile.h"
 #include <cstdio>
 #include "../src/editor/controller/editorController.h"
+#include "../src/controller/spriteController.h"
 #include "../src/editor/view/editorView.h"
 #include "../src/model/npc.h"
 #include <iostream>
@@ -101,7 +102,7 @@ TEST_CASE("Get Sprite vector")
     view->nextOutput1 = "/test/level/level1";
     controller->reactOnInput(GLFW_KEY_ENTER);
     REQUIRE(controller->state == 1);
-    std::vector<std::vector<SEngine::Sprite> *> *spriteVector = controller->getSpriteVector();
+    std::vector<std::vector<SEngine::Sprite> *> *spriteVector = SpriteController::getSpriteVector(controller->grid, nullptr, nullptr);
     REQUIRE(spriteVector->size() == 20);
     REQUIRE(spriteVector->at(1)->size() == 20);
 }
@@ -149,6 +150,7 @@ TEST_CASE("NPC Dialog serialization")
     string path = RESOURCE_DIR;
     path.append("/tests/level/NPCDialog");
     NPC *npc = new NPC(0, 0);
+    npc->createSampleDialog();
     std::ofstream outFile(path, std::ios::binary);
     if (!outFile)
     {
@@ -181,8 +183,10 @@ TEST_CASE("Write File with npc")
     path.append("/tests/level/levelWithNPC");
     Grid *grid = new Grid();
     grid->reset();
-    grid->getLevel()->at(3)->at(3) = new NPC(3, 3);
-    grid->getMobs()->push_back(new NPC(3, 3));
+    NPC *npc = new NPC(3, 3);
+    npc->createSampleDialog();
+    grid->getLevel()->at(3)->at(3) = npc;
+    grid->getMobs()->push_back(npc);
     saveGridAsBinaryFile(path, grid);
     loadLevelFromBinaryFile(path, grid);
     REQUIRE(dynamic_cast<NPC *>(grid->getLevel()->at(3)->at(3)));

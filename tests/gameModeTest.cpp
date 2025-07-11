@@ -47,6 +47,7 @@ TEST_CASE("NPC interaction")
     gameController->setSoundController(new TestSoundController());
     GridController *gridController = new GridController(gameController);
     NPC *npc = new NPC(0, 0);
+    npc->createSampleDialog();
     npc->snakeOnElement(gridController);
     REQUIRE(GameModeService::get()->getQuests()->size() == 1);
     gameController->eat(true);

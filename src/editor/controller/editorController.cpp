@@ -41,6 +41,18 @@ void EditorController::reactOnInput(int key)
     {
         handleInputForState4(key);
     }
+    else if (state == 5)
+    {
+        handleInputForState5(key);
+    }
+    else if (state == 6)
+    {
+        handleInputForState6(key);
+    }
+    else if (state == 7)
+    {
+        handleInputForState7(key);
+    }
 }
 void EditorController::handleInputForState0(int key)
 {
@@ -79,6 +91,11 @@ void EditorController::handleInputForState1(int key)
     else if (key == 'd')
     {
         state = 4;
+        view->setState(state);
+    }
+    else if (key == 'c')
+    {
+        state = 5;
         view->setState(state);
     }
 }
@@ -155,6 +172,30 @@ void EditorController::handleInputForState4(int key)
         std::string targetPath = static_cast<std::string>(RESOURCE_DIR).append(view->getTargetPath());
         saveGridAsBinaryFile(targetPath, grid);
         state = 1;
+        view->setState(state);
+    }
+}
+void EditorController::handleInputForState5(int key)
+{
+    if (key == GLFW_KEY_F25)
+    {
+        state = 1;
+        view->setState(state);
+    }
+}
+void EditorController::handleInputForState6(int key)
+{
+    if (key == GLFW_KEY_F25)
+    {
+        state = 5;
+        view->setState(state);
+    }
+}
+void EditorController::handleInputForState7(int key)
+{
+    if (key == GLFW_KEY_F25)
+    {
+        state = 6;
         view->setState(state);
     }
 }

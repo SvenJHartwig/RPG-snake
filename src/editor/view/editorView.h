@@ -34,6 +34,7 @@ private:
     SEngine::SpriteGrid *grid;
     SEngine::Button *saveButton;
     SEngine::Button *saveAsButton;
+    SEngine::Button *changeNPCDialogButton;
     SEngine::Button *wallButton;
     SEngine::Button *groundButton;
     SEngine::Button *enemyButton;
@@ -42,6 +43,12 @@ private:
     SEngine::TextInput *input1;
     SEngine::TextInput *input2;
     SEngine::TextInput *input3;
+    SEngine::Button *addDialogState;
+    SEngine::Button *addDialogConditionIsState;
+    SEngine::Button *addDialogConditionQuestFinished;
+    SEngine::Button *addDialogActionShowText;
+    SEngine::Button *addDialogActionChangeDialogState;
+    SEngine::Button *addDialogActionAddQuest;
 
 public:
     bool

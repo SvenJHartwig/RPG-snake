@@ -77,6 +77,34 @@ void inputN(SEngine::IEngineCallback *gc, int key)
 {
     gc->reactOnInput('n');
 }
+void inputC(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput('c');
+}
+void inputB1(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput(1);
+}
+void inputB2(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput(2);
+}
+void inputB3(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput(3);
+}
+void inputB4(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput(4);
+}
+void inputB5(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput(5);
+}
+void inputB6(SEngine::IEngineCallback *gc, int key)
+{
+    gc->reactOnInput(6);
+}
 
 void EditorView::initLoadingScene()
 {
@@ -150,6 +178,35 @@ void EditorView::initEditorScene()
     saveAsButton->text = "Save map as";
     saveAsButton->callback = &inputD;
 
+    changeNPCDialogButton = new SEngine::Button(windowWidth - 160, 280, windowWidth - 20, 310);
+    changeNPCDialogButton->text = "Change NPC dialog";
+    changeNPCDialogButton->callback = &inputC;
+
+    addDialogState = new SEngine::Button(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
+    addDialogState->setVisible(false);
+    addDialogState->text = "Add Dialog State";
+    addDialogState->callback = &inputB1;
+    addDialogConditionIsState = new SEngine::Button(windowWidth / 2 - 80, windowHeight / 2 - 30, windowWidth / 2 + 80, windowHeight / 2);
+    addDialogConditionIsState->setVisible(false);
+    addDialogConditionIsState->text = "Add Dialog Condition is State";
+    addDialogConditionIsState->callback = &inputB2;
+    addDialogConditionQuestFinished = new SEngine::Button(windowWidth / 2 - 80, windowHeight / 2 + 10, windowWidth / 2 + 80, windowHeight / 2 + 40);
+    addDialogConditionQuestFinished->setVisible(false);
+    addDialogConditionQuestFinished->text = "Add Dialog Condition quest finished";
+    addDialogConditionQuestFinished->callback = &inputB3;
+    addDialogActionShowText = new SEngine::Button(windowWidth / 2 - 80, windowHeight / 2 + 50, windowWidth / 2 + 80, windowHeight / 2 + 80);
+    addDialogActionShowText->setVisible(false);
+    addDialogActionShowText->text = "Add Dialog Action show text";
+    addDialogActionShowText->callback = &inputB4;
+    addDialogActionChangeDialogState = new SEngine::Button(windowWidth / 2 - 80, windowHeight / 2 + 90, windowWidth / 2 + 80, windowHeight / 2 + 120);
+    addDialogActionChangeDialogState->setVisible(false);
+    addDialogActionChangeDialogState->text = "Add Dialog Action change state";
+    addDialogActionChangeDialogState->callback = &inputB5;
+    addDialogActionAddQuest = new SEngine::Button(windowWidth / 2 - 80, windowHeight / 2 + 130, windowWidth / 2 + 80, windowHeight / 2 + 160);
+    addDialogActionAddQuest->setVisible(false);
+    addDialogActionAddQuest->text = "Add Dialog Action Add Quest";
+    addDialogActionAddQuest->callback = &inputB6;
+
     editorScene->scene_elements = new std::vector<SEngine::Element *>(1, background);
     editorScene->scene_elements->push_back(grid);
     editorScene->scene_elements->push_back(addButton);
@@ -163,7 +220,14 @@ void EditorView::initEditorScene()
     editorScene->scene_elements->push_back(input3);
     editorScene->scene_elements->push_back(saveButton);
     editorScene->scene_elements->push_back(saveAsButton);
+    editorScene->scene_elements->push_back(changeNPCDialogButton);
     editorScene->scene_elements->push_back(backButton);
+    editorScene->scene_elements->push_back(addDialogState);
+    editorScene->scene_elements->push_back(addDialogConditionIsState);
+    editorScene->scene_elements->push_back(addDialogConditionQuestFinished);
+    editorScene->scene_elements->push_back(addDialogActionShowText);
+    editorScene->scene_elements->push_back(addDialogActionChangeDialogState);
+    editorScene->scene_elements->push_back(addDialogActionAddQuest);
 }
 
 void EditorView::setCallback(SEngine::IEngineCallback *callback)
@@ -199,6 +263,7 @@ void EditorView::setState(int state)
         input1->setVisible(false);
         input2->setVisible(false);
         input3->setVisible(false);
+        changeNPCDialogButton->setVisible(true);
     }
     else if (state == 2)
     {
@@ -212,6 +277,7 @@ void EditorView::setState(int state)
         input1->setVisible(false);
         input2->setVisible(false);
         input3->setVisible(false);
+        changeNPCDialogButton->setVisible(false);
     }
     else if (state == 3)
     {
@@ -221,6 +287,33 @@ void EditorView::setState(int state)
     }
     else if (state == 4)
     {
+        input1->setVisible(true);
+    }
+    else if (state == 5)
+    {
+        addDialogState->setVisible(true);
+        addDialogConditionIsState->setVisible(false);
+        addDialogConditionQuestFinished->setVisible(false);
+        addDialogActionShowText->setVisible(false);
+        addDialogActionChangeDialogState->setVisible(false);
+        addDialogActionAddQuest->setVisible(false);
+    }
+    else if (state == 6)
+    {
+        addDialogState->setVisible(false);
+        addDialogConditionIsState->setVisible(true);
+        addDialogConditionQuestFinished->setVisible(true);
+        addDialogActionShowText->setVisible(true);
+        addDialogActionChangeDialogState->setVisible(true);
+        addDialogActionAddQuest->setVisible(true);
+    }
+    else if (state == 7)
+    {
+        addDialogConditionIsState->setVisible(false);
+        addDialogConditionQuestFinished->setVisible(false);
+        addDialogActionShowText->setVisible(false);
+        addDialogActionChangeDialogState->setVisible(false);
+        addDialogActionAddQuest->setVisible(false);
         input1->setVisible(true);
     }
 }

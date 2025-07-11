@@ -264,6 +264,7 @@ void EditorView::setState(int state)
         input2->setVisible(false);
         input3->setVisible(false);
         changeNPCDialogButton->setVisible(true);
+        addDialogState->setVisible(false);
     }
     else if (state == 2)
     {

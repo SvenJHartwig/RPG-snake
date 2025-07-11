@@ -182,12 +182,42 @@ void EditorController::handleInputForState5(int key)
         state = 1;
         view->setState(state);
     }
+    if (key == 1)
+    {
+        state = 6;
+        view->setState(state);
+    }
 }
 void EditorController::handleInputForState6(int key)
 {
     if (key == GLFW_KEY_F25)
     {
         state = 5;
+        view->setState(state);
+    }
+    if (key == 2)
+    {
+        state = 7;
+        view->setState(state);
+    }
+    if (key == 3)
+    {
+        state = 7;
+        view->setState(state);
+    }
+    if (key == 4)
+    {
+        state = 7;
+        view->setState(state);
+    }
+    if (key == 5)
+    {
+        state = 7;
+        view->setState(state);
+    }
+    if (key == 6)
+    {
+        state = 7;
         view->setState(state);
     }
 }

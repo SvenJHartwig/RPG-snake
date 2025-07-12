@@ -1,5 +1,4 @@
 #include "editorController.h"
-#include "../../model/npc.h"
 #include "../../controller/spriteController.h"
 
 EditorController::EditorController(IEditorView *view)
@@ -73,6 +72,8 @@ void EditorController::handleInputForState0(int key)
 }
 void EditorController::handleInputForState1(int key)
 {
+    int focussedX = view->getFocussedSpriteX();
+    int focussedY = view->getFocussedSpriteY();
     if (key == GLFW_KEY_F25)
     {
         path = RESOURCE_DIR;
@@ -93,8 +94,9 @@ void EditorController::handleInputForState1(int key)
         state = 4;
         view->setState(state);
     }
-    else if (key == 'c')
+    else if (key == 'c' && dynamic_cast<NPC *>(grid->getLevel()->at(focussedY)->at(focussedX)))
     {
+        dialogToAdd = new NPC_Dialog();
         state = 5;
         view->setState(state);
     }

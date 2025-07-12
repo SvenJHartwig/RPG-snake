@@ -85,14 +85,16 @@ namespace SEngine
         glfwGetCursorPos(window, &xpos, &ypos);
         for (Scene *scene : *engine->getScenes())
         {
-            for (int i = 0; i < scene->scene_elements->size(); i++)
+            for (int i = scene->scene_elements->size() - 1; i >= 0; i--)
             {
                 Element *currentSceneElement = scene->scene_elements->at(i);
                 currentSceneElement->setFocussed(false);
-                if (sceneElementInCoords(currentSceneElement, xpos, ypos))
+                if (sceneElementInCoords(currentSceneElement, xpos, ypos) && currentSceneElement->getVisible())
                 {
                     currentSceneElement->click(engine->getEngineCallback(), xpos, ypos);
                     currentSceneElement->setIsHovered(false);
+                    // Just click the topmost element that is clickable, else the state might be manipulated too much
+                    return;
                 }
             }
         }

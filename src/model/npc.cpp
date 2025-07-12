@@ -140,6 +140,10 @@ int NPC_Dialog::getState()
 {
     return dialogState;
 }
+NPC_Dialog::NPC_Dialog()
+{
+    dialogState = 0;
+}
 NPC_Dialog::NPC_Dialog(std::vector<DialogState *> *states)
 {
     dialogState = 0;

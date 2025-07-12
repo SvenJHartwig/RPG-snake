@@ -100,6 +100,7 @@ class NPC_Dialog : public IStateReceiver
 public:
     void changeState(int state);
     int getState();
+    NPC_Dialog();
     NPC_Dialog(std::vector<DialogState *> *states);
     void invoke();
     void serialize(std::ofstream *outFile);

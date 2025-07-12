@@ -5,6 +5,7 @@
 #include "../../editor/loadTextFile.h"
 #include "../../model/mob.h"
 #include "../../model/teleporter.h"
+#include "../../model/npc.h"
 
 class EditorController : public SEngine::IEngineCallback
 {
@@ -21,12 +22,16 @@ public:
      * 2 - Choosing what element to add
      * 3 - Teleporter selected, choosing parameters
      * 4 - Save as selected, choosing file name
+     * 5 - Add Dialog option was clicked
+     * 6 - Choosing what Dialog condition / action to add
+     * 7 - Input for value
      */
     int state = 0;
     std::string path = RESOURCE_DIR;
     Grid *grid;
     int x;
     int y;
+    NPC_Dialog *dialogToAdd;
     EditorController(IEditorView *view);
     ~EditorController();
     void mainLoop();

@@ -96,6 +96,7 @@ void EditorController::handleInputForState1(int key)
     }
     else if (key == 'c' && dynamic_cast<NPC *>(grid->getLevel()->at(focussedY)->at(focussedX)))
     {
+        focussedNPC = dynamic_cast<NPC *>(grid->getLevel()->at(focussedY)->at(focussedX));
         dialogToAdd = new NPC_Dialog();
         state = 5;
         view->setState(state);
@@ -179,19 +180,23 @@ void EditorController::handleInputForState4(int key)
 }
 void EditorController::handleInputForState5(int key)
 {
+    // Menu to add a new DialogState or go back and save the current dialog
     if (key == GLFW_KEY_F25)
     {
+        focussedNPC->setDialog(dialogToAdd);
         state = 1;
         view->setState(state);
     }
     if (key == 1)
     {
+        dialogStateToAdd = new DialogState();
         state = 6;
         view->setState(state);
     }
 }
 void EditorController::handleInputForState6(int key)
 {
+    // Menu to add a condition or action to the current state or go back and save
     if (key == GLFW_KEY_F25)
     {
         state = 5;
@@ -225,6 +230,7 @@ void EditorController::handleInputForState6(int key)
 }
 void EditorController::handleInputForState7(int key)
 {
+    // Read input for the current condition or action to save
     if (key == GLFW_KEY_F25)
     {
         state = 6;

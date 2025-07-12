@@ -87,6 +87,7 @@ public:
     void execute();
     DialogState(std::vector<IDialogCondition *> *conditions,
                 std::vector<IDialogAction *> *actions);
+    DialogState();
     std::vector<IDialogAction *> *getActions();
     void serialize(std::ofstream *outFile);
 
@@ -103,6 +104,7 @@ public:
     NPC_Dialog();
     NPC_Dialog(std::vector<DialogState *> *states);
     void invoke();
+    std::vector<DialogState *> *getStates();
     void serialize(std::ofstream *outFile);
 
 private:
@@ -115,11 +117,12 @@ class NPC : public Mob
 public:
     void snakeOnElement(IGridController *controller) override;
     void snakeMovedAway(IGridController *controller) override;
-    void serialize(std::ofstream *outFile) override;
     void tick() override;
     NPC(int pos_x, int pos_y);
     ~NPC();
     void createSampleDialog();
+    void setDialog(NPC_Dialog *dialog);
+    void serialize(std::ofstream *outFile) override;
     void loadDialogFromFile(std::ifstream *inFile);
 
 private:

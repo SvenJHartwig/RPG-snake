@@ -114,6 +114,7 @@ DialogState::DialogState(std::vector<IDialogCondition *> *conditions,
     this->conditions = conditions;
     this->actions = actions;
 }
+DialogState::DialogState() {}
 std::vector<IDialogAction *> *DialogState::getActions()
 {
     return actions;
@@ -159,6 +160,10 @@ NPC_Dialog::NPC_Dialog(std::vector<DialogState *> *states)
         }
     }
     this->states = states;
+}
+std::vector<DialogState *> *NPC_Dialog::getStates()
+{
+    return states;
 }
 void NPC_Dialog::invoke()
 {
@@ -242,6 +247,10 @@ void NPC::createSampleDialog()
     states->push_back(new DialogState(conditionsState1, actionsState1));
 
     dialog = std::make_shared<NPC_Dialog>(states);
+}
+void NPC::setDialog(NPC_Dialog *dialog)
+{
+    this->dialog = std::make_shared<NPC_Dialog>(dialog->getStates());
 }
 void NPC::loadDialogFromFile(std::ifstream *inFile)
 {

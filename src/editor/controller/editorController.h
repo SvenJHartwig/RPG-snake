@@ -31,7 +31,11 @@ public:
     Grid *grid;
     int x;
     int y;
+    NPC *focussedNPC;
     NPC_Dialog *dialogToAdd;
+    DialogState *dialogStateToAdd;
+    IDialogCondition *dialogConditionToAdd;
+    IDialogAction *dialogActionToAdd;
     EditorController(IEditorView *view);
     ~EditorController();
     void mainLoop();

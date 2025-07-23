@@ -60,6 +60,11 @@ DialogActionShowText::DialogActionShowText(std::string text)
 {
     this->text = text;
 }
+DialogActionShowText::DialogActionShowText() {}
+void DialogActionShowText::setValue(std::string text)
+{
+    this->text = text;
+}
 void DialogActionShowText::serialize(std::ofstream *outFile)
 {
     serializeString(outFile, "DialogActionShowText");
@@ -74,6 +79,7 @@ DialogActionChangeDialogState::DialogActionChangeDialogState(int targetState)
 {
     this->targetState = targetState;
 }
+DialogActionChangeDialogState::DialogActionChangeDialogState() {}
 void DialogActionChangeDialogState::setReceiver(IStateReceiver *receiver)
 {
     this->receiver = receiver;
@@ -82,6 +88,10 @@ void DialogActionChangeDialogState::serialize(std::ofstream *outFile)
 {
     serializeString(outFile, "DialogActionChangeDialogState");
     outFile->write(reinterpret_cast<const char *>(&targetState), sizeof(int));
+}
+void DialogActionChangeDialogState::setValue(int targetState)
+{
+    this->targetState = targetState;
 }
 
 void DialogActionAddQuest::execute()
@@ -93,10 +103,15 @@ DialogActionAddQuest::DialogActionAddQuest(Quest *quest)
 {
     this->quest = quest;
 }
+DialogActionAddQuest::DialogActionAddQuest() {}
 void DialogActionAddQuest::serialize(std::ofstream *outFile)
 {
     serializeString(outFile, "DialogActionAddQuest");
     serializeString(outFile, quest->getName());
+}
+void DialogActionAddQuest::setValue(Quest *quest)
+{
+    this->quest = quest;
 }
 
 bool DialogState::evaluate(int dialogState)

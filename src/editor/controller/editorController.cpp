@@ -217,6 +217,7 @@ void EditorController::handleInputForState6(int key)
     }
     if (key == 4)
     {
+        dialogActionToAdd = new DialogActionShowText();
         state = 7;
         view->setState(state);
     }

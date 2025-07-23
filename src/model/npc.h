@@ -43,21 +43,23 @@ public:
     virtual void serialize(std::ofstream *outFile) = 0;
 };
 
+class IStateReceiver
+{
+public:
+    virtual void changeState(int state) = 0;
+};
+
 class DialogActionShowText : public IDialogAction
 {
 public:
     void execute() override;
     DialogActionShowText(std::string text);
+    DialogActionShowText();
     void serialize(std::ofstream *outFile) override;
+    void setValue(std::string text);
 
 private:
     std::string text;
-};
-
-class IStateReceiver
-{
-public:
-    virtual void changeState(int state) = 0;
 };
 
 class DialogActionChangeDialogState : public IDialogAction
@@ -65,8 +67,10 @@ class DialogActionChangeDialogState : public IDialogAction
 public:
     void execute() override;
     DialogActionChangeDialogState(int targetState);
+    DialogActionChangeDialogState();
     void setReceiver(IStateReceiver *receiver);
     void serialize(std::ofstream *outFile) override;
+    void setValue(int targetState);
 
 private:
     int targetState;
@@ -78,7 +82,9 @@ class DialogActionAddQuest : public IDialogAction
 public:
     void execute() override;
     DialogActionAddQuest(Quest *quest);
+    DialogActionAddQuest();
     void serialize(std::ofstream *outFile) override;
+    void setValue(Quest *quest);
 
 private:
     Quest *quest;

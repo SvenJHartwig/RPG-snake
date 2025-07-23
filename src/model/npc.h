@@ -15,7 +15,9 @@ class DialogConditionIsState : public IDialogCondition
 public:
     bool evaluate(int dialogState) override;
     DialogConditionIsState(int stateToReach);
+    DialogConditionIsState();
     void serialize(std::ofstream *outFile) override;
+    void setValue(int stateToReach);
 
 private:
     int stateToReach;
@@ -26,7 +28,9 @@ class DialogConditionQuestFinished : public IDialogCondition
 public:
     bool evaluate(int dialogState) override;
     DialogConditionQuestFinished(std::string questID);
+    DialogConditionQuestFinished();
     void serialize(std::ofstream *outFile) override;
+    void setValue(std::string questID);
 
 private:
     std::string questID;
@@ -88,6 +92,8 @@ public:
     DialogState(std::vector<IDialogCondition *> *conditions,
                 std::vector<IDialogAction *> *actions);
     DialogState();
+    void setConditions(std::vector<IDialogCondition *> *conditions);
+    void setActions(std::vector<IDialogAction *> *actions);
     std::vector<IDialogAction *> *getActions();
     void serialize(std::ofstream *outFile);
 
@@ -104,6 +110,7 @@ public:
     NPC_Dialog();
     NPC_Dialog(std::vector<DialogState *> *states);
     void invoke();
+    void setDialogStates(std::vector<DialogState *> *states);
     std::vector<DialogState *> *getStates();
     void serialize(std::ofstream *outFile);
 

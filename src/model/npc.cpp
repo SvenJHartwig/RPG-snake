@@ -13,10 +13,15 @@ DialogConditionIsState::DialogConditionIsState(int stateToReach)
 {
     this->stateToReach = stateToReach;
 }
+DialogConditionIsState::DialogConditionIsState() {}
 void DialogConditionIsState::serialize(std::ofstream *outFile)
 {
     serializeString(outFile, "DialogConditionIsState");
     outFile->write(reinterpret_cast<const char *>(&stateToReach), sizeof(int));
+}
+void DialogConditionIsState::setValue(int stateToReach)
+{
+    this->stateToReach = stateToReach;
 }
 
 bool DialogConditionQuestFinished::evaluate(int dialogState)
@@ -36,10 +41,15 @@ DialogConditionQuestFinished::DialogConditionQuestFinished(std::string questID)
 {
     this->questID = questID;
 }
+DialogConditionQuestFinished::DialogConditionQuestFinished() {}
 void DialogConditionQuestFinished::serialize(std::ofstream *outFile)
 {
     serializeString(outFile, "DialogConditionQuestFinished");
     serializeString(outFile, questID);
+}
+void DialogConditionQuestFinished::setValue(std::string questID)
+{
+    this->questID = questID;
 }
 
 void DialogActionShowText::execute()
@@ -115,6 +125,14 @@ DialogState::DialogState(std::vector<IDialogCondition *> *conditions,
     this->actions = actions;
 }
 DialogState::DialogState() {}
+void DialogState::setConditions(std::vector<IDialogCondition *> *conditions)
+{
+    this->conditions = conditions;
+}
+void DialogState::setActions(std::vector<IDialogAction *> *actions)
+{
+    this->actions = actions;
+}
 std::vector<IDialogAction *> *DialogState::getActions()
 {
     return actions;
@@ -159,6 +177,10 @@ NPC_Dialog::NPC_Dialog(std::vector<DialogState *> *states)
             }
         }
     }
+    this->states = states;
+}
+void NPC_Dialog::setDialogStates(std::vector<DialogState *> *states)
+{
     this->states = states;
 }
 std::vector<DialogState *> *NPC_Dialog::getStates()

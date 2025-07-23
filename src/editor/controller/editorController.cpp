@@ -199,16 +199,19 @@ void EditorController::handleInputForState6(int key)
     // Menu to add a condition or action to the current state or go back and save
     if (key == GLFW_KEY_F25)
     {
+        dialogToAdd->getStates()->push_back(dialogStateToAdd);
         state = 5;
         view->setState(state);
     }
     if (key == 2)
     {
+        dialogConditionToAdd = new DialogConditionIsState();
         state = 7;
         view->setState(state);
     }
     if (key == 3)
     {
+        dialogConditionToAdd = new DialogConditionQuestFinished();
         state = 7;
         view->setState(state);
     }

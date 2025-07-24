@@ -205,29 +205,36 @@ void EditorController::handleInputForState6(int key)
     }
     if (key == 2)
     {
+        dialogActionToAdd = nullptr;
         dialogConditionToAdd = new DialogConditionIsState();
         state = 7;
         view->setState(state);
     }
     if (key == 3)
     {
+        dialogActionToAdd = nullptr;
         dialogConditionToAdd = new DialogConditionQuestFinished();
         state = 7;
         view->setState(state);
     }
     if (key == 4)
     {
+        dialogConditionToAdd = nullptr;
         dialogActionToAdd = new DialogActionShowText();
         state = 7;
         view->setState(state);
     }
     if (key == 5)
     {
+        dialogConditionToAdd = nullptr;
+        dialogActionToAdd = new DialogActionChangeDialogState();
         state = 7;
         view->setState(state);
     }
     if (key == 6)
     {
+        dialogConditionToAdd = nullptr;
+        dialogActionToAdd = new DialogActionAddQuest();
         state = 7;
         view->setState(state);
     }
@@ -237,6 +244,26 @@ void EditorController::handleInputForState7(int key)
     // Read input for the current condition or action to save
     if (key == GLFW_KEY_F25)
     {
+        if (dynamic_cast<DialogConditionIsState *>(dialogConditionToAdd))
+        {
+            dynamic_cast<DialogConditionIsState *>(dialogConditionToAdd)->setValue(std::stoi(view->getTargetPath()));
+        }
+        if (dynamic_cast<DialogConditionQuestFinished *>(dialogConditionToAdd))
+        {
+            dynamic_cast<DialogConditionQuestFinished *>(dialogConditionToAdd)->setValue(view->getTargetPath());
+        }
+        if (dynamic_cast<DialogActionAddQuest *>(dialogActionToAdd))
+        {
+            dynamic_cast<DialogActionAddQuest *>(dialogActionToAdd)->setValue(new Quest("name", new WinCondition(WinConType::NONE, 20)));
+        }
+        if (dynamic_cast<DialogActionChangeDialogState *>(dialogActionToAdd))
+        {
+            dynamic_cast<DialogActionChangeDialogState *>(dialogActionToAdd)->setValue(std::stoi(view->getTargetPath()));
+        }
+        if (dynamic_cast<DialogActionShowText *>(dialogActionToAdd))
+        {
+            dynamic_cast<DialogActionShowText *>(dialogActionToAdd)->setValue(view->getTargetPath());
+        }
         state = 6;
         view->setState(state);
     }

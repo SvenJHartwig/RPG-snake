@@ -100,6 +100,7 @@ public:
     DialogState();
     void setConditions(std::vector<IDialogCondition *> *conditions);
     void setActions(std::vector<IDialogAction *> *actions);
+    std::vector<IDialogCondition *> *getConditions();
     std::vector<IDialogAction *> *getActions();
     void serialize(std::ofstream *outFile);
 

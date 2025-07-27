@@ -184,6 +184,7 @@ void EditorController::handleInputForState5(int key)
     if (key == GLFW_KEY_F25)
     {
         focussedNPC->setDialog(dialogToAdd);
+        grid->getLevel()->at(focussedNPC->getPosY())->at(focussedNPC->getPosX()) = focussedNPC;
         state = 1;
         view->setState(state);
     }
@@ -247,22 +248,27 @@ void EditorController::handleInputForState7(int key)
         if (dynamic_cast<DialogConditionIsState *>(dialogConditionToAdd))
         {
             dynamic_cast<DialogConditionIsState *>(dialogConditionToAdd)->setValue(std::stoi(view->getTargetPath()));
+            dialogStateToAdd->getConditions()->push_back(dialogConditionToAdd);
         }
         if (dynamic_cast<DialogConditionQuestFinished *>(dialogConditionToAdd))
         {
             dynamic_cast<DialogConditionQuestFinished *>(dialogConditionToAdd)->setValue(view->getTargetPath());
+            dialogStateToAdd->getConditions()->push_back(dialogConditionToAdd);
         }
         if (dynamic_cast<DialogActionAddQuest *>(dialogActionToAdd))
         {
             dynamic_cast<DialogActionAddQuest *>(dialogActionToAdd)->setValue(new Quest("name", new WinCondition(WinConType::NONE, 20)));
+            dialogStateToAdd->getActions()->push_back(dialogActionToAdd);
         }
         if (dynamic_cast<DialogActionChangeDialogState *>(dialogActionToAdd))
         {
             dynamic_cast<DialogActionChangeDialogState *>(dialogActionToAdd)->setValue(std::stoi(view->getTargetPath()));
+            dialogStateToAdd->getActions()->push_back(dialogActionToAdd);
         }
         if (dynamic_cast<DialogActionShowText *>(dialogActionToAdd))
         {
             dynamic_cast<DialogActionShowText *>(dialogActionToAdd)->setValue(view->getTargetPath());
+            dialogStateToAdd->getActions()->push_back(dialogActionToAdd);
         }
         state = 6;
         view->setState(state);

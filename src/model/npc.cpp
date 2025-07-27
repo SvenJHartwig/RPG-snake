@@ -139,7 +139,11 @@ DialogState::DialogState(std::vector<IDialogCondition *> *conditions,
     this->conditions = conditions;
     this->actions = actions;
 }
-DialogState::DialogState() {}
+DialogState::DialogState()
+{
+    this->conditions = new std::vector<IDialogCondition *>();
+    this->actions = new std::vector<IDialogAction *>();
+}
 void DialogState::setConditions(std::vector<IDialogCondition *> *conditions)
 {
     this->conditions = conditions;
@@ -147,6 +151,10 @@ void DialogState::setConditions(std::vector<IDialogCondition *> *conditions)
 void DialogState::setActions(std::vector<IDialogAction *> *actions)
 {
     this->actions = actions;
+}
+std::vector<IDialogCondition *> *DialogState::getConditions()
+{
+    return conditions;
 }
 std::vector<IDialogAction *> *DialogState::getActions()
 {
@@ -177,6 +185,7 @@ int NPC_Dialog::getState()
 NPC_Dialog::NPC_Dialog()
 {
     dialogState = 0;
+    states = new std::vector<DialogState *>();
 }
 NPC_Dialog::NPC_Dialog(std::vector<DialogState *> *states)
 {
@@ -354,5 +363,6 @@ void NPC::loadDialogFromFile(std::ifstream *inFile)
             actions->push_back(actionQuest);
         }
     }
+    states->push_back(new DialogState(conditions, actions));
     dialog = std::make_shared<NPC_Dialog>(states);
 }

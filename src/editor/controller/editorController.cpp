@@ -154,10 +154,9 @@ void EditorController::handleInputForState3(int key)
     {
         int focussedX = view->getFocussedSpriteX();
         int focussedY = view->getFocussedSpriteY();
-        std::string targetPath = static_cast<std::string>(RESOURCE_DIR).append(view->getTargetPath());
         int targetX = view->getTargetSpriteX();
         int targetY = view->getTargetSpriteY();
-        grid->getLevel()->at(focussedY)->at(focussedX) = new Teleporter(focussedX, focussedY, targetPath, targetX, targetY);
+        grid->getLevel()->at(focussedY)->at(focussedX) = new Teleporter(focussedX, focussedY, view->getTargetPath(), targetX, targetY);
         view->setGrid(SpriteController::getSpriteVector(grid, nullptr, nullptr));
         state = 2;
         view->setState(state);
